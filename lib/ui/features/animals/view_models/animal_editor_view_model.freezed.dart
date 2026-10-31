@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AnimalEditorState implements DiagnosticableTreeMixin {
 
- AnimalDraft get draft; bool get loading; bool get saving; bool get uncertain; bool get canRetryPending; bool get loadFailed; Map<String, String> get errors; int get formVersion; String? get savedId; String? get message;
+ AnimalDraft get draft; bool get loading; bool get saving; bool get uncertain; bool get canRetryPending; bool get loadFailed; Map<String, String> get errors; int get formVersion; String? get primaryPhotoId; String? get savedId; String? get message;
 /// Create a copy of AnimalEditorState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,21 +26,21 @@ $AnimalEditorStateCopyWith<AnimalEditorState> get copyWith => _$AnimalEditorStat
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'AnimalEditorState'))
-    ..add(DiagnosticsProperty('draft', draft))..add(DiagnosticsProperty('loading', loading))..add(DiagnosticsProperty('saving', saving))..add(DiagnosticsProperty('uncertain', uncertain))..add(DiagnosticsProperty('canRetryPending', canRetryPending))..add(DiagnosticsProperty('loadFailed', loadFailed))..add(DiagnosticsProperty('errors', errors))..add(DiagnosticsProperty('formVersion', formVersion))..add(DiagnosticsProperty('savedId', savedId))..add(DiagnosticsProperty('message', message));
+    ..add(DiagnosticsProperty('draft', draft))..add(DiagnosticsProperty('loading', loading))..add(DiagnosticsProperty('saving', saving))..add(DiagnosticsProperty('uncertain', uncertain))..add(DiagnosticsProperty('canRetryPending', canRetryPending))..add(DiagnosticsProperty('loadFailed', loadFailed))..add(DiagnosticsProperty('errors', errors))..add(DiagnosticsProperty('formVersion', formVersion))..add(DiagnosticsProperty('primaryPhotoId', primaryPhotoId))..add(DiagnosticsProperty('savedId', savedId))..add(DiagnosticsProperty('message', message));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AnimalEditorState&&(identical(other.draft, draft) || other.draft == draft)&&(identical(other.loading, loading) || other.loading == loading)&&(identical(other.saving, saving) || other.saving == saving)&&(identical(other.uncertain, uncertain) || other.uncertain == uncertain)&&(identical(other.canRetryPending, canRetryPending) || other.canRetryPending == canRetryPending)&&(identical(other.loadFailed, loadFailed) || other.loadFailed == loadFailed)&&const DeepCollectionEquality().equals(other.errors, errors)&&(identical(other.formVersion, formVersion) || other.formVersion == formVersion)&&(identical(other.savedId, savedId) || other.savedId == savedId)&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AnimalEditorState&&(identical(other.draft, draft) || other.draft == draft)&&(identical(other.loading, loading) || other.loading == loading)&&(identical(other.saving, saving) || other.saving == saving)&&(identical(other.uncertain, uncertain) || other.uncertain == uncertain)&&(identical(other.canRetryPending, canRetryPending) || other.canRetryPending == canRetryPending)&&(identical(other.loadFailed, loadFailed) || other.loadFailed == loadFailed)&&const DeepCollectionEquality().equals(other.errors, errors)&&(identical(other.formVersion, formVersion) || other.formVersion == formVersion)&&(identical(other.primaryPhotoId, primaryPhotoId) || other.primaryPhotoId == primaryPhotoId)&&(identical(other.savedId, savedId) || other.savedId == savedId)&&(identical(other.message, message) || other.message == message));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,draft,loading,saving,uncertain,canRetryPending,loadFailed,const DeepCollectionEquality().hash(errors),formVersion,savedId,message);
+int get hashCode => Object.hash(runtimeType,draft,loading,saving,uncertain,canRetryPending,loadFailed,const DeepCollectionEquality().hash(errors),formVersion,primaryPhotoId,savedId,message);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'AnimalEditorState(draft: $draft, loading: $loading, saving: $saving, uncertain: $uncertain, canRetryPending: $canRetryPending, loadFailed: $loadFailed, errors: $errors, formVersion: $formVersion, savedId: $savedId, message: $message)';
+  return 'AnimalEditorState(draft: $draft, loading: $loading, saving: $saving, uncertain: $uncertain, canRetryPending: $canRetryPending, loadFailed: $loadFailed, errors: $errors, formVersion: $formVersion, primaryPhotoId: $primaryPhotoId, savedId: $savedId, message: $message)';
 }
 
 
@@ -51,7 +51,7 @@ abstract mixin class $AnimalEditorStateCopyWith<$Res>  {
   factory $AnimalEditorStateCopyWith(AnimalEditorState value, $Res Function(AnimalEditorState) _then) = _$AnimalEditorStateCopyWithImpl;
 @useResult
 $Res call({
- AnimalDraft draft, bool loading, bool saving, bool uncertain, bool canRetryPending, bool loadFailed, Map<String, String> errors, int formVersion, String? savedId, String? message
+ AnimalDraft draft, bool loading, bool saving, bool uncertain, bool canRetryPending, bool loadFailed, Map<String, String> errors, int formVersion, String? primaryPhotoId, String? savedId, String? message
 });
 
 
@@ -68,7 +68,7 @@ class _$AnimalEditorStateCopyWithImpl<$Res>
 
 /// Create a copy of AnimalEditorState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? draft = null,Object? loading = null,Object? saving = null,Object? uncertain = null,Object? canRetryPending = null,Object? loadFailed = null,Object? errors = null,Object? formVersion = null,Object? savedId = freezed,Object? message = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? draft = null,Object? loading = null,Object? saving = null,Object? uncertain = null,Object? canRetryPending = null,Object? loadFailed = null,Object? errors = null,Object? formVersion = null,Object? primaryPhotoId = freezed,Object? savedId = freezed,Object? message = freezed,}) {
   return _then(_self.copyWith(
 draft: null == draft ? _self.draft : draft // ignore: cast_nullable_to_non_nullable
 as AnimalDraft,loading: null == loading ? _self.loading : loading // ignore: cast_nullable_to_non_nullable
@@ -78,7 +78,8 @@ as bool,canRetryPending: null == canRetryPending ? _self.canRetryPending : canRe
 as bool,loadFailed: null == loadFailed ? _self.loadFailed : loadFailed // ignore: cast_nullable_to_non_nullable
 as bool,errors: null == errors ? _self.errors : errors // ignore: cast_nullable_to_non_nullable
 as Map<String, String>,formVersion: null == formVersion ? _self.formVersion : formVersion // ignore: cast_nullable_to_non_nullable
-as int,savedId: freezed == savedId ? _self.savedId : savedId // ignore: cast_nullable_to_non_nullable
+as int,primaryPhotoId: freezed == primaryPhotoId ? _self.primaryPhotoId : primaryPhotoId // ignore: cast_nullable_to_non_nullable
+as String?,savedId: freezed == savedId ? _self.savedId : savedId // ignore: cast_nullable_to_non_nullable
 as String?,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
@@ -174,10 +175,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( AnimalDraft draft,  bool loading,  bool saving,  bool uncertain,  bool canRetryPending,  bool loadFailed,  Map<String, String> errors,  int formVersion,  String? savedId,  String? message)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( AnimalDraft draft,  bool loading,  bool saving,  bool uncertain,  bool canRetryPending,  bool loadFailed,  Map<String, String> errors,  int formVersion,  String? primaryPhotoId,  String? savedId,  String? message)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AnimalEditorState() when $default != null:
-return $default(_that.draft,_that.loading,_that.saving,_that.uncertain,_that.canRetryPending,_that.loadFailed,_that.errors,_that.formVersion,_that.savedId,_that.message);case _:
+return $default(_that.draft,_that.loading,_that.saving,_that.uncertain,_that.canRetryPending,_that.loadFailed,_that.errors,_that.formVersion,_that.primaryPhotoId,_that.savedId,_that.message);case _:
   return orElse();
 
 }
@@ -195,10 +196,10 @@ return $default(_that.draft,_that.loading,_that.saving,_that.uncertain,_that.can
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( AnimalDraft draft,  bool loading,  bool saving,  bool uncertain,  bool canRetryPending,  bool loadFailed,  Map<String, String> errors,  int formVersion,  String? savedId,  String? message)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( AnimalDraft draft,  bool loading,  bool saving,  bool uncertain,  bool canRetryPending,  bool loadFailed,  Map<String, String> errors,  int formVersion,  String? primaryPhotoId,  String? savedId,  String? message)  $default,) {final _that = this;
 switch (_that) {
 case _AnimalEditorState():
-return $default(_that.draft,_that.loading,_that.saving,_that.uncertain,_that.canRetryPending,_that.loadFailed,_that.errors,_that.formVersion,_that.savedId,_that.message);case _:
+return $default(_that.draft,_that.loading,_that.saving,_that.uncertain,_that.canRetryPending,_that.loadFailed,_that.errors,_that.formVersion,_that.primaryPhotoId,_that.savedId,_that.message);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -215,10 +216,10 @@ return $default(_that.draft,_that.loading,_that.saving,_that.uncertain,_that.can
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( AnimalDraft draft,  bool loading,  bool saving,  bool uncertain,  bool canRetryPending,  bool loadFailed,  Map<String, String> errors,  int formVersion,  String? savedId,  String? message)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( AnimalDraft draft,  bool loading,  bool saving,  bool uncertain,  bool canRetryPending,  bool loadFailed,  Map<String, String> errors,  int formVersion,  String? primaryPhotoId,  String? savedId,  String? message)?  $default,) {final _that = this;
 switch (_that) {
 case _AnimalEditorState() when $default != null:
-return $default(_that.draft,_that.loading,_that.saving,_that.uncertain,_that.canRetryPending,_that.loadFailed,_that.errors,_that.formVersion,_that.savedId,_that.message);case _:
+return $default(_that.draft,_that.loading,_that.saving,_that.uncertain,_that.canRetryPending,_that.loadFailed,_that.errors,_that.formVersion,_that.primaryPhotoId,_that.savedId,_that.message);case _:
   return null;
 
 }
@@ -230,7 +231,7 @@ return $default(_that.draft,_that.loading,_that.saving,_that.uncertain,_that.can
 
 
 class _AnimalEditorState with DiagnosticableTreeMixin implements AnimalEditorState {
-  const _AnimalEditorState({this.draft = const AnimalDraft(), this.loading = false, this.saving = false, this.uncertain = false, this.canRetryPending = false, this.loadFailed = false, final  Map<String, String> errors = const {}, this.formVersion = 0, this.savedId, this.message}): _errors = errors;
+  const _AnimalEditorState({this.draft = const AnimalDraft(), this.loading = false, this.saving = false, this.uncertain = false, this.canRetryPending = false, this.loadFailed = false, final  Map<String, String> errors = const {}, this.formVersion = 0, this.primaryPhotoId, this.savedId, this.message}): _errors = errors;
   
 
 @override@JsonKey() final  AnimalDraft draft;
@@ -247,6 +248,7 @@ class _AnimalEditorState with DiagnosticableTreeMixin implements AnimalEditorSta
 }
 
 @override@JsonKey() final  int formVersion;
+@override final  String? primaryPhotoId;
 @override final  String? savedId;
 @override final  String? message;
 
@@ -261,21 +263,21 @@ _$AnimalEditorStateCopyWith<_AnimalEditorState> get copyWith => __$AnimalEditorS
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'AnimalEditorState'))
-    ..add(DiagnosticsProperty('draft', draft))..add(DiagnosticsProperty('loading', loading))..add(DiagnosticsProperty('saving', saving))..add(DiagnosticsProperty('uncertain', uncertain))..add(DiagnosticsProperty('canRetryPending', canRetryPending))..add(DiagnosticsProperty('loadFailed', loadFailed))..add(DiagnosticsProperty('errors', errors))..add(DiagnosticsProperty('formVersion', formVersion))..add(DiagnosticsProperty('savedId', savedId))..add(DiagnosticsProperty('message', message));
+    ..add(DiagnosticsProperty('draft', draft))..add(DiagnosticsProperty('loading', loading))..add(DiagnosticsProperty('saving', saving))..add(DiagnosticsProperty('uncertain', uncertain))..add(DiagnosticsProperty('canRetryPending', canRetryPending))..add(DiagnosticsProperty('loadFailed', loadFailed))..add(DiagnosticsProperty('errors', errors))..add(DiagnosticsProperty('formVersion', formVersion))..add(DiagnosticsProperty('primaryPhotoId', primaryPhotoId))..add(DiagnosticsProperty('savedId', savedId))..add(DiagnosticsProperty('message', message));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AnimalEditorState&&(identical(other.draft, draft) || other.draft == draft)&&(identical(other.loading, loading) || other.loading == loading)&&(identical(other.saving, saving) || other.saving == saving)&&(identical(other.uncertain, uncertain) || other.uncertain == uncertain)&&(identical(other.canRetryPending, canRetryPending) || other.canRetryPending == canRetryPending)&&(identical(other.loadFailed, loadFailed) || other.loadFailed == loadFailed)&&const DeepCollectionEquality().equals(other._errors, _errors)&&(identical(other.formVersion, formVersion) || other.formVersion == formVersion)&&(identical(other.savedId, savedId) || other.savedId == savedId)&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AnimalEditorState&&(identical(other.draft, draft) || other.draft == draft)&&(identical(other.loading, loading) || other.loading == loading)&&(identical(other.saving, saving) || other.saving == saving)&&(identical(other.uncertain, uncertain) || other.uncertain == uncertain)&&(identical(other.canRetryPending, canRetryPending) || other.canRetryPending == canRetryPending)&&(identical(other.loadFailed, loadFailed) || other.loadFailed == loadFailed)&&const DeepCollectionEquality().equals(other._errors, _errors)&&(identical(other.formVersion, formVersion) || other.formVersion == formVersion)&&(identical(other.primaryPhotoId, primaryPhotoId) || other.primaryPhotoId == primaryPhotoId)&&(identical(other.savedId, savedId) || other.savedId == savedId)&&(identical(other.message, message) || other.message == message));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,draft,loading,saving,uncertain,canRetryPending,loadFailed,const DeepCollectionEquality().hash(_errors),formVersion,savedId,message);
+int get hashCode => Object.hash(runtimeType,draft,loading,saving,uncertain,canRetryPending,loadFailed,const DeepCollectionEquality().hash(_errors),formVersion,primaryPhotoId,savedId,message);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'AnimalEditorState(draft: $draft, loading: $loading, saving: $saving, uncertain: $uncertain, canRetryPending: $canRetryPending, loadFailed: $loadFailed, errors: $errors, formVersion: $formVersion, savedId: $savedId, message: $message)';
+  return 'AnimalEditorState(draft: $draft, loading: $loading, saving: $saving, uncertain: $uncertain, canRetryPending: $canRetryPending, loadFailed: $loadFailed, errors: $errors, formVersion: $formVersion, primaryPhotoId: $primaryPhotoId, savedId: $savedId, message: $message)';
 }
 
 
@@ -286,7 +288,7 @@ abstract mixin class _$AnimalEditorStateCopyWith<$Res> implements $AnimalEditorS
   factory _$AnimalEditorStateCopyWith(_AnimalEditorState value, $Res Function(_AnimalEditorState) _then) = __$AnimalEditorStateCopyWithImpl;
 @override @useResult
 $Res call({
- AnimalDraft draft, bool loading, bool saving, bool uncertain, bool canRetryPending, bool loadFailed, Map<String, String> errors, int formVersion, String? savedId, String? message
+ AnimalDraft draft, bool loading, bool saving, bool uncertain, bool canRetryPending, bool loadFailed, Map<String, String> errors, int formVersion, String? primaryPhotoId, String? savedId, String? message
 });
 
 
@@ -303,7 +305,7 @@ class __$AnimalEditorStateCopyWithImpl<$Res>
 
 /// Create a copy of AnimalEditorState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? draft = null,Object? loading = null,Object? saving = null,Object? uncertain = null,Object? canRetryPending = null,Object? loadFailed = null,Object? errors = null,Object? formVersion = null,Object? savedId = freezed,Object? message = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? draft = null,Object? loading = null,Object? saving = null,Object? uncertain = null,Object? canRetryPending = null,Object? loadFailed = null,Object? errors = null,Object? formVersion = null,Object? primaryPhotoId = freezed,Object? savedId = freezed,Object? message = freezed,}) {
   return _then(_AnimalEditorState(
 draft: null == draft ? _self.draft : draft // ignore: cast_nullable_to_non_nullable
 as AnimalDraft,loading: null == loading ? _self.loading : loading // ignore: cast_nullable_to_non_nullable
@@ -313,7 +315,8 @@ as bool,canRetryPending: null == canRetryPending ? _self.canRetryPending : canRe
 as bool,loadFailed: null == loadFailed ? _self.loadFailed : loadFailed // ignore: cast_nullable_to_non_nullable
 as bool,errors: null == errors ? _self._errors : errors // ignore: cast_nullable_to_non_nullable
 as Map<String, String>,formVersion: null == formVersion ? _self.formVersion : formVersion // ignore: cast_nullable_to_non_nullable
-as int,savedId: freezed == savedId ? _self.savedId : savedId // ignore: cast_nullable_to_non_nullable
+as int,primaryPhotoId: freezed == primaryPhotoId ? _self.primaryPhotoId : primaryPhotoId // ignore: cast_nullable_to_non_nullable
+as String?,savedId: freezed == savedId ? _self.savedId : savedId // ignore: cast_nullable_to_non_nullable
 as String?,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String?,
   ));

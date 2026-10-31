@@ -20,6 +20,7 @@ abstract class AnimalEditorState with _$AnimalEditorState {
     @Default(false) bool loadFailed,
     @Default({}) Map<String, String> errors,
     @Default(0) int formVersion,
+    String? primaryPhotoId,
     String? savedId,
     String? message,
   }) = _AnimalEditorState;
@@ -179,6 +180,7 @@ class AnimalEditorViewModel extends ChangeNotifier {
           _publish(
             state.copyWith(
               draft: _draft(value),
+              primaryPhotoId: value.animal.primaryPhotoId,
               formVersion: state.formVersion + 1,
             ),
           );
@@ -242,6 +244,7 @@ class AnimalEditorViewModel extends ChangeNotifier {
     _publish(
       state.copyWith(
         draft: _draft(value),
+        primaryPhotoId: value.animal.primaryPhotoId,
         formVersion: state.formVersion + 1,
         savedId: value.animal.id,
         uncertain: false,

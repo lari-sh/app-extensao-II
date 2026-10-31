@@ -19,8 +19,9 @@ Trabalho na branch `developer`; integração à `main` por Pull Request.
   após falha de resposta. Novos animais ficam disponíveis e privados por padrão.
 
 Fluxo: **Área do voluntário → Animais do abrigo → Cadastrar animal**; tocar em um
-animal abre sua edição. Upload de fotos, publicação e painel por situação continuam
-nas próximas histórias. O ambiente validado é local, sem deploy de produção.
+animal abre sua edição. O painel de fotos já permite seleção, prévia e confirmação do envio; o backend
+local tem testes de upload/substituição/limpeza. A jornada nativa completa de fotos
+ainda está em validação. Publicação e painel por situação seguem nas próximas histórias. O ambiente validado é local, sem deploy de produção.
 A demonstração antiga está isolada em `lib/legacy_demo.dart` para caracterização;
 não é a entrada do aplicativo e será removida conforme T100.
 

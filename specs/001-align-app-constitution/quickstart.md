@@ -235,3 +235,14 @@ e os mesmos defines públicos. O teste cria, edita, consulta em outra sessão e
 reabre o registro; não embute senha no APK. Depois remover somente suas fixtures:
 `python supabase/tests/fixtures/android_auth_control.py --cleanup-editor`.
 Encerrar o controlador após terminar os testes. Nunca executar contra produção.
+
+
+## Painel de fotos — teste manual Android
+
+Com Supabase local e functions serve ativos, abrir Área do voluntário, entrar com
+conta autorizada provisionada e editar um animal salvo. Rolar até Foto do animal,
+selecionar JPEG/PNG até 5 MB, conferir a prévia e confirmar o envio. Cancelar a
+seleção deve preservar formulário/foto. Substituição só confirma após resposta
+remota. Em resultado incerto, usar Verificar envio da foto antes de escolher outra.
+A recuperação após interrupção exige confirmar novamente o animal; não há envio
+automático. A evidência nativa completa permanece pendente em validation.md.

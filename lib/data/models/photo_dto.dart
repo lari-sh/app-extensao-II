@@ -35,8 +35,9 @@ final class PhotoJobDto {
         ].contains(data['state']) ||
         (data['photo_id'] != null && data['photo_id'] is! String) ||
         (data['current_photo_id'] != null &&
-            data['current_photo_id'] is! String))
+            data['current_photo_id'] is! String)) {
       throw const FormatException('Invalid photo job');
+    }
     return PhotoJobDto(
       id: data['job_id'] as String,
       state: data['state'] as String,

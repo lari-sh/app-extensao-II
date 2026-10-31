@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -69,6 +70,9 @@ class ImagePickerGalleryService implements GalleryService {
   @override
   Future<Result<GallerySelectionDto?>> recoverLostSelection() =>
       _select(() async {
+        if (kIsWeb || defaultTargetPlatform != TargetPlatform.android) {
+          return null;
+        }
         final result = await _picker.retrieveLostData();
         if (result.exception != null) throw result.exception!;
         if (result.isEmpty) return null;

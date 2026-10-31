@@ -1,3 +1,5 @@
+import '../ui/features/photos/view_models/photo_upload_view_model.dart';
+import '../ui/features/photos/view_models/photo_recovery_view_model.dart';
 import '../ui/features/animals/view_models/animal_editor_view_model.dart';
 import '../ui/features/animals/view_models/managed_animals_view_model.dart';
 import '../ui/features/animals/views/animal_editor_screen.dart';
@@ -33,7 +35,9 @@ class AppRouter {
     required this.adoption,
     this.auth,
     this.session,
+    this.recovery,
   });
+  final PhotoRecoveryViewModel? recovery;
   final AuthRepository? auth;
   final SessionViewModel? session;
   final AnimalsRepository animals;
@@ -102,15 +106,55 @@ class AppRouter {
                   accessEpoch: () => access.state.accessEpoch,
                   authorize: authorize,
                 );
-                if (settings.arguments is String) {
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    editor.load(settings.arguments as String);
-                  });
+                late final PhotoUploadViewModel photo;
+                var formVersion = -1;
+                String? boundId;
+                void synchronize() {
+                  if (formVersion != editor.state.formVersion ||
+                      boundId != editor.state.draft.id) {
+                    formVersion = editor.state.formVersion;
+                    boundId = editor.state.draft.id;
+                    photo.bindAnimal(boundId, editor.state.primaryPhotoId);
+                  }
                 }
-                return ChangeNotifierProvider<AnimalEditorViewModel>(
-                  create: (_) => editor,
-                  lazy: false,
-                  child: AnimalEditorScreen(viewModel: editor),
+
+                photo = PhotoUploadViewModel(
+                  photos,
+                  isAuthorized: () => access.state.canAccessPrivate,
+                  accessEpoch: () => access.state.accessEpoch,
+                  privateGeneration: () => access.state.privateGeneration,
+                  authorize: authorize,
+                  recoverCandidate: recovery?.confirmForAnimal,
+                  recoveryAvailable: () => recovery?.canOffer ?? false,
+                  onDispose: () {
+                    editor.removeListener(synchronize);
+                    recovery?.removeListener(photo.refreshRecovery);
+                  },
+                );
+                editor.addListener(synchronize);
+                recovery?.addListener(photo.refreshRecovery);
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  if (settings.arguments is String) {
+                    editor.load(settings.arguments as String);
+                  } else {
+                    synchronize();
+                  }
+                });
+                return MultiProvider(
+                  providers: [
+                    ChangeNotifierProvider<AnimalEditorViewModel>(
+                      create: (_) => editor,
+                      lazy: false,
+                    ),
+                    ChangeNotifierProvider<PhotoUploadViewModel>(
+                      create: (_) => photo,
+                      lazy: false,
+                    ),
+                  ],
+                  child: AnimalEditorScreen(
+                    viewModel: editor,
+                    photoViewModel: photo,
+                  ),
                 );
               }
               if (settings.name == '/animal-management') {

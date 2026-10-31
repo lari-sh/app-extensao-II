@@ -1,3 +1,6 @@
+import '../data/services/gallery_service.dart';
+import '../data/services/image_picker_gallery_service.dart';
+import '../ui/features/photos/view_models/photo_recovery_view_model.dart';
 import 'dart:async';
 import '../data/services/auth_service.dart';
 import '../data/services/supabase_auth_service.dart';
@@ -32,7 +35,7 @@ Widget createPublicApplication(SupabaseClient client) {
   final authService = SupabaseAuthService(client);
   final auth = AuthRepositoryImpl(authService);
   final session = SessionViewModel(auth);
-  unawaited(session.start());
+  final sessionReady = session.start();
   final animalsService = SupabaseAnimalsService(client);
   final photosService = SupabasePhotoApiService(client);
   final favoritesService = SharedPreferencesFavoritesService(
@@ -41,9 +44,25 @@ Widget createPublicApplication(SupabaseClient client) {
   final clipboardService = FlutterClipboardService();
   final animals = AnimalsRepositoryImpl(animalsService);
   final favorites = FavoritesRepositoryImpl(favoritesService);
-  final photos = PhotoRepositoryImpl(photosService);
+  final gallery = ImagePickerGalleryService();
+  final photos = PhotoRepositoryImpl(photosService, gallery: gallery);
+  late final PhotoRecoveryViewModel recovery;
+  recovery = PhotoRecoveryViewModel(
+    photos,
+    isAuthorized: () => session.state.canAccessPrivate,
+    userId: () => session.state.userId,
+    retainPrivate: () => session.state.retainPrivate,
+    authorize: () async {
+      await session.revalidate();
+      return session.state.canAccessPrivate;
+    },
+    onDispose: () => session.removeListener(recovery.accessChanged),
+  );
+  session.addListener(recovery.accessChanged);
+  unawaited(sessionReady.then((_) => recovery.recover()));
   final adoption = AdoptionMessageRepositoryImpl(clipboardService);
   final router = AppRouter(
+    recovery: recovery,
     auth: auth,
     session: session,
     animals: animals,
@@ -57,6 +76,11 @@ Widget createPublicApplication(SupabaseClient client) {
       Provider<AuthRepository>.value(value: auth),
       ChangeNotifierProvider<SessionViewModel>(
         create: (_) => session,
+        lazy: false,
+      ),
+      Provider<GalleryService>.value(value: gallery),
+      ChangeNotifierProvider<PhotoRecoveryViewModel>(
+        create: (_) => recovery,
         lazy: false,
       ),
       Provider<AnimalsService>.value(value: animalsService),

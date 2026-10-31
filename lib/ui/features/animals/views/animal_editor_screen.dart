@@ -1,10 +1,17 @@
+import '../../photos/view_models/photo_upload_view_model.dart';
+import '../../photos/views/photo_upload_panel.dart';
 import 'package:flutter/material.dart';
 import '../../../../domain/models/animal.dart';
 import '../../../../domain/models/clinical_record.dart';
 import '../view_models/animal_editor_view_model.dart';
 
 class AnimalEditorScreen extends StatelessWidget {
-  const AnimalEditorScreen({super.key, required this.viewModel});
+  const AnimalEditorScreen({
+    super.key,
+    required this.viewModel,
+    this.photoViewModel,
+  });
+  final PhotoUploadViewModel? photoViewModel;
   final AnimalEditorViewModel viewModel;
   @override
   Widget build(BuildContext context) => ListenableBuilder(
@@ -206,6 +213,8 @@ class AnimalEditorScreen extends StatelessWidget {
                       icon: const Icon(Icons.add),
                       label: const Text('Adicionar cuidado'),
                     ),
+                    if (photoViewModel != null)
+                      PhotoUploadPanel(viewModel: photoViewModel!),
                     if (state.saving) const LinearProgressIndicator(),
                     if (state.message != null)
                       Padding(

@@ -368,3 +368,27 @@ Integração do painel, testes de Widgets e jornada Android ainda em andamento.
 Não declarar US4 concluída antes desse gate. Nenhum segredo foi versionado.
 
 As licenças/NOTICE de terceiros são preservadas como distribuídas; o gate de whitespace exclui MAGICK_NOTICE, que contém espaços finais originais, além dos arquivos gerados Freezed. Não há exclusão dos fontes de implementação.
+
+
+## US4 — painel integrado e emulador disponibilizado (parcial)
+
+Painel conectado ao editor por VMs/Provider, sem Services ou Repositories na View.
+Galeria em Service; candidato recuperado exige conta revalidada e confirmação do
+animal, nunca dispara upload automático. Formulário novo precisa ser salvo antes
+ de enviar foto. A foto atual só é trocada depois da confirmação; candidato tem
+prévia e botão de envio separado. Saída/revogação descartam escopos privados.
+
+Gate direcionado: nove testes de painel/VM/rotas PASS. Widget de permissão negada
+comprova loading encerrado, foto e rascunho preservados e zero upload. iOS 13 já
+configurado; adicionada descrição de fotos em português. Android mínimo 24 explícito,
+sem permissões de câmera/microfone. iOS não foi executado neste Windows.
+
+APK normal com configuração pública local compilado e instalado; MainActivity
+aberta com LaunchState COLD no emulador visível Medium_Phone_API_37.0, conforme
+pedido da usuária para testar. Docker/Supabase e funções locais retomados sem reset.
+Abertura do app não equivale à validação completa do seletor/upload no Android;
+essa jornada e a recuperação após destruição de Activity continuam pendentes.
+O aparelho ficou disponível para os testes manuais da usuária, sem automação nativa
+concorrente. Os testes Flutter desta etapa rodam fora do emulador.
+
+Gate da integração: 125 testes Flutter PASS; análise estática sem problemas. Dois testes adicionais reproduziram e protegeram a troca de animal durante seleção e uma consulta pendente após ausência inicial, evitando loading preso e reenvio prematuro.
