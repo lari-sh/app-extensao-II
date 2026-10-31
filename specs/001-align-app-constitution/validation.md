@@ -582,3 +582,9 @@ e provas do backend/Android; nenhuma validação iOS ou deploy de produção imp
   em transação com rollback, primeira página de 50, cursor, segunda página sem
   duplicação e totais globais independentes da página. T085/T094 concluídas.
 - Não equivale a teste de lojas/produção/iOS ou jornada Android completa.
+
+### US5 — sessão alterada durante escrita
+
+Regressão adicional: mudança de época de acesso enquanto uma escrita está em voo
+não libera uma nova chave/operação. O comando permanece incerto até consulta explícita,
+sem confirmar resposta tardia. 8 testes de DashboardViewModel PASS.

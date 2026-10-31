@@ -190,4 +190,32 @@ void main() {
       expect(vm.state.message, isNull);
     },
   );
+  test(
+    'epoch change during write keeps operation uncertain until explicit reconciliation',
+    () async {
+      var epoch = 0;
+      final repo = repository();
+      final vm = DashboardViewModel(
+        repo,
+        isAuthorized: () => true,
+        accessEpoch: () => epoch,
+        delay: (_) async {},
+      );
+      addTearDown(vm.dispose);
+      await vm.load();
+      final gate = Completer<Result<PublicAnimal>>();
+      repo.handler = (_, _) => gate.future;
+      final sending = vm.setStatus(fixtureId(1), AnimalStatus.treatment);
+      await Future<void>.delayed(Duration.zero);
+      epoch++;
+      gate.complete(Success(fixtureAnimal(1)));
+      await sending;
+      expect(vm.state.uncertain, true);
+      expect(vm.canManage, false);
+      expect(vm.state.busy, false);
+      repo.handler = (_, _) async => const Success<ManagedAnimal?>(null);
+      await vm.reconcile();
+      expect(vm.state.canRetry, true);
+    },
+  );
 }

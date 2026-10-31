@@ -212,7 +212,14 @@ class DashboardViewModel extends ChangeNotifier {
   Future<void> _send() async {
     final pending = _pending;
     if (pending == null) return;
-    _publish(state.copyWith(busy: true, message: null, canRetry: false));
+    _publish(
+      state.copyWith(
+        busy: true,
+        uncertain: true,
+        message: null,
+        canRetry: false,
+      ),
+    );
     var confirmed = false;
     try {
       if (!await _authorize()) return;
