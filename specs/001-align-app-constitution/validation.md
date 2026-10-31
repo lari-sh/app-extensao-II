@@ -443,3 +443,13 @@ Na restauração das opções do sistema, o ADB ficou indisponível. A conexão 
 permanece gerado, com as provas acima concluídas. Isso ocorreu após as provas aprovadas e não substitui
 as evidências de Activity recriada. Imagens sintéticas podem ser preparadas novamente
 com --prepare-media; dados de servidor/fixtures não foram resetados.
+
+### Recuperação do emulador para teste manual — 2026-10-31
+
+- Servidor ADB reiniciado; `adb devices -l` confirmou `emulator-5554 device`.
+- AVD isolado `Abrigo_Anjos_Test_API37`, preservando o AVD anterior.
+- APK debug normal instalado com sucesso; `am start -W` retornou `Status: ok`,
+  `LaunchState: COLD`. `dumpsys activity activities` confirmou MainActivity como
+  `topResumedActivity`. App aberto para teste manual, sem credenciais na build.
+- As evidências anteriores de 128 testes Flutter, 78 SQL e 12 Deno/HTTP permanecem
+  referentes à etapa de fotos. Esta recuperação não representa validação de US5.
