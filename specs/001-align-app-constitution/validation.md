@@ -537,3 +537,12 @@ total global 75 com página de um registro, chave de operação preservada, resp
 confirmadas, invalidação de IDs, erros 401/403/conflito/timeout e erros inesperados.
 T084/T086/T090/T091 concluídas. SQL e painel têm validações próprias ainda pendentes.
 Calendário adicionado ao planejamento por solicitação explícita, sem declarar entrega.
+
+### US5 — contexto inicial de DashboardViewModel
+
+Estado imutável Freezed, totais globais, páginas independentes por situação,
+alternância Kanban/lista, comandos confirmados e reconciliação de resultado incerto
+com a mesma chave. Quatro testes iniciais cobrem totais acima de 50, paginação,
+falha sem confirmação fictícia, descarte em 403/época antiga e retry somente após
+consulta limitada. A interface e a matriz ampliada T087/T092 permanecem pendentes.
+Gate deste incremento: 14 testes direcionados PASS; análise sem problemas.
