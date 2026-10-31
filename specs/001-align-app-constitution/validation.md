@@ -617,3 +617,15 @@ e bloqueio do animal não salvo. Dois novos unitários cobrem foco, autorizaçã
 substituído e adotado. T093 concluída; US5 implementada. Prova Android dos novos
 controles do editor será executada separadamente, sem confundir com a prova anterior.
 Gate do incremento: 152 testes Flutter PASS, análise sem problemas; Freezed regenerado.
+
+### US5 — encerramento com editor no Android
+
+Jornada Android ampliada PASS (18 s além do build): painel→menu Editar cadastro,
+situação Quarentena pelo campo do editor, ocultação pelo controle Publicado no
+catálogo e confirmação em outra sessão, preservando a nota. Fixture removida e
+controlador loopback encerrado. Gate: 152 Flutter PASS, 99 pgTAP PASS, análise sem
+problemas, jornada HTTP com duas sessões e duas execuções Android aprovadas.
+
+94/108 tarefas concluídas, US1–US5 implementadas. Restam US6 (regressões e legado)
+e entrega/CI/CD/plataformas. Calendário tem planejamento pendente de detalhamento;
+não integra as 108 tarefas originais nem está implementado. Sem produção/iOS validados.

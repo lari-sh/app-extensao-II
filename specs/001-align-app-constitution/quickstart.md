@@ -285,3 +285,11 @@ locais em execução, rode `python supabase/tests/fixtures/management_flow.py` e
 `npx --yes supabase@2.122.0 test db`. O script aceita somente URL local com
 ALLOW_LOCAL_FIXTURES=true, usa credenciais do arquivo ignorado em runtime e limpa
 somente o animal/objetos que criou. Não aplicar a ambiente remoto ou produção.
+
+Painel privado: em Animais do abrigo, Kanban organiza as três situações clínicas;
+Lista também apresenta adotados. Os menus permitem situação e publicação sem arraste.
+No editor, os controles ficam disponíveis após salvar. Alterações de situação e
+publicação são comandos separados e não salvam notas locais pendentes. Em resposta
+incerta, consulte o resultado antes do reenvio. A aba Calendário informa planejamento.
+Jornada Android: integration_test/management_dashboard_flow_test.dart, com o mesmo
+controlador loopback usado nas demais jornadas; executar limpeza das fixtures ao final.

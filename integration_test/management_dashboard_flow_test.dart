@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:integration_test/integration_test.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:abrigo_dos_anjos/app/bootstrap.dart';
+import 'package:abrigo_dos_anjos/domain/models/animal.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -113,6 +114,29 @@ void main() {
         } finally {
           await public.dispose();
         }
+        await tester.tap(find.byTooltip('Ações de $name'));
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('Editar cadastro'));
+        await tester.pumpAndSettle();
+        final situation = find.byType(DropdownButtonFormField<AnimalStatus>);
+        await tester.ensureVisible(situation);
+        await tester.tap(situation);
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('Quarentena').last);
+        await tester.pumpAndSettle();
+        final publication = find.widgetWithText(
+          SwitchListTile,
+          'Publicado no catálogo',
+        );
+        await tester.ensureVisible(publication);
+        await tester.tap(publication);
+        await tester.pumpAndSettle();
+        row =
+            await second.rpc('get_managed_animal', params: {'p_animal_id': id})
+                as Map;
+        expect((row['animal'] as Map)['status'], 'quarantine');
+        expect((row['animal'] as Map)['is_published'], false);
+        expect(row['clinical_notes'], 'Nota protegida');
         expect(tester.takeException(), isNull);
       } finally {
         await second.auth.signOut();
