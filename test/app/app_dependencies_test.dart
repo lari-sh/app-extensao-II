@@ -19,10 +19,15 @@ void main() {
           userId: 'u',
         );
       addTearDown(harness.auth.dispose);
-      harness.animals.handler = (method, _) async => method == 'listManagement'
+      harness.animals.handler = (method, args) async =>
+          method == 'getStatusCounts'
+          ? const Success<Map<AnimalStatus, int>>({AnimalStatus.available: 1})
+          : method == 'listManagement'
           ? Success(
               ManagedAnimalPage(
-                items: [ManagedAnimal(animal: fixtureAnimal(1))],
+                items: args.first == AnimalStatus.available
+                    ? [ManagedAnimal(animal: fixtureAnimal(1))]
+                    : [],
                 total: 1,
               ),
             )

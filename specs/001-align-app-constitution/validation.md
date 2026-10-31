@@ -553,3 +553,18 @@ Gate deste incremento: 14 testes direcionados PASS; análise sem problemas.
 capacidade de publicação negada para adotado, estado vazio, falta de autorização,
 401 com descarte/revalidação e resposta tardia após dispose. Rótulos/capacidades dos
 cartões fornecidos pelo VM. Teste de interface escrito antes da tela (RED esperado).
+
+### US5 — tela de painel integrada
+
+Tela DashboardScreen conectada à rota privada animal-management. Mantidos cabeçalho,
+três contadores clínicos, abas e três colunas compactas do artboard screen-5; lista
+inclui adotados. Saudação genérica evita inventar nome de perfil. Totais reais do
+servidor; não usar 42/28/11/03 fictícios do protótipo. Calendário abre informação de
+planejamento, sem produzir eventos fictícios. Menu acessível permite editar, mudar
+situação e publicar/ocultar; capacidade de publicar adotado vem do VM. FAB abre editor.
+
+Widget Test confirma Kanban→lista, situação por menu, contadores após confirmação
+e publicação. Teste de composição comprova abertura de editor e descarte no logout.
+147 testes Flutter PASS; último ajuste revalidado em 8 testes de painel PASS; análise
+sem problemas. T087/T088/T092 concluídas. T093/T094 aguardam acabamento de integração
+e provas do backend/Android; nenhuma validação iOS ou deploy de produção implícitos.

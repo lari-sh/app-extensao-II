@@ -192,6 +192,8 @@ class DashboardViewModel extends ChangeNotifier {
       _begin(id, status: status);
   Future<void> setPublication(String id, bool published) =>
       _begin(id, published: published);
+  Future<void> togglePublication(PublicAnimal animal) =>
+      setPublication(animal.id, !animal.isPublished);
   Future<void> _begin(
     String id, {
     AnimalStatus? status,

@@ -1,9 +1,9 @@
 import '../ui/features/photos/view_models/photo_upload_view_model.dart';
 import '../ui/features/photos/view_models/photo_recovery_view_model.dart';
 import '../ui/features/animals/view_models/animal_editor_view_model.dart';
-import '../ui/features/animals/view_models/managed_animals_view_model.dart';
+import '../ui/features/animals/view_models/dashboard_view_model.dart';
 import '../ui/features/animals/views/animal_editor_screen.dart';
-import '../ui/features/animals/views/managed_animals_screen.dart';
+import '../ui/features/animals/views/dashboard_screen.dart';
 import '../domain/repositories/auth_repository.dart';
 import '../ui/features/auth/view_models/session_view_model.dart';
 import '../ui/features/auth/view_models/login_view_model.dart';
@@ -158,7 +158,7 @@ class AppRouter {
                 );
               }
               if (settings.name == '/animal-management') {
-                final listing = ManagedAnimalsViewModel(
+                final listing = DashboardViewModel(
                   animals,
                   isAuthorized: () => access.state.canAccessPrivate,
                   accessEpoch: () => access.state.accessEpoch,
@@ -167,10 +167,13 @@ class AppRouter {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   listing.load();
                 });
-                return ChangeNotifierProvider<ManagedAnimalsViewModel>(
+                return ChangeNotifierProvider<DashboardViewModel>(
                   create: (_) => listing,
                   lazy: false,
-                  child: ManagedAnimalsScreen(viewModel: listing),
+                  child: DashboardScreen(
+                    viewModel: listing,
+                    onSignOut: access.signOut,
+                  ),
                 );
               }
               return VolunteerAccessScreen(viewModel: access);
