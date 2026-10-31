@@ -217,7 +217,7 @@ constituição 2.0.0 em `.specify/memory/constitution.md`.
 ### Tests — obrigatórios, antes da implementação
 
 - [X] T084 [P] [US5] Escrever testes de status/publicação/contadores em `test/data/services/supabase_animals_management_service_test.dart` usando consultas/RPCs controladas, páginas e totais globais, falhas PostgrestException/rede e autorização sem papel em cache. [FR-005, FR-010, FR-011, FR-012, CR-003]
-- [ ] T085 [P] [US5] Escrever pgTAP em `supabase/tests/database/animal_management.test.sql` para set_animal_status/set_animal_publication/get_animal_status_counts, locks/idempotência, ausência de staff, is_published=false no cadastro novo e negação de publicação de adopted. [FR-005, FR-010, FR-011, FR-012, CR-005]
+- [X] T085 [P] [US5] Escrever pgTAP em `supabase/tests/database/animal_management.test.sql` para set_animal_status/set_animal_publication/get_animal_status_counts, locks/idempotência, ausência de staff, is_published=false no cadastro novo e negação de publicação de adopted. [FR-005, FR-010, FR-011, FR-012, CR-005]
 - [X] T086 [P] [US5] Escrever testes da implementação real em `test/data/repositories/animals_repository_management_test.dart`, cobrindo totais globais, paginação por coluna, falhas e confirmação dos estados retornados. [FR-010, FR-011, FR-012, FR-017, CR-003]
 - [X] T087 [P] [US5] Escrever testes de DashboardViewModel em `test/ui/features/animals/view_models/dashboard_view_model_test.dart`: Kanban/lista, capacidades, status/publicação, empty/loading/failure, 401/403 e total de mais de 50 animais, sem contagem baseada só na página carregada. [FR-005, FR-010, FR-011, FR-012, FR-016, CR-003]
 - [X] T088 [P] [US5] Escrever Widget Test em `test/ui/features/animals/views/dashboard_screen_test.dart`: alternar Kanban/lista, menu de situação sem arraste obrigatório, publicar e confirmar contadores após sucesso. [FR-010, FR-011, FR-012, CR-004]
@@ -228,7 +228,7 @@ constituição 2.0.0 em `.specify/memory/constitution.md`.
 - [X] T091 [US5] Completar setStatus/setPublication/getStatusCounts e paginação privada em `lib/data/repositories/animals_repository_impl.dart`, consumindo AnimalsService e usando operationKey, Result e estado confirmado sem sobrescrever foto ou notas por mudança de status. [FR-010, FR-011, FR-012, FR-016]
 - [X] T092 [US5] Implementar `lib/ui/features/animals/view_models/dashboard_view_model.dart` com colunas/lista, contadores globais, comandos confirmados, autorização pronta e revalidação/descartar estado privado em 401/403; nenhuma regra correspondente em build. [FR-005, FR-006, FR-010, FR-011, FR-012]
 - [ ] T093 [US5] Construir `lib/ui/features/animals/views/dashboard_screen.dart`, conectar edição/publicação/status no editor e `lib/app/app_router.dart`, preservando Kanban e alternativa por menu; aplicar somente estados/capacidades fornecidos pelos VMs. [FR-010, FR-011, FR-012, FR-019, CR-001]
-- [ ] T094 [US5] Validar duas sessões, catálogo após publicação/adoção/ocultação e negação de novo pedido de foto/detalhes; registrar totais e resultados negativos em `specs/001-align-app-constitution/validation.md`. [SC-006, FR-002, FR-015, CR-005, CR-007]
+- [X] T094 [US5] Validar duas sessões, catálogo após publicação/adoção/ocultação e negação de novo pedido de foto/detalhes; registrar totais e resultados negativos em `specs/001-align-app-constitution/validation.md`. [SC-006, FR-002, FR-015, CR-005, CR-007]
 
 **Checkpoint**: não avançar apresentando esta fase como concluída sem os testes e evidências acima.
 

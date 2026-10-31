@@ -279,3 +279,9 @@ os controles do protótipo, mas ficam desabilitadas nesta versão, conforme deci
 da responsável em 2026-10-31. A sessão mantém o comportamento já implementado pelo
 SDK. Esses controles não devem ser usados como evidência de recuperação de senha
 ou de política configurável de persistência; ambos os fluxos seguem pendentes.
+
+Validação local de manejo/publicação: com fixtures já provisionadas e funções
+locais em execução, rode `python supabase/tests/fixtures/management_flow.py` e
+`npx --yes supabase@2.122.0 test db`. O script aceita somente URL local com
+ALLOW_LOCAL_FIXTURES=true, usa credenciais do arquivo ignorado em runtime e limpa
+somente o animal/objetos que criou. Não aplicar a ambiente remoto ou produção.

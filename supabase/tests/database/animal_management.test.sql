@@ -1,5 +1,5 @@
 begin;
-select plan(15);
+select plan(21);
 insert into auth.users(id) values ('53000000-0000-4000-8000-000000000001');
 insert into auth.sessions(id,user_id) values ('63000000-0000-4000-8000-000000000001','53000000-0000-4000-8000-000000000001');
 insert into public.staff_members(user_id,active) values ('53000000-0000-4000-8000-000000000001',true);
@@ -19,6 +19,21 @@ select is((public.get_write_operation(repeat('c',32))->'animal'->>'status'),'ado
 select ok((public.get_animal_status_counts()->>'adopted')::int >= 1,'global counts include adopted');
 select throws_ok($$select public.set_animal_status(repeat('f',32),'73000000-0000-4000-8000-000000000001','invalid')$$,'22023','invalid_payload','enum validated');
 select throws_ok($$update public.animals set status='available' where id='73000000-0000-4000-8000-000000000001'$$,'42501',null,'direct DML denied');
+reset role;
+-- More than one complete column page, without touching pre-existing records.
+insert into public.animals(id,name,species,sex,size,approximate_age)
+select ('74000000-0000-4000-8000-'||lpad(n::text,12,'0'))::uuid,'Página manejo '||lpad(n::text,3,'0'),'dog','female','small','2 anos'
+from generate_series(1,55) n;
+insert into public.animal_internal_details(animal_id) select id from public.animals where id::text like '74000000-0000-4000-8000-%';
+set local role authenticated;
+select ok((public.get_animal_status_counts()->>'available')::int>=55,'global counts cover more than 50');
+select is(jsonb_array_length(public.list_managed_animals('available')->'items'),50,'column first page bounded');
+select ok((public.list_managed_animals('available')->>'total')::int>=55,'column total independent of page');
+select isnt(public.list_managed_animals('available')->'cursor','null'::jsonb,'first page exposes cursor');
+select ok(jsonb_array_length(public.list_managed_animals('available',public.list_managed_animals('available')->'cursor')->'items')>=5,'second column page available');
+select is((select count(*)::int from jsonb_array_elements(public.list_managed_animals('available')->'items') a
+join jsonb_array_elements(public.list_managed_animals('available',public.list_managed_animals('available')->'cursor')->'items') b
+on a->'animal'->>'id'=b->'animal'->>'id'),0,'pages have no duplicated animal');
 reset role;
 update public.staff_members set active=false where user_id='53000000-0000-4000-8000-000000000001';
 set local role authenticated;

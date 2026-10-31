@@ -568,3 +568,17 @@ e publicação. Teste de composição comprova abertura de editor e descarte no 
 147 testes Flutter PASS; último ajuste revalidado em 8 testes de painel PASS; análise
 sem problemas. T087/T088/T092 concluídas. T093/T094 aguardam acabamento de integração
 e provas do backend/Android; nenhuma validação iOS ou deploy de produção implícitos.
+
+### US5 — provas reais de manejo/publicação
+
+- `python supabase/tests/fixtures/management_flow.py`: PASS no backend local,
+  duas sessões Auth distintas, criação privada, leitura entre sessões, chamadas
+  concorrentes com a mesma chave/resultados iguais, conflito 409 para outro payload.
+- Publicação, ocultação, republicação e adoção verificadas por pedidos novos ao
+  catálogo e à função real de leitura de fotos. Upload real de PNG válido; leitura
+  pública 200 antes e 404 após ocultação/adoção. Nova publicação de adotado rejeitada.
+  Notas e vínculo da foto preservados. Somente a fixture criada pela jornada removida.
+- pgTAP: 99 PASS em seis arquivos; 21 no contrato de manejo. Acrescentados 55 animais
+  em transação com rollback, primeira página de 50, cursor, segunda página sem
+  duplicação e totais globais independentes da página. T085/T094 concluídas.
+- Não equivale a teste de lojas/produção/iOS ou jornada Android completa.
