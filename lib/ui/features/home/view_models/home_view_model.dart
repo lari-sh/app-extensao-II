@@ -8,4 +8,5 @@ class HomeViewModel extends ChangeNotifier {
   String openCatalog() => '/catalog';
   String openFavorites() => '/favorites';
   String openAbout() => '/about';
+  String openVolunteer() => '/volunteer';
 }

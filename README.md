@@ -13,7 +13,11 @@ Trabalho na branch `developer`; integração à `main` por Pull Request.
 - MVVM com ChangeNotifier, estados Freezed, Repositories abstratos, Services e Provider.
 - Falhas tipadas por Result e mensagens em português; logo e paleta vermelha/marrom.
 
-A autenticação nas telas, cadastro/manejo em nuvem e upload ainda estão pendentes.
+Autenticação implementada no código e em validação: login de contas previamente
+provisionadas, verificação remota de sessão/equipe, proteção de rotas e saída.
+A área autorizada mostra, por enquanto, uma confirmação de acesso; cadastro/manejo
+em nuvem e upload ainda estão pendentes. A validação nativa desta etapa de login
+não está concluída; consulte as evidências antes de considerar a US2 entregue.
 A demonstração antiga está isolada em `lib/legacy_demo.dart` para caracterização;
 não é a entrada do aplicativo e será removida conforme T100.
 

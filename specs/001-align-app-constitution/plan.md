@@ -460,3 +460,25 @@ policies restritivas por bucket negam todas as operações anon/authenticated em
 animal-photos, inclusive se surgir uma policy permissiva adicional. O servidor
 usa service_role para entregar o proxy autorizado. Testes SQL simulam allow amplo,
 e HTTP comprova negação de download/createSignedUrl; listagem expõe zero objetos.
+
+## Ajuste US2 — validação de sessão e saída
+
+access_context passa a retornar is_session_current, além de user_id/is_staff_active,
+para distinguir conta sem staff de JWT cuja sessão foi revogada. Helper privado
+verifica auth.sessions, usuário, prazo da sessão e expiração da claim; metadata
+editável não concede staff. Migration 005_auth_session_context; as futuras escritas,
+finalização e manejo passam a 006/007/008.
+
+O SDK instalado apaga a sessão local antes de tentar revogação remota no logout.
+Em falha remota, a UI continua pública e informa que só a saída local foi confirmada.
+Não guardar tokens de retry fora do SDK nem apresentar retry vazio como sucesso:
+o responsável pode entrar novamente e executar logout global para repetir a
+revogação. Services permanecem sem cache de negócio; Repository serializa mutações
+e impede conclusões antigas após logout. Não há nova dependência.
+
+A rota protegida inicial apresenta apenas a confirmação de acesso autorizado.
+O painel de manejo efetivo pertence à US5. A guarda aceita um conteúdo protegido
+criado pela composição, testado com editor em memória, preservando montagem com
+Offstage/ExcludeSemantics/IgnorePointer na expiração recuperável; logout/revogação/
+outro usuário/cancelamento recriam ou removem o escopo. A integração do editor real
+é verificada novamente na US3/US6, sem inventar funcionalidade de cadastro na US2.

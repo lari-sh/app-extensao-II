@@ -178,3 +178,14 @@ JWT de usuário quando aplicável e passa ator/sessão verificados ao resolver.
 Revalida o recurso após baixar bytes. Negociação Accept permite octet-stream ao
 SDK functions_client e image/png ou image/jpeg ao consumidor HTTP comum, sempre
 com no-store/private, sem redirect nem 304. Testes em validation.md.
+
+
+## Implementação do contexto de sessão (migration 005)
+
+access_context retorna user_id, is_session_current e is_staff_active para o próprio
+ator autenticado. EXECUTE é negado a anon; o helper privado não é executável por
+clientes. A verificação consulta auth.sessions e membership atual, sem confiar
+em metadados editáveis ou somente no JWT em cache. Sessão revogada retorna acesso
+inválido mesmo quando o token ainda não expirou. Consultar validation.md para
+as evidências de SQL/HTTP; as RPCs de escrita das etapas seguintes permanecem
+pendentes e não são disponibilizadas por esta migration.

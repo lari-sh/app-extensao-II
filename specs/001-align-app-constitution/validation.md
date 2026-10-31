@@ -191,3 +191,30 @@ com configuração pública para http://10.0.2.2:54321, exclusivo deste ambiente
 no emulador. Não contém senha ou service_role; requer Supabase local em execução.
 Geração Freezed refeita: PASS, hashes de todos os arquivos gerados preservados.
 43/108 tarefas concluídas; US2 e seguintes continuam pendentes.
+
+
+## Autenticação — validação parcial em 2026-10-31 [FR-005, FR-006]
+
+Estado: incremento de autenticação preparado para commit na branch developer;
+a validação nativa desta etapa permanece pendente. O marco anterior de 43/108 tarefas permanece histórico; US2 não está
+concluída enquanto T054 e a revisão dos critérios não forem encerradas.
+
+- Nova execução de flutter analyze: PASS, nenhum problema encontrado.
+- Nova execução de flutter test --no-pub --reporter compact: PASS, **81 testes**.
+  Inclui testes dos Services/Repositories de autenticação, ViewModels de login e
+  sessão, login/guard como Widgets, composição Provider e remoção de rotas privadas
+  após saída, além da regressão da jornada pública e caracterização legada.
+- SQL executado nesta etapa: PASS, **36 testes**, incluindo sete novos casos de
+  contexto de sessão. HTTP executado nesta etapa: PASS, **6 testes**, incluindo
+  metadados sem concessão de staff e sessão revogada. Estes resultados são de
+  backend local; não substituem a jornada de autenticação em dispositivo.
+- Migration 005_auth_session_context implementada/aplicada localmente. Escrita,
+  finalização de fotos e manejo serão migrations 006/007/008, ainda pendentes.
+- O conteúdo da área autorizada é uma confirmação de acesso. Não comprova cadastro,
+  edição, upload ou dashboard de manejo, que pertencem às histórias seguintes.
+- T054: login/saída reais no Android e restauração após reinício ainda pendentes.
+  Nenhum resultado nativo novo de autenticação é declarado neste registro.
+- iOS continua pendente de Mac/Xcode e testes próprios de plataforma.
+
+README, quickstart e contrato backend atualizados para separar recursos existentes,
+cenários futuros e resultados executados. Nenhuma credencial incluída nos documentos.

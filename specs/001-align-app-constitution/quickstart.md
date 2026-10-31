@@ -1,13 +1,16 @@
 # Quickstart de validação da adequação
 
 **Date**: 2026-10-31.
-Este é o roteiro que a implementação deverá tornar executável. Migrations, funções,
-novos testes e jobs abaixo ainda não existem; não representam verificações já feitas.
+Este roteiro combina comandos já disponíveis e cenários de aceitação das etapas
+restantes. Migrations 001–005, fixtures locais, leitura de fotos e testes públicos/de
+autorização já existem. Escrita de animais, upload e manejo continuam pendentes.
+Resultados executados ficam em [validation](validation.md); um cenário descrito
+neste roteiro não equivale a um teste aprovado.
 Contratos: [repositories](contracts/repositories.md), [backend](contracts/backend.md).
 
 ## 1. Preparar ambiente de desenvolvimento
 
-- Flutter 3.41.1/Dart 3.11, Java 17, Android SDK API 24+ e celular/emulador.
+- Flutter 3.41.1/Dart 3.11, Java 21, Android SDK API 36 (mínimo do app API 24) e celular/emulador.
 - Supabase CLI compatível fixada no ambiente de desenvolvimento e no CI; Docker
   para Supabase local, Deno para testes das funções. Não é necessário instalar
   novos pacotes Flutter para executar este documento de planejamento.
@@ -17,13 +20,14 @@ Contratos: [repositories](contracts/repositories.md), [backend](contracts/backen
   fictícias pelo responsável: voluntário ativo e usuário autenticado sem staff.
   Cadastro público desabilitado. Nenhuma conta ou animal real nas fixtures.
 
-Após implementar supabase/config.toml, migrations, testes e funções, executar na raiz:
+Para preparar um ambiente local descartável, executar na raiz:
 
 ```powershell
 supabase start
 supabase db reset
-supabase status
-deno run --allow-env --allow-net --allow-read supabase/tests/fixtures/setup.ts
+# Configurar supabase/.env.local a partir de supabase/.env.example.
+# Não compartilhar a saída de status: ela contém chaves locais.
+npx --yes deno@2.8.3 task --env-file=supabase/.env.local --config supabase/functions/deno.json fixtures
 supabase functions serve --env-file supabase/.env.local
 ```
 
@@ -38,7 +42,7 @@ T006 apenas cria o script. Só executar fixtures após as migrations T018/T019/T
 O script usa contexto administrativo local controlado, verifica o ambiente alvo e
 não depende de save_animal, finalize ou outras RPCs das histórias futuras.
 
-O script de fixtures a implementar em `supabase/tests/fixtures/` prepara animais
+O script de fixtures disponível em `supabase/tests/fixtures/` prepara animais
 publicados, privados, adotados, fotos válidas, conta sem staff e staff ativo.
 O plano não fornece senhas reais; valores de teste ficam em ambiente local/CI.
 
@@ -53,7 +57,7 @@ deve preferir HTTPS de homologação quando a rede local não estiver configurad
 
 ```powershell
 flutter pub get
-dart run build_runner build --delete-conflicting-outputs
+flutter pub run build_runner build --delete-conflicting-outputs
 flutter doctor -v
 flutter devices
 flutter run -d <device-id> --dart-define=SUPABASE_URL=<url-de-desenvolvimento> --dart-define=SUPABASE_PUBLISHABLE_KEY=<chave-publica>
@@ -67,17 +71,18 @@ inexistente; não pode haver login staff ou gravações locais silenciosas de fa
 ## 3. Gates automatizados
 
 ```powershell
-dart run build_runner build --delete-conflicting-outputs
+flutter pub run build_runner build --delete-conflicting-outputs
 dart format --output=none --set-exit-if-changed lib test
 flutter analyze
 flutter test --coverage
 supabase test db
-deno task --config supabase/functions/deno.json test
+npx --yes deno@2.8.3 task --env-file=supabase/.env.local --config supabase/functions/deno.json test
 flutter build apk --debug --dart-define=SUPABASE_URL=<url-de-desenvolvimento> --dart-define=SUPABASE_PUBLISHABLE_KEY=<chave-publica>
 ```
 
-O deno task test será definido para Deno.test unitário e testes HTTP com funções
-locais, usando variáveis de ambiente do projeto de teste. Testes de banco devem
+O deno task test executa os testes disponíveis de Deno.test e HTTP com funções
+locais. Carregar as variáveis de servidor com --env-file=supabase/.env.local no
+comando Deno; a task não lê esse arquivo automaticamente. Testes de banco devem
 rodar como papéis de cliente e com JWTs reais quando envolver Auth/Storage; somente
 SQL executado com service_role não comprova acesso anônimo.
 
@@ -144,8 +149,8 @@ funções; manter geração Freezed/análise/testes/APK e upload do artifact deb
 segredos de produção e a ausência de integração backend não é aceita como sucesso.
 Assinatura release, publicação em lojas e criação de equipe no app estão fora do escopo.
 
-Este planejamento termina antes de tasks e implementação. Próximo comando:
-`/speckit-tasks`.
+A execução segue `tasks.md`, na branch `developer`. Marcar tarefas somente após
+implementar e comprovar seus critérios; a integração à `main` ocorre por PR.
 
 ## Versões fixadas durante T003
 
@@ -169,7 +174,8 @@ mas Gradle 8.14 do projeto é executado no Java 21. `flutter doctor -v` aprovou 
 toolchain e licenças Android; Android Studio foi aberto conforme solicitado.
 
 A instância local de leitura de foto usa a migration 004_photo_read; migrations
-futuras de escrita/finalização/manejo passam a 005/006/007. Iniciar a função:
+005_auth_session_context foi adicionada para autenticação; migrations
+futuras de escrita/finalização/manejo passam a 006/007/008. Iniciar a função:
 `npx --yes supabase@2.122.0 functions serve animal-photo-read`.
 A configuração verify_jwt=false é específica da leitura pública; o handler aplica
 autorização por animal/foto, e o resolver RPC só pode ser invocado pelo servidor.
@@ -179,3 +185,26 @@ Teste de jornada pública em emulador local:
 com os dart-defines públicos, URL http://10.0.2.2:54321 e ALLOW_LOCAL_HTTP=true.
 Preparar fixtures antes do teste. Não executar testes HTTP que ocultam/adotam as
 mesmas fixtures em paralelo com a jornada Android.
+
+
+## Autenticação: estado e operação
+
+A tela inicial oferece “Área do voluntário”. O login exige conta provisionada
+fora do aplicativo e membership ativa em staff_members. Não há cadastro público
+nem criação de equipe na interface. Metadados do usuário não concedem permissão.
+Conta autenticada sem staff continua sem acesso privado.
+
+O Service verifica a identidade no Auth e chama access_context. A RPC retorna
+user_id, is_session_current e is_staff_active; a sessão local, sozinha, não
+comprova autorização. Ao retomar o app, o SessionViewModel revalida o acesso.
+
+Durante expiração recuperável, o conteúdo privado permanece montado em memória,
+mas invisível e inacessível. Só o mesmo usuário novamente autorizado pode retomar.
+Saída, revogação, troca de usuário ou cancelamento descartam esse conteúdo.
+Se a saída remota falhar, a interface bloqueia o acesso local imediatamente e
+informa que é necessário entrar novamente para tentar encerrar a sessão remota.
+Não considerar essa falha uma confirmação de revogação no servidor.
+
+As telas e os testes automatizados de autenticação existem; a jornada real de
+login/saída no Android ainda precisa de evidência antes de concluir T054.
+Senhas de fixtures são fornecidas somente em execução, nunca em dart-defines.

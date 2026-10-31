@@ -1,0 +1,26 @@
+import 'package:flutter/material.dart';
+import '../view_models/session_view_model.dart';
+
+class VolunteerAccessScreen extends StatelessWidget {
+  const VolunteerAccessScreen({super.key, required this.viewModel});
+  final SessionViewModel viewModel;
+  @override
+  Widget build(BuildContext context) => Scaffold(
+    appBar: AppBar(title: const Text('Área do voluntário')),
+    body: ListView(
+      padding: const EdgeInsets.all(24),
+      children: [
+        const Icon(Icons.verified_user, size: 64),
+        const SizedBox(height: 20),
+        const Text('Acesso autorizado', style: TextStyle(fontSize: 24)),
+        const SizedBox(height: 12),
+        const Text('Sua sessão de voluntário está ativa.'),
+        const SizedBox(height: 24),
+        OutlinedButton(
+          onPressed: viewModel.signOut,
+          child: const Text('Sair da conta'),
+        ),
+      ],
+    ),
+  );
+}

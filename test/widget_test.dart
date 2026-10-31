@@ -1,3 +1,4 @@
+import 'package:abrigo_dos_anjos/screens/editor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -63,15 +64,8 @@ void main() {
   });
   testWidgets('Formulário exige campos e salva um novo animal', (tester) async {
     final store = AnimalStore(SharedPreferencesAsync());
-    await tester.pumpWidget(AbrigoApp(store: store));
-    await tester.pumpAndSettle();
-    await tester.ensureVisible(find.text('Área do voluntário'));
-    await tester.tap(find.text('Área do voluntário'));
-    await tester.pumpAndSettle();
-    await tester.ensureVisible(find.text('Explorar demonstração'));
-    await tester.tap(find.text('Explorar demonstração'));
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('Adicionar animal'));
+    await store.load();
+    await tester.pumpWidget(MaterialApp(home: AnimalEditor(store: store)));
     await tester.pumpAndSettle();
     await tester.enterText(find.widgetWithText(TextFormField, 'Nome'), 'Atena');
     await tester.enterText(

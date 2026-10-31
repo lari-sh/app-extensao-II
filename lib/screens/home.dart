@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../data/animal_store.dart';
 import '../theme.dart';
 import 'catalog.dart';
-import 'dashboard.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key, required this.store});
@@ -83,53 +82,18 @@ class HomeScreen extends StatelessWidget {
   );
 }
 
+// Legacy entry retained only until T100; no administrative bypass remains.
 class VolunteerScreen extends StatelessWidget {
   const VolunteerScreen({super.key, required this.store});
   final AnimalStore store;
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(title: const Text('Área do voluntário')),
-    body: Center(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 440),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const Icon(Icons.volunteer_activism, color: brandRed, size: 64),
-              const SizedBox(height: 24),
-              Text(
-                'Cuidar também é organizar.',
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                'Explore o cadastro e o painel de manejo com dados de exemplo. '
-                'As alterações ficam somente neste dispositivo.',
-              ),
-              const SizedBox(height: 24),
-              const Card(
-                color: softBackground,
-                child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Text(
-                    'Modo de demonstração\n\nO login seguro ainda será conectado. '
-                    'Não cadastre informações reais ou prontuários nesta versão.',
-                  ),
-                ),
-              ),
-              const SizedBox(height: 24),
-              FilledButton(
-                onPressed: () => Navigator.of(context).push(
-                  MaterialPageRoute<void>(
-                    builder: (_) => DashboardScreen(store: store),
-                  ),
-                ),
-                child: const Text('Explorar demonstração'),
-              ),
-            ],
-          ),
+    body: const Center(
+      child: Padding(
+        padding: EdgeInsets.all(24),
+        child: Text(
+          'Acesso de demonstração desativado. Use o login autorizado na versão atual do aplicativo.',
         ),
       ),
     ),

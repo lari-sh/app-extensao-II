@@ -1,3 +1,9 @@
+import '../domain/repositories/auth_repository.dart';
+import '../ui/features/auth/view_models/session_view_model.dart';
+import '../ui/features/auth/view_models/login_view_model.dart';
+import '../ui/features/auth/views/protected_scope.dart';
+import '../ui/features/auth/views/login_screen.dart';
+import '../ui/features/auth/views/volunteer_access_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../domain/repositories/animals_repository.dart';
@@ -21,7 +27,11 @@ class AppRouter {
     required this.favorites,
     required this.photos,
     required this.adoption,
+    this.auth,
+    this.session,
   });
+  final AuthRepository? auth;
+  final SessionViewModel? session;
   final AnimalsRepository animals;
   final FavoritesRepository favorites;
   final PhotoRepository photos;
@@ -42,7 +52,38 @@ class AppRouter {
     switch (settings.name) {
       case '/':
         final vm = HomeViewModel();
-        return _page(settings, vm, HomeScreen(viewModel: vm));
+        return _page(settings, vm, HomeScreen(viewModel: vm, session: session));
+      case '/login':
+      case '/volunteer':
+        final access = session;
+        final repository = auth;
+        if (access == null || repository == null)
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => const Scaffold(
+              body: Center(child: Text('Serviço de acesso indisponível.')),
+            ),
+          );
+        final vm = LoginViewModel(
+          repository,
+          beginAttempt: access.beginSignIn,
+          isAttemptCurrent: access.isAttemptCurrent,
+          onAccess: access.completeSignIn,
+          onFailure: access.failSignIn,
+          onCancel: access.cancelSignIn,
+        );
+        if (settings.name == '/login')
+          return _page(settings, vm, LoginScreen(viewModel: vm));
+        access.revalidate();
+        return _page(
+          settings,
+          vm,
+          ProtectedScope(
+            session: access,
+            login: vm,
+            privateBuilder: () => VolunteerAccessScreen(viewModel: access),
+          ),
+        );
       case '/about':
         final vm = AboutViewModel();
         return _page(settings, vm, AboutScreen(viewModel: vm));

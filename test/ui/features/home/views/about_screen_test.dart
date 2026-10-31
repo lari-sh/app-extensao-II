@@ -6,6 +6,8 @@ void main() {
     final harness = PublicAppHarness();
     await tester.pumpWidget(harness.app());
     await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('Sobre o abrigo'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Sobre o abrigo'));
     await tester.pumpAndSettle();
     expect(find.textContaining('lares responsáveis'), findsOneWidget);

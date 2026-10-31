@@ -1,9 +1,11 @@
+import '../../auth/view_models/session_view_model.dart';
 import 'package:flutter/material.dart';
 import '../view_models/home_view_model.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key, required this.viewModel});
+  const HomeScreen({super.key, required this.viewModel, this.session});
   final HomeViewModel viewModel;
+  final SessionViewModel? session;
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(title: Text(viewModel.title)),
@@ -43,6 +45,23 @@ class HomeScreen extends StatelessWidget {
                   icon: const Icon(Icons.favorite_outline),
                   label: const Text('Favoritos'),
                 ),
+                const SizedBox(height: 12),
+                OutlinedButton.icon(
+                  onPressed: () =>
+                      Navigator.pushNamed(context, viewModel.openVolunteer()),
+                  icon: const Icon(Icons.volunteer_activism),
+                  label: const Text('Área do voluntário'),
+                ),
+                if (session != null)
+                  ListenableBuilder(
+                    listenable: session!,
+                    builder: (context, _) => session!.state.message == null
+                        ? const SizedBox.shrink()
+                        : Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            child: Text(session!.state.message!),
+                          ),
+                  ),
                 const SizedBox(height: 12),
                 TextButton(
                   onPressed: () =>
