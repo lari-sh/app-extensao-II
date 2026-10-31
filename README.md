@@ -72,3 +72,28 @@ Os valores de saúde exibidos são exemplos de interface, não orientações cl�
 5. Validar o projeto iOS no macOS.
 
 Referência visual: protótipo `abrigo-dos-anjos-figma.html`, consultado pelo MCP, com as cores atualizadas do logo. O canvas/editor do protótipo não faz parte do app final.
+
+## Spec Kit
+
+GitHub Spec Kit / Specify CLI 1.2.5 configurado para Codex, com scripts PowerShell.
+Os modelos e a configuração estão em `.specify/`; as 10 skills estão em `.agents/skills/`.
+A constituição instalada ainda é o modelo oficial; os princípios do projeto não foram definidos automaticamente.
+
+Fluxo no chat do Codex:
+
+1. `$speckit-constitution` — definir os princípios do projeto.
+2. `$speckit-specify` — descrever a próxima funcionalidade.
+3. `$speckit-plan` — preparar o plano técnico.
+4. `$speckit-tasks` — decompor o plano em tarefas.
+5. `$speckit-implement` — implementar as tarefas.
+
+Neste computador, o executável foi instalado em `C:\Users\Larissa\.local\bin\specify.exe`.
+Para verificar pelo PowerShell sem depender do PATH:
+
+```powershell
+& "$env:USERPROFILE\.local\bin\specify.exe" version
+& "$env:USERPROFILE\.local\bin\specify.exe" check
+```
+
+Instalação em outro computador, conforme o projeto oficial: `uv tool install specify-cli==1.2.5`.
+Os arquivos do Spec Kit já estão versionados; não é necessário reinicializar este repositório.
