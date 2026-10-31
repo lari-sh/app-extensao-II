@@ -322,3 +322,15 @@ APK normal de debug recompilado com sucesso após as jornadas, em
 build/app/outputs/flutter-apk/app-debug.apk, com URL 10.0.2.2 e chave pública local.
 Substitui o APK temporário de integration_test nesse caminho. Não contém senha,
 service_role ou assinatura de publicação; requer Supabase local em execução.
+
+
+## US4 — incremento de galeria (parcial)
+
+Seleção e recuperação isoladas em ImagePickerGalleryService, mediadas pelo
+PhotoRepositoryImpl. Sem nova dependência. Testes antes da implementação falharam
+por ausência do Service/argumento gallery; gate final: **8 testes PASS** (quatro
+novos + leitura/arquitetura), análise sem problemas. Cancelamento retorna null,
+permissão negada retorna failure, tamanho é consultado antes de ler arquivo e MIME
+preliminar vem da assinatura. A recuperação apenas devolve um candidato; não envia
+fotos automaticamente. A integração da tela e o endpoint ainda estão em andamento.
+T067/T068/T078/T079 serão encerradas somente com o conjunto de seus critérios.

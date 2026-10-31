@@ -8,18 +8,39 @@ import 'package:abrigo_dos_anjos/domain/models/photo_content.dart';
 import 'package:abrigo_dos_anjos/domain/models/photo_upload_state.dart';
 import '../../domain/repositories/photo_repository.dart';
 import '../services/photo_api_service.dart';
+import '../services/gallery_service.dart';
+import '../models/photo_dto.dart';
 
 class PhotoRepositoryImpl implements PhotoRepository {
-  PhotoRepositoryImpl(this.service);
+  PhotoRepositoryImpl(this.service, {this.gallery});
+  final GalleryService? gallery;
   final PhotoApiService service;
   int _active = 0;
   final _waiting = Queue<Completer<void>>();
+  PhotoCandidate? _candidate(GallerySelectionDto? dto) {
+    if (dto == null) return null;
+    if (dto.bytes.isEmpty ||
+        dto.bytes.length > 5242880 ||
+        !['image/png', 'image/jpeg'].contains(dto.mime)) {
+      throw const FormatException('Invalid selection');
+    }
+    return PhotoCandidate(bytes: List.unmodifiable(dto.bytes), mime: dto.mime);
+  }
+
   @override
-  Future<Result<PhotoCandidate?>> pickFromGallery() async =>
-      Failure(AppFailure(FailureCode.configuration));
+  Future<Result<PhotoCandidate?>> pickFromGallery() async {
+    final source = gallery;
+    if (source == null) return Failure(AppFailure(FailureCode.configuration));
+    return mapRepositoryResult(source.pickFromGallery, _candidate);
+  }
+
   @override
-  Future<Result<PhotoCandidate?>> recoverLostSelection() async =>
-      Failure(AppFailure(FailureCode.configuration));
+  Future<Result<PhotoCandidate?>> recoverLostSelection() async {
+    final source = gallery;
+    if (source == null) return Failure(AppFailure(FailureCode.configuration));
+    return mapRepositoryResult(source.recoverLostSelection, _candidate);
+  }
+
   @override
   Future<Result<PhotoContent>> readPrimary(
     String animalId,
@@ -61,8 +82,34 @@ class PhotoRepositoryImpl implements PhotoRepository {
     String animalId,
     PhotoCandidate candidate,
     String operationKey,
-  ) async => Failure(AppFailure(FailureCode.configuration));
+  ) async {
+    if (!isAnimalId(animalId) ||
+        candidate.bytes.isEmpty ||
+        candidate.bytes.length > 5242880 ||
+        !['image/png', 'image/jpeg'].contains(candidate.mime) ||
+        !RegExp(r'^[A-Za-z0-9_-]{32}$').hasMatch(operationKey)) {
+      return Failure(AppFailure(FailureCode.validation));
+    }
+    return mapRepositoryResult(
+      () => service.uploadPrimary(
+        animalId,
+        candidate.bytes,
+        candidate.mime,
+        operationKey,
+      ),
+      _job,
+    );
+  }
+
   @override
-  Future<Result<PhotoUploadState>> getUpload(String operationKey) async =>
-      Failure(AppFailure(FailureCode.configuration));
+  Future<Result<PhotoUploadState>> getUpload(String operationKey) =>
+      mapRepositoryResult(() => service.getUpload(operationKey), _job);
+  PhotoUploadState _job(PhotoJobDto dto) => PhotoUploadState(
+    jobId: dto.id,
+    status: switch (dto.state) {
+      'cleanup_needed' => PhotoJobStatus.cleanupNeeded,
+      _ => PhotoJobStatus.values.byName(dto.state),
+    },
+    photoId: dto.photoId,
+  );
 }
