@@ -216,16 +216,16 @@ constituição 2.0.0 em `.specify/memory/constitution.md`.
 
 ### Tests — obrigatórios, antes da implementação
 
-- [ ] T084 [P] [US5] Escrever testes de status/publicação/contadores em `test/data/services/supabase_animals_management_service_test.dart` usando consultas/RPCs controladas, páginas e totais globais, falhas PostgrestException/rede e autorização sem papel em cache. [FR-005, FR-010, FR-011, FR-012, CR-003]
+- [X] T084 [P] [US5] Escrever testes de status/publicação/contadores em `test/data/services/supabase_animals_management_service_test.dart` usando consultas/RPCs controladas, páginas e totais globais, falhas PostgrestException/rede e autorização sem papel em cache. [FR-005, FR-010, FR-011, FR-012, CR-003]
 - [ ] T085 [P] [US5] Escrever pgTAP em `supabase/tests/database/animal_management.test.sql` para set_animal_status/set_animal_publication/get_animal_status_counts, locks/idempotência, ausência de staff, is_published=false no cadastro novo e negação de publicação de adopted. [FR-005, FR-010, FR-011, FR-012, CR-005]
-- [ ] T086 [P] [US5] Escrever testes da implementação real em `test/data/repositories/animals_repository_management_test.dart`, cobrindo totais globais, paginação por coluna, falhas e confirmação dos estados retornados. [FR-010, FR-011, FR-012, FR-017, CR-003]
+- [X] T086 [P] [US5] Escrever testes da implementação real em `test/data/repositories/animals_repository_management_test.dart`, cobrindo totais globais, paginação por coluna, falhas e confirmação dos estados retornados. [FR-010, FR-011, FR-012, FR-017, CR-003]
 - [ ] T087 [P] [US5] Escrever testes de DashboardViewModel em `test/ui/features/animals/view_models/dashboard_view_model_test.dart`: Kanban/lista, capacidades, status/publicação, empty/loading/failure, 401/403 e total de mais de 50 animais, sem contagem baseada só na página carregada. [FR-005, FR-010, FR-011, FR-012, FR-016, CR-003]
 - [ ] T088 [P] [US5] Escrever Widget Test em `test/ui/features/animals/views/dashboard_screen_test.dart`: alternar Kanban/lista, menu de situação sem arraste obrigatório, publicar e confirmar contadores após sucesso. [FR-010, FR-011, FR-012, CR-004]
 ### Implementation and Validation
 
 - [X] T089 [US5] Criar `supabase/migrations/202610310008_animal_management.sql` com RPCs estreitas e contadores; estados 'available, treatment, quarantine ou adopted', publicação independente de status, negar nova publicação de adopted e reautorizar cada ação sem grants de DML direto. [FR-005, FR-010, FR-011]
-- [ ] T090 [US5] Completar status/publicação/contadores e consultas de colunas em `lib/data/services/supabase_animals_service.dart`, preservando operationKey e erros Result; Repository apenas coordena e mapeia, sem queries ou SDK direto. [FR-010, FR-011, FR-012, FR-016, CR-001]
-- [ ] T091 [US5] Completar setStatus/setPublication/getStatusCounts e paginação privada em `lib/data/repositories/animals_repository_impl.dart`, consumindo AnimalsService e usando operationKey, Result e estado confirmado sem sobrescrever foto ou notas por mudança de status. [FR-010, FR-011, FR-012, FR-016]
+- [X] T090 [US5] Completar status/publicação/contadores e consultas de colunas em `lib/data/services/supabase_animals_service.dart`, preservando operationKey e erros Result; Repository apenas coordena e mapeia, sem queries ou SDK direto. [FR-010, FR-011, FR-012, FR-016, CR-001]
+- [X] T091 [US5] Completar setStatus/setPublication/getStatusCounts e paginação privada em `lib/data/repositories/animals_repository_impl.dart`, consumindo AnimalsService e usando operationKey, Result e estado confirmado sem sobrescrever foto ou notas por mudança de status. [FR-010, FR-011, FR-012, FR-016]
 - [ ] T092 [US5] Implementar `lib/ui/features/animals/view_models/dashboard_view_model.dart` com colunas/lista, contadores globais, comandos confirmados, autorização pronta e revalidação/descartar estado privado em 401/403; nenhuma regra correspondente em build. [FR-005, FR-006, FR-010, FR-011, FR-012]
 - [ ] T093 [US5] Construir `lib/ui/features/animals/views/dashboard_screen.dart`, conectar edição/publicação/status no editor e `lib/app/app_router.dart`, preservando Kanban e alternativa por menu; aplicar somente estados/capacidades fornecidos pelos VMs. [FR-010, FR-011, FR-012, FR-019, CR-001]
 - [ ] T094 [US5] Validar duas sessões, catálogo após publicação/adoção/ocultação e negação de novo pedido de foto/detalhes; registrar totais e resultados negativos em `specs/001-align-app-constitution/validation.md`. [SC-006, FR-002, FR-015, CR-005, CR-007]
@@ -398,3 +398,11 @@ Nunca marcar tarefa de execução concluída somente por escrever o comando.
   funções e plataforma registrados separadamente. Nenhum gate é substituído por outro.
 - Próximo comando recomendado: `/speckit-analyze`; corrigir inconsistências antes
   de `/speckit-implement`. Esta lista não inicia a implementação.
+
+
+### Pendência de planejamento: calendário
+
+Solicitado em 2026-10-31: detalhar especificação/contrato de eventos, origem de datas,
+fuso e permissões, plano e testes antes da implementação da aba Calendário. Este
+item de descoberta não altera retroativamente os 108 itens da adequação; gerar
+as tarefas funcionais após definir o escopo do calendário.

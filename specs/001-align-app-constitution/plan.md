@@ -525,3 +525,13 @@ estado terminal antes da remoção e usa leases de 5 minutos com retry persisten
 Cron chama função interna a cada 15 minutos via pg_net; URL/segredo ficam no Vault,
 fora de migrations e builds. Sem Vault configurado, o agendamento não faz requisição;
 provisionamento e prova local devem constar nas evidências antes de marcar concluído.
+
+
+## Calendário — planejamento solicitado em 2026-10-31
+
+Preservar a aba Calendário do protótipo. Sua implementação fica em etapa posterior
+à US5: definir primeiro eventos reais, datas, fuso, permissões e relação com os
+cuidados clínicos; especificar ações e estados, testes unitários/Widget e migrations
+antes de implementar. Não gerar eventos ou datas a partir de textos livres de cuidados.
+Até essa etapa, a aba informa que está em planejamento, sem exibir calendário fictício.
+Não confundir esta inclusão no plano com funcionalidade entregue.

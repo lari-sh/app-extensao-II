@@ -529,3 +529,11 @@ Os controles Permanecer logado e Esqueci a senha continuam desabilitados.
   asset do logo e o alinhamento horizontal central; rolagem/reautenticação aprovadas.
   APK debug gerado e instalado; logo centralizado confirmado visualmente no login
   do emulador. HTML conferido com img image.png e CSS centralizado.
+
+### US5 — paginação e contratos de dados
+
+10 testes direcionados de Service/Repository PASS: paginação por situação e cursor,
+total global 75 com página de um registro, chave de operação preservada, respostas
+confirmadas, invalidação de IDs, erros 401/403/conflito/timeout e erros inesperados.
+T084/T086/T090/T091 concluídas. SQL e painel têm validações próprias ainda pendentes.
+Calendário adicionado ao planejamento por solicitação explícita, sem declarar entrega.

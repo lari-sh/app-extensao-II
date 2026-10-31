@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:async';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
@@ -58,6 +59,75 @@ void main() {
       );
       expect(requests.last.url.path, endsWith('/rpc/set_animal_publication'));
       expect(jsonDecode(requests.last.body)['p_is_published'], true);
+    },
+  );
+  test(
+    'column pagination forwards status and decoded cursor independently of global totals',
+    () async {
+      final requests = <http.Request>[];
+      final cursor = ['Luna 1', fixtureId(1)];
+      final client = SupabaseClient(
+        'https://example.test',
+        'public',
+        httpClient: MockClient((r) async {
+          requests.add(r);
+          return http.Response(
+            jsonEncode({
+              'items': [
+                {
+                  'animal': fixtureDto(1).values,
+                  'clinical_notes': 'Privado',
+                  'care_records': [],
+                },
+              ],
+              'total': 75,
+              'cursor': cursor,
+            }),
+            200,
+            request: r,
+            headers: {'content-type': 'application/json'},
+          );
+        }),
+      );
+      addTearDown(client.dispose);
+      final service = SupabaseAnimalsService(client);
+      final first =
+          await service.listManagement(status: 'available') as Success;
+      expect(first.value.total, 75);
+      expect(first.value.items.length, 1);
+      await service.listManagement(
+        status: 'available',
+        cursor: first.value.cursor,
+      );
+      expect(jsonDecode(requests.last.body), {
+        'p_status': 'available',
+        'p_cursor': cursor,
+      });
+      expect(
+        await service.listManagement(cursor: 'invalid cursor'),
+        isA<Failure>(),
+      );
+      expect(requests.length, 2);
+    },
+  );
+  test(
+    'network and timeout failures remain typed across management operations',
+    () async {
+      final client = SupabaseClient(
+        'https://example.test',
+        'public',
+        httpClient: MockClient((r) async => throw TimeoutException('private')),
+      );
+      addTearDown(client.dispose);
+      final service = SupabaseAnimalsService(client);
+      for (final result in [
+        await service.getStatusCounts(),
+        await service.listManagement(),
+        await service.setStatus(fixtureId(1), 'available', 'a' * 32),
+        await service.setPublication(fixtureId(1), true, 'a' * 32),
+      ]) {
+        expect((result as Failure).failure.code, FailureCode.timeout);
+      }
     },
   );
   for (final code in ['42501', '401', 'PT409']) {
