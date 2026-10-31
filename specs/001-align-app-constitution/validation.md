@@ -477,3 +477,19 @@ indisponível; o arquivo original foi preservado.
   testes de Service/Repository de manejo, publicados em incremento separado).
 - flutter analyze: sem problemas. APK debug gerado e instalado; entrada e vitrine
   inspecionadas visualmente no emulador. SQL novo de manejo ainda não aplicado.
+
+### Primeiro incremento de manejo — 2026-10-31
+
+Migração 008 aplicada exclusivamente no Supabase local. RPCs estreitas para situação,
+publicação e totais globais; reautorização, lock do animal, serialização por ator/chave,
+resultado idempotente e envelope compatível com get_write_operation. Nenhuma alteração
+em fotos ou notas por esses comandos. Publicação é independente da situação; publicação
+nova de adotado é negada. SDK segue somente no Service, mapeado pelo Repository.
+
+- 6 novos testes Flutter de Service/Repository aprovados, incluídos no total 134 PASS.
+- pgTAP: 93 PASS em seis arquivos (15 novos). Casos de conflito/replay, enum inválido,
+  notas preservadas, contadores, adopted e revogação. Não representam ainda toda a
+  matriz T084–T088/T094: concorrência entre sessões, paginação e UI seguem pendentes.
+- T089 concluída: 84/108. T090/T091 com implementação inicial, permanecem abertas
+  até completar sua matriz de testes. DashboardViewModel/tela ainda não implementados.
+- Sem hooks registrados (.specify/extensions.yml ausente); checklist 19/19 preservado.

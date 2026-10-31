@@ -109,8 +109,14 @@ class AnimalsRepositoryImpl implements AnimalsRepository {
   }
 
   @override
-  Future<Result<Map<AnimalStatus, int>>> getStatusCounts() async =>
-      Failure(AppFailure(FailureCode.configuration));
+  Future<Result<Map<AnimalStatus, int>>> getStatusCounts() =>
+      mapRepositoryResult(
+        service.getStatusCounts,
+        (counts) => Map.unmodifiable({
+          for (final status in AnimalStatus.values)
+            status: counts[status.name] ?? 0,
+        }),
+      );
   @override
   Future<Result<ManagedAnimal>> saveAnimal(
     AnimalDraft draft,
@@ -150,13 +156,27 @@ class AnimalsRepositoryImpl implements AnimalsRepository {
     String id,
     AnimalStatus status,
     String operationKey,
-  ) async => Failure(AppFailure(FailureCode.configuration));
+  ) async {
+    if (!isAnimalId(id)) return Failure(AppFailure(FailureCode.validation));
+    return mapRepositoryResult(
+      () => service.setStatus(id, status.name, operationKey),
+      _animal,
+    );
+  }
+
   @override
   Future<Result<PublicAnimal>> setPublication(
     String id,
     bool published,
     String operationKey,
-  ) async => Failure(AppFailure(FailureCode.configuration));
+  ) async {
+    if (!isAnimalId(id)) return Failure(AppFailure(FailureCode.validation));
+    return mapRepositoryResult(
+      () => service.setPublication(id, published, operationKey),
+      _animal,
+    );
+  }
+
   @override
   Future<Result<ManagedAnimal?>> getOperation(String operationKey) =>
       mapRepositoryResult(

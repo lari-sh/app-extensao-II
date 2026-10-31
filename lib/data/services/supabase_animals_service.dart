@@ -135,8 +135,12 @@ class SupabaseAnimalsService implements AnimalsService {
   );
 
   @override
-  Future<Result<Map<String, int>>> getStatusCounts() async =>
-      Failure(AppFailure(FailureCode.configuration));
+  Future<Result<Map<String, int>>> getStatusCounts() => serviceResult(() async {
+    final data = Map<String, dynamic>.from(
+      await client.rpc('get_animal_status_counts') as Map,
+    );
+    return data.map((key, value) => MapEntry(key, value as int));
+  });
   @override
   Future<Result<ManagedAnimalDto>> saveAnimal(
     Map<String, Object?> payload,
@@ -157,13 +161,41 @@ class SupabaseAnimalsService implements AnimalsService {
     String id,
     String status,
     String operationKey,
-  ) async => Failure(AppFailure(FailureCode.configuration));
+  ) => serviceResult(
+    () async => AnimalDto.fromJson(
+      Map<String, dynamic>.from(
+        await client.rpc(
+              'set_animal_status',
+              params: {
+                'p_animal_id': id,
+                'p_status': status,
+                'p_operation_key': operationKey,
+              },
+            )
+            as Map,
+      ),
+    ),
+  );
   @override
   Future<Result<AnimalDto>> setPublication(
     String id,
     bool published,
     String operationKey,
-  ) async => Failure(AppFailure(FailureCode.configuration));
+  ) => serviceResult(
+    () async => AnimalDto.fromJson(
+      Map<String, dynamic>.from(
+        await client.rpc(
+              'set_animal_publication',
+              params: {
+                'p_animal_id': id,
+                'p_is_published': published,
+                'p_operation_key': operationKey,
+              },
+            )
+            as Map,
+      ),
+    ),
+  );
   @override
   Future<Result<Map<String, dynamic>?>> getOperation(String operationKey) =>
       serviceResult(() async {
