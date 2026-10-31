@@ -667,3 +667,36 @@ T095: 18 testes direcionados PASS. Casos parametrizados network/timeout/configur
 notFound terminam busy/saving e preservam rascunho com mensagem portuguesa. Reconsulta
 manual faz somente um pedido por ação e não libera retry após falha; testes existentes
 cobrem chave original, alvo trocado, dispose e respostas tardias. Análise sem problemas.
+
+### US6 — gates e matriz de cobertura
+
+T099/T102: 164 Flutter PASS com cobertura, 99 pgTAP PASS e 12 Deno/HTTP PASS.
+Timeout de dados/Auth em ServiceResult (20 s); upload 60 s e consulta do job 20 s;
+reconciliação de fotos 1/2/4 s limitada. Editor consulta uma vez por ação explícita,
+sem loops de reenvio ou promessa de rollback por timeout. Falhas terminam indicadores,
+mensagens são portuguesas, configuração ausente falha fechada. Revogação descarta bytes.
+
+| Tela principal | Widget Test (test/ui/features) |
+|---|---|
+| Entrada | home/views/home_screen_test.dart |
+| Catálogo | animals/views/catalog_screen_test.dart |
+| Detalhes | animals/views/animal_detail_screen_test.dart |
+| Favoritos | favorites/views/favorites_screen_test.dart |
+| Sobre | home/views/about_screen_test.dart |
+| Login | auth/views/login_screen_test.dart |
+| Painel | animals/views/dashboard_screen_test.dart |
+| Formulário | animals/views/animal_editor_screen_test.dart e animal_management_controls_test.dart |
+
+| Regra | Evidência independente |
+|---|---|
+| Camadas/SDK somente Services e composição | test/architecture/layer_boundaries_test.dart (todo lib) |
+| Validação/rascunho/resultado tardio/reconciliação | animal_editor_view_model_test.dart e animals_repository_write_test.dart |
+| Filtros/paginação/totais globais | catalog_view_model_test.dart e animals_repository_management_test.dart; pgTAP animal_management |
+| Identidade/revogação/expiração | session_view_model_test.dart, app_router_test.dart; pgTAP session_access/authorization |
+| Bytes/foto/upload/recuperação | photo_upload_view_model_test.dart e photo_repository_upload_test.dart; Deno HTTP/WASM |
+| Favoritos/atualização sem demo | legacy_upgrade_test.dart e favorites_repository_impl_test.dart |
+| Políticas/isolamento/fotos ocultas | pgTAP e Deno/HTTP reais; não substituídos por mocks Flutter |
+
+Comando Deno validado inclui --allow-read=supabase/functions para permitir o WASM
+vendorizado; a task antiga com leitura restrita a tests precisa ser corrigida na
+esteira antes de usá-la como gate automatizado. iOS/produção continuam não validados.
