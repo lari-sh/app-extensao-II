@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shared_preferences_platform_interface/in_memory_shared_preferences_async.dart';
 import 'package:shared_preferences_platform_interface/shared_preferences_async_platform_interface.dart';
 import 'package:abrigo_dos_anjos/data/animal_store.dart';
-import 'package:abrigo_dos_anjos/main.dart';
+import 'package:abrigo_dos_anjos/legacy_demo.dart';
 import 'package:abrigo_dos_anjos/models/animal.dart';
 
 void main() {

@@ -146,3 +146,15 @@ Assinatura release, publicação em lojas e criação de equipe no app estão fo
 
 Este planejamento termina antes de tasks e implementação. Próximo comando:
 `/speckit-tasks`.
+
+## Versões fixadas durante T003
+
+- Supabase CLI: `npx --yes supabase@2.122.0 <comando>`.
+- Deno: `npx --yes deno@2.8.3 <comando>`.
+- Docker Desktop / Engine: 29.2.0 neste Windows; engine Linux iniciado para testes.
+- Não substituir versões por latest no CI. A CLI usa config.toml local; nenhum
+  projeto remoto foi vinculado. Autoinscrição global Auth desabilitada e seed vazio. O provider de e-mail fica
+  habilitado para login de contas previamente provisionadas: na CLI 2.122.0,
+  auth.email.enable_signup controla GOTRUE_EXTERNAL_EMAIL_ENABLED; o bloqueio
+  de novos cadastros é auth.enable_signup=false.
+- .env.example documenta apenas variáveis de servidor; nenhum segredo vai a dart-defines.
