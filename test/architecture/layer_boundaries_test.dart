@@ -79,19 +79,7 @@ void main() {
     );
   });
   test('migrated files respect the architectural boundaries', () {
-    final paths = [
-      'lib/app',
-      'lib/config',
-      'lib/utils',
-      'lib/domain',
-      'lib/ui',
-      'lib/data/models',
-      'lib/data/services',
-      'lib/data/repositories',
-    ];
-    // Legacy is characterized separately until T100 removes it. Final gate checks
-    // every remaining Dart file, so old paths cannot become a permanent bypass.
-    if (!File('lib/data/animal_store.dart').existsSync()) paths.add('lib');
+    final paths = ['lib'];
     final found = <String>{};
     final errors = <String>[];
     for (final root in paths) {

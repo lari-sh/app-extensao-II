@@ -22,8 +22,9 @@ Fluxo: **Área do voluntário → Animais do abrigo → Cadastrar animal**; toca
 animal abre sua edição. O painel de fotos já permite seleção, prévia e confirmação do envio; o backend
 local tem testes de upload/substituição/limpeza. A galeria, o envio, a substituição e a recuperação após recriar a Activity
 foram validados no emulador Android, com confirmação explícita antes do upload. Painel Kanban/lista, totais globais e comandos de situação/publicação já estão integrados. O editor de animais salvos também permite mudar situação e publicação, sem salvar o rascunho clínico pendente. A aba Calendário está em planejamento. O ambiente validado é local, sem deploy de produção.
-A demonstração antiga está isolada em `lib/legacy_demo.dart` para caracterização;
-não é a entrada do aplicativo e será removida conforme T100.
+A implementação antiga de demonstração foi removida. Dados de demo_animals_v1
+não são importados; apenas IDs válidos de favoritos são aproveitados, inclusive
+quando o animal não está disponível no catálogo.
 
 ## Executar
 

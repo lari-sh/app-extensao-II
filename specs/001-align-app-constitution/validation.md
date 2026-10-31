@@ -637,3 +637,17 @@ IDs inválidos removidos do conjunto consumido, IDs válidos indisponíveis pres
 rota /demo inexistente e nenhuma gravação remota ao abrir o app. Operações do plugin
 injetáveis no Service mantêm API externa na camada de dados; erros de leitura/escrita
 continuam sanitizados. T097 concluída antes da remoção dos arquivos antigos.
+
+### US6 — remoção da demonstração e dependência de teste
+
+T100/T101: removidos os dez arquivos legados explicitamente previstos, após busca
+por imports. Smoke test usa o app atual e catálogo real por contratos controlados.
+Scanner de arquitetura agora verifica todo lib, sem exclusão de diretórios antigos.
+shared_preferences_platform_interface saiu das dependências diretas e permanece
+somente transitivo do plugin, sem imports em testes. pub get atualizado.
+
+Composição permanece explícita em bootstrap→createPublicApplication; Services e
+Repositories registrados por Provider. Apenas FavoritesStorageService persiste IDs
+locais; falta de configuração não abre demo. 153 testes Flutter PASS com cobertura.
+Nenhuma mudança visual nesta remoção; evidências de atualização já aprovadas em T097.
+Análise completa após remoção: sem problemas (33 s). Sem alterações de esquema/backend.
