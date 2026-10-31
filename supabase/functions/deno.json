@@ -8,7 +8,7 @@
   },
   "tasks": {
     "check": "deno check --config deno.json dependencies.ts ../tests/fixtures/setup.ts",
-    "test": "deno test --allow-env=SUPABASE_URL,SUPABASE_ANON_KEY,SUPABASE_SERVICE_ROLE_KEY,FIXTURE_PASSWORD,PHOTO_CLEANUP_SECRET --allow-net=127.0.0.1:54321,localhost:54321 --allow-read tests/",
+    "test": "deno test --allow-env=SUPABASE_URL,SUPABASE_ANON_KEY,SUPABASE_SERVICE_ROLE_KEY,FIXTURE_PASSWORD,PHOTO_CLEANUP_SECRET --allow-net=127.0.0.1:54321,localhost:54321 --allow-read=.,../tests tests/",
     "fixtures": "deno run --config deno.json --allow-env=SUPABASE_URL,SUPABASE_SERVICE_ROLE_KEY,FIXTURE_PASSWORD,ALLOW_LOCAL_FIXTURES --allow-net=127.0.0.1:54321,localhost:54321 ../tests/fixtures/setup.ts"
   }
 }

@@ -714,3 +714,20 @@ Duas tentativas anteriores falharam no harness por rolagem/teclado e não contam
 aprovação; ajustado o teste para localizar controles fora da área carregada e fechar
 teclado. Driver concluiu cancelamento e as duas seleções. Não houve mudança de layout.
 US6 concluída: 102/108 tarefas. Restam gates de entrega, CI/CD e dependências de iOS.
+
+### CI/CD — implementação aguardando execução remota
+
+Workflow push developer, PR main/developer e acionamento manual; concorrência por
+branch e permissões somente leitura. Actions fixadas por SHA obtido das referências
+oficiais; Flutter 3.41.1, Java 21, Supabase CLI 2.122.0, Deno 2.8.3 e API Android 35.
+Jobs sequenciais: geração/format/analyze/unitários; Supabase/pgTAP/Deno/HTTP;
+emulador com jornada de manejo; artifact debug/validation.txt somente após todos.
+
+Backend é descartável, com chaves/senhas geradas no runner e mascaradas, sem Secrets
+de produção. Helpers recusam gerar .env.local fora de GitHub Actions; guard testado
+sem alterar o ambiente local. APK usa somente variáveis públicas DEV_SUPABASE_URL e
+DEV_SUPABASE_PUBLISHABLE_KEY; ausentes, abre configuração indisponível. Sem lojas,
+assinatura release, migração remota ou deploy implícitos. Artifact retido por sete dias.
+
+YAML verificado; Deno task exata da CI: 12 PASS após corrigir --allow-read para o WASM.
+T103 permanece aberta até observar o resultado do workflow no GitHub.

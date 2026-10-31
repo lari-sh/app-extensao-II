@@ -293,3 +293,20 @@ publicação são comandos separados e não salvam notas locais pendentes. Em re
 incerta, consulte o resultado antes do reenvio. A aba Calendário informa planejamento.
 Jornada Android: integration_test/management_dashboard_flow_test.dart, com o mesmo
 controlador loopback usado nas demais jornadas; executar limpeza das fixtures ao final.
+
+## CI/CD
+
+Push na developer e PR para main/developer executam Flutter, Supabase descartável e
+emulador Android; somente com os três gates aprovados é publicado o artifact
+abrigo-dos-anjos-android-debug (APK + registro da execução), retido por sete dias.
+A aba Actions do GitHub contém os logs. Os helpers em .github/scripts são exclusivos
+de runners descartáveis; não executar provisionamento CI no ambiente de uso manual.
+Nenhum segredo de produção é necessário. Para configurar o APK distribuído, definir
+as variáveis públicas do repositório DEV_SUPABASE_URL (HTTPS) e
+DEV_SUPABASE_PUBLISHABLE_KEY; sem elas, o APK apresenta serviço não configurado.
+O job Android usa somente configuração local temporária, sem embuti-la no artifact final.
+
+Referências das actions: [Supabase CLI](https://github.com/supabase/setup-cli),
+[Deno](https://github.com/denoland/setup-deno) e
+[Android Emulator Runner](https://github.com/ReactiveCircus/android-emulator-runner).
+Esteira criada não equivale a execução aprovada; conferir evidência em validation.md.
