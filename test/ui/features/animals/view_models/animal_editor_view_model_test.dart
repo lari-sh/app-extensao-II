@@ -232,4 +232,34 @@ void main() {
       expect(vm.state.draft.name, '');
     },
   );
+  for (final code in [
+    FailureCode.network,
+    FailureCode.timeout,
+    FailureCode.configuration,
+    FailureCode.notFound,
+  ]) {
+    test(
+      'editor failure matrix ${code.name} preserves draft and settles flags',
+      () async {
+        final repo = FakeAnimalsRepository()
+          ..handler = (_, _) async => Failure<ManagedAnimal>(AppFailure(code));
+        final vm = AnimalEditorViewModel(repo);
+        addTearDown(vm.dispose);
+        fill(vm);
+        vm.setNotes('Rascunho protegido');
+        await vm.save();
+        expect(vm.state.saving, false);
+        expect(vm.state.draft.clinicalNotes, 'Rascunho protegido');
+        expect(vm.state.message, isNotNull);
+        if (vm.state.uncertain) {
+          repo.handler = (_, _) async =>
+              Failure<ManagedAnimal?>(AppFailure(code));
+          final before = repo.calls.length;
+          await vm.reconcile();
+          expect(repo.calls.length, before + 1);
+          expect(vm.state.canRetryPending, false);
+        }
+      },
+    );
+  }
 }

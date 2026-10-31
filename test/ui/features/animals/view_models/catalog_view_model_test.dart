@@ -79,4 +79,30 @@ void main() {
       expect(vm.state.items, isEmpty);
     },
   );
+  for (final code in [
+    FailureCode.network,
+    FailureCode.timeout,
+    FailureCode.configuration,
+    FailureCode.notFound,
+  ]) {
+    test(
+      'catalog failure matrix ${code.name} ends loading with Portuguese message',
+      () async {
+        final animals = FakeAnimalsRepository()
+          ..handler = (_, _) async => Failure<AnimalPage>(AppFailure(code));
+        final favorites = FakeFavoritesRepository()
+          ..handler = (_, _) async => const Success(<String>{});
+        final vm = CatalogViewModel(animals, favorites, FakePhotoRepository());
+        addTearDown(vm.dispose);
+        await vm.load();
+        expect(vm.state.busy, false);
+        expect(vm.state.items, isEmpty);
+        expect(vm.state.message, isNotNull);
+        expect(
+          vm.state.message,
+          anyOf(contains('Não foi possível'), contains('disponível')),
+        );
+      },
+    );
+  }
 }

@@ -660,3 +660,10 @@ ser desmontada. 9 testes de upload PASS; conjunto com SessionVM/ProtectedScope:
 16 PASS. Login cancelado não aceita ticket tardio; regressões existentes distinguem
 expiração recuperável/montagem oculta, mesmo usuário, outro usuário, logout,
 revogação e cancelamento com descarte. Nenhuma alteração de layout.
+
+### US6 — matriz de falhas de catálogo/editor
+
+T095: 18 testes direcionados PASS. Casos parametrizados network/timeout/configuration/
+notFound terminam busy/saving e preservam rascunho com mensagem portuguesa. Reconsulta
+manual faz somente um pedido por ação e não libera retry após falha; testes existentes
+cobrem chave original, alvo trocado, dispose e respostas tardias. Análise sem problemas.
