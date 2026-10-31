@@ -36,7 +36,7 @@ void main() {
         find.byKey(const ValueKey('loginPassword')),
         secret,
       );
-      final button = find.widgetWithText(FilledButton, 'Entrar');
+      final button = find.widgetWithText(FilledButton, 'Entrar no painel');
       await tester.ensureVisible(button);
       await tester.tap(button);
       await tester.pumpAndSettle(const Duration(milliseconds: 300));

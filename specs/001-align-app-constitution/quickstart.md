@@ -273,3 +273,9 @@ Os drivers nativos foram validados em API 37 com sistema em inglês; os rótulos
 interface Flutter permanecem em português. Outro idioma do sistema pode exigir
 adequar os seletores do driver, sem alterar o aplicativo. Sem sessão verificável
 na recuperação, selecionar novamente a imagem após autenticar.
+
+Login administrativo: as opções “Permanecer logado” e “Esqueci a senha” reproduzem
+os controles do protótipo, mas ficam desabilitadas nesta versão, conforme decisão
+da responsável em 2026-10-31. A sessão mantém o comportamento já implementado pelo
+SDK. Esses controles não devem ser usados como evidência de recuperação de senha
+ou de política configurável de persistência; ambos os fluxos seguem pendentes.

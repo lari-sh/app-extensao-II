@@ -81,6 +81,16 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.byKey(const ValueKey('privateDraft')), findsNothing);
       expect(disposed, 0);
+      await tester.scrollUntilVisible(
+        find.text('Cancelar reautenticação'),
+        200,
+        scrollable: find
+            .descendant(
+              of: find.byType(ListView).last,
+              matching: find.byType(Scrollable),
+            )
+            .first,
+      );
       expect(find.text('Cancelar reautenticação'), findsOneWidget);
       final ticket = session.beginSignIn()!;
       session.completeSignIn(ticket, staff);
@@ -147,6 +157,16 @@ void main() {
         ),
       );
       await tester.pumpAndSettle();
+      await tester.scrollUntilVisible(
+        find.text('Cancelar reautenticação'),
+        200,
+        scrollable: find
+            .descendant(
+              of: find.byType(ListView).last,
+              matching: find.byType(Scrollable),
+            )
+            .first,
+      );
       await tester.tap(find.text('Cancelar reautenticação'));
       await tester.pumpAndSettle();
       expect(disposed, 2);

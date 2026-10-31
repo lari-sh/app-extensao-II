@@ -493,3 +493,23 @@ nova de adotado é negada. SDK segue somente no Service, mapeado pelo Repository
 - T089 concluída: 84/108. T090/T091 com implementação inicial, permanecem abertas
   até completar sua matriz de testes. DashboardViewModel/tela ainda não implementados.
 - Sem hooks registrados (.specify/extensions.yml ausente); checklist 19/19 preservado.
+
+### Login administrativo conforme protótipo — 2026-10-31
+
+- Referência: artboard screen-4 (Login Voluntário) do HTML original do Open Design.
+  Restaurados título Acesso restrito, ícone vetorial, descrição, rótulos externos,
+  campos com ícones, botão Entrar no painel, aviso de acesso e entrada de visitante.
+- Conforme autorização explícita, Permanecer logado e Esqueci a senha permanecem
+  visíveis e desabilitados, com aviso e tooltips de indisponibilidade. Não alteram
+  a persistência de sessão existente nem disparam e-mails. Implementação funcional
+  desses dois fluxos permanece pendente e não está declarada concluída.
+- LoginViewModel, validação e autorização preservados; nenhuma consulta SDK em View.
+  Cancelamento de reautenticação continua disponível por rolagem.
+- flutter test: 135 PASS; flutter analyze: sem problemas. Widget Test adicional
+  cobre largura 320, rolagem, controles inativos sem chamadas ao Repository e
+  navegação visitante. Regressões de reautenticação e login autorizado passaram.
+- Seletores dos drivers Android atualizados para o novo rótulo. As jornadas nativas
+  completas de upload/login não foram reexecutadas nesta alteração visual.
+- APK debug recompilado com configuração pública local e instalado com sucesso.
+  Android iniciou a MainActivity com Status ok / COLD. Entrada de voluntário
+  acionada e login inspecionado visualmente; deixado aberto para teste manual.

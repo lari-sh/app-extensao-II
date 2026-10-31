@@ -69,7 +69,7 @@ void main() {
         find.byKey(const ValueKey('loginPassword')),
         'secret',
       );
-      await tester.tap(find.text('Entrar'));
+      await tester.tap(find.text('Entrar no painel'));
       await tester.pumpAndSettle();
       expect(find.text('Acesso autorizado'), findsOneWidget);
       await tester.tap(find.text('Sair da conta'));

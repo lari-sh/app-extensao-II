@@ -133,7 +133,7 @@ try:
         ime = adb('shell', 'dumpsys', 'input_method')
         if 'mInputShown=true' in ime:
             adb('shell', 'input', 'keyevent', '4')
-        label('Entrar')
+        label('Entrar no painel')
     wait(lambda node: text(node, 'Acesso autorizado'))
     print('Normal APK authorized with runtime fixture credentials.', flush=True)
     label('Animais do abrigo')

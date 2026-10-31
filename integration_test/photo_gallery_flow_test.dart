@@ -47,8 +47,8 @@ void main() {
         find.byKey(const ValueKey('loginPassword')),
         password,
       );
-      await reveal(find.widgetWithText(FilledButton, 'Entrar'));
-      await tester.tap(find.widgetWithText(FilledButton, 'Entrar'));
+      await reveal(find.widgetWithText(FilledButton, 'Entrar no painel'));
+      await tester.tap(find.widgetWithText(FilledButton, 'Entrar no painel'));
       await tester.pumpAndSettle();
       expect(find.text('Acesso autorizado'), findsOneWidget);
       final client = Supabase.instance.client;
