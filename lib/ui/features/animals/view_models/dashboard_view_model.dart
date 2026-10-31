@@ -19,6 +19,7 @@ abstract class DashboardState with _$DashboardState {
     @Default(false) bool listMode,
     @Default(false) bool uncertain,
     @Default(false) bool canRetry,
+    ManagedAnimal? focusedAnimal,
     String? message,
   }) = _DashboardState;
 }
@@ -40,6 +41,44 @@ class DashboardViewModel extends ChangeNotifier {
   DashboardState get state => _state;
   bool _disposed = false;
   int _revision = 0;
+  String? _focusedId;
+  bool get canManageFocused => canManage && state.focusedAnimal != null;
+  AnimalStatus get focusedStatus =>
+      state.focusedAnimal?.animal.status ?? AnimalStatus.available;
+  bool get focusedPublished => state.focusedAnimal?.animal.isPublished ?? false;
+  bool get canPublishFocused =>
+      canManageFocused && canChangePublication(state.focusedAnimal!.animal);
+  Future<void> setFocusedStatus(AnimalStatus value) async {
+    if (canManageFocused) await setStatus(_focusedId!, value);
+  }
+
+  Future<void> setFocusedPublication(bool value) async {
+    if (canPublishFocused) await setPublication(_focusedId!, value);
+  }
+
+  Future<void> loadFocused(String? id) async {
+    _focusedId = id;
+    final revision = ++_revision;
+    if (id == null) {
+      _publish(const DashboardState());
+      return;
+    }
+    _publish(state.copyWith(loading: true, focusedAnimal: null, message: null));
+    try {
+      if (!await _authorize()) return;
+      final epoch = accessEpoch?.call();
+      final result = await repository.getManagement(id);
+      if (!_current(revision, epoch)) return;
+      if (result case Success<ManagedAnimal>(:final value)) {
+        _publish(state.copyWith(focusedAnimal: value));
+      } else {
+        await _failure((result as Failure<ManagedAnimal>).failure);
+      }
+    } finally {
+      if (revision == _revision) _publish(state.copyWith(loading: false));
+    }
+  }
+
   ({String id, AnimalStatus? status, bool? published, String key})? _pending;
   static const labels = {
     AnimalStatus.available: 'Disponíveis',
@@ -257,7 +296,11 @@ class DashboardViewModel extends ChangeNotifier {
       _publish(state.copyWith(busy: false));
     }
     if (confirmed) {
-      await load();
+      if (_focusedId != null) {
+        await loadFocused(_focusedId);
+      } else {
+        await load();
+      }
       if (!_disposed && isAuthorized()) {
         _publish(state.copyWith(message: 'Alteração confirmada.'));
       }
@@ -296,7 +339,13 @@ class DashboardViewModel extends ChangeNotifier {
     } finally {
       _publish(state.copyWith(busy: false));
     }
-    if (confirmed) await load();
+    if (confirmed) {
+      if (_focusedId != null) {
+        await loadFocused(_focusedId);
+      } else {
+        await load();
+      }
+    }
   }
 
   Future<void> retry() async {

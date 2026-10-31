@@ -602,3 +602,18 @@ Gate final: 148 testes Flutter PASS; analyze sem problemas; APK normal recompila
 após o APK de integração. T093 continua aberta até decisão sobre controles no editor:
 restaurar status do protótipo e eventual controle de publicação exige autorização
 visual para esse controle adicional. As ações já estão funcionais no painel.
+
+### US5 — integração autorizada no editor
+
+Após autorização explícita, restaurado Status de manejo clínico e acrescentado
+Publicado no catálogo ao editor e ao HTML original do Open Design (artboard screen-6).
+VM separado por rota gerencia o animal salvo e confirma as ações por RPC; o rascunho
+clínico do EditorVM não é submetido por essas ações. Controles bloqueados antes do
+primeiro salvamento; negação de nova publicação de adotado; consulta/reenvio seguro
+para resultado incerto. O cadastro continua privado por padrão.
+
+Dois Widget Tests cobrem comandos confirmados, notas locais preservadas sem saveAnimal
+e bloqueio do animal não salvo. Dois novos unitários cobrem foco, autorização, alvo
+substituído e adotado. T093 concluída; US5 implementada. Prova Android dos novos
+controles do editor será executada separadamente, sem confundir com a prova anterior.
+Gate do incremento: 152 testes Flutter PASS, análise sem problemas; Freezed regenerado.

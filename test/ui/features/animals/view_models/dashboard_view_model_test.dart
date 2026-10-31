@@ -218,4 +218,62 @@ void main() {
       expect(vm.state.canRetry, true);
     },
   );
+  test(
+    'focused management uses confirmed aggregate and denies new publication of adopted',
+    () async {
+      var animal = fixtureAnimal(1).copyWith(isPublished: false);
+      final repo = FakeAnimalsRepository()
+        ..handler = (method, args) async {
+          if (method == 'getManagement') {
+            return Success(
+              ManagedAnimal(animal: animal, clinicalNotes: 'Preservar'),
+            );
+          }
+          if (method == 'setStatus') {
+            animal = animal.copyWith(status: args[1] as AnimalStatus);
+          }
+          if (method == 'setPublication') {
+            animal = animal.copyWith(isPublished: args[1] as bool);
+          }
+          return Success(animal);
+        };
+      final vm = DashboardViewModel(repo, isAuthorized: () => true);
+      addTearDown(vm.dispose);
+      await vm.loadFocused(null);
+      await vm.setFocusedPublication(true);
+      expect(repo.calls, isEmpty);
+      await vm.loadFocused(fixtureId(1));
+      expect(vm.canManageFocused, true);
+      await vm.setFocusedStatus(AnimalStatus.adopted);
+      expect(vm.focusedStatus, AnimalStatus.adopted);
+      final before = repo.calls.length;
+      await vm.setFocusedPublication(true);
+      expect(repo.calls.length, before);
+      expect(vm.canPublishFocused, false);
+      expect(vm.state.focusedAnimal!.clinicalNotes, 'Preservar');
+    },
+  );
+  test(
+    'focused read denial and late read clear capabilities without leaking another target',
+    () async {
+      final repo = FakeAnimalsRepository()
+        ..handler = (_, _) async =>
+            Failure<ManagedAnimal>(AppFailure(FailureCode.forbidden));
+      final vm = DashboardViewModel(repo, isAuthorized: () => true);
+      addTearDown(vm.dispose);
+      await vm.loadFocused(fixtureId(1));
+      expect(vm.state.focusedAnimal, isNull);
+      expect(vm.canManageFocused, false);
+      expect(vm.state.loading, false);
+      final gate = Completer<Result<ManagedAnimal>>();
+      repo.handler = (_, _) => gate.future;
+      final first = vm.loadFocused(fixtureId(1));
+      await Future<void>.delayed(Duration.zero);
+      await vm.loadFocused(null);
+      gate.complete(Success(ManagedAnimal(animal: fixtureAnimal(1))));
+      await first;
+      expect(vm.state.focusedAnimal, isNull);
+      expect(vm.state.loading, false);
+    },
+  );
 }

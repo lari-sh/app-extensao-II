@@ -1,3 +1,5 @@
+import '../view_models/dashboard_view_model.dart';
+import 'animal_management_controls.dart';
 import '../../photos/view_models/photo_upload_view_model.dart';
 import '../../photos/views/photo_upload_panel.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +12,10 @@ class AnimalEditorScreen extends StatelessWidget {
     super.key,
     required this.viewModel,
     this.photoViewModel,
+    this.managementViewModel,
   });
   final PhotoUploadViewModel? photoViewModel;
+  final DashboardViewModel? managementViewModel;
   final AnimalEditorViewModel viewModel;
   @override
   Widget build(BuildContext context) => ListenableBuilder(
@@ -78,6 +82,8 @@ class AnimalEditorScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(24),
                   children: [
                     Text(viewModel.publicationMessage),
+                    if (managementViewModel != null)
+                      AnimalManagementControls(viewModel: managementViewModel!),
                     const SizedBox(height: 16),
                     field(
                       'animalName',

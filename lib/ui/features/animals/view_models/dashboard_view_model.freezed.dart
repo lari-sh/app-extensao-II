@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$DashboardState implements DiagnosticableTreeMixin {
 
- Map<AnimalStatus, ManagedAnimalPage> get pages; Map<AnimalStatus, int> get counts; bool get loading; bool get busy; bool get listMode; bool get uncertain; bool get canRetry; String? get message;
+ Map<AnimalStatus, ManagedAnimalPage> get pages; Map<AnimalStatus, int> get counts; bool get loading; bool get busy; bool get listMode; bool get uncertain; bool get canRetry; ManagedAnimal? get focusedAnimal; String? get message;
 /// Create a copy of DashboardState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,21 +26,21 @@ $DashboardStateCopyWith<DashboardState> get copyWith => _$DashboardStateCopyWith
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'DashboardState'))
-    ..add(DiagnosticsProperty('pages', pages))..add(DiagnosticsProperty('counts', counts))..add(DiagnosticsProperty('loading', loading))..add(DiagnosticsProperty('busy', busy))..add(DiagnosticsProperty('listMode', listMode))..add(DiagnosticsProperty('uncertain', uncertain))..add(DiagnosticsProperty('canRetry', canRetry))..add(DiagnosticsProperty('message', message));
+    ..add(DiagnosticsProperty('pages', pages))..add(DiagnosticsProperty('counts', counts))..add(DiagnosticsProperty('loading', loading))..add(DiagnosticsProperty('busy', busy))..add(DiagnosticsProperty('listMode', listMode))..add(DiagnosticsProperty('uncertain', uncertain))..add(DiagnosticsProperty('canRetry', canRetry))..add(DiagnosticsProperty('focusedAnimal', focusedAnimal))..add(DiagnosticsProperty('message', message));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DashboardState&&const DeepCollectionEquality().equals(other.pages, pages)&&const DeepCollectionEquality().equals(other.counts, counts)&&(identical(other.loading, loading) || other.loading == loading)&&(identical(other.busy, busy) || other.busy == busy)&&(identical(other.listMode, listMode) || other.listMode == listMode)&&(identical(other.uncertain, uncertain) || other.uncertain == uncertain)&&(identical(other.canRetry, canRetry) || other.canRetry == canRetry)&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DashboardState&&const DeepCollectionEquality().equals(other.pages, pages)&&const DeepCollectionEquality().equals(other.counts, counts)&&(identical(other.loading, loading) || other.loading == loading)&&(identical(other.busy, busy) || other.busy == busy)&&(identical(other.listMode, listMode) || other.listMode == listMode)&&(identical(other.uncertain, uncertain) || other.uncertain == uncertain)&&(identical(other.canRetry, canRetry) || other.canRetry == canRetry)&&(identical(other.focusedAnimal, focusedAnimal) || other.focusedAnimal == focusedAnimal)&&(identical(other.message, message) || other.message == message));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(pages),const DeepCollectionEquality().hash(counts),loading,busy,listMode,uncertain,canRetry,message);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(pages),const DeepCollectionEquality().hash(counts),loading,busy,listMode,uncertain,canRetry,focusedAnimal,message);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'DashboardState(pages: $pages, counts: $counts, loading: $loading, busy: $busy, listMode: $listMode, uncertain: $uncertain, canRetry: $canRetry, message: $message)';
+  return 'DashboardState(pages: $pages, counts: $counts, loading: $loading, busy: $busy, listMode: $listMode, uncertain: $uncertain, canRetry: $canRetry, focusedAnimal: $focusedAnimal, message: $message)';
 }
 
 
@@ -51,11 +51,11 @@ abstract mixin class $DashboardStateCopyWith<$Res>  {
   factory $DashboardStateCopyWith(DashboardState value, $Res Function(DashboardState) _then) = _$DashboardStateCopyWithImpl;
 @useResult
 $Res call({
- Map<AnimalStatus, ManagedAnimalPage> pages, Map<AnimalStatus, int> counts, bool loading, bool busy, bool listMode, bool uncertain, bool canRetry, String? message
+ Map<AnimalStatus, ManagedAnimalPage> pages, Map<AnimalStatus, int> counts, bool loading, bool busy, bool listMode, bool uncertain, bool canRetry, ManagedAnimal? focusedAnimal, String? message
 });
 
 
-
+$ManagedAnimalCopyWith<$Res>? get focusedAnimal;
 
 }
 /// @nodoc
@@ -68,7 +68,7 @@ class _$DashboardStateCopyWithImpl<$Res>
 
 /// Create a copy of DashboardState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? pages = null,Object? counts = null,Object? loading = null,Object? busy = null,Object? listMode = null,Object? uncertain = null,Object? canRetry = null,Object? message = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? pages = null,Object? counts = null,Object? loading = null,Object? busy = null,Object? listMode = null,Object? uncertain = null,Object? canRetry = null,Object? focusedAnimal = freezed,Object? message = freezed,}) {
   return _then(_self.copyWith(
 pages: null == pages ? _self.pages : pages // ignore: cast_nullable_to_non_nullable
 as Map<AnimalStatus, ManagedAnimalPage>,counts: null == counts ? _self.counts : counts // ignore: cast_nullable_to_non_nullable
@@ -77,11 +77,24 @@ as bool,busy: null == busy ? _self.busy : busy // ignore: cast_nullable_to_non_n
 as bool,listMode: null == listMode ? _self.listMode : listMode // ignore: cast_nullable_to_non_nullable
 as bool,uncertain: null == uncertain ? _self.uncertain : uncertain // ignore: cast_nullable_to_non_nullable
 as bool,canRetry: null == canRetry ? _self.canRetry : canRetry // ignore: cast_nullable_to_non_nullable
-as bool,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as bool,focusedAnimal: freezed == focusedAnimal ? _self.focusedAnimal : focusedAnimal // ignore: cast_nullable_to_non_nullable
+as ManagedAnimal?,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
+/// Create a copy of DashboardState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ManagedAnimalCopyWith<$Res>? get focusedAnimal {
+    if (_self.focusedAnimal == null) {
+    return null;
+  }
 
+  return $ManagedAnimalCopyWith<$Res>(_self.focusedAnimal!, (value) {
+    return _then(_self.copyWith(focusedAnimal: value));
+  });
+}
 }
 
 
@@ -163,10 +176,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Map<AnimalStatus, ManagedAnimalPage> pages,  Map<AnimalStatus, int> counts,  bool loading,  bool busy,  bool listMode,  bool uncertain,  bool canRetry,  String? message)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Map<AnimalStatus, ManagedAnimalPage> pages,  Map<AnimalStatus, int> counts,  bool loading,  bool busy,  bool listMode,  bool uncertain,  bool canRetry,  ManagedAnimal? focusedAnimal,  String? message)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DashboardState() when $default != null:
-return $default(_that.pages,_that.counts,_that.loading,_that.busy,_that.listMode,_that.uncertain,_that.canRetry,_that.message);case _:
+return $default(_that.pages,_that.counts,_that.loading,_that.busy,_that.listMode,_that.uncertain,_that.canRetry,_that.focusedAnimal,_that.message);case _:
   return orElse();
 
 }
@@ -184,10 +197,10 @@ return $default(_that.pages,_that.counts,_that.loading,_that.busy,_that.listMode
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Map<AnimalStatus, ManagedAnimalPage> pages,  Map<AnimalStatus, int> counts,  bool loading,  bool busy,  bool listMode,  bool uncertain,  bool canRetry,  String? message)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Map<AnimalStatus, ManagedAnimalPage> pages,  Map<AnimalStatus, int> counts,  bool loading,  bool busy,  bool listMode,  bool uncertain,  bool canRetry,  ManagedAnimal? focusedAnimal,  String? message)  $default,) {final _that = this;
 switch (_that) {
 case _DashboardState():
-return $default(_that.pages,_that.counts,_that.loading,_that.busy,_that.listMode,_that.uncertain,_that.canRetry,_that.message);case _:
+return $default(_that.pages,_that.counts,_that.loading,_that.busy,_that.listMode,_that.uncertain,_that.canRetry,_that.focusedAnimal,_that.message);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -204,10 +217,10 @@ return $default(_that.pages,_that.counts,_that.loading,_that.busy,_that.listMode
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Map<AnimalStatus, ManagedAnimalPage> pages,  Map<AnimalStatus, int> counts,  bool loading,  bool busy,  bool listMode,  bool uncertain,  bool canRetry,  String? message)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Map<AnimalStatus, ManagedAnimalPage> pages,  Map<AnimalStatus, int> counts,  bool loading,  bool busy,  bool listMode,  bool uncertain,  bool canRetry,  ManagedAnimal? focusedAnimal,  String? message)?  $default,) {final _that = this;
 switch (_that) {
 case _DashboardState() when $default != null:
-return $default(_that.pages,_that.counts,_that.loading,_that.busy,_that.listMode,_that.uncertain,_that.canRetry,_that.message);case _:
+return $default(_that.pages,_that.counts,_that.loading,_that.busy,_that.listMode,_that.uncertain,_that.canRetry,_that.focusedAnimal,_that.message);case _:
   return null;
 
 }
@@ -219,7 +232,7 @@ return $default(_that.pages,_that.counts,_that.loading,_that.busy,_that.listMode
 
 
 class _DashboardState with DiagnosticableTreeMixin implements DashboardState {
-  const _DashboardState({final  Map<AnimalStatus, ManagedAnimalPage> pages = const {}, final  Map<AnimalStatus, int> counts = const {}, this.loading = false, this.busy = false, this.listMode = false, this.uncertain = false, this.canRetry = false, this.message}): _pages = pages,_counts = counts;
+  const _DashboardState({final  Map<AnimalStatus, ManagedAnimalPage> pages = const {}, final  Map<AnimalStatus, int> counts = const {}, this.loading = false, this.busy = false, this.listMode = false, this.uncertain = false, this.canRetry = false, this.focusedAnimal, this.message}): _pages = pages,_counts = counts;
   
 
  final  Map<AnimalStatus, ManagedAnimalPage> _pages;
@@ -241,6 +254,7 @@ class _DashboardState with DiagnosticableTreeMixin implements DashboardState {
 @override@JsonKey() final  bool listMode;
 @override@JsonKey() final  bool uncertain;
 @override@JsonKey() final  bool canRetry;
+@override final  ManagedAnimal? focusedAnimal;
 @override final  String? message;
 
 /// Create a copy of DashboardState
@@ -254,21 +268,21 @@ _$DashboardStateCopyWith<_DashboardState> get copyWith => __$DashboardStateCopyW
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'DashboardState'))
-    ..add(DiagnosticsProperty('pages', pages))..add(DiagnosticsProperty('counts', counts))..add(DiagnosticsProperty('loading', loading))..add(DiagnosticsProperty('busy', busy))..add(DiagnosticsProperty('listMode', listMode))..add(DiagnosticsProperty('uncertain', uncertain))..add(DiagnosticsProperty('canRetry', canRetry))..add(DiagnosticsProperty('message', message));
+    ..add(DiagnosticsProperty('pages', pages))..add(DiagnosticsProperty('counts', counts))..add(DiagnosticsProperty('loading', loading))..add(DiagnosticsProperty('busy', busy))..add(DiagnosticsProperty('listMode', listMode))..add(DiagnosticsProperty('uncertain', uncertain))..add(DiagnosticsProperty('canRetry', canRetry))..add(DiagnosticsProperty('focusedAnimal', focusedAnimal))..add(DiagnosticsProperty('message', message));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DashboardState&&const DeepCollectionEquality().equals(other._pages, _pages)&&const DeepCollectionEquality().equals(other._counts, _counts)&&(identical(other.loading, loading) || other.loading == loading)&&(identical(other.busy, busy) || other.busy == busy)&&(identical(other.listMode, listMode) || other.listMode == listMode)&&(identical(other.uncertain, uncertain) || other.uncertain == uncertain)&&(identical(other.canRetry, canRetry) || other.canRetry == canRetry)&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DashboardState&&const DeepCollectionEquality().equals(other._pages, _pages)&&const DeepCollectionEquality().equals(other._counts, _counts)&&(identical(other.loading, loading) || other.loading == loading)&&(identical(other.busy, busy) || other.busy == busy)&&(identical(other.listMode, listMode) || other.listMode == listMode)&&(identical(other.uncertain, uncertain) || other.uncertain == uncertain)&&(identical(other.canRetry, canRetry) || other.canRetry == canRetry)&&(identical(other.focusedAnimal, focusedAnimal) || other.focusedAnimal == focusedAnimal)&&(identical(other.message, message) || other.message == message));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_pages),const DeepCollectionEquality().hash(_counts),loading,busy,listMode,uncertain,canRetry,message);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_pages),const DeepCollectionEquality().hash(_counts),loading,busy,listMode,uncertain,canRetry,focusedAnimal,message);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'DashboardState(pages: $pages, counts: $counts, loading: $loading, busy: $busy, listMode: $listMode, uncertain: $uncertain, canRetry: $canRetry, message: $message)';
+  return 'DashboardState(pages: $pages, counts: $counts, loading: $loading, busy: $busy, listMode: $listMode, uncertain: $uncertain, canRetry: $canRetry, focusedAnimal: $focusedAnimal, message: $message)';
 }
 
 
@@ -279,11 +293,11 @@ abstract mixin class _$DashboardStateCopyWith<$Res> implements $DashboardStateCo
   factory _$DashboardStateCopyWith(_DashboardState value, $Res Function(_DashboardState) _then) = __$DashboardStateCopyWithImpl;
 @override @useResult
 $Res call({
- Map<AnimalStatus, ManagedAnimalPage> pages, Map<AnimalStatus, int> counts, bool loading, bool busy, bool listMode, bool uncertain, bool canRetry, String? message
+ Map<AnimalStatus, ManagedAnimalPage> pages, Map<AnimalStatus, int> counts, bool loading, bool busy, bool listMode, bool uncertain, bool canRetry, ManagedAnimal? focusedAnimal, String? message
 });
 
 
-
+@override $ManagedAnimalCopyWith<$Res>? get focusedAnimal;
 
 }
 /// @nodoc
@@ -296,7 +310,7 @@ class __$DashboardStateCopyWithImpl<$Res>
 
 /// Create a copy of DashboardState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? pages = null,Object? counts = null,Object? loading = null,Object? busy = null,Object? listMode = null,Object? uncertain = null,Object? canRetry = null,Object? message = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? pages = null,Object? counts = null,Object? loading = null,Object? busy = null,Object? listMode = null,Object? uncertain = null,Object? canRetry = null,Object? focusedAnimal = freezed,Object? message = freezed,}) {
   return _then(_DashboardState(
 pages: null == pages ? _self._pages : pages // ignore: cast_nullable_to_non_nullable
 as Map<AnimalStatus, ManagedAnimalPage>,counts: null == counts ? _self._counts : counts // ignore: cast_nullable_to_non_nullable
@@ -305,12 +319,25 @@ as bool,busy: null == busy ? _self.busy : busy // ignore: cast_nullable_to_non_n
 as bool,listMode: null == listMode ? _self.listMode : listMode // ignore: cast_nullable_to_non_nullable
 as bool,uncertain: null == uncertain ? _self.uncertain : uncertain // ignore: cast_nullable_to_non_nullable
 as bool,canRetry: null == canRetry ? _self.canRetry : canRetry // ignore: cast_nullable_to_non_nullable
-as bool,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as bool,focusedAnimal: freezed == focusedAnimal ? _self.focusedAnimal : focusedAnimal // ignore: cast_nullable_to_non_nullable
+as ManagedAnimal?,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
 
+/// Create a copy of DashboardState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ManagedAnimalCopyWith<$Res>? get focusedAnimal {
+    if (_self.focusedAnimal == null) {
+    return null;
+  }
 
+  return $ManagedAnimalCopyWith<$Res>(_self.focusedAnimal!, (value) {
+    return _then(_self.copyWith(focusedAnimal: value));
+  });
+}
 }
 
 // dart format on

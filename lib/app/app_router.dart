@@ -106,6 +106,12 @@ class AppRouter {
                   accessEpoch: () => access.state.accessEpoch,
                   authorize: authorize,
                 );
+                final management = DashboardViewModel(
+                  animals,
+                  isAuthorized: () => access.state.canAccessPrivate,
+                  accessEpoch: () => access.state.accessEpoch,
+                  authorize: authorize,
+                );
                 late final PhotoUploadViewModel photo;
                 var formVersion = -1;
                 String? boundId;
@@ -115,6 +121,7 @@ class AppRouter {
                     formVersion = editor.state.formVersion;
                     boundId = editor.state.draft.id;
                     photo.bindAnimal(boundId, editor.state.primaryPhotoId);
+                    management.loadFocused(boundId);
                   }
                 }
 
@@ -142,6 +149,10 @@ class AppRouter {
                 });
                 return MultiProvider(
                   providers: [
+                    ChangeNotifierProvider<DashboardViewModel>(
+                      create: (_) => management,
+                      lazy: false,
+                    ),
                     ChangeNotifierProvider<AnimalEditorViewModel>(
                       create: (_) => editor,
                       lazy: false,
@@ -154,6 +165,7 @@ class AppRouter {
                   child: AnimalEditorScreen(
                     viewModel: editor,
                     photoViewModel: photo,
+                    managementViewModel: management,
                   ),
                 );
               }
