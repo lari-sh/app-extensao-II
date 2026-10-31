@@ -629,3 +629,11 @@ problemas, jornada HTTP com duas sessões e duas execuções Android aprovadas.
 94/108 tarefas concluídas, US1–US5 implementadas. Restam US6 (regressões e legado)
 e entrega/CI/CD/plataformas. Calendário tem planejamento pendente de detalhamento;
 não integra as 108 tarefas originais nem está implementado. Sem produção/iOS validados.
+
+### US6 — proteção da atualização do legado
+
+4 testes direcionados PASS: somente favorites_v1 lido/escrito; demo_animals_v1 ignorado,
+IDs inválidos removidos do conjunto consumido, IDs válidos indisponíveis preservados,
+rota /demo inexistente e nenhuma gravação remota ao abrir o app. Operações do plugin
+injetáveis no Service mantêm API externa na camada de dados; erros de leitura/escrita
+continuam sanitizados. T097 concluída antes da remoção dos arquivos antigos.
