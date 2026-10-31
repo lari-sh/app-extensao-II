@@ -16,6 +16,21 @@ $ARGUMENTS
 
 You **MUST** consider the user input before proceeding (if not empty).
 
+## Project rule: preserve the established design
+
+For Abrigo dos Anjos, the approved prototype and established screen layouts are
+binding visual references. Architecture work does not authorize a redesign.
+Before changing an established layout (including hierarchy, positioning, spacing,
+colors, typography, components, labels or navigation), inform the user of the exact
+proposed change, explain why it is needed and its impact, and request explicit
+authorization. Wait for approval before implementing that deviation. Silence is
+not approval. Continue independent work that preserves the approved design.
+A user request to restore fidelity to the prototype authorizes that restoration;
+it does not authorize unrelated visual changes. Inspect the relevant prototype
+screen before implementation and compare the result visually, alongside tests.
+If a prototype control lacks backend support, explain the gap and ask how to
+handle it instead of silently removing, replacing or presenting it as functional.
+
 ## Scope Guard
 
 This command's own work is limited to updating the project constitution itself. Dependent templates
