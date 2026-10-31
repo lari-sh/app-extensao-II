@@ -100,7 +100,8 @@ Baseline: `52c03e2abe04a447af3617c23013da5927427616`.
 ## US1 — Catálogo público T024–T043 [FR-001, FR-002, FR-003, FR-015, FR-018]
 
 Base do incremento: 31326e20a453bc55f69476ec9dfdb189ec2fd13d. Código e evidências
-foram validados antes do commit de entrega; registrar seu SHA abaixo após criação.
+validados antes da entrega. Commit de código: 5497313713a951772dbe30a345c53b3010b7cacc;
+a presente atualização documental vincula os resultados a esse código.
 
 - Services reais com SDK e MockClient: filtros combinados antes de paginar,
   busca literal, ordem ascendente name/id, páginas de 50 e total global, cursor,
