@@ -651,3 +651,12 @@ Repositories registrados por Provider. Apenas FavoritesStorageService persiste I
 locais; falta de configuração não abre demo. 153 testes Flutter PASS com cobertura.
 Nenhuma mudança visual nesta remoção; evidências de atualização já aprovadas em T097.
 Análise completa após remoção: sem problemas (33 s). Sem alterações de esquema/backend.
+
+### US6 — negação do upload e resposta tardia de login
+
+T096: novos testes RED mostraram candidato retido após 401/403 de upload. Corrigido
+para descartar bytes, foto, alvo e chave antes de revalidar, sem depender da View
+ser desmontada. 9 testes de upload PASS; conjunto com SessionVM/ProtectedScope:
+16 PASS. Login cancelado não aceita ticket tardio; regressões existentes distinguem
+expiração recuperável/montagem oculta, mesmo usuário, outro usuário, logout,
+revogação e cancelamento com descarte. Nenhuma alteração de layout.

@@ -285,6 +285,9 @@ class PhotoUploadViewModel extends ChangeNotifier {
             FailureCode.forbidden,
             FailureCode.unauthenticated,
           ].contains(failure.code)) {
+            ++_revision;
+            _operation.complete();
+            _publish(PhotoPanelState(message: _message(failure)));
             await _authorize?.call();
           }
           return;

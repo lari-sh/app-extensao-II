@@ -142,4 +142,23 @@ void main() {
       expect(vm.state.canAccessPrivate, isFalse);
     },
   );
+  test(
+    'cancelled login ticket cannot restore private scope from a late response',
+    () async {
+      final repo = FakeAuthRepository()
+        ..handler = (method, _) async => method == 'signOut'
+            ? const Success(Unit.value)
+            : const Success(SessionAccess());
+      addTearDown(repo.dispose);
+      final vm = SessionViewModel(repo);
+      addTearDown(vm.dispose);
+      await vm.start();
+      final ticket = vm.beginSignIn()!;
+      vm.cancelSignIn(ticket);
+      await settleEvents();
+      expect(vm.completeSignIn(ticket, staff), false);
+      expect(vm.state.canAccessPrivate, false);
+      expect(vm.state.retainPrivate, false);
+    },
+  );
 }

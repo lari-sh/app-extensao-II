@@ -217,4 +217,34 @@ void main() {
       expect(vm.state.image, isNull);
     },
   );
+  for (final code in [FailureCode.forbidden, FailureCode.unauthenticated]) {
+    test(
+      'upload ${code.name} discards candidate bytes before reauthorization',
+      () async {
+        var checks = 0;
+        final repo = FakePhotoRepository()
+          ..handler = (method, _) async => method == 'pickFromGallery'
+              ? const Success<PhotoCandidate?>(candidate)
+              : Failure<PhotoUploadState>(AppFailure(code));
+        final vm = PhotoUploadViewModel(
+          repo,
+          isAuthorized: () => true,
+          authorize: () async {
+            checks++;
+            return true;
+          },
+        );
+        addTearDown(vm.dispose);
+        await vm.bindAnimal(fixtureId(1), null);
+        await vm.pick();
+        expect(vm.state.candidate, isNotNull);
+        await vm.upload();
+        expect(vm.state.candidate, isNull);
+        expect(vm.state.image, isNull);
+        expect(vm.state.photoId, isNull);
+        expect(vm.state.busy, false);
+        expect(checks, greaterThan(1));
+      },
+    );
+  }
 }
