@@ -218,3 +218,27 @@ concluída enquanto T054 e a revisão dos critérios não forem encerradas.
 
 README, quickstart e contrato backend atualizados para separar recursos existentes,
 cenários futuros e resultados executados. Nenhuma credencial incluída nos documentos.
+
+
+## US2 — jornada Android aprovada [SC-002]
+
+Em 2026-10-31, branch developer, incremento após 3483890:
+`flutter test integration_test/authentication_flow_test.dart -d emulator-5554`
+com URL local 10.0.2.2, chave pública e ALLOW_LOCAL_HTTP=true: **PASS, 1 jornada**.
+Contas fictícias: senha inválida negada, não staff negado, staff autorizado,
+restauração após recriar árvore/composição usando a sessão persistida pelo SDK,
+logout com pilha privada removida e membership revogada negada em resume.
+A restauração deste teste não equivale a reboot físico ou reinício do processo.
+A revogação de sessão, separadamente, possui prova HTTP/SQL da etapa anterior.
+
+O controlador `supabase/tests/fixtures/android_auth_control.py` fornece senha de
+fixture somente em execução via loopback, restrito ao Supabase local descartável;
+chaves administrativas ficam no host. Não há senha nem service_role no APK.
+Restaura a membership no finally do teste e ao encerrar normalmente o controlador.
+Não executar em homologação/produção nem deixá-lo ativo após os testes.
+
+A primeira tentativa perdeu conexão com o emulador e não concluiu. Após reiniciar
+o emulador, a execução completa passou em 22 s (mais build/instalação). A asserção
+de Voltar verifica canPop=false na raiz após logout, sem fechar a Activity.
+T044–T054 encerradas: **54/108 tarefas concluídas**. CI/CD detalhada na T103,
+conforme solicitação; execução mantida para a fase de entrega após as histórias.

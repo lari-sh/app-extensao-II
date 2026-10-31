@@ -205,6 +205,11 @@ Se a saída remota falhar, a interface bloqueia o acesso local imediatamente e
 informa que é necessário entrar novamente para tentar encerrar a sessão remota.
 Não considerar essa falha uma confirmação de revogação no servidor.
 
-As telas e os testes automatizados de autenticação existem; a jornada real de
-login/saída no Android ainda precisa de evidência antes de concluir T054.
+A jornada real de login/saída Android passou (T054; ver validation.md).
+Para repetir, iniciar `python supabase/tests/fixtures/android_auth_control.py` no
+host com fixtures prontas; executar `flutter test
+integration_test/authentication_flow_test.dart -d emulator-5554` com os defines
+públicos locais. Ao terminar, encerrar o controlador (Ctrl+C). O teste também cobre
+não staff, restauração da composição e revogação de membership; não executar em
+paralelo com outros testes que alterem as mesmas contas. Não é teste de reboot.
 Senhas de fixtures são fornecidas somente em execução, nunca em dart-defines.
