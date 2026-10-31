@@ -53,3 +53,7 @@ node_modules/
 .tools/
 Thumbs.db
 *.tmp
+
+# Native Android fixture drivers
+__pycache__/
+*.py[cod]

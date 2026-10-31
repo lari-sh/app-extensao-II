@@ -4,6 +4,11 @@ Start alongside flutter test, after pushing synthetic PNG fixtures into Pictures
 Never interacts with Flutter forms or reads/logs credentials.
 """
 import argparse
+import binascii
+from pathlib import Path
+import struct
+import sys
+import zlib
 import re
 import subprocess
 import time
@@ -11,6 +16,7 @@ import xml.etree.ElementTree as ET
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--adb', required=True)
+parser.add_argument('--prepare-media', action='store_true')
 parser.add_argument('--serial', default='emulator-5554')
 parser.add_argument('--skip-cancel', action='store_true')
 parser.add_argument('--start-step', type=int, default=0)
@@ -20,6 +26,25 @@ args = parser.parse_args()
 
 def adb(*commands):
     return subprocess.check_output([args.adb, '-s', args.serial, *commands], stderr=subprocess.DEVNULL)
+
+
+if args.prepare_media:
+    directory=Path('.tools/android').resolve()
+    assert directory.is_relative_to(Path.cwd().resolve()), 'Fixture directory must stay in workspace'
+    directory.mkdir(parents=True,exist_ok=True)
+    adb('shell','mkdir','-p','/sdcard/Pictures')
+    for name,color in [('one',(190,40,40,255)),('two',(110,65,30,255))]:
+        def chunk(kind,data):
+            return struct.pack('>I',len(data))+kind+data+struct.pack('>I',binascii.crc32(kind+data)&0xffffffff)
+        raw=b''.join(b'\x00'+bytes(color)*128 for _ in range(96))
+        png=b'\x89PNG\r\n\x1a\n'+chunk(b'IHDR',struct.pack('>IIBBBBB',128,96,8,6,0,0,0))+chunk(b'IDAT',zlib.compress(raw))+chunk(b'IEND',b'')
+        target=directory/('abrigo_photo_'+name+'.png')
+        target.write_bytes(png)
+        destination='/sdcard/Pictures/'+target.name
+        adb('push',str(target),destination)
+        adb('shell','am','broadcast','-a','android.intent.action.MEDIA_SCANNER_SCAN_FILE','-d','file://'+destination)
+    print('Two synthetic native photo fixtures prepared.',flush=True)
+    sys.exit(0)
 
 
 def snapshot():

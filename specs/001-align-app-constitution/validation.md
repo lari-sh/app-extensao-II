@@ -408,3 +408,38 @@ A primeira execução completou em 3m55s, incluindo a adaptação do driver em e
 isto não é benchmark do tempo de upload. Testes Flutter seguem 125 PASS, análise
 sem problemas. As fixtures criadas e seus objetos foram removidos pelo helper local.
 Recuperação após destruição de Activity/processo será validada em prova separada.
+
+
+## US4 — recuperação nativa e fechamento [SC-004, FR-013–FR-016]
+
+2026-10-31, developer, APK normal e Supabase local:
+- `native_photo_recovery_test.py`: **PASS**. Opção nativa Don't keep activities
+  acionada pela interface de desenvolvedor; Browse abre DocumentsUI e permite a
+  destruição da Activity. Nova inicialização de Flutter/Supabase comprovada pelo
+  log; sessão restaurada, foto recuperada oferecida somente no editor autorizado.
+  Antes da confirmação explícita do animal/envio, primary_photo_id permaneceu null
+  e não havia job de upload. Após confirmar, foto persistiu e UI mostrou sucesso.
+- As tentativas com SIGKILL e alteração somente do valor via settings não
+  demonstraram o ciclo suportado de destruição/recuperação e NÃO foram contadas
+  como sucesso. Na prova aprovada, opções são restauradas após confirmar o envio;
+  sair novamente para Settings antes disso destruiria também o candidato em memória.
+- Fixture exclusiva e objetos removidos ao final. Configuração temporária de
+  destruição de Activities restaurada. O driver usa senha apenas em execução,
+  não imprime credenciais e não modifica código de produção para simular recuperação.
+- Gate final: **128 testes Flutter PASS**, com cobertura; análise sem problemas;
+  Freezed regenerado com hashes preservados. **78 SQL PASS / 12 Deno/HTTP PASS**.
+  Novos unitários comprovam descarte de bytes/resultado tardio em logout,
+  identidade desconhecida e revogação durante confirmação de recuperação.
+- Cron local observado com execução succeeded e invocação interna HTTP 200.
+  URL/segredo no Vault local. Sem deploy remoto, assinatura release ou validação iOS.
+
+T067–T083 encerradas: **83/108 tarefas concluídas (US1–US4)**. Próximas: manejo e
+publicação (US5), regressão/remoção do legado (US6), CI/CD T103 e entrega/plataformas.
+O checklist de requisitos permanece 19/19 e não foi alterado. Sem hooks pós-execução:
+.specify/extensions.yml ausente. CI/CD continua planejada, não declarada executada.
+
+
+Na restauração das opções do sistema, o ADB ficou indisponível. A conexão ADB do emulador está em restauração para uso manual; o APK normal
+permanece gerado, com as provas acima concluídas. Isso ocorreu após as provas aprovadas e não substitui
+as evidências de Activity recriada. Imagens sintéticas podem ser preparadas novamente
+com --prepare-media; dados de servidor/fixtures não foram resetados.

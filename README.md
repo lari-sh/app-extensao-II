@@ -20,8 +20,8 @@ Trabalho na branch `developer`; integração à `main` por Pull Request.
 
 Fluxo: **Área do voluntário → Animais do abrigo → Cadastrar animal**; tocar em um
 animal abre sua edição. O painel de fotos já permite seleção, prévia e confirmação do envio; o backend
-local tem testes de upload/substituição/limpeza. A jornada nativa completa de fotos
-ainda está em validação. Publicação e painel por situação seguem nas próximas histórias. O ambiente validado é local, sem deploy de produção.
+local tem testes de upload/substituição/limpeza. A galeria, o envio, a substituição e a recuperação após recriar a Activity
+foram validados no emulador Android, com confirmação explícita antes do upload. Publicação e painel por situação seguem nas próximas histórias. O ambiente validado é local, sem deploy de produção.
 A demonstração antiga está isolada em `lib/legacy_demo.dart` para caracterização;
 não é a entrada do aplicativo e será removida conforme T100.
 

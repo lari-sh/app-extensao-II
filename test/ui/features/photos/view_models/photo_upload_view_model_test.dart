@@ -12,6 +12,38 @@ import '../../../../support/public_fixtures.dart';
 const candidate = PhotoCandidate(bytes: [255, 216, 255], mime: 'image/jpeg');
 void main() {
   test(
+    'logout and disposal during upload cannot publish late confirmation or bytes',
+    () async {
+      var allowed = true;
+      final pending = Completer<Result<PhotoUploadState>>();
+      final repo = FakePhotoRepository()
+        ..handler = (method, _) async => method == 'pickFromGallery'
+            ? const Success<PhotoCandidate?>(candidate)
+            : pending.future;
+      final vm = PhotoUploadViewModel(repo, isAuthorized: () => allowed);
+      await vm.bindAnimal(fixtureId(1), null);
+      await vm.pick();
+      final work = vm.upload();
+      await Future<void>.delayed(Duration.zero);
+      allowed = false;
+      vm.dispose();
+      pending.complete(
+        const Success(
+          PhotoUploadState(
+            jobId: 'job',
+            status: PhotoJobStatus.attached,
+            photoId: 'late',
+          ),
+        ),
+      );
+      await work;
+      expect(vm.state.candidate, isNull);
+      expect(vm.state.image, isNull);
+      expect(vm.state.photoId, isNull);
+      expect(repo.calls.where((c) => c.method == 'readPrimary'), isEmpty);
+    },
+  );
+  test(
     'later pending job cancels retry eligibility from an earlier missing lookup',
     () async {
       var reads = 0;

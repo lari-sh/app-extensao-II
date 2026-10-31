@@ -245,4 +245,30 @@ selecionar JPEG/PNG até 5 MB, conferir a prévia e confirmar o envio. Cancelar 
 seleção deve preservar formulário/foto. Substituição só confirma após resposta
 remota. Em resultado incerto, usar Verificar envio da foto antes de escolher outra.
 A recuperação após interrupção exige confirmar novamente o animal; não há envio
-automático. A evidência nativa completa permanece pendente em validation.md.
+automático. As evidências nativas de galeria e recuperação estão em validation.md.
+
+
+### Repetir os testes nativos de fotos
+
+Preparar as duas imagens sintéticas: `python integration_test/native_picker_driver.py
+--adb <caminho-adb> --serial emulator-5554 --prepare-media`. Iniciar o controlador
+local de fixtures e executar `flutter test integration_test/photo_gallery_flow_test.dart
+-d emulator-5554` com os defines públicos. Em outro terminal executar o driver sem
+--prepare-media; ele cancela uma seleção e escolhe as duas imagens no seletor nativo.
+Remover fixtures/objetos com android_auth_control.py --cleanup-editor ao terminar.
+
+Para recuperação, instalar o APK normal configurado e executar
+`python integration_test/native_photo_recovery_test.py --adb <caminho-adb>
+--serial emulator-5554`. O teste ativa a opção nativa Don't keep activities na tela
+de desenvolvedor, usa Browse para selecionar a fixture e exige nova inicialização
+do SDK. Verifica sessão restaurada, zero jobs antes de confirmar o animal/envio e
+persistência após confirmação. Restaura opções e remove a fixture no finally.
+Usa somente Supabase local com ALLOW_LOCAL_FIXTURES=true e credenciais fictícias em
+execução; não embutir senha/chave administrativa no APK. Encerrar o controlador
+após os testes. iOS continua pendente de Mac/Xcode e dispositivo próprio.
+
+
+Os drivers nativos foram validados em API 37 com sistema em inglês; os rótulos da
+interface Flutter permanecem em português. Outro idioma do sistema pode exigir
+adequar os seletores do driver, sem alterar o aplicativo. Sem sessão verificável
+na recuperação, selecionar novamente a imagem após autenticar.
