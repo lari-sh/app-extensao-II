@@ -257,7 +257,8 @@ local de fixtures e executar `flutter test integration_test/photo_gallery_flow_t
 --prepare-media; ele cancela uma seleção e escolhe as duas imagens no seletor nativo.
 Remover fixtures/objetos com android_auth_control.py --cleanup-editor ao terminar.
 
-Para recuperação, instalar o APK normal configurado e executar
+Para recuperação, usar um emulador com opções de desenvolvedor já habilitadas
+e ADB conectado (o driver não altera a chave geral), instalar o APK normal configurado e executar
 `python integration_test/native_photo_recovery_test.py --adb <caminho-adb>
 --serial emulator-5554`. O teste ativa a opção nativa Don't keep activities na tela
 de desenvolvedor, usa Browse para selecionar a fixture e exige nova inicialização

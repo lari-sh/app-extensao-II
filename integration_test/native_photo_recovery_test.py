@@ -76,7 +76,6 @@ def scroll_to(value):
 
 
 def set_activity_destruction(enabled):
-    adb('shell','settings','put','global','development_settings_enabled','1')
     adb('shell','am','start','-a','android.settings.APPLICATION_DEVELOPMENT_SETTINGS')
     for _ in range(45):
         root=snapshot()
@@ -111,6 +110,7 @@ def cleanup(target=animal_id):
 
 previous_finish = adb('shell','settings','get','global','always_finish_activities')
 previous_developer = adb('shell','settings','get','global','development_settings_enabled')
+assert previous_developer == '1', 'Enable developer options in the test emulator before running; the driver must not toggle the master ADB setting.'
 try:
     for stale in api('/rest/v1/animals?name=eq.000%20Valida%C3%A7%C3%A3o%20Android%20recupera%C3%A7%C3%A3o&select=id'):
         cleanup(stale['id'])
@@ -186,7 +186,3 @@ finally:
         cleanup()
         adb('shell','am','force-stop',package)
         adb('shell','am','start','-n',package+'/.MainActivity')
-        if previous_developer=='null':
-            adb('shell','settings','delete','global','development_settings_enabled')
-        else:
-            adb('shell','settings','put','global','development_settings_enabled',previous_developer)
