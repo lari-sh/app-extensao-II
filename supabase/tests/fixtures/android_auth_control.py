@@ -39,7 +39,7 @@ def membership(active):
 
 
 def cleanup_editor_animals():
-    query = urlencode({'select': 'id', 'name': 'like.Validação Android *'})
+    query = urlencode({'select': 'id', 'or': '(name.like.Validação Android *,name.like.000 Validação Android painel *)'})
     rows = api('/rest/v1/animals?' + query)
     for row in rows:
         animal_id = row['id']

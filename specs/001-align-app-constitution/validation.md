@@ -588,3 +588,17 @@ e provas do backend/Android; nenhuma validação iOS ou deploy de produção imp
 Regressão adicional: mudança de época de acesso enquanto uma escrita está em voo
 não libera uma nova chave/operação. O comando permanece incerto até consulta explícita,
 sem confirmar resposta tardia. 8 testes de DashboardViewModel PASS.
+
+### US5 — jornada Android do painel
+
+`flutter test integration_test/management_dashboard_flow_test.dart -d emulator-5554`
+com configuração pública local: PASS (27 s de jornada, além do build). Login real,
+Kanban→lista, mudança de situação por menu, publicação, confirmação em outra sessão
+e leitura pública do animal. Nota interna preservada. Senha obtida somente em runtime
+do controlador loopback; não compilada na build. Fixture exclusiva removida e
+controlador parado. Limpador ampliado somente para o prefixo desta nova jornada.
+
+Gate final: 148 testes Flutter PASS; analyze sem problemas; APK normal recompilado
+após o APK de integração. T093 continua aberta até decisão sobre controles no editor:
+restaurar status do protótipo e eventual controle de publicação exige autorização
+visual para esse controle adicional. As ações já estão funcionais no painel.
