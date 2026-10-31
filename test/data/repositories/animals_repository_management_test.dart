@@ -44,10 +44,12 @@ void main() {
       final service = FakeAnimalsService()
         ..handler = (method, args) async {
           final failure = AppFailure(FailureCode.forbidden);
-          if (method == 'getStatusCounts')
+          if (method == 'getStatusCounts') {
             return Failure<Map<String, int>>(failure);
-          if (method == 'listManagement')
+          }
+          if (method == 'listManagement') {
             return Failure<ManagedAnimalsPageDto>(failure);
+          }
           return Failure<AnimalDto>(failure);
         };
       final repo = AnimalsRepositoryImpl(service);
