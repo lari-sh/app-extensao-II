@@ -24,7 +24,7 @@ void main() {
     await tester.pumpAndSettle();
 
     Future<void> openLogin() async {
-      final button = find.text('Área do voluntário').last;
+      final button = find.text('Acesso Voluntário / Funcionário').last;
       await tester.ensureVisible(button);
       await tester.tap(button);
       await tester.pumpAndSettle();
@@ -62,7 +62,9 @@ void main() {
     await tester.tap(find.text('Sair da conta'));
     await tester.pumpAndSettle();
     expect(
-      Navigator.of(tester.element(find.text('Quero adotar'))).canPop(),
+      Navigator.of(
+        tester.element(find.text('Quero Adotar (Visitante)')),
+      ).canPop(),
       isFalse,
     );
     expect(find.text('Acesso autorizado'), findsNothing);

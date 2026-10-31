@@ -8,7 +8,7 @@ void main() {
     final harness = PublicAppHarness();
     await tester.pumpWidget(harness.app());
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Quero adotar'));
+    await tester.tap(find.text('Quero Adotar (Visitante)'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Luna 1'));
     await tester.pumpAndSettle();

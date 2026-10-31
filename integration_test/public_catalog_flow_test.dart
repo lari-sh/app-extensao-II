@@ -44,7 +44,7 @@ void main() {
       await preferences.setStringList('favorites_v1', []);
       await tester.pumpWidget(await bootstrapApplication());
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Quero adotar'));
+      await tester.tap(find.text('Quero Adotar (Visitante)'));
       await tester.pumpAndSettle(const Duration(milliseconds: 200));
       expect(find.text('58 animais encontrados'), findsOneWidget);
       await reveal(tester, find.text('Carregar mais'));

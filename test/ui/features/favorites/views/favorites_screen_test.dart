@@ -6,6 +6,8 @@ void main() {
     final harness = PublicAppHarness();
     await tester.pumpWidget(harness.app());
     await tester.pumpAndSettle();
+    await tester.tap(find.text('Quero Adotar (Visitante)'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Favoritos'));
     await tester.pumpAndSettle();
     expect(find.text('Luna 1'), findsOneWidget);

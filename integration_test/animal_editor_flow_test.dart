@@ -27,7 +27,7 @@ void main() {
       try {
         await tester.pumpWidget(await bootstrapApplication());
         await tester.pumpAndSettle();
-        final entry = find.text('Área do voluntário');
+        final entry = find.text('Acesso Voluntário / Funcionário');
         await tester.ensureVisible(entry);
         await tester.tap(entry);
         await tester.pumpAndSettle();

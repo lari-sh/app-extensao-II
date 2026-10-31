@@ -6,14 +6,15 @@ void main() {
     final harness = PublicAppHarness();
     await tester.pumpWidget(harness.app());
     await tester.pumpAndSettle();
-    await tester.ensureVisible(find.text('Sobre o abrigo'));
+    await tester.tap(find.text('Quero Adotar (Visitante)'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Sobre o abrigo'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Sobre'));
     await tester.pumpAndSettle();
     expect(find.textContaining('lares responsáveis'), findsOneWidget);
     await tester.tap(find.text('Voltar ao início'));
     await tester.pumpAndSettle();
-    expect(find.text('Quero adotar'), findsOneWidget);
+    expect(find.text('Quero Adotar (Visitante)'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 }

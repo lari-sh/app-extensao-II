@@ -36,8 +36,8 @@ void main() {
 
       await tester.pumpWidget(await bootstrapApplication());
       await tester.pumpAndSettle();
-      await reveal(find.text('Área do voluntário'));
-      await tester.tap(find.text('Área do voluntário'));
+      await reveal(find.text('Acesso Voluntário / Funcionário'));
+      await tester.tap(find.text('Acesso Voluntário / Funcionário'));
       await tester.pumpAndSettle();
       await tester.enterText(
         find.byKey(const ValueKey('loginEmail')),

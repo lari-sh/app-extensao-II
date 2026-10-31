@@ -453,3 +453,27 @@ com --prepare-media; dados de servidor/fixtures não foram resetados.
   `topResumedActivity`. App aberto para teste manual, sem credenciais na build.
 - As evidências anteriores de 128 testes Flutter, 78 SQL e 12 Deno/HTTP permanecem
   referentes à etapa de fotos. Esta recuperação não representa validação de US5.
+
+### Correção visual das telas públicas 01 e 02 — 2026-10-31
+
+Referência lida diretamente do arquivo local do Open Design
+`abrigo-dos-anjos-figma.html`, artboards screen-1 e screen-2. A URL local estava
+indisponível; o arquivo original foi preservado.
+
+- Entrada: composição central, logo 220 px, textos institucionais do protótipo,
+  escolha de acesso e dois botões com rótulos originais. Removidos o cabeçalho,
+  chamada editorial e atalhos adicionais que divergiam da referência.
+- Catálogo: título Vitrine / Conheça nossos anjos, filtros compactos em linha,
+  cartões em duas colunas e navegação Buscar/Favoritos/Início/Sobre.
+- Navegação e filtros seguem os ViewModels e dados reais. Nenhum animal fictício
+  foi inserido para reproduzir os cartões do protótipo. As imagens de teste já
+  existentes no backend local continuam sendo exibidas como dados desse ambiente.
+- Diferença ainda aberta: filtro Idade não implementado no contrato de consulta;
+  busca permanece por nome e filtros de espécie/porte/sexo. Tipografia usa serif
+  do sistema, sem incorporar uma fonte externa. Não declarar equivalência pixel a pixel.
+- Widget Tests verificam composição da entrada, grade, títulos, navegação e busca
+  combinada. Rótulos dos drivers de integração atualizados; jornadas nativas completas
+  não reexecutadas nesta correção. Suíte no workspace: 134 PASS (inclui seis novos
+  testes de Service/Repository de manejo, publicados em incremento separado).
+- flutter analyze: sem problemas. APK debug gerado e instalado; entrada e vitrine
+  inspecionadas visualmente no emulador. SQL novo de manejo ainda não aplicado.

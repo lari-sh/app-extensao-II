@@ -8,67 +8,104 @@ class HomeScreen extends StatelessWidget {
   final SessionViewModel? session;
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: Text(viewModel.title)),
     body: SafeArea(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
-        child: Center(
+      child: LayoutBuilder(
+        builder: (context, constraints) => SingleChildScrollView(
           child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 600),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Image.asset('assets/images/logo.png', height: 135),
-                const SizedBox(height: 28),
-                Text(
-                  viewModel.headline,
-                  style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+            constraints: BoxConstraints(minHeight: constraints.maxHeight),
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 28,
+                  vertical: 32,
                 ),
-                const SizedBox(height: 16),
-                Text(
-                  viewModel.body,
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-                const SizedBox(height: 28),
-                FilledButton.icon(
-                  onPressed: () =>
-                      Navigator.pushNamed(context, viewModel.openCatalog()),
-                  icon: const Icon(Icons.pets),
-                  label: const Text('Quero adotar'),
-                ),
-                const SizedBox(height: 12),
-                OutlinedButton.icon(
-                  onPressed: () =>
-                      Navigator.pushNamed(context, viewModel.openFavorites()),
-                  icon: const Icon(Icons.favorite_outline),
-                  label: const Text('Favoritos'),
-                ),
-                const SizedBox(height: 12),
-                OutlinedButton.icon(
-                  onPressed: () =>
-                      Navigator.pushNamed(context, viewModel.openVolunteer()),
-                  icon: const Icon(Icons.volunteer_activism),
-                  label: const Text('Área do voluntário'),
-                ),
-                if (session != null)
-                  ListenableBuilder(
-                    listenable: session!,
-                    builder: (context, _) => session!.state.message == null
-                        ? const SizedBox.shrink()
-                        : Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 12),
-                            child: Text(session!.state.message!),
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 440),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Image.asset(
+                        'assets/images/logo.png',
+                        width: 220,
+                        height: 220,
+                        semanticLabel: 'Abrigo dos Anjos — Humanizando Vidas',
+                      ),
+                      const SizedBox(height: 26),
+                      Text(
+                        viewModel.history,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(fontSize: 13, height: 1.4),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        viewModel.rescues,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(fontSize: 13, height: 1.4),
+                      ),
+                      const SizedBox(height: 26),
+                      const Text(
+                        'Escolha como entrar:',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(height: 26),
+                      SizedBox(
+                        width: double.infinity,
+                        child: FilledButton(
+                          onPressed: () => Navigator.pushNamed(
+                            context,
+                            viewModel.openCatalog(),
                           ),
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Flexible(child: Text('Quero Adotar (Visitante)')),
+                              Icon(Icons.arrow_forward, size: 18),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      SizedBox(
+                        width: double.infinity,
+                        child: OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            foregroundColor: const Color(0xFF45180D),
+                            side: const BorderSide(color: Color(0xFFEADDD7)),
+                          ),
+                          onPressed: () => Navigator.pushNamed(
+                            context,
+                            viewModel.openVolunteer(),
+                          ),
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Flexible(
+                                child: Text('Acesso Voluntário / Funcionário'),
+                              ),
+                              Icon(Icons.lock_outline, size: 18),
+                            ],
+                          ),
+                        ),
+                      ),
+                      if (session != null)
+                        ListenableBuilder(
+                          listenable: session!,
+                          builder: (context, _) =>
+                              session!.state.message == null
+                              ? const SizedBox.shrink()
+                              : Padding(
+                                  padding: const EdgeInsets.only(top: 12),
+                                  child: Text(session!.state.message!),
+                                ),
+                        ),
+                    ],
                   ),
-                const SizedBox(height: 12),
-                TextButton(
-                  onPressed: () =>
-                      Navigator.pushNamed(context, viewModel.openAbout()),
-                  child: const Text('Sobre o abrigo'),
                 ),
-              ],
+              ),
             ),
           ),
         ),

@@ -21,99 +21,219 @@ class _CatalogScreenState extends State<CatalogScreen> {
 
   Widget _filter(
     String key,
+    String title,
     String value,
     Map<String, String> options,
     ValueChanged<String> change,
-  ) => DropdownButton<String>(
-    key: ValueKey(key),
-    value: value,
-    isExpanded: true,
-    items: options.entries
-        .map(
-          (item) => DropdownMenuItem(value: item.key, child: Text(item.value)),
-        )
-        .toList(),
-    onChanged: (value) {
-      if (value != null) change(value);
-    },
+  ) => Container(
+    padding: const EdgeInsets.symmetric(horizontal: 12),
+    decoration: BoxDecoration(
+      color: value.isEmpty ? Colors.white : const Color(0xFFF6EAE5),
+      borderRadius: BorderRadius.circular(24),
+      border: Border.all(color: const Color(0xFFEADDD7)),
+    ),
+    child: DropdownButtonHideUnderline(
+      child: DropdownButton<String>(
+        key: ValueKey(key),
+        value: value,
+        isDense: true,
+        borderRadius: BorderRadius.circular(14),
+        selectedItemBuilder: (context) => options.entries
+            .map(
+              (entry) => Text(
+                entry.key.isEmpty ? title : entry.value,
+                style: const TextStyle(fontSize: 12),
+              ),
+            )
+            .toList(),
+        items: options.entries
+            .map(
+              (entry) =>
+                  DropdownMenuItem(value: entry.key, child: Text(entry.value)),
+            )
+            .toList(),
+        onChanged: (value) {
+          if (value != null) change(value);
+        },
+      ),
+    ),
   );
+  Future<void> _open(String route) async {
+    await Navigator.pushNamed(context, route);
+    if (mounted) widget.viewModel.load();
+  }
+
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      title: const Text('Encontre seu novo amigo'),
-      actions: [
-        IconButton(
-          tooltip: 'Favoritos',
-          onPressed: () => Navigator.pushNamed(context, '/favorites').then((_) {
-            widget.viewModel.load();
-          }),
-          icon: const Icon(Icons.favorite_outline),
+    bottomNavigationBar: SafeArea(
+      top: false,
+      child: Container(
+        margin: const EdgeInsets.fromLTRB(16, 0, 16, 14),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: const Color(0xFFEADDD7)),
+          borderRadius: BorderRadius.circular(18),
+          boxShadow: const [
+            BoxShadow(color: Color(0x163C2814), blurRadius: 16),
+          ],
         ),
-      ],
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _nav(
+              'Buscar',
+              Icons.search,
+              () => widget.viewModel.load(),
+              selected: true,
+            ),
+            _nav(
+              'Favoritos',
+              Icons.favorite_outline,
+              () => _open('/favorites'),
+            ),
+            _nav(
+              'Início',
+              Icons.home_outlined,
+              () => Navigator.popUntil(context, (route) => route.isFirst),
+            ),
+            _nav('Sobre', Icons.info_outline, () => _open('/about')),
+          ],
+        ),
+      ),
     ),
     body: SafeArea(
       child: ListenableBuilder(
         listenable: widget.viewModel,
         builder: (context, _) => ListView(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
           children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'VITRINE',
+                        style: TextStyle(
+                          fontSize: 10,
+                          letterSpacing: 1.2,
+                          color: Color(0xFFC51D2A),
+                        ),
+                      ),
+                      const Text(
+                        'Conheça nossos anjos',
+                        style: TextStyle(
+                          fontFamily: 'serif',
+                          fontSize: 22,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                IconButton.filledTonal(
+                  tooltip: 'Voltar',
+                  onPressed: () => Navigator.pop(context),
+                  icon: const Icon(Icons.chevron_left),
+                ),
+              ],
+            ),
+            const SizedBox(height: 14),
             TextField(
               key: const ValueKey('catalogSearch'),
               controller: _search,
               decoration: const InputDecoration(
-                labelText: 'Buscar por nome',
+                hintText: 'Buscar por nome…',
                 prefixIcon: Icon(Icons.search),
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 12,
+                ),
               ),
               onChanged: (value) => widget.viewModel.setFilters(name: value),
             ),
             const SizedBox(height: 12),
-            _filter(
-              'speciesFilter',
-              widget.viewModel.speciesValue,
-              widget.viewModel.speciesOptions,
-              (value) => widget.viewModel.setFilters(species: value),
+            SizedBox(
+              height: 38,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    _filter(
+                      'speciesFilter',
+                      'Espécie',
+                      widget.viewModel.speciesValue,
+                      widget.viewModel.speciesOptions,
+                      (value) => widget.viewModel.setFilters(species: value),
+                    ),
+                    const SizedBox(width: 8),
+                    _filter(
+                      'sizeFilter',
+                      'Porte',
+                      widget.viewModel.sizeValue,
+                      widget.viewModel.sizeOptions,
+                      (value) => widget.viewModel.setFilters(size: value),
+                    ),
+                    const SizedBox(width: 8),
+                    _filter(
+                      'sexFilter',
+                      'Sexo',
+                      widget.viewModel.sexValue,
+                      widget.viewModel.sexOptions,
+                      (value) => widget.viewModel.setFilters(sex: value),
+                    ),
+                  ],
+                ),
+              ),
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(
-                  child: _filter(
-                    'sexFilter',
-                    widget.viewModel.sexValue,
-                    widget.viewModel.sexOptions,
-                    (value) => widget.viewModel.setFilters(sex: value),
-                  ),
+                Text(
+                  '${widget.viewModel.state.total} animais encontrados',
+                  style: const TextStyle(fontSize: 12),
                 ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: _filter(
-                    'sizeFilter',
-                    widget.viewModel.sizeValue,
-                    widget.viewModel.sizeOptions,
-                    (value) => widget.viewModel.setFilters(size: value),
-                  ),
+                TextButton(
+                  onPressed: () {
+                    _search.clear();
+                    widget.viewModel.clearFilters();
+                  },
+                  child: const Text('Limpar filtros'),
                 ),
               ],
             ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: TextButton(
-                onPressed: () {
-                  _search.clear();
-                  widget.viewModel.clearFilters();
-                },
-                child: const Text('Limpar filtros'),
-              ),
-            ),
-            Text(
-              '${widget.viewModel.state.total} animais encontrados',
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
             PublicAnimalList(
               viewModel: widget.viewModel,
+              grid: true,
               emptyMessage: 'Nenhum animal encontrado. Tente outros filtros.',
             ),
           ],
         ),
+      ),
+    ),
+  );
+  Widget _nav(
+    String label,
+    IconData icon,
+    VoidCallback action, {
+    bool selected = false,
+  }) => Expanded(
+    child: TextButton(
+      onPressed: action,
+      style: TextButton.styleFrom(
+        foregroundColor: selected
+            ? const Color(0xFFC51D2A)
+            : const Color(0xFF795C52),
+        padding: const EdgeInsets.symmetric(vertical: 12),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 20),
+          const SizedBox(height: 2),
+          Text(label, style: const TextStyle(fontSize: 10)),
+        ],
       ),
     ),
   );

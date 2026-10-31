@@ -9,8 +9,12 @@ void main() {
     final harness = PublicAppHarness();
     await tester.pumpWidget(harness.app());
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Quero adotar'));
+    await tester.tap(find.text('Quero Adotar (Visitante)'));
     await tester.pumpAndSettle();
+    expect(find.text('VITRINE'), findsOneWidget);
+    expect(find.text('Conheça nossos anjos'), findsOneWidget);
+    expect(find.byType(GridView), findsOneWidget);
+    expect(find.text('Início'), findsOneWidget);
     await tester.enterText(find.byKey(const ValueKey('catalogSearch')), 'Luna');
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const ValueKey('speciesFilter')));

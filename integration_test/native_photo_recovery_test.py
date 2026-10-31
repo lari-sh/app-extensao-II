@@ -119,7 +119,7 @@ try:
     api('/rest/v1/animal_internal_details', {'animal_id': animal_id, 'created_by': staff, 'updated_by': staff}, 'POST')
     adb('shell','am','force-stop',package)
     adb('shell', 'am', 'start', '-n', package+'/.MainActivity')
-    label('Área do voluntário')
+    label('Acesso Voluntário / Funcionário')
     entry = wait(lambda node: text(node, 'Acesso autorizado') or (node.get('class') == 'android.widget.EditText' and node.get('package') == package))
     if not any(text(node, 'Acesso autorizado') for node in entry):
         fields = wait(lambda node: node.get('class') == 'android.widget.EditText' and node.get('package') == package)
@@ -143,8 +143,8 @@ try:
     adb('shell','am','start','-n',package+'/.MainActivity')
     time.sleep(1)
     root=snapshot()
-    if any(text(node,'Quero adotar') for node in root.iter('node')):
-        label('Área do voluntário');wait(lambda node:text(node,'Acesso autorizado'));label('Animais do abrigo');label(name)
+    if any(text(node,'Quero Adotar (Visitante)') for node in root.iter('node')):
+        label('Acesso Voluntário / Funcionário');wait(lambda node:text(node,'Acesso autorizado'));label('Animais do abrigo');label(name)
     tap(scroll_to('Selecionar foto'))
     wait(lambda node: 'photopicker' in node.get('package', '') or 'providers.media' in node.get('package', ''))
     print('Android destroy-background-Activities enabled while native picker is open.', flush=True)
@@ -157,10 +157,10 @@ try:
     wait(lambda node: 'documentsui' in node.get('package',''))
     tap(wait(lambda node: node.get('text')=='abrigo_photo_one.png' or node.get('content-desc','').startswith('abrigo_photo_one.png,'))[0])
     adb('shell', 'am', 'start', '-n', package+'/.MainActivity')
-    wait(lambda node: text(node, 'Quero adotar'))
+    wait(lambda node: text(node, 'Quero Adotar (Visitante)'))
     after = adb('logcat','-d','-s','flutter:I').count('Supabase init completed')
     assert after > before, 'A fresh Flutter engine and SDK must initialize after Activity destruction'
-    label('Área do voluntário')
+    label('Acesso Voluntário / Funcionário')
     wait(lambda node: text(node, 'Acesso autorizado'))
     label('Animais do abrigo')
     label(name)

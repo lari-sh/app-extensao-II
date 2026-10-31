@@ -29,8 +29,8 @@ void main() {
           : Success(ManagedAnimal(animal: fixtureAnimal(1)));
       await tester.pumpWidget(harness.app());
       await tester.pumpAndSettle();
-      await tester.ensureVisible(find.text('Área do voluntário'));
-      await tester.tap(find.text('Área do voluntário'));
+      await tester.ensureVisible(find.text('Acesso Voluntário / Funcionário'));
+      await tester.tap(find.text('Acesso Voluntário / Funcionário'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Animais do abrigo'));
       await tester.pumpAndSettle();
@@ -42,7 +42,7 @@ void main() {
       expect(find.text('Editar animal'), findsOneWidget);
       await harness.session.signOut();
       await tester.pumpAndSettle();
-      expect(find.text('Quero adotar'), findsOneWidget);
+      expect(find.text('Quero Adotar (Visitante)'), findsOneWidget);
       expect(find.text('Editar animal'), findsNothing);
       await tester.pumpWidget(const SizedBox.shrink());
       await tester.pumpAndSettle();
@@ -55,11 +55,11 @@ void main() {
       addTearDown(harness.auth.dispose);
       await tester.pumpWidget(harness.app());
       await tester.pumpAndSettle();
-      final context = tester.element(find.text('Quero adotar'));
+      final context = tester.element(find.text('Quero Adotar (Visitante)'));
       expect(context.read<AuthRepository>(), same(harness.auth));
       expect(context.read<SessionViewModel>(), same(harness.session));
-      await tester.ensureVisible(find.text('Área do voluntário'));
-      await tester.tap(find.text('Área do voluntário'));
+      await tester.ensureVisible(find.text('Acesso Voluntário / Funcionário'));
+      await tester.tap(find.text('Acesso Voluntário / Funcionário'));
       await tester.pumpAndSettle();
       await tester.enterText(
         find.byKey(const ValueKey('loginEmail')),
@@ -74,7 +74,7 @@ void main() {
       expect(find.text('Acesso autorizado'), findsOneWidget);
       await tester.tap(find.text('Sair da conta'));
       await tester.pumpAndSettle();
-      expect(find.text('Quero adotar'), findsOneWidget);
+      expect(find.text('Quero Adotar (Visitante)'), findsOneWidget);
       expect(find.text('Acesso autorizado'), findsNothing);
       await tester.binding.handlePopRoute();
       await tester.pumpAndSettle();
