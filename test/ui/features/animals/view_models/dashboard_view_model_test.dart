@@ -118,4 +118,76 @@ void main() {
     vm.dispose();
     await vm.load();
   });
+  test(
+    'confirmed commands reload global counts, publication is blocked for adopted',
+    () async {
+      final repo = repository();
+      final vm = DashboardViewModel(repo, isAuthorized: () => true);
+      addTearDown(vm.dispose);
+      await vm.load();
+      expect(
+        vm.canPublish(fixtureAnimal(1).copyWith(status: AnimalStatus.adopted)),
+        false,
+      );
+      final previous = repo.calls
+          .where((c) => c.method == 'getStatusCounts')
+          .length;
+      await vm.setPublication(fixtureId(1), false);
+      expect(vm.state.uncertain, false);
+      expect(vm.state.busy, false);
+      expect(
+        repo.calls.where((c) => c.method == 'getStatusCounts').length,
+        previous + 1,
+      );
+    },
+  );
+  test(
+    'empty and denied loads settle loading, never authorize using cached pages',
+    () async {
+      final repo = FakeAnimalsRepository()
+        ..handler = (method, args) async => method == 'getStatusCounts'
+            ? const Success<Map<AnimalStatus, int>>({})
+            : const Success(ManagedAnimalPage(items: [], total: 0));
+      var allowed = true;
+      final vm = DashboardViewModel(repo, isAuthorized: () => allowed);
+      addTearDown(vm.dispose);
+      await vm.load();
+      expect(vm.total, 0);
+      expect(vm.state.loading, false);
+      allowed = false;
+      await vm.load();
+      expect(vm.state.pages, isEmpty);
+      expect(vm.canManage, false);
+    },
+  );
+  test(
+    '401 during counts discards pages and revalidates; late mutation never confirms after dispose',
+    () async {
+      final repo = repository();
+      var checks = 0;
+      final vm = DashboardViewModel(
+        repo,
+        isAuthorized: () => true,
+        authorize: () async {
+          checks++;
+          return true;
+        },
+      );
+      await vm.load();
+      repo.handler = (_, _) async => Failure<Map<AnimalStatus, int>>(
+        AppFailure(FailureCode.unauthenticated),
+      );
+      await vm.load();
+      expect(vm.state.pages, isEmpty);
+      expect(checks, greaterThan(1));
+      final gate = Completer<Result<PublicAnimal>>();
+      repo.handler = (_, _) => gate.future;
+      final mutation = vm.setStatus(fixtureId(1), AnimalStatus.adopted);
+      await Future<void>.delayed(Duration.zero);
+      vm.dispose();
+      gate.complete(Success(fixtureAnimal(1)));
+      await mutation;
+      expect(vm.state.message, isNull);
+    },
+  );
 }

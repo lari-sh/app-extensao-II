@@ -546,3 +546,10 @@ com a mesma chave. Quatro testes iniciais cobrem totais acima de 50, paginação
 falha sem confirmação fictícia, descarte em 403/época antiga e retry somente após
 consulta limitada. A interface e a matriz ampliada T087/T092 permanecem pendentes.
 Gate deste incremento: 14 testes direcionados PASS; análise sem problemas.
+
+### US5 — capacidades e regressões do ViewModel
+
+7 testes direcionados PASS. Incluídos confirmação de publicação com recarga de totais,
+capacidade de publicação negada para adotado, estado vazio, falta de autorização,
+401 com descarte/revalidação e resposta tardia após dispose. Rótulos/capacidades dos
+cartões fornecidos pelo VM. Teste de interface escrito antes da tela (RED esperado).

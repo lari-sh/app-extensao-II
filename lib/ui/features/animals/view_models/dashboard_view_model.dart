@@ -57,6 +57,15 @@ class DashboardViewModel extends ChangeNotifier {
   bool canPublish(PublicAnimal animal) =>
       canManage && animal.status != AnimalStatus.adopted;
   String get heading => 'Olá, equipe';
+  String publicationLabel(PublicAnimal animal) =>
+      animal.isPublished ? 'Ocultar do catálogo' : 'Publicar no catálogo';
+  bool canChangePublication(PublicAnimal animal) =>
+      canManage &&
+      (animal.isPublished || animal.status != AnimalStatus.adopted);
+  String visibilityLabel(PublicAnimal animal) =>
+      animal.isPublished ? 'Publicado' : 'Privado';
+  String cardSubtitle(PublicAnimal animal) =>
+      '${animal.approximateAge} · ${animal.sex == AnimalSex.female ? 'F' : 'M'}';
   String get subtitle => 'Manejo · $total animais';
   void _publish(DashboardState value) {
     if (!_disposed) {
