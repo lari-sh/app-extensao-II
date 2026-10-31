@@ -16,5 +16,6 @@ abstract class PhotoUploadState with _$PhotoUploadState {
     required String jobId,
     required PhotoJobStatus status,
     String? photoId,
+    String? currentPhotoId,
   }) = _PhotoUploadState;
 }

@@ -420,3 +420,14 @@ enabled = true
 [functions.animal-photo-read]
 verify_jwt = false
 import_map = "./functions/deno.json"
+
+
+[functions.animal-photo-upload]
+verify_jwt = true
+import_map = "./functions/deno.json"
+static_files = ["./functions/_shared/magick.wasm"]
+
+# Internal endpoint uses its own server-only credential; user JWT is insufficient.
+[functions.animal-photo-cleanup]
+verify_jwt = false
+import_map = "./functions/deno.json"

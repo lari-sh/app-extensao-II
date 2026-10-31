@@ -511,3 +511,17 @@ resultado. Ausência confirmada habilita reenvio do mesmo payload/chave. Um erro
 reconsulta não prova ausência nem libera nova submissão. Na expiração recuperável,
 o mesmo escopo fica montado, oculto e bloqueado; resultados de épocas antigas são
 ignorados. Logout/revogação/troca de usuário descartam VMs e pilha privada.
+
+
+## US4 — empacotamento e fila
+
+O WASM fixado de @imagemagick/magick-wasm 0.0.45 será incluído como static_file
+versionado com checksum e licenças originais, sem fetch remoto durante uma requisição.
+A configuração segue https://supabase.com/docs/guides/functions/wasm . Inicialização
+compartilhada por isolate; processamento serial evita chamadas concorrentes ao heap.
+Normalização mantém formato JPEG/PNG, remove metadados e ajusta tamanho de saída.
+Jobs têm token de processamento privado e prazo de 15 minutos; limpeza marca o
+estado terminal antes da remoção e usa leases de 5 minutos com retry persistente.
+Cron chama função interna a cada 15 minutos via pg_net; URL/segredo ficam no Vault,
+fora de migrations e builds. Sem Vault configurado, o agendamento não faz requisição;
+provisionamento e prova local devem constar nas evidências antes de marcar concluído.

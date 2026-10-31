@@ -208,3 +208,15 @@ Erros SQL PT409/22023/PT404/42501 são convertidos em falhas de domínio, nunca 
 texto bruto na interface. Novo animal nasce privado e available; formulário não
 altera status/publicação/foto/autoria. Cuidados são substituídos atomicamente por
 registros com UUID/autoria gerados pelo servidor; não há histórico de prescrições.
+
+
+## US4 — protocolo implementado
+
+Upload autentica antes de ler o corpo e usa reserva service-only com caminho/token
+privados. O cliente recebe apenas job_id, state, photo_id original confirmado,
+current_photo_id, is_current e correlation_id. Replay nunca reativa objeto antigo.
+GET de reconciliação exige ator atual e staff ativo. O job precede o Storage;
+nenhuma falha do cliente provoca remoção síncrona de uma foto possivelmente anexada.
+Limpeza adquire lease e estado terminal, remove pelo Storage API e registra resultado.
+URL/segredo do endpoint interno ficam no Vault (photo_cleanup_url/photo_cleanup_secret).
+A verificação de gateway é mantida para upload; cleanup usa credencial interna própria.

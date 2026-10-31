@@ -111,5 +111,6 @@ class PhotoRepositoryImpl implements PhotoRepository {
       _ => PhotoJobStatus.values.byName(dto.state),
     },
     photoId: dto.photoId,
+    currentPhotoId: dto.currentPhotoId,
   );
 }

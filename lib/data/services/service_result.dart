@@ -10,9 +10,12 @@ final class ServiceFailure implements Exception {
   final FailureCode code;
 }
 
-Future<Result<T>> serviceResult<T>(Future<T> Function() action) async {
+Future<Result<T>> serviceResult<T>(
+  Future<T> Function() action, {
+  Duration timeout = const Duration(seconds: 20),
+}) async {
   try {
-    return Success(await action().timeout(const Duration(seconds: 20)));
+    return Success(await action().timeout(timeout));
   } on ServiceFailure catch (error) {
     return Failure(AppFailure(error.code));
   } on TimeoutException {
@@ -39,6 +42,9 @@ Future<Result<T>> serviceResult<T>(Future<T> Function() action) async {
       401 => FailureCode.unauthenticated,
       403 => FailureCode.forbidden,
       404 => FailureCode.notFound,
+      400 || 413 || 415 || 422 => FailureCode.validation,
+      409 => FailureCode.conflict,
+      429 => FailureCode.network,
       _ => FailureCode.unknown,
     };
     return Failure(

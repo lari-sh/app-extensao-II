@@ -1,4 +1,5 @@
 import '../../utils/app_failure.dart';
+import 'package:http/http.dart' as http;
 import 'service_result.dart';
 import '../../utils/result.dart';
 import '../models/photo_dto.dart';
@@ -40,8 +41,30 @@ class SupabasePhotoApiService implements PhotoApiService {
     List<int> bytes,
     String mime,
     String operationKey,
-  ) async => Failure(AppFailure(FailureCode.configuration));
+  ) => serviceResult(() async {
+    final response = await client.functions.invoke(
+      'animal-photo-upload',
+      body: {'animal_id': animalId, 'operation_key': operationKey},
+      files: [
+        http.MultipartFile.fromBytes(
+          'file',
+          bytes,
+          filename: mime == 'image/png' ? 'animal.png' : 'animal.jpg',
+        ),
+      ],
+    );
+    return PhotoJobDto.fromJson((response.data as Map).cast<String, dynamic>());
+  }, timeout: const Duration(seconds: 60));
   @override
-  Future<Result<PhotoJobDto>> getUpload(String operationKey) async =>
-      Failure(AppFailure(FailureCode.configuration));
+  Future<Result<PhotoJobDto>> getUpload(String operationKey) =>
+      serviceResult(() async {
+        final response = await client.functions.invoke(
+          'animal-photo-upload',
+          method: HttpMethod.get,
+          queryParameters: {'operation_key': operationKey},
+        );
+        return PhotoJobDto.fromJson(
+          (response.data as Map).cast<String, dynamic>(),
+        );
+      });
 }

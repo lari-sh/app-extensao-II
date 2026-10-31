@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PhotoUploadState {
 
- String get jobId; PhotoJobStatus get status; String? get photoId;
+ String get jobId; PhotoJobStatus get status; String? get photoId; String? get currentPhotoId;
 /// Create a copy of PhotoUploadState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $PhotoUploadStateCopyWith<PhotoUploadState> get copyWith => _$PhotoUploadStateCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PhotoUploadState&&(identical(other.jobId, jobId) || other.jobId == jobId)&&(identical(other.status, status) || other.status == status)&&(identical(other.photoId, photoId) || other.photoId == photoId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PhotoUploadState&&(identical(other.jobId, jobId) || other.jobId == jobId)&&(identical(other.status, status) || other.status == status)&&(identical(other.photoId, photoId) || other.photoId == photoId)&&(identical(other.currentPhotoId, currentPhotoId) || other.currentPhotoId == currentPhotoId));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,jobId,status,photoId);
+int get hashCode => Object.hash(runtimeType,jobId,status,photoId,currentPhotoId);
 
 @override
 String toString() {
-  return 'PhotoUploadState(jobId: $jobId, status: $status, photoId: $photoId)';
+  return 'PhotoUploadState(jobId: $jobId, status: $status, photoId: $photoId, currentPhotoId: $currentPhotoId)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $PhotoUploadStateCopyWith<$Res>  {
   factory $PhotoUploadStateCopyWith(PhotoUploadState value, $Res Function(PhotoUploadState) _then) = _$PhotoUploadStateCopyWithImpl;
 @useResult
 $Res call({
- String jobId, PhotoJobStatus status, String? photoId
+ String jobId, PhotoJobStatus status, String? photoId, String? currentPhotoId
 });
 
 
@@ -62,11 +62,12 @@ class _$PhotoUploadStateCopyWithImpl<$Res>
 
 /// Create a copy of PhotoUploadState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? jobId = null,Object? status = null,Object? photoId = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? jobId = null,Object? status = null,Object? photoId = freezed,Object? currentPhotoId = freezed,}) {
   return _then(_self.copyWith(
 jobId: null == jobId ? _self.jobId : jobId // ignore: cast_nullable_to_non_nullable
 as String,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as PhotoJobStatus,photoId: freezed == photoId ? _self.photoId : photoId // ignore: cast_nullable_to_non_nullable
+as String?,currentPhotoId: freezed == currentPhotoId ? _self.currentPhotoId : currentPhotoId // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -152,10 +153,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String jobId,  PhotoJobStatus status,  String? photoId)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String jobId,  PhotoJobStatus status,  String? photoId,  String? currentPhotoId)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PhotoUploadState() when $default != null:
-return $default(_that.jobId,_that.status,_that.photoId);case _:
+return $default(_that.jobId,_that.status,_that.photoId,_that.currentPhotoId);case _:
   return orElse();
 
 }
@@ -173,10 +174,10 @@ return $default(_that.jobId,_that.status,_that.photoId);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String jobId,  PhotoJobStatus status,  String? photoId)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String jobId,  PhotoJobStatus status,  String? photoId,  String? currentPhotoId)  $default,) {final _that = this;
 switch (_that) {
 case _PhotoUploadState():
-return $default(_that.jobId,_that.status,_that.photoId);case _:
+return $default(_that.jobId,_that.status,_that.photoId,_that.currentPhotoId);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -193,10 +194,10 @@ return $default(_that.jobId,_that.status,_that.photoId);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String jobId,  PhotoJobStatus status,  String? photoId)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String jobId,  PhotoJobStatus status,  String? photoId,  String? currentPhotoId)?  $default,) {final _that = this;
 switch (_that) {
 case _PhotoUploadState() when $default != null:
-return $default(_that.jobId,_that.status,_that.photoId);case _:
+return $default(_that.jobId,_that.status,_that.photoId,_that.currentPhotoId);case _:
   return null;
 
 }
@@ -208,12 +209,13 @@ return $default(_that.jobId,_that.status,_that.photoId);case _:
 
 
 class _PhotoUploadState implements PhotoUploadState {
-  const _PhotoUploadState({required this.jobId, required this.status, this.photoId});
+  const _PhotoUploadState({required this.jobId, required this.status, this.photoId, this.currentPhotoId});
   
 
 @override final  String jobId;
 @override final  PhotoJobStatus status;
 @override final  String? photoId;
+@override final  String? currentPhotoId;
 
 /// Create a copy of PhotoUploadState
 /// with the given fields replaced by the non-null parameter values.
@@ -225,16 +227,16 @@ _$PhotoUploadStateCopyWith<_PhotoUploadState> get copyWith => __$PhotoUploadStat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PhotoUploadState&&(identical(other.jobId, jobId) || other.jobId == jobId)&&(identical(other.status, status) || other.status == status)&&(identical(other.photoId, photoId) || other.photoId == photoId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PhotoUploadState&&(identical(other.jobId, jobId) || other.jobId == jobId)&&(identical(other.status, status) || other.status == status)&&(identical(other.photoId, photoId) || other.photoId == photoId)&&(identical(other.currentPhotoId, currentPhotoId) || other.currentPhotoId == currentPhotoId));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,jobId,status,photoId);
+int get hashCode => Object.hash(runtimeType,jobId,status,photoId,currentPhotoId);
 
 @override
 String toString() {
-  return 'PhotoUploadState(jobId: $jobId, status: $status, photoId: $photoId)';
+  return 'PhotoUploadState(jobId: $jobId, status: $status, photoId: $photoId, currentPhotoId: $currentPhotoId)';
 }
 
 
@@ -245,7 +247,7 @@ abstract mixin class _$PhotoUploadStateCopyWith<$Res> implements $PhotoUploadSta
   factory _$PhotoUploadStateCopyWith(_PhotoUploadState value, $Res Function(_PhotoUploadState) _then) = __$PhotoUploadStateCopyWithImpl;
 @override @useResult
 $Res call({
- String jobId, PhotoJobStatus status, String? photoId
+ String jobId, PhotoJobStatus status, String? photoId, String? currentPhotoId
 });
 
 
@@ -262,11 +264,12 @@ class __$PhotoUploadStateCopyWithImpl<$Res>
 
 /// Create a copy of PhotoUploadState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? jobId = null,Object? status = null,Object? photoId = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? jobId = null,Object? status = null,Object? photoId = freezed,Object? currentPhotoId = freezed,}) {
   return _then(_PhotoUploadState(
 jobId: null == jobId ? _self.jobId : jobId // ignore: cast_nullable_to_non_nullable
 as String,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as PhotoJobStatus,photoId: freezed == photoId ? _self.photoId : photoId // ignore: cast_nullable_to_non_nullable
+as String?,currentPhotoId: freezed == currentPhotoId ? _self.currentPhotoId : currentPhotoId // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }

@@ -334,3 +334,37 @@ permissão negada retorna failure, tamanho é consultado antes de ler arquivo e 
 preliminar vem da assinatura. A recuperação apenas devolve um candidato; não envia
 fotos automaticamente. A integração da tela e o endpoint ainda estão em andamento.
 T067/T068/T078/T079 serão encerradas somente com o conjunto de seus critérios.
+
+
+## US4 — backend e transporte validados (incremento)
+
+2026-10-31, developer, somente Supabase local:
+- Migration 007: finalização transacional, replay sem reassociar foto antiga,
+  conflito por digest, FK animal/foto, fila/lease/backoff e cron de 15 minutos.
+  Testes antes da implementação falharam por RPC ausente; versão final **78 SQL PASS**
+  (20 novos casos), incluindo retry e proteção contra dois workers.
+- **12 testes Deno/HTTP PASS**: arquivo válido de exatamente 5.242.880 bytes com
+  overhead multipart aceito, arquivo/corpo acima do limite e campos duplicados
+  negados, conteúdo corrompido negado, normalização JPEG/PNG e remoção de metadados.
+  O teste de ajuste de saída usa orçamento menor com imagem real para exercitar
+  a redução; não é um benchmark de todos os tamanhos/dimensões possíveis.
+- HTTP no Edge Runtime local: upload concorrente, foto antiga preservada em falha,
+  replay com resultado original/current_photo_id separados, resposta descartada e
+  reconciliação, público/privado sem cache, URL assinada negada e dois workers de
+  limpeza sem apagar a foto atual. Fixtures temporárias removidas ao terminar.
+- Transporte Dart e Repository: **9 testes PASS**, incluindo multipart, erros
+  403/409/413/415/422/503, GET e chave preservada. Upload tem timeout de 60 s;
+  demais operações mantêm 20 s. Nenhuma dependência nova.
+- Vault local provisionado com URL interna e segredo de limpeza; invocação por
+  pg_net retornou **HTTP 200**. Segredo somente no ambiente/Vault, nunca migration,
+  APK ou documentação. Cron usa o segredo atual do Vault; provisionar separadamente
+  em qualquer ambiente remoto, que não foi vinculado ou alterado.
+- WASM 0.0.45 incluído como static_file com licenças: SHA256
+  54629cbcf06dd10db38b4d87fa6ab241b248c09c94f2d9689506e5f994ac5f0c.
+  Inicialização compartilhada e acesso serial ao heap. Prova funcional no runtime
+  local não equivale a teste de carga/exaustão de memória de produção.
+
+Integração do painel, testes de Widgets e jornada Android ainda em andamento.
+Não declarar US4 concluída antes desse gate. Nenhum segredo foi versionado.
+
+As licenças/NOTICE de terceiros são preservadas como distribuídas; o gate de whitespace exclui MAGICK_NOTICE, que contém espaços finais originais, além dos arquivos gerados Freezed. Não há exclusão dos fontes de implementação.
