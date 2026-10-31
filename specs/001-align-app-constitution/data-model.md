@@ -166,3 +166,12 @@ Cache-Control: no-store, private em sucesso e erro. Uma requisição nova após 
 publicação é negada; bytes previamente baixados estão fora do controle do servidor.
 Respostas já em voo podem terminar; próxima solicitação revalida. No refresh/logout
 o cliente invalida bytes de fotos privadas e respostas tardias por geração de sessão.
+
+## Representação no cliente conforme a constituição 2.0.0
+
+Modelos imutáveis e snapshots usam Freezed em lib/domain/models e nos ViewModels
+quando aplicável; não importam Supabase ou Provider. Result em lib/utils permanece
+independente de SDK. DTOs JSON manuais em lib/data/models representam os dados de
+API. Services produzem DTOs/Result; Repositories convertem DTOs em domínio e
+mantêm a fonte de verdade. Nenhuma tabela, política ou limite funcional muda por
+essa reorganização. Geração .freezed.dart deve ser determinística e validada no CI.

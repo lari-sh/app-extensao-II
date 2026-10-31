@@ -33,7 +33,7 @@ que implementação, testes do aplicativo ou provisionamento foram concluídos.
 - [x] CHK015 Os oito resultados mensuráveis correspondem às jornadas e restrições.
 - [x] CHK016 Detalhes novos de estrutura, SDK, políticas, contratos e pacotes ficam para o plano;
   os sete requisitos constitucionais apenas tornam explícitas obrigações preexistentes.
-- [x] CHK017 ViewModels/Repositories, Result, isolamento de Supabase e dez princípios são rastreáveis.
+- [x] CHK017 ViewModels/Repositories/Services, Result, isolamento de SDKs nos Services e dez princípios são rastreáveis.
 - [x] CHK018 Testes unitários obrigatórios e caminho feliz das oito telas estão exigidos.
 - [x] CHK019 Autorizações no serviço, separação público/interno e restrição de fotos estão delimitadas.
 
@@ -51,7 +51,13 @@ que implementação, testes do aplicativo ou provisionamento foram concluídos.
   restaura rascunho somente ao mesmo usuário autorizado; logout/revogação/troca/
   fechamento/cancelamento descartam. Limite de imagem refere-se ao arquivo,
   separado do multipart; normalização crescente é ajustada, não rejeitada por si só.
-- Tasks T006/T021 distinguem preparo e execução das fixtures após schema; testes
-  T059/T060/T064 cobrem permissão de galeria negada. Os critérios revisados estão
-  explicitados para a nova análise de consistência, sem alegar testes executados.
+- Tasks T006/T023 distinguem preparo e execução das fixtures após schema; testes
+  T068/T069/T073 cobrem permissão de galeria negada. Os critérios revisados estão
+  preservados no realinhamento à constituição 2.0.0, sem alegar testes executados.
 - Nenhuma implementação ou alteração de dependência realizada.
+
+- Arquitetura atual: skill Flutter priorizada, UI por feature, Data/Domain por tipo,
+  Services sem estado de negócio, Repositories como fonte de verdade, Provider e
+  Freezed justificados no plano. Caminhos e IDs de tarefas foram regenerados.
+- A mudança de arquitetura não altera os requisitos funcionais nem dispensa os
+  quatro refinamentos de sessão, imagens, fixtures e permissão da galeria.

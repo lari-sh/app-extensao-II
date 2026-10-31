@@ -8,8 +8,8 @@ implantado por este plano. Modelo e permissões: [data-model.md](../data-model.m
 - Cliente contém apenas URL e publishable/anon key do projeto; essas chaves não
   concedem autorização administrativa. Nunca incorporar service_role/secret key.
 - Auth usa sign-in com e-mail/senha de conta provisionada fora do app. Desabilitar
-  autoinscrição pública no projeto. SupabaseAuthRepository é o único consumidor
-  Dart dessas operações; nenhum token é retornado ao Widget.
+  autoinscrição pública no projeto. SupabaseAuthService é o único consumidor
+  Dart dessas operações, mediado por AuthRepositoryImpl; nenhum token é retornado ao Widget.
 - access_context RPC retorna apenas identidade do próprio usuário, estado da
   sessão e isStaffActive. Não lista equipe nem expõe auth.sessions.
 - Escritas exigem helper privado que checa usuário, session_id atual existente e
@@ -52,7 +52,7 @@ owner, timestamp ou campo privilegiado livre. Chave de operação com payload ig
 repete resultado; diferente retorna conflito. Resultado perdido exige consulta
 get_write_operation; retorno de timeout do cliente não significa rollback no servidor.
 
-Erros do banco/RPC são traduzidos no Repository; ViewModels nunca recebem
+Erros do banco/RPC são capturados no Service e garantidos como Result pelo Repository; ViewModels nunca recebem
 PostgrestException. Resultado de negócio de RPC é envelope tipado ou código
 documentado, sem mensagens SQL destinadas à UI.
 
@@ -77,7 +77,7 @@ publishable keys e JWTs do ambiente, sem desabilitar validação em todo o proje
    Content-Length e Cache-Control: no-store, private. Não emitir redirect nem URL
    assinada; não responder 304; retornar também Pragma: no-cache.
 4. Erros de oculto/inexistente respondem 404 sem revelar existência. Para operações
-   privadas explicitamente autenticadas, 401/403 indicam perda de acesso ao Repository.
+   privadas explicitamente autenticadas, 401/403 são traduzidos pelo Service/Repository em perda de acesso.
 
 Nova leitura após despublicação/adoção deve falhar. O plano não emite acessos
 temporários ao Storage; assim não depende de expiração de URL de 60 s nem de CDN.

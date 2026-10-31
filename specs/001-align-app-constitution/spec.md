@@ -4,7 +4,7 @@
 **Feature Directory**: `specs/001-align-app-constitution`
 **Created**: 2026-10-31
 **Status**: Ready for planning
-**Input**: User description: "Adeque o app Abrigo dos Anjos à constituição: arquitetura feature-first com MVVM, ViewModels e Repositories, backend Supabase, autenticação, upload de fotos e testes obrigatórios."
+**Input**: User description: "Adeque o app Abrigo dos Anjos à constituição: arquitetura Flutter com MVVM, ViewModels, Repositories e Services, backend Supabase, autenticação, upload de fotos e testes obrigatórios; prevalecem as recomendações da skill flutter-apply-architecture-best-practices, conforme constituição 2.0.0."
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -249,20 +249,25 @@ cada jornada; executar a matriz de validação das telas principais.
 
 ### Constitutional Requirements
 
-Estas são restrições já fixadas pela constituição 1.0.0, não novas decisões de
+Estas são restrições já fixadas pela constituição 2.0.0, não novas decisões de
 implementação. A especificação define os resultados; o plano detalhará estrutura,
 contratos, dependências, configuração e estratégia de migração, sem conceder exceções.
 
 - **CR-001**: A adequação DEVE demonstrar cumprimento de CONST-001 a CONST-004:
-  feature-first, MVVM, ViewModels, interfaces de Repository e isolamento exclusivo
-  do backend Supabase, conforme a constituição. A revisão DEVE comprovar ausência
-  dos acessos diretos e decisões de negócio atualmente presentes nos Widgets.
+  arquitetura híbrida da skill Flutter, MVVM, ViewModels, interfaces de Repository
+  e Services que encapsulam Supabase/plugins, conforme a constituição 2.0.0. A UI
+  é agrupada por funcionalidade e Data/Domain por tipo. A revisão DEVE comprovar
+  ausência de acessos diretos e decisões de negócio nos Widgets. Repositories
+  consomem Services e retornam modelos de domínio, sem executar queries do SDK.
 - **CR-002**: A adequação DEVE cumprir CONST-007 com um contrato compartilhado
   `Result<T>`, sem dependência dos tipos do provedor na apresentação; as falhas
   esperadas DEVEM resultar nos estados e mensagens de FR-016/017.
-- **CR-003**: Toda regra de ViewModel e Repository DEVE possuir teste unitário
+- **CR-003**: Toda regra de ViewModel e Repository, e todo tratamento/validação de
+  Service, DEVE possuir teste unitário
   obrigatório de sucesso, falha, validação e autorização quando aplicáveis,
   incluindo estados assíncronos, mapeamentos e captura de erros (CONST-005).
+  Testes de Repository usam Services falsos; testes de VM usam Repositories falsos;
+  testes dos Services exercitam o limite externo com dependências controladas.
 - **CR-004**: Cada tela principal DEVE ter pelo menos um Widget Test de caminho
   feliz: início; catálogo/busca; favoritos; detalhes; sobre; login; painel Kanban/lista;
   cadastro/edição. Upload DEVE ser exercitado no teste do formulário ou detalhe

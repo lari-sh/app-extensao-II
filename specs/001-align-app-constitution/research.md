@@ -4,27 +4,32 @@
 **Status**: decisões de desenho resolvidas; nenhum serviço instalado/provisionado
 ou teste novo executado por esta pesquisa.
 
-## R1 — MVVM e fronteiras
+## R1 — MVVM híbrido e Services da skill priorizada
 
-**Decision**: ChangeNotifier, injeção por construtor, ListenableBuilder e contratos
-abstratos por feature. ViewModels calculam validação, filtros, capacidades e mensagens.
-Repositories concretos mantêm as chamadas ao SDK em seus próprios arquivos.
-**Rationale**: A separação View/VM/Repository é consistente com o guia Flutter;
-a constituição exige isolamento mais estrito do que a simples recomendação.
-**Alternatives considered**: Provider/Riverpod e services de SDK separados aumentam
-dependências ou deslocam queries para fora da fronteira exigida.
-**Sources**: [Flutter architecture](https://docs.flutter.dev/app-architecture/guide),
-[recommendations](https://docs.flutter.dev/app-architecture/recommendations).
+**Decision**: Seguir a skill Flutter instalada e a constituição 2.0.0. UI por
+feature; Data/Domain por tipo. ViewModels ChangeNotifier com construtores explícitos,
+Services sem estado de negócio que envolvem SDKs/plugins e Repositories que
+consomem Services e retornam domínio/Result. Provider para composição/escopo.
+**Rationale**: Esta substitui a decisão feature-first integral, por determinação
+expressa do responsável. Não manter restrições antigas que proíbem Services.
+**Alternatives considered**: Feature-first completo e queries nos Repositories
+foram substituídos; não adicionar uma camada de Use Cases para CRUD simples.
+**Sources**: skill instalada em
+`.agents/skills/flutter-apply-architecture-best-practices/SKILL.md`,
+[skill oficial](https://github.com/flutter/agent-plugins/blob/main/skills/flutter-apply-architecture-best-practices/SKILL.md),
+[Flutter architecture](https://docs.flutter.dev/app-architecture/guide).
 
-## R2 — Result e teste das implementações reais
+## R2 — Result e testes das três fronteiras
 
-**Decision**: Result<T> sealed e AppFailure tipada; streams usam Result nos eventos
-e convertem onError. Testar VM com fake de Repository e Repository real com
-callbacks de operações controladas, definidos no arquivo da implementação.
-**Rationale**: Não requer rede ou bibliotecas de mocking; erros do SDK não chegam
-ao domínio ou às Views. Testes backend separados comprovam comportamento externo.
-**Alternatives considered**: Catch em Widget e substituir Repository sob teste por
-fake não comprovam captura/mapeamento da implementação.
+**Decision**: Result<T>/AppFailure independentes do SDK; Services capturam falhas
+de APIs e retornam DTO/Result. Repository garante resultado padronizado ao VM,
+converte DTO em domínio e orquestra a fonte de verdade. Testar Services reais com
+transportes/SDKs controlados; Repositories reais com Services falsos; VMs reais
+com Repositories falsos. Views recebem/observam VMs e não infraestrutura.
+**Rationale**: Permite verificar cada camada sem acoplar testes de Repository ao
+query-builder do Supabase. Nenhum SDK ou DTO de API chega à apresentação.
+**Alternatives considered**: Callbacks de queries dentro do Repository eram a
+solução anterior e deixam de ser necessários. Testar somente fakes não valida código real.
 **Sources**: [Result](https://docs.flutter.dev/app-architecture/design-patterns/result),
 [layer testing](https://docs.flutter.dev/app-architecture/case-study/testing).
 
@@ -84,13 +89,13 @@ CPU/memória devem ser ensaiados com imagens válidas antes de aceitar o pipelin
 
 ## R7 — Galeria e ciclo de vida mobile
 
-**Decision**: image_picker 1.2.4 no PhotoRepository, galeria apenas,
+**Decision**: image_picker 1.2.4 no GalleryService, mediado por PhotoRepository; galeria apenas,
 requestFullMetadata:false, NSPhotoLibraryUsageDescription em português; sem
-permissões de câmera/microfone. retrieveLostData via Repository no startup Android.
+permissões de câmera/microfone. retrieveLostData no GalleryService, coordenado pelo Repository/VM no startup Android.
 **Rationale**: O plugin atende Android 24+/iOS 13+; atividade pode ser destruída
 durante o picker. Resultado recuperado nunca dispara upload automático: exigir
 sessão validada e seleção/confirmação do animal, sem persistir prontuário/rascunho.
-Permissão negada é Failure(permissionDenied), testada no Repository, VM e Widget;
+Permissão negada é Failure(permissionDenied), testada no Service, Repository, VM e Widget;
 cancelamento é Success(null), sem upload e sem perda do formulário/foto anterior.
 **Alternatives considered**: MethodChannel próprio não agrega valor ao escopo.
 **Source**: [image_picker](https://pub.dev/packages/image_picker).
@@ -131,3 +136,24 @@ operacionais para executar os gates, não decisões arquiteturais pendentes.
 produziriam evidência falsa.
 
 Todos os pontos de desenho têm decisão. Não há marcador de esclarecimento pendente.
+
+## R11 — Modelos Freezed e DI Provider
+
+**Decision**: Adicionar candidatos exatos provider 6.1.5+1, freezed_annotation 3.1.0,
+freezed 3.2.5 e build_runner 2.10.5 (últimos dois em dev). Gerar domínio/snapshots
+imutáveis sem fromJson; DTOs com mapeamento manual em data/models. Não adicionar
+json_serializable/json_annotation, built_value ou get_it simultaneamente.
+**Rationale**: Segue os mecanismos recomendados pela skill, com menos dependências
+que manter duas soluções de DI/modelos. Freezed 4 requer Dart 3.13; o projeto usa
+3.11. Freezed 3.2.5 e build_runner 2.10.5 compartilham intervalos compatíveis de
+build/analyzer; runner 2.17.1 não é compatível com esse Freezed. Pinar candidatos,
+rodar pub get na implementação e versionar lockfile; a análise de metadata não
+substitui resolução/testes do conjunto completo.
+**Alternatives considered**: built_value é permitido pela skill, mas Freezed reduz
+boilerplate do estado imutável. get_it é alternativa à DI, mas Provider fornece
+escopo/dispose integrado à UI. Nenhuma justificativa autoriza Services/Repositories
+acessíveis diretamente pelas Views.
+**Sources**: [Freezed 3.2.5](https://pub.dev/packages/freezed/versions/3.2.5),
+[Freezed pubspec](https://raw.githubusercontent.com/rrousselGit/freezed/freezed-v3.2.5/packages/freezed/pubspec.yaml),
+[runner 2.10.5 pubspec](https://raw.githubusercontent.com/dart-lang/build/build_runner-v2.10.5/build_runner/pubspec.yaml),
+[Provider metadata](https://pub.dev/api/packages/provider).

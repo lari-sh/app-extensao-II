@@ -3,17 +3,18 @@
 **Branch**: `main` (branch Git real) | **Date**: 2026-10-31 | **Spec**: [spec.md](spec.md)
 **Feature ID**: `001-align-app-constitution`
 **Input**: `specs/001-align-app-constitution/spec.md`
-**Constitution**: versão 1.0.0, ratificada em 2026-10-31.
+**Constitution**: versão 2.0.0, ratificada em 2026-10-31.
 **Status**: desenho técnico concluído; implementação e validação ainda não executadas.
 
 ## Summary
 
 Migrar a demonstração para uma aplicação com catálogo público, manejo autenticado,
 fotos reais e persistência compartilhada. Preservar a experiência vermelha/marrom
-sem carregar o canvas do protótipo. Usar módulos feature-first, ViewModels com
-ChangeNotifier, interfaces de Repository e Result tipado. Isolar Supabase nas
-implementações de Repository e na composição inicial; não criar uma camada de
-serviços Dart que espalhe queries fora desses Repositories.
+sem carregar o canvas do protótipo. Seguir a skill Flutter instalada e a constituição
+2.0.0: UI organizada por feature, data/domain por tipo, ViewModels ChangeNotifier,
+interfaces de Repository e Result tipado. Services sem estado de negócio encapsulam
+Supabase/plugins; Repositories consomem Services e transformam DTOs em modelos de
+domínio. A composição registra as dependências com Provider e injeção por construtor.
 
 Separar fisicamente dados públicos e clínicos. Aplicar autorização de voluntário
 ativo no banco e no backend de fotos; sessão autenticada sozinha não basta.
@@ -26,12 +27,14 @@ compensável rastreada, sem perder a imagem anterior em falhas.
 **Language/Version**: Dart 3.11 / Flutter 3.41.1, existentes; SQL PostgreSQL e
 TypeScript no runtime Deno das Edge Functions, somente no backend.
 **Primary Dependencies**: supabase_flutter 2.18.3 como versão candidata estável;
-image_picker 1.2.4; shared_preferences 2.5.6 já resolvido; Flutter SDK e
-flutter_localizations. Resolver e travar versões compatíveis na implementação,
+image_picker 1.2.4; shared_preferences 2.5.6 já resolvido; provider 6.1.5+1;
+freezed_annotation 3.1.0; freezed 3.2.5 e build_runner 2.10.5 (dev); Flutter SDK e
+flutter_localizations. Novas versões são candidatas exatas, não resolução executada. Resolver e travar versões compatíveis na implementação,
 sem alegar que o novo conjunto já passou por pub get.
 **Storage**: Supabase PostgreSQL para animais, autorização e cuidados; Storage
 privado para imagens; preferências locais apenas para IDs de favoritos.
-**Testing**: flutter_test para regras e Widgets; fakes manuais; pgTAP para banco/RLS;
+**Testing**: flutter_test para regras de VM/Repository/Service e Widgets; fakes manuais;
+Services falsos para Repositories reais; Repositories falsos para VMs reais; pgTAP para banco/RLS;
 Deno.test para funções; integration_test do SDK para jornada em dispositivo;
 validação real de REST/Storage com anon, conta sem autorização e voluntário ativo.
 **Target Platform**: Android API 24+ prioritário; iOS 13+ preparado e validado no Mac.
@@ -52,18 +55,29 @@ para comprovar filtros, totais e paginação sem pressupor tamanho máximo do ab
 
 | Dependência | Decisão e finalidade | Alternativa avaliada e motivo |
 |---|---|---|
-| supabase_flutter 2.18.3 candidata | Adicionar para Auth, PostgreSQL, funções e Storage através dos Repositories. Exceção constitucional explícita. | SDK Flutter não fornece cliente Supabase; implementar protocolo próprio duplica autenticação e contratos. |
-| image_picker 1.2.4 | Adicionar somente para galeria (FR-013), encapsulado em PhotoRepository. | Flutter SDK não possui seletor multiplataforma de galeria. MethodChannels próprios ampliariam código nativo e testes Android/iOS. |
-| shared_preferences 2.5.6 | Manter para IDs locais de favoritos; somente FavoritesRepository importa o pacote. | dart:io exige tratamento separado de diretórios/plataformas; plugin existente atende o dado não crítico. Não armazenar prontuários, fotos ou rascunhos clínicos. |
+| supabase_flutter 2.18.3 candidata | Adicionar para Auth, PostgreSQL, funções e Storage nos Services, mediados por Repositories. Exceção constitucional explícita. | SDK Flutter não fornece cliente Supabase; implementar protocolo próprio duplica autenticação e contratos. |
+| image_picker 1.2.4 | Adicionar somente para galeria (FR-013), encapsulado em GalleryService e mediado por PhotoRepository. | Flutter SDK não possui seletor multiplataforma de galeria. MethodChannels próprios ampliariam código nativo e testes Android/iOS. |
+| shared_preferences 2.5.6 | Manter para IDs locais de favoritos; somente FavoritesStorageService importa o pacote; FavoritesRepository o consome. | dart:io exige tratamento separado de diretórios/plataformas; plugin existente atende o dado não crítico. Não armazenar prontuários, fotos ou rascunhos clínicos. |
 | flutter_lints 6.0.0 | Manter dependência de desenvolvimento e regras existentes. | Recriar regras manualmente não melhora o escopo; análise é um gate constitucional. |
 | shared_preferences_platform_interface | Remover dependência direta de teste após migrar testes para contratos/fakes. | Os novos testes não precisam testar a plataforma por dentro; o plugin pode continuar como dependência transitiva. |
 | flutter, flutter_localizations, flutter_test, integration_test | SDK; manter os existentes e adicionar integration_test apenas para execução em dispositivo. | Dependências nativas dispensadas de justificativa, responsabilidades registradas. |
+| provider 6.1.5+1 | Adicionar para registrar Services/Repositories/ChangeNotifiers e gerenciar escopo/dispose na composição. | Injeção manual é possível, mas a skill priorizada recomenda container; Provider evita service locator global e mantém construtores testáveis. Não adicionar get_it simultaneamente. |
+| freezed_annotation 3.1.0 | Adicionar para declarar modelos de domínio e snapshots imutáveis. | Classes manuais são possíveis, mas a skill priorizada pede freezed ou built_value. Selecionar Freezed para igualdade/copyWith/coleções protegidas. Não adicionar built_value em paralelo. |
+| freezed 3.2.5 (dev) | Gerar os modelos anotados, mantendo-os sem tipos do Supabase e sem fromJson. | SDK não gera o contrato Freezed. A versão 4 exige SDK mais novo; usar candidata compatível com Dart 3.11. |
+| build_runner 2.10.5 (dev, exata) | Executar a geração Freezed e validar arquivos gerados no CI. | Exigido pelo fluxo de geração escolhido. Versões posteriores podem conflitar em build/analyzer com Freezed 3.2.5; não usar caret até resolver o conjunto. |
 
-Não adicionar provider, riverpod, get_it, go_router, mockito, mocktail, uuid, image,
-http direto ou dotenv. Injeção por construtor, ListenableBuilder e Navigator do SDK
-são suficientes. IDs de operações vêm de Random.secure + base64url de dart:math/
-dart:convert; UUIDs persistidos são gerados no banco. Clipboard fica atrás de um
-contrato local, chamado pelo ViewModel, usando Flutter Services na implementação.
+Fixar candidatos e lockfile na implementação após pub get. Nenhuma dependência nova
+é instalada neste planejamento. Não adicionar riverpod, get_it, built_value,
+go_router, mockito, mocktail, uuid, image, http direto, dotenv, json_annotation ou
+json_serializable sem nova justificativa. DTOs têm mapeamento manual em data/models,
+sem serialização JSON gerada nos modelos de domínio.
+
+Provider só obtém/observa ViewModels nas Views; não permite acesso a Services ou
+Repositories pelo Widget. Inicializar operações de VM em bootstrap/fábrica de rota
+ou evento de ciclo de vida, nunca como efeito de leitura de Provider em build.
+Usar ListenableBuilder e Navigator do SDK. IDs de operações vêm de Random.secure +
+base64url; UUIDs persistidos vêm do banco. ClipboardService envolve Flutter Services,
+AdoptionMessageRepository o consome e o VM emite o comando.
 
 No backend, usar @supabase/supabase-js v2 e @imagemagick/magick-wasm v0, com versões
 exatas e deno.lock fixados na implementação. O primeiro é necessário ao acesso
@@ -79,21 +93,20 @@ plano satisfaz a regra; NÃO significa que o aplicativo atual já está conforme
 
 | Princípio | Antes da pesquisa | Após o desenho e evidência planejada |
 |---|---|---|
-| CONST-001 Feature-first MVVM | PASS-DESIGN: substituir estrutura horizontal | PASS-DESIGN: árvore abaixo; ui/domain/data em cada módulo; ChangeNotifier |
+| CONST-001 Flutter híbrido MVVM | PASS-DESIGN: seguir skill priorizada | PASS-DESIGN: UI por feature; data/domain por tipo; ChangeNotifier e Freezed |
 | CONST-002 Views isoladas | PASS-DESIGN: Views consomem apenas VM | PASS-DESIGN: contratos e testes de importação; composição em app/bootstrap.dart |
 | CONST-003 Regras nos VMs | PASS-DESIGN: mover filtros, validação e capacidades | PASS-DESIGN: matriz de responsabilidades e testes de canEdit/canAdopt/estados |
-| CONST-004 Repositories/Supabase | PASS-DESIGN: interfaces sem SDK | PASS-DESIGN: contratos; SDK só em data/*_repository.dart e bootstrap sem queries |
-| CONST-005 Testes unitários | PASS-DESIGN: obrigatórios | PASS-DESIGN: cada VM/Repository com sucesso, falha, validação e autorização aplicáveis |
+| CONST-004 Services/Repositories | PASS-DESIGN: contratos sem SDK | PASS-DESIGN: SDK só em data/services e inicialização no bootstrap; Repositories recebem Services |
+| CONST-005 Testes unitários | PASS-DESIGN: obrigatórios | PASS-DESIGN: cada VM/Repository e regra de Service com sucesso/falha/validação/autorização aplicáveis |
 | CONST-006 Widget Tests | PASS-DESIGN: oito telas | PASS-DESIGN: oito arquivos vinculados às telas; upload no editor |
 | CONST-007 Result | PASS-DESIGN: contrato único | PASS-DESIGN: failures tipadas; nenhuma exceção de SDK na UI; stream de sessão protegido |
-| CONST-008 Dependências | PASS-DESIGN: nenhum pacote adicionado agora | PASS-DESIGN: tabela acima e pesquisa; remoção de dependência direta obsoleta |
+| CONST-008 Dependências | PASS-DESIGN: nenhum pacote adicionado agora | PASS-DESIGN: Provider/Freezed/build_runner justificados; remoção de dependência direta obsoleta |
 | CONST-009 Inglês/português | PASS-DESIGN: padrão obrigatório | PASS-DESIGN: arquivos/classes ingleses; mensagens e validações portuguesas nos VMs |
 | CONST-010 Commits | PASS-DESIGN: rastrear por requisito | PASS-DESIGN: exemplo feat(auth): implemente login autorizado [001-FR-004]; revisão do histórico novo |
 
 Não há dispensas. Se uma tarefa ou uma limitação posterior violar um gate, corrigir
-este plano antes de avançar; não enfraquecer a constituição. O relatório transitório
-de sincronização da constituição permanece para revisão e deve ser retirado antes
-de um commit dela, sem alterar seu conteúdo normativo neste comando.
+este plano antes de avançar; não enfraquecer a constituição. A constituição 2.0.0
+foi sincronizada com este desenho; não há relatório transitório pendente.
 
 ## Project Structure
 
@@ -111,7 +124,7 @@ specs/001-align-app-constitution/
   contracts/backend.md
 ```
 
-`tasks.md` será produzido somente pelo próximo comando speckit-tasks.
+`tasks.md` é regenerado neste realinhamento; tarefas anteriores ainda não foram executadas.
 
 ### Source Code (repository root)
 
@@ -123,73 +136,101 @@ lib/
     app_dependencies.dart
     abrigo_app.dart
     app_router.dart
-  core/
+  config/app_config.dart
+  utils/
     result.dart
     app_failure.dart
     operation_id.dart
-    config/app_config.dart
-    theme/app_theme.dart
-    widgets/animal_portrait.dart
-    widgets/status_badge.dart
-  features/
-    home/
-      ui/home_screen.dart
-      ui/home_view_model.dart
-      ui/about_screen.dart
-      ui/about_view_model.dart
-      domain/adoption_message_repository.dart
-      data/clipboard_adoption_message_repository.dart
-    auth/
-      ui/login_screen.dart
-      ui/login_view_model.dart
-      ui/session_view_model.dart
-      domain/auth_repository.dart
-      domain/session_access.dart
-      data/supabase_auth_repository.dart
-    animals/
-      ui/catalog_screen.dart
-      ui/catalog_view_model.dart
-      ui/animal_detail_screen.dart
-      ui/animal_detail_view_model.dart
-      ui/dashboard_screen.dart
-      ui/dashboard_view_model.dart
-      ui/animal_editor_screen.dart
-      ui/animal_editor_view_model.dart
-      domain/animal.dart
-      domain/clinical_record.dart
-      domain/animal_draft.dart
-      domain/animal_query.dart
-      domain/animals_repository.dart
-      data/supabase_animals_repository.dart
-    favorites/
-      ui/favorites_screen.dart
-      ui/favorites_view_model.dart
-      domain/favorites_repository.dart
-      data/local_favorites_repository.dart
-    photos/
-      ui/photo_upload_view_model.dart
-      domain/photo_repository.dart
-      domain/photo_candidate.dart
-      domain/photo_content.dart
-      data/supabase_photo_repository.dart
-      ui/photo_recovery_view_model.dart
-      domain/photo_selection_request.dart
-      domain/photo_upload_state.dart
-      ui/photo_upload_panel.dart
-  # domain e data não importam ui; Widgets não recebem Repositories.
+  data/
+    models/
+      animal_dto.dart
+      clinical_record_dto.dart
+      session_dto.dart
+      photo_dto.dart
+    services/
+      auth_service.dart
+      supabase_auth_service.dart
+      animals_service.dart
+      supabase_animals_service.dart
+      photo_api_service.dart
+      supabase_photo_api_service.dart
+      gallery_service.dart
+      image_picker_gallery_service.dart
+      favorites_storage_service.dart
+      shared_preferences_favorites_service.dart
+      clipboard_service.dart
+      flutter_clipboard_service.dart
+    repositories/
+      auth_repository_impl.dart
+      animals_repository_impl.dart
+      photo_repository_impl.dart
+      favorites_repository_impl.dart
+      adoption_message_repository_impl.dart
+  domain/
+    models/
+      animal.dart
+      clinical_record.dart
+      animal_draft.dart
+      animal_query.dart
+      session_access.dart
+      photo_candidate.dart
+      photo_content.dart
+      photo_selection_request.dart
+      photo_upload_state.dart
+    repositories/
+      auth_repository.dart
+      animals_repository.dart
+      photo_repository.dart
+      favorites_repository.dart
+      adoption_message_repository.dart
+    # use_cases/ somente se complexidade/reuso justificar; sem use case vazio.
+  ui/
+    core/
+      theme/app_theme.dart
+      widgets/animal_portrait.dart
+      widgets/status_badge.dart
+    features/
+      home/
+        views/home_screen.dart
+        views/about_screen.dart
+        view_models/home_view_model.dart
+        view_models/about_view_model.dart
+      auth/
+        views/login_screen.dart
+        view_models/login_view_model.dart
+        view_models/session_view_model.dart
+      animals/
+        views/catalog_screen.dart
+        views/animal_detail_screen.dart
+        views/dashboard_screen.dart
+        views/animal_editor_screen.dart
+        view_models/catalog_view_model.dart
+        view_models/animal_detail_view_model.dart
+        view_models/dashboard_view_model.dart
+        view_models/animal_editor_view_model.dart
+      favorites/
+        views/favorites_screen.dart
+        view_models/favorites_view_model.dart
+      photos/
+        views/photo_upload_panel.dart
+        view_models/photo_upload_view_model.dart
+        view_models/photo_recovery_view_model.dart
 test/
-  core/
+  utils/
+  app/
   architecture/layer_boundaries_test.dart
-  features/<feature>/ui/<view_model>_test.dart
-  features/<feature>/ui/<screen>_test.dart
-  features/<feature>/data/<repository>_test.dart
+  domain/models/
+  data/models/
+  data/services/
+  data/repositories/
+  ui/features/<feature>/view_models/
+  ui/features/<feature>/views/
   support/fakes/
 integration_test/authorized_animal_flow_test.dart
 supabase/
   config.toml
   migrations/
-  tests/database/authorization.test.sql
-  tests/database/animal_save.test.sql
+  tests/database/
   functions/_shared/
   functions/animal-photo-read/index.ts
   functions/animal-photo-upload/index.ts
@@ -199,15 +240,23 @@ supabase/
   functions/deno.lock
 ```
 
-**Structure Decision**: VMs pertencem a ui, entidades/contratos a domain e acessos
-externos a data. PhotoUploadViewModel compõe o editor e PhotoRecoveryViewModel trata
-retorno da galeria no startup; ambos usam interfaces, não SDKs. Home/About recebem
-VMs mesmo quando apenas exibem conteúdo estático e eventos. AppRouter observa
-SessionViewModel e recebe eventos/capacidades prontos do VM: na expiração
-recuperável mantém o editor montado, oculto inclusive da acessibilidade, atrás da
-reautenticação; na perda definitiva descarta o rascunho e troca a pilha privada por
-pública. O Router não contém regra de autorização. Nenhum widget de app/
-recebe SupabaseClient; somente o bootstrap faz composição.
+**Structure Decision**: Services encapsulam SDKs e DTOs; Repositories recebem
+interfaces desses Services por construtor e retornam modelos de domínio/Result.
+Views observam VMs, não a camada de dados. Freezed para modelos/snapshots imutáveis;
+gerar .freezed.dart após cada mudança anotada e antes dos testes de cada incremento;
+versionar saídas determinísticas. DTOs manuais ficam em data.
+Services não têm estado de negócio ou cache; o cliente SDK injetado pode gerenciar
+sua conexão/sessão. Mapeamento puro de dados e exceções nos Services tem teste.
+Repositories mantêm a fonte de verdade e a orquestração/reconciliação sem executar
+queries. Use Cases só surgem se houver regra complexa ou reuso entre VMs demonstrado;
+não criar camada adicional para CRUD simples.
+
+Provider registra Services, contratos de Repository e VMs no escopo apropriado.
+ChangeNotifierProvider gerencia dispose; manter injeção por construtor. Não iniciar
+I/O em fábricas lazy acionadas por build. AppRouter recebe eventos/capacidades de
+SessionViewModel: em expiração recuperável mantém editor montado e oculto inclusive
+na acessibilidade; perda definitiva descarta rascunho/pilha. PhotoUploadViewModel
+compõe editor e PhotoRecoveryViewModel trata retorno da galeria sem SDK na UI.
 
 ### Responsabilidades e estados
 
@@ -224,10 +273,15 @@ recebe SupabaseClient; somente o bootstrap faz composição.
 - EditorViewModel: validações de FR-007, FR-008, mudanças, trava de submissão e token
   idempotente estável por ação. PhotoUploadViewModel: escolha, limites, envio,
   cancelamento e reconciliação; nenhuma regra dentro do formulário Widget.
-- Repositories: fonte de verdade, transações, mapeamentos, falhas; callbacks de
-  operações injetáveis definidos no próprio arquivo data para teste. Fábrica de
-  produção mantém todas as chamadas Supabase dentro da implementação Repository.
-  Não mover queries para adapters/services apenas para facilitar mocking.
+- Services: interfaces testáveis e implementações sem estado de negócio; chamadas
+  ao SDK Supabase/plugin e DTOs exclusivamente em data/services e data/models.
+  Converter falhas externas para resultado tipado, sem lançar ao Widget. Testes de
+  Services usam operações/transportes controlados dentro dessa fronteira.
+- Repositories: fonte de verdade, mapeamento DTO → domínio, cache permitido e
+  orquestração de transações/reconciliação através de Services. Testar implementação
+  real com Services falsos; não manter query, singleton do SDK ou plugin aqui.
+  FlutterServicesClipboard não se confunde com a camada Services: o wrapper
+  FlutterClipboardService é chamado pelo Repository e nunca por Widget.
 - Result sealed Success<T>/Failure<T>, AppFailure(code, fieldErrors, retryable,
   correlationId opcional sem segredo), com códigos validation, unauthenticated,
   forbidden, notFound, network, timeout, conflict, cancelled, permissionDenied,
@@ -286,11 +340,11 @@ recebe SupabaseClient; somente o bootstrap faz composição.
 
 ### Migração incremental
 
-1. Criar contratos/Result e fakes, esqueleto feature-first e composição; manter
+1. Criar contratos/Result e fakes, esqueleto híbrido e composição com Provider/Services; manter
    logo/tema. Caracterizar fluxos atuais antes de remover o store global.
 2. Construir banco/políticas e ambiente local isolado, sem importar demo_animals_v1.
    Preparar o script de fixtures no Setup, mas só executá-lo após as migrations
-   T016/T017/T019 e antes de T021. Fixtures não podem depender de RPCs futuras;
+   T018/T019/T021 e antes de T023. Fixtures não podem depender de RPCs futuras;
    criar dados pelo contexto administrativo local controlado, sem alterar policies.
 3. Migrar Auth/Session e remover acesso administrativo de demonstração. Ambiente
    não configurado oferece estado explícito, nunca dados fictícios de fallback.
@@ -307,24 +361,26 @@ incremento não conforme não pode ser apresentado como adequação concluída.
 
 | Tela principal | Arquivo alvo de Widget Test | Caminho feliz |
 |---|---|---|
-| Início | test/features/home/ui/home_screen_test.dart | exibe logo e navega ao catálogo por comando do VM |
-| Catálogo/busca | test/features/animals/ui/catalog_screen_test.dart | combina filtros, mostra resultado e abre detalhe |
-| Favoritos | test/features/favorites/ui/favorites_screen_test.dart | mostra favorito ainda visível e permite remover |
-| Detalhes | test/features/animals/ui/animal_detail_screen_test.dart | exibe campos públicos e copia interesse sem envio |
-| Sobre | test/features/home/ui/about_screen_test.dart | exibe conteúdo e volta pelo fluxo previsto |
-| Login | test/features/auth/ui/login_screen_test.dart | credenciais de teste autorizadas levam ao painel |
-| Painel | test/features/animals/ui/dashboard_screen_test.dart | alterna Kanban/lista e confirma alteração de status |
-| Cadastro/edição | test/features/animals/ui/animal_editor_screen_test.dart | valida, salva, seleciona e confirma foto por fake |
+| Início | test/ui/features/home/views/home_screen_test.dart | exibe logo e navega ao catálogo por comando do VM |
+| Catálogo/busca | test/ui/features/animals/views/catalog_screen_test.dart | combina filtros, mostra resultado e abre detalhe |
+| Favoritos | test/ui/features/favorites/views/favorites_screen_test.dart | mostra favorito ainda visível e permite remover |
+| Detalhes | test/ui/features/animals/views/animal_detail_screen_test.dart | exibe campos públicos e copia interesse sem envio |
+| Sobre | test/ui/features/home/views/about_screen_test.dart | exibe conteúdo e volta pelo fluxo previsto |
+| Login | test/ui/features/auth/views/login_screen_test.dart | credenciais de teste autorizadas levam ao painel |
+| Painel | test/ui/features/animals/views/dashboard_screen_test.dart | alterna Kanban/lista e confirma alteração de status |
+| Cadastro/edição | test/ui/features/animals/views/animal_editor_screen_test.dart | valida, salva, seleciona e confirma foto por fake |
 
-Cada VM e cada Repository concreto tem suíte própria com flutter_test, sem rede:
+Cada VM, Repository e Service com tratamento/validação tem suíte própria com flutter_test, sem rede:
 validação de fronteira (0/1/80/81 e 3000/3001, cuidados 1000/1001), loading,
 sucesso/falha/timeout, sessão e permissões, dispose/resposta tardia, mapeamento,
 PostgrestException/AuthException/StorageException/FunctionException,
 preferências, cancelamento e foto anterior preservada. Testar orquestração real
-do Repository com callbacks falsos, não substituir a classe sob teste por um fake.
+do Repository com Services falsos; testar Services reais com SDK/transportes controlados.
+Não substituir a classe sob teste por um fake.
 
 Gate de arquitetura varre imports, arquivos e tokens de acesso SDK: proibir pacotes
-externos em Widgets; data em ui/VM; consultas em bootstrap; UI/Supabase em domain;
+de infraestrutura em Widgets (permitir provider apenas para VMs); data em VMs;
+consultas fora de data/services; UI/Supabase em domain;
 e regras de filtro/permissão/validação em build. Complementar scanner com revisão
 manual, pois busca textual não prova ausência de toda lógica de negócio.
 
@@ -347,8 +403,8 @@ prova de segurança. Fixtures exclusivas do ambiente local/homologação.
 | FR-018 | DetailVM, clipboard repository | canAdopt + cópia sem envio |
 | FR-019 | tema/widgets/plataformas | oito Widgets + Android + iOS separado |
 | FR-020, FR-021 | bootstrap e retirada do store | zero importação demo + configuração vazia/estados vazios |
-| CR-001, CR-002 | árvore, contratos, Result | architecture test + revisão de responsabilidades |
-| CR-003, CR-004 | matriz de testes | unitários por regra + oito telas |
+| CR-001, CR-002 | árvore híbrida, Services, contratos, Result | architecture test + revisão de responsabilidades |
+| CR-003, CR-004 | matriz de testes | unitários por regra de VM/Repository/Service + oito telas |
 | CR-005, CR-006, CR-007 | backend, dependências, gates | testes reais de autorização + revisão de plano/commits |
 
 A próxima fase de tasks deve ordenar fundação → segurança/Auth → catálogo/manejo →
@@ -357,13 +413,13 @@ etapas de implementação dentro deste comando.
 
 ## Complexity Tracking
 
-Nenhuma violação constitucional autorizada. Funções de fotos e jobs de compensação
+Nenhuma violação da constituição 2.0.0 autorizada. Funções de fotos e jobs de compensação
 são complexidade necessária para FR-013, FR-014, FR-015, não justificativa para violar
 isolamento, testes ou segurança. Não criar exceções por conveniência.
 
 ## Validation and Delivery Gates
 
-Executar o roteiro em [quickstart.md](quickstart.md). Distinguir quatro resultados:
+Executar geração Freezed e o roteiro em [quickstart.md](quickstart.md). Distinguir quatro resultados:
 formatação/análise, unitários/Widgets, segurança backend e plataforma. Nenhum gate
 faltante é compensado pelos demais. A CI atual só executa Flutter; a implementação
 DEVE acrescentar jobs SQL/Edge e integração local/homologação antes de declarar

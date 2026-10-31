@@ -14,11 +14,19 @@
   devem ser testados; jamais deixar erro assíncrono não capturado no listener.
 - DTOs, SupabaseClient, User, Session, XFile e StorageException ficam em data.
   Entidades usam tipos Dart, coleções imutáveis e enumerações do domínio.
-- Toda implementação aceita operações/fábricas injetáveis privadas de data para
-  testar mapping/catch/orquestração; closures de produção com SDK ficam no mesmo
-  arquivo Repository. Fakes de domínio são usados só nos testes de ViewModel.
+- Services sem estado de negócio em data/services encapsulam SDKs/plugins e
+  retornam DTOs/Result. Interfaces desses Services permitem testar Repositories
+  reais sem rede. Repositories não chamam o SDK: consomem Services, fazem mapeamento
+  DTO → domínio e orquestram a fonte de verdade. A apresentação só conhece contratos
+  de Repository/entidades; nenhuma View ou VM recebe Service, DTO de API ou SDK.
+- Testes de Services reais usam operações/transportes controlados. Testes de
+  Repositories reais usam Services falsos; testes de VMs reais usam Repositories
+  falsos. Não confundir teste do fake com teste da implementação.
+- Entidades e snapshots imutáveis são Freezed; DTOs e conversores JSON são manuais
+  em data/models. Provider registra Services/Repositories/VMs em composição com
+  construtores explícitos; Views podem observar apenas seus ViewModels.
 
-## AuthRepository — features/auth/domain
+## AuthRepository — domain/repositories
 
 | Operação | Entrada | Resultado |
 |---|---|---|
@@ -29,8 +37,8 @@
 | signOut | nenhuma | Unit; estado privado limpo mesmo se encerramento remoto falhar |
 
 SessionAccess diferencia visitor, authenticatedWithoutStaff e authorized; VMs
-adicionam checking/unavailable de apresentação. Após login, getUser e access_context
-validam acesso. Revalidar em resume e antes de ações privadas; 401/403 invalida o
+adicionam checking/unavailable de apresentação. Após login, AuthRepository coordena AuthService, cujo wrapper Supabase executa
+getUser e access_context para validar acesso. Revalidar em resume e antes de ações privadas; 401/403 invalida o
 acesso atual e impede publicação de resultados privados tardios. Offline no restore
 não concede acesso staff com base em cache. Login inválido usa mensagem genérica.
 Classificar a interrupção para o VM sem tipos do SDK: expiração recuperável ou perda
@@ -43,7 +51,7 @@ O logout encerra localmente a sessão e a pilha; se falhar no servidor, informar
 falha sem restaurar a UI privada e permitir tentar revogar novamente. Não prometer
 revogação remota enquanto não confirmada.
 
-## AnimalsRepository — features/animals/domain
+## AnimalsRepository — domain/repositories
 
 | Operação | Entrada | Resultado |
 |---|---|---|
@@ -70,14 +78,14 @@ timestamps e autor. operationKey permanece estável após timeout até reconcili
 Não repetir automaticamente login, save ou upload com nova chave. Campos mudados
 após operação confirmada constituem nova submissão. Sem fila offline.
 
-## FavoritesRepository — features/favorites/domain
+## FavoritesRepository — domain/repositories
 
 - loadIds(): Result<Set<String>>; setFavorite(id, value): Result<Set<String>>.
 - Chave existente favorites_v1; escrever somente após sucesso. Filtrar IDs não
   consultáveis e cruzar dados por AnimalsRepository no VM. Falha local não muda
   indicador como se tivesse persistido. Nenhuma referência a dados clínicos.
 
-## PhotoRepository — features/photos/domain
+## PhotoRepository — domain/repositories
 
 | Operação | Entrada | Resultado |
 |---|---|---|
@@ -87,10 +95,11 @@ após operação confirmada constituem nova submissão. Sem fila offline.
 | getUpload | operationKey | Estado do job e referência confirmada |
 | readPrimary | animalId, photoId | PhotoContent(bytes, mime), nunca URL do Storage |
 
-PhotoCandidate possui bytes, tamanho e tipo detectado preliminar; não XFile nem
+PhotoRepository compõe PhotoApiService e GalleryService. PhotoCandidate possui
+bytes, tamanho e tipo detectado preliminar; não XFile nem
 caminho do sistema exposto ao Widget. Validar tamanho antes de ler bytes excessivos.
 Permissão negada pelo plugin (incluindo PlatformException de acesso à galeria)
-é capturada nesta implementação e convertida em Failure(permissionDenied), sem
+é capturada por ImagePickerGalleryService e convertida em Failure(permissionDenied), sem
 objeto de exceção bruto. Cancelamento continua Success(null). O VM encerra loading,
 exibe mensagem portuguesa e preserva rascunho/foto anterior; nenhum upload é iniciado.
 Servidor é autoridade da validação final. Um candidato recuperado exige confirmação
@@ -99,14 +108,16 @@ Durante envio usar submitting, reconciling, success ou failure; cancelamento nor
 é da seleção, não rollback fictício de upload em processamento. Renderizar a imagem
 anterior até confirmação da nova. Bloquear duplo clique no VM e idempotência no backend.
 
-readPrimary ocorre no Repository via função e devolve bytes. Não usar Image.network
+readPrimary é coordenado pelo Repository; PhotoApiService chama a função e
+retorna bytes/metadata ao Repository, que entrega PhotoContent ao VM. Não usar Image.network
 com URL de Storage que passe por fora da fronteira do Repository. Cache, se houver,
 é memória de tela; invalidar no refresh de visibilidade e em mudança de sessão,
 sem usar URL assinada como identidade permanente da imagem.
 
-## AdoptionMessageRepository — features/home/domain
+## AdoptionMessageRepository — domain/repositories
 
-- copyInterestMessage(publicAnimal): Result<Unit>, implementação Flutter Clipboard.
+- copyInterestMessage(publicAnimal): Result<Unit>; Repository consome
+  ClipboardService, cuja implementação envolve Flutter Clipboard.
 - DetailViewModel calcula canAdopt (published e available) e emite comando;
   sucesso informa “Mensagem copiada. Nenhum pedido foi enviado.”.
 - Widget recebe estado/mensagem, não chama Clipboard ou o Repository diretamente.
@@ -120,4 +131,27 @@ queries, validações, autorização, seleção de pacote externo ou cálculo de
 
 Cada estado possui busy, erro amigável e dados confirmados quando aplicáveis.
 Fakes de Repository fornecem Result determinístico; testes verificam ViewModel real
-e Widget real. Testes não dependem de serviço, galeria ou área de transferência reais.
+e Widget real. Testes unitários/Widget não dependem de backend, galeria ou área de
+transferência reais. A regra não dispensa os testes reais de autorização separados.
+
+## Service contracts — data/services
+
+| Contrato / implementação | Responsabilidade e retorno para Repository |
+|---|---|
+| AuthService / SupabaseAuthService | signIn, restore/current identity, access_context, sessão/eventos e logout; DTO/Result, sem regra de UI |
+| AnimalsService / SupabaseAnimalsService | Consultas parametrizadas, paginação, RPCs transacionais e contadores; AnimalDto/ClinicalRecordDto/Result |
+| PhotoApiService / SupabasePhotoApiService | Funções de foto, byte-proxy, upload/reconciliação; PhotoDto/bytes/Result; sem URLs Storage na UI |
+| GalleryService / ImagePickerGalleryService | Galeria/retrieveLostData, XFile somente interno, checagem segura de tamanho e permissionDenied; GallerySelectionDto/Result (bytes neutros, não PhotoCandidate de domínio) |
+| FavoritesStorageService / SharedPreferencesFavoritesService | Leitura/escrita de IDs em favorites_v1, sem clínicos/rascunhos; conjunto/Result |
+| ClipboardService / FlutterClipboardService | Copiar mensagem de interesse fornecida; Unit/Result, sem enviar solicitação |
+
+As interfaces ficam nos respectivos arquivos data/services/*_service.dart, e
+implementações SDK nos arquivos de implementação indicados. DTOs em data/models
+não contêm estado de apresentação. Services não armazenam cache de negócio;
+Repositories decidem cache permitido e reconciliação e garantem Result em toda
+saída para VMs, inclusive em falha inesperada recebida de Service. AuthService
+pode envolver cliente SDK que mantém sua sessão; isso não é cache de negócio no Service.
+
+GallerySelectionDto pertence a data/models/photo_dto.dart; PhotoRepository converte
+o DTO em PhotoCandidate de domínio antes de entregá-lo ao VM. Bytes/IDs primitivos
+de Services locais são permitidos, sem modelos de SDK ou regras de apresentação.

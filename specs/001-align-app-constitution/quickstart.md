@@ -33,8 +33,8 @@ remoto do abrigo. Seeds locais de teste não são importação automática da de
 da limpeza e variáveis exigidas pelo runtime. A configuração Auth/gateway específica
 por função deve seguir contracts/backend.md, sem desligar autenticação globalmente.
 
-T006 apenas cria o script. Só executar fixtures após as migrations T016/T017/T019
-(com schema/políticas/bucket criados) e antes do gate T021, em ambiente descartável.
+T006 apenas cria o script. Só executar fixtures após as migrations T018/T019/T021
+(com schema/políticas/bucket criados) e antes do gate T023, em ambiente descartável.
 O script usa contexto administrativo local controlado, verifica o ambiente alvo e
 não depende de save_animal, finalize ou outras RPCs das histórias futuras.
 
@@ -53,6 +53,7 @@ deve preferir HTTPS de homologação quando a rede local não estiver configurad
 
 ```powershell
 flutter pub get
+dart run build_runner build --delete-conflicting-outputs
 flutter doctor -v
 flutter devices
 flutter run -d <device-id> --dart-define=SUPABASE_URL=<url-de-desenvolvimento> --dart-define=SUPABASE_PUBLISHABLE_KEY=<chave-publica>
@@ -66,6 +67,7 @@ inexistente; não pode haver login staff ou gravações locais silenciosas de fa
 ## 3. Gates automatizados
 
 ```powershell
+dart run build_runner build --delete-conflicting-outputs
 dart format --output=none --set-exit-if-changed lib test
 flutter analyze
 flutter test --coverage
@@ -86,9 +88,13 @@ Não copiar senhas de teste para documentos versionados.
 
 **Resultados exigidos**:
 
-- Unitários de todas as regras de VMs/Repositories, inclusive falhas e autorização.
+- Unitários de todas as regras de VMs/Repositories e tratamentos/validações de
+  Services, inclusive falhas e autorização; testes de Services usam transportes
+  controlados e os de Repository usam Services falsos.
 - Oito arquivos de Widget Test da matriz do plano, mais upload no editor.
-- Teste de arquitetura e revisão manual das fronteiras, mensagens e build.
+- Teste de arquitetura híbrida, Provider somente para VMs nas Views e revisão
+  manual das fronteiras, mensagens e build. Regenerar .freezed.dart versionados e
+  confirmar ausência de diferenças; geração não substitui análise/testes.
 - pgTAP com RLS/grants, RPCs, atomicidade, idempotência e privacidade.
 - Deno/HTTP com byte-proxy sem cache, validação de imagem e reconciliação/cleanup.
 - Build Android e jornada em dispositivo. iOS registrado separadamente em Mac.
@@ -134,7 +140,7 @@ pendências. Não registrar tokens/segredos ou dados reais. SC-001 a SC-008 deve
 apontar evidência verificável, não apenas este plano.
 
 Na implementação, ampliar `.github/workflows/flutter.yml` com banco local e
-funções; manter análise/testes/APK e upload do artifact debug. Os jobs não recebem
+funções; manter geração Freezed/análise/testes/APK e upload do artifact debug. Os jobs não recebem
 segredos de produção e a ausência de integração backend não é aceita como sucesso.
 Assinatura release, publicação em lojas e criação de equipe no app estão fora do escopo.
 
