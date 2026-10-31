@@ -700,3 +700,17 @@ mensagens são portuguesas, configuração ausente falha fechada. Revogação de
 Comando Deno validado inclui --allow-read=supabase/functions para permitir o WASM
 vendorizado; a task antiga com leitura restrita a tests precisa ser corrigida na
 esteira antes de usá-la como gate automatizado. iOS/produção continuam não validados.
+
+### US6 — jornada autorizada integrada no Android
+
+T098: authorized_animal_flow_test.dart PASS no emulador (34 s de jornada): visitante
+abre catálogo, login real, cadastro privado via RPC, edição pelo formulário, seleção
+nativa cancelada, duas seleções/uploads e substituição com bytes reais, salvamento
+do rascunho, publicação pelo editor, segunda sessão confirma foto/notas/publicação,
+cliente sem sessão enxerga o animal e logout remove o escopo privado. Senha apenas
+runtime via controlador loopback, sem segredo na build. Fixture removida ao terminar.
+
+Duas tentativas anteriores falharam no harness por rolagem/teclado e não contam como
+aprovação; ajustado o teste para localizar controles fora da área carregada e fechar
+teclado. Driver concluiu cancelamento e as duas seleções. Não houve mudança de layout.
+US6 concluída: 102/108 tarefas. Restam gates de entrega, CI/CD e dependências de iOS.
