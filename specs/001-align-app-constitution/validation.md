@@ -242,3 +242,30 @@ o emulador, a execução completa passou em 22 s (mais build/instalação). A as
 de Voltar verifica canPop=false na raiz após logout, sem fechar a Activity.
 T044–T054 encerradas: **54/108 tarefas concluídas**. CI/CD detalhada na T103,
 conforme solicitação; execução mantida para a fase de entrega após as histórias.
+
+
+## US3 — backend de cadastro/edição [FR-007, FR-008, FR-009, SC-003]
+
+Incremento após e0ec083, Supabase local descartável, 2026-10-31:
+- Testes escritos antes: SQL falhou pela ausência de save_animal; nove testes de
+  Service/Repository falharam com configuration nos métodos ainda não implementados.
+- Migration 006_animal_writes aplicada localmente. `supabase test db`: **58 PASS**,
+  sendo 22 casos de escrita. Inclui limites exatos de caracteres Unicode, rejeição
+  de campos privilegiados, autoria servidor, chave repetida/conflitante e negação
+  após revogação. Trigger de teste provoca falha depois da atualização do animal;
+  animal, notas e cuidados anteriores são preservados pelo rollback da transação.
+- `deno task --env-file=supabase/.env.local --config supabase/functions/deno.json test`:
+  **7 PASS**. Nova prova HTTP usa duas sessões reais; cria privado, edita em outra
+  sessão, relê atualização, reconcilia resposta perdida e dispara dois saves
+  concorrentes com a mesma chave: ambos retornam o mesmo UUID. Replay após edição
+  devolve o resultado original sem reverter os dados atuais. Visitante não lê notas
+  nem o novo animal; escrita direta do cliente é negada. Fixtures criadas são limpas.
+- Service/Repository: **9 novos testes PASS**; transporte real do SDK controlado,
+  Result sanitizado, campos editáveis, autorização e chave preservada no timeout.
+- Gate de desenvolvimento do conjunto: `flutter analyze` sem problemas e
+  `flutter test --no-pub --coverage --reporter expanded`: **97 PASS**. Inclui editor
+  em desenvolvimento; sua entrega nativa será registrada separadamente.
+
+T055/T056/T057/T060–T063/T066 encerradas: **62/108 tarefas**. T058/T059/T064/T065
+aguardam fechamento da integração da tela. Upload/publicação/manejo continuam nas
+histórias seguintes. Banco remoto de produção não foi vinculado ou alterado.

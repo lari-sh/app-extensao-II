@@ -62,6 +62,22 @@ final class ManagedAnimalDto {
   }) : careRecords = List.unmodifiable(
          careRecords.map((item) => Map<String, dynamic>.unmodifiable(item)),
        );
+  factory ManagedAnimalDto.fromJson(Map<String, dynamic> json) {
+    final notes = json['clinical_notes'];
+    final records = json['care_records'];
+    if (notes is! String || records is! List) {
+      throw const FormatException('Invalid private data');
+    }
+    return ManagedAnimalDto(
+      animal: AnimalDto.fromJson(
+        (json['animal'] as Map).cast<String, dynamic>(),
+      ),
+      clinicalNotes: notes,
+      careRecords: records
+          .map((item) => (item as Map).cast<String, dynamic>())
+          .toList(),
+    );
+  }
   final AnimalDto animal;
   final String clinicalNotes;
   final List<Map<String, dynamic>> careRecords;

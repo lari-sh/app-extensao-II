@@ -1,4 +1,5 @@
 import '../../utils/app_failure.dart';
+import '../../domain/models/clinical_record.dart';
 import '../models/animal_dto.dart';
 import 'repository_result.dart';
 import 'package:abrigo_dos_anjos/utils/result.dart';
@@ -30,6 +31,19 @@ class AnimalsRepositoryImpl implements AnimalsRepository {
     );
   }
 
+  ManagedAnimal _managed(ManagedAnimalDto dto) => ManagedAnimal(
+    animal: _animal(dto.animal),
+    clinicalNotes: dto.clinicalNotes,
+    careRecords: dto.careRecords
+        .map(
+          (record) => ClinicalRecord(
+            id: record['id'] as String?,
+            kind: ClinicalRecordKind.values.byName(record['kind'] as String),
+            description: record['description'] as String,
+          ),
+        )
+        .toList(),
+  );
   @override
   Future<Result<AnimalPage>> listPublic(AnimalQuery query, {String? cursor}) =>
       mapRepositoryResult(
@@ -80,10 +94,20 @@ class AnimalsRepositoryImpl implements AnimalsRepository {
   Future<Result<ManagedAnimalPage>> listManagement({
     AnimalStatus? status,
     String? cursor,
-  }) async => Failure(AppFailure(FailureCode.configuration));
+  }) => mapRepositoryResult(
+    () => service.listManagement(status: status?.name, cursor: cursor),
+    (page) => ManagedAnimalPage(
+      items: page.items.map(_managed).toList(),
+      total: page.total,
+      cursor: page.cursor,
+    ),
+  );
   @override
-  Future<Result<ManagedAnimal>> getManagement(String id) async =>
-      Failure(AppFailure(FailureCode.configuration));
+  Future<Result<ManagedAnimal>> getManagement(String id) async {
+    if (!isAnimalId(id)) return Failure(AppFailure(FailureCode.notFound));
+    return mapRepositoryResult(() => service.getManagement(id), _managed);
+  }
+
   @override
   Future<Result<Map<AnimalStatus, int>>> getStatusCounts() async =>
       Failure(AppFailure(FailureCode.configuration));
@@ -91,7 +115,36 @@ class AnimalsRepositoryImpl implements AnimalsRepository {
   Future<Result<ManagedAnimal>> saveAnimal(
     AnimalDraft draft,
     String operationKey,
-  ) async => Failure(AppFailure(FailureCode.configuration));
+  ) async {
+    if (draft.validate().isNotEmpty ||
+        (draft.id != null && !isAnimalId(draft.id!))) {
+      return Failure(AppFailure(FailureCode.validation));
+    }
+    return mapRepositoryResult(
+      () => service.saveAnimal({
+        'id': draft.id,
+        'name': draft.name.trim(),
+        'species': draft.species!.name,
+        'sex': draft.sex!.name,
+        'size': draft.size!.name,
+        'approximate_age': draft.approximateAge.trim(),
+        'public_description': draft.publicDescription,
+        'clinical_notes': draft.clinicalNotes,
+        'is_vaccinated': draft.isVaccinated,
+        'is_neutered': draft.isNeutered,
+        'care_records': draft.careRecords
+            .map(
+              (record) => {
+                'kind': record.kind.name,
+                'description': record.description.trim(),
+              },
+            )
+            .toList(),
+      }, operationKey),
+      _managed,
+    );
+  }
+
   @override
   Future<Result<PublicAnimal>> setStatus(
     String id,
@@ -105,6 +158,10 @@ class AnimalsRepositoryImpl implements AnimalsRepository {
     String operationKey,
   ) async => Failure(AppFailure(FailureCode.configuration));
   @override
-  Future<Result<ManagedAnimal?>> getOperation(String operationKey) async =>
-      Failure(AppFailure(FailureCode.configuration));
+  Future<Result<ManagedAnimal?>> getOperation(String operationKey) =>
+      mapRepositoryResult(
+        () => service.getOperation(operationKey),
+        (data) =>
+            data == null ? null : _managed(ManagedAnimalDto.fromJson(data)),
+      );
 }

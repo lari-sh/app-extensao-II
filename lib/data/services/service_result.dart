@@ -24,7 +24,9 @@ Future<Result<T>> serviceResult<T>(Future<T> Function() action) async {
   } on PostgrestException catch (error) {
     final code = switch (error.code) {
       '42501' || '403' => FailureCode.forbidden,
-      'PGRST116' || '404' => FailureCode.notFound,
+      'PGRST116' || 'PT404' || '404' => FailureCode.notFound,
+      'PT409' || '23505' => FailureCode.conflict,
+      '22023' || '23514' || '22P02' => FailureCode.validation,
       '401' => FailureCode.unauthenticated,
       _ => FailureCode.unknown,
     };

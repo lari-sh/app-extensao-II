@@ -482,3 +482,14 @@ criado pela composição, testado com editor em memória, preservando montagem c
 Offstage/ExcludeSemantics/IgnorePointer na expiração recuperável; logout/revogação/
 outro usuário/cancelamento recriam ou removem o escopo. A integração do editor real
 é verificada novamente na US3/US6, sem inventar funcionalidade de cadastro na US2.
+
+
+## US3 — detalhe de implementação das RPCs
+
+Consulta privada usa get_managed_animal/list_managed_animals para ler o agregado
+completo em uma chamada e validar staff no servidor. A lista usa cursor name,id,
+página 50 e total global; não é o painel por situação da US5. Salvamento usa lock
+por ator/chave e digest SHA-256 do payload normalizado, com resultado privado em
+write_operations. O SDK permanece somente no Service. Nenhuma nova dependência.
+Funções SECURITY DEFINER têm search_path vazio e EXECUTE explícito, conforme
+https://supabase.com/docs/guides/database/functions .

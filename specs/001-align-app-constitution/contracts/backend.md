@@ -189,3 +189,22 @@ em metadados editáveis ou somente no JWT em cache. Sessão revogada retorna ace
 inválido mesmo quando o token ainda não expirou. Consultar validation.md para
 as evidências de SQL/HTTP; as RPCs de escrita das etapas seguintes permanecem
 pendentes e não são disponibilizadas por esta migration.
+
+
+## Implementação da escrita (migration 006)
+
+save_animal(p_operation_key text, p_payload jsonb) recebe somente campos editáveis,
+normaliza nome/idade/cuidados e grava o agregado numa transação. O resultado contém
+animal público, clinical_notes e care_records, somente para staff revalidado.
+get_managed_animal(p_animal_id uuid), list_managed_animals(p_status text,
+p_cursor jsonb) e get_write_operation(p_operation_key text) também exigem staff
+atual. Cursor privado é [name,id], página de 50, total calculado no servidor.
+
+write_operations não é legível por clientes. Chave de 32 caracteres base64url é
+única por ator; digest SHA-256 do payload normalizado detecta conflito. Advisory
+lock serializa submissões concorrentes da mesma chave; o mesmo resultado é repetido
+sem reaplicar uma alteração já concluída. Reconsulta antes de gerar nova operação.
+Erros SQL PT409/22023/PT404/42501 são convertidos em falhas de domínio, nunca em
+texto bruto na interface. Novo animal nasce privado e available; formulário não
+altera status/publicação/foto/autoria. Cuidados são substituídos atomicamente por
+registros com UUID/autoria gerados pelo servidor; não há histórico de prescrições.
