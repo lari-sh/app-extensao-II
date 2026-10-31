@@ -167,6 +167,11 @@ void main() {
             )
             .first,
       );
+      await Scrollable.ensureVisible(
+        tester.element(find.text('Cancelar reautenticação')),
+        alignment: 0.5,
+      );
+      await tester.pumpAndSettle();
       await tester.tap(find.text('Cancelar reautenticação'));
       await tester.pumpAndSettle();
       expect(disposed, 2);

@@ -42,22 +42,14 @@ class _LoginScreenState extends State<LoginScreen> {
         builder: (context, _) => ListView(
           padding: const EdgeInsets.fromLTRB(28, 24, 28, 24),
           children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                width: 64,
-                height: 64,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF6EAE5),
-                  borderRadius: BorderRadius.circular(18),
-                  border: Border.all(color: const Color(0xFFEADDD7)),
-                ),
-                child: const Center(
-                  child: SizedBox.square(
-                    dimension: 38,
-                    child: CustomPaint(painter: _AccessMarkPainter()),
-                  ),
-                ),
+            Center(
+              child: Image.asset(
+                'assets/images/logo.png',
+                key: const ValueKey('loginShelterLogo'),
+                width: 140,
+                height: 140,
+                fit: BoxFit.contain,
+                semanticLabel: 'Abrigo dos Anjos — Humanizando Vidas',
               ),
             ),
             const SizedBox(height: 18),
@@ -217,36 +209,4 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     ),
   );
-}
-
-// The small line drawing used by the approved login artboard.
-class _AccessMarkPainter extends CustomPainter {
-  const _AccessMarkPainter();
-  @override
-  void paint(Canvas canvas, Size size) {
-    canvas.scale(size.width / 64, size.height / 64);
-    final outline = Paint()
-      ..color = const Color(0xFFC51D2A)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 2.4;
-    final body = Path()
-      ..moveTo(16, 36)
-      ..cubicTo(16, 28, 22, 22, 30, 22)
-      ..cubicTo(38, 22, 44, 28, 44, 36)
-      ..lineTo(44, 42)
-      ..lineTo(16, 42)
-      ..close();
-    canvas.drawPath(body, Paint()..color = const Color(0xFFFCF4EE));
-    canvas.drawPath(body, outline);
-    for (final center in [
-      const Offset(24, 22),
-      const Offset(40, 22),
-      const Offset(32, 34),
-    ]) {
-      canvas.drawCircle(center, 3, outline);
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant _AccessMarkPainter oldDelegate) => false;
 }

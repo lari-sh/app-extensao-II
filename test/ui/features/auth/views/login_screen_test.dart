@@ -36,6 +36,11 @@ void main() {
             )
             .first,
       );
+      await Scrollable.ensureVisible(
+        tester.element(find.text('Esqueci a senha')),
+        alignment: 0.5,
+      );
+      await tester.pumpAndSettle();
       await tester.tap(find.text('Esqueci a senha'));
       await tester.tap(find.byType(Checkbox));
       await tester.pumpAndSettle();
@@ -51,6 +56,11 @@ void main() {
             )
             .first,
       );
+      await Scrollable.ensureVisible(
+        tester.element(find.text('Conhecer os animais disponíveis')),
+        alignment: 0.5,
+      );
+      await tester.pumpAndSettle();
       await tester.tap(find.text('Conhecer os animais disponíveis'));
       await tester.pumpAndSettle();
       expect(find.text('Catálogo público'), findsOneWidget);
@@ -85,6 +95,9 @@ void main() {
         'secret',
       );
       expect(find.byType(AppBar), findsNothing);
+      final logo = find.byKey(const ValueKey('loginShelterLogo'));
+      expect(logo, findsOneWidget);
+      expect(tester.getCenter(logo).dx, closeTo(400, 1));
       expect(find.text('E-mail institucional'), findsOneWidget);
       expect(find.text('Permanecer logado'), findsOneWidget);
       expect(tester.widget<Checkbox>(find.byType(Checkbox)).onChanged, isNull);

@@ -513,3 +513,19 @@ nova de adotado é negada. SDK segue somente no Service, mapeado pelo Repository
 - APK debug recompilado com configuração pública local e instalado com sucesso.
   Android iniciou a MainActivity com Status ok / COLD. Entrada de voluntário
   acionada e login inspecionado visualmente; deixado aberto para teste manual.
+
+### Logo no topo do login — 2026-10-31
+
+Mudança visual explicitamente solicitada pela responsável: substituir o ícone do
+login pelo logo do Abrigo dos Anjos, centralizado no topo. App usa o asset existente
+logo.png em 140 × 140, sem distorção. Removido o desenho anterior.
+
+O HTML original do Open Design foi atualizado no artboard screen-4: auth-logo
+centralizado por margin auto e imagem image.png de 140 × 140 com object-fit contain.
+Arquivo externo ao Git: AppData/Roaming/Open Design/namespaces/release-stable-win/
+data/projects/2576323d-2abf-4705-8dbd-891741e82042/abrigo-dos-anjos-figma.html.
+Os controles Permanecer logado e Esqueci a senha continuam desabilitados.
+- Validação: 135 testes Flutter PASS; analyze sem problemas. Teste verifica o
+  asset do logo e o alinhamento horizontal central; rolagem/reautenticação aprovadas.
+  APK debug gerado e instalado; logo centralizado confirmado visualmente no login
+  do emulador. HTML conferido com img image.png e CSS centralizado.
