@@ -1,9 +1,9 @@
 # Feature Specification: Adequação do Abrigo dos Anjos à constituição
 
-**Feature Branch**: `main` (branch atual; nenhuma branch criada por hook)
+**Feature Branch**: `developer` (criada a pedido; integração à main por PR)
 **Feature Directory**: `specs/001-align-app-constitution`
 **Created**: 2026-10-31
-**Status**: Ready for planning
+**Status**: Em implementação; fundação e jornada pública concluídas, demais histórias pendentes
 **Input**: User description: "Adeque o app Abrigo dos Anjos à constituição: arquitetura Flutter com MVVM, ViewModels, Repositories e Services, backend Supabase, autenticação, upload de fotos e testes obrigatórios; prevalecem as recomendações da skill flutter-apply-architecture-best-practices, conforme constituição 2.0.0."
 
 ## User Scenarios & Testing *(mandatory)*

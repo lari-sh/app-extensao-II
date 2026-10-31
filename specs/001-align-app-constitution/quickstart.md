@@ -158,3 +158,24 @@ Este planejamento termina antes de tasks e implementação. Próximo comando:
   auth.email.enable_signup controla GOTRUE_EXTERNAL_EMAIL_ENABLED; o bloqueio
   de novos cadastros é auth.enable_signup=false.
 - .env.example documenta apenas variáveis de servidor; nenhum segredo vai a dart-defines.
+
+## Ambiente Android instalado e verificado
+
+Em 2026-10-31: Android Studio Rabbit 2 / 2026.2.2, command-line tools 22,
+plataforma API 36, Build Tools 35.0.0/36.0.0, NDK 28.2.13676358 e CMake 3.22.1.
+Arquivos oficiais de Google e Microsoft conferidos por SHA-256 antes de extrair.
+Java Microsoft 21.0.13.0.2 selecionado no Flutter: JBR 25 acompanha o Studio novo,
+mas Gradle 8.14 do projeto é executado no Java 21. `flutter doctor -v` aprovou a
+toolchain e licenças Android; Android Studio foi aberto conforme solicitado.
+
+A instância local de leitura de foto usa a migration 004_photo_read; migrations
+futuras de escrita/finalização/manejo passam a 005/006/007. Iniciar a função:
+`npx --yes supabase@2.122.0 functions serve animal-photo-read`.
+A configuração verify_jwt=false é específica da leitura pública; o handler aplica
+autorização por animal/foto, e o resolver RPC só pode ser invocado pelo servidor.
+
+Teste de jornada pública em emulador local:
+`flutter test integration_test/public_catalog_flow_test.dart -d emulator-5554`
+com os dart-defines públicos, URL http://10.0.2.2:54321 e ALLOW_LOCAL_HTTP=true.
+Preparar fixtures antes do teste. Não executar testes HTTP que ocultam/adotam as
+mesmas fixtures em paralelo com a jornada Android.

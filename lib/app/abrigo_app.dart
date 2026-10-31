@@ -3,8 +3,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import '../ui/core/theme/app_theme.dart';
 
 class AbrigoApp extends StatelessWidget {
-  const AbrigoApp({super.key, required this.home});
-  final Widget home;
+  const AbrigoApp({super.key, this.home, this.onGenerateRoute});
+  final Widget? home;
+  final RouteFactory? onGenerateRoute;
   @override
   Widget build(BuildContext context) => MaterialApp(
     title: 'Abrigo dos Anjos',
@@ -14,5 +15,6 @@ class AbrigoApp extends StatelessWidget {
     supportedLocales: const [Locale('pt', 'BR')],
     localizationsDelegates: GlobalMaterialLocalizations.delegates,
     home: home,
+    onGenerateRoute: onGenerateRoute,
   );
 }

@@ -1,0 +1,71 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../domain/repositories/animals_repository.dart';
+import '../domain/repositories/favorites_repository.dart';
+import '../domain/repositories/photo_repository.dart';
+import '../domain/repositories/adoption_message_repository.dart';
+import '../ui/features/home/view_models/home_view_model.dart';
+import '../ui/features/home/view_models/about_view_model.dart';
+import '../ui/features/animals/view_models/catalog_view_model.dart';
+import '../ui/features/animals/view_models/animal_detail_view_model.dart';
+import '../ui/features/favorites/view_models/favorites_view_model.dart';
+import '../ui/features/home/views/home_screen.dart';
+import '../ui/features/home/views/about_screen.dart';
+import '../ui/features/animals/views/catalog_screen.dart';
+import '../ui/features/animals/views/animal_detail_screen.dart';
+import '../ui/features/favorites/views/favorites_screen.dart';
+
+class AppRouter {
+  const AppRouter({
+    required this.animals,
+    required this.favorites,
+    required this.photos,
+    required this.adoption,
+  });
+  final AnimalsRepository animals;
+  final FavoritesRepository favorites;
+  final PhotoRepository photos;
+  final AdoptionMessageRepository adoption;
+  Route<dynamic> _page<T extends ChangeNotifier>(
+    RouteSettings settings,
+    T vm,
+    Widget screen,
+  ) => MaterialPageRoute(
+    settings: settings,
+    builder: (_) => ChangeNotifierProvider<T>(
+      create: (_) => vm,
+      lazy: false,
+      child: screen,
+    ),
+  );
+  Route<dynamic> onGenerateRoute(RouteSettings settings) {
+    switch (settings.name) {
+      case '/':
+        final vm = HomeViewModel();
+        return _page(settings, vm, HomeScreen(viewModel: vm));
+      case '/about':
+        final vm = AboutViewModel();
+        return _page(settings, vm, AboutScreen(viewModel: vm));
+      case '/catalog':
+        final vm = CatalogViewModel(animals, favorites, photos);
+        vm.load();
+        return _page(settings, vm, CatalogScreen(viewModel: vm));
+      case '/favorites':
+        final vm = FavoritesViewModel(animals, favorites, photos);
+        vm.load();
+        return _page(settings, vm, FavoritesScreen(viewModel: vm));
+      case '/detail':
+        final vm = AnimalDetailViewModel(animals, favorites, photos, adoption);
+        vm.load(
+          settings.arguments is String ? settings.arguments as String : '',
+        );
+        return _page(settings, vm, AnimalDetailScreen(viewModel: vm));
+      default:
+        return MaterialPageRoute(
+          builder: (_) => const Scaffold(
+            body: Center(child: Text('Página não encontrada.')),
+          ),
+        );
+    }
+  }
+}

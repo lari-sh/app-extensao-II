@@ -1,10 +1,10 @@
 # Implementation Plan: Adequação do Abrigo dos Anjos
 
-**Branch**: `main` (branch Git real) | **Date**: 2026-10-31 | **Spec**: [spec.md](spec.md)
+**Branch**: `developer` (implementação; integração à main por PR) | **Date**: 2026-10-31 | **Spec**: [spec.md](spec.md)
 **Feature ID**: `001-align-app-constitution`
 **Input**: `specs/001-align-app-constitution/spec.md`
 **Constitution**: versão 2.0.0, ratificada em 2026-10-31.
-**Status**: desenho técnico concluído; implementação e validação ainda não executadas.
+**Status**: implementação em andamento; fundação e US1 pública validadas localmente; demais histórias pendentes.
 
 ## Summary
 
@@ -134,6 +134,7 @@ lib/
   app/
     bootstrap.dart
     app_dependencies.dart
+    public_dependencies.dart
     abrigo_app.dart
     app_router.dart
   config/app_config.dart
@@ -186,6 +187,8 @@ lib/
     # use_cases/ somente se complexidade/reuso justificar; sem use case vazio.
   ui/
     core/
+      view_models/public_list_view_model.dart
+      widgets/public_animal_list.dart
       theme/app_theme.dart
       widgets/animal_portrait.dart
       widgets/status_badge.dart
@@ -226,6 +229,7 @@ test/
   ui/features/<feature>/view_models/
   ui/features/<feature>/views/
   support/fakes/
+integration_test/public_catalog_flow_test.dart
 integration_test/authorized_animal_flow_test.dart
 supabase/
   config.toml
@@ -429,3 +433,30 @@ Pendências operacionais: disponibilizar projeto Supabase de desenvolvimento,
 provisionar contas de teste fora do app e configurar SDK Android/dispositivo.
 Windows não valida build iOS. Essas dependências não mudam decisões arquiteturais
 e não impedem gerar tasks; impedem declarar integração real ou build aprovados.
+
+## Ajuste de implementação US1 — transporte HTTP controlado
+
+`http` 1.6.0 passa a ser dependência direta justificada: já transitiva de
+supabase_flutter, permite reconhecer ClientException como falha de rede nos
+Services e injetar MockClient do próprio pacote para testar o SDK real sem rede.
+A alternativa SDK puro com HttpServer exige sockets e não fornece um Client
+compatível com o construtor SupabaseClient; fakes de Repository não testariam as
+queries reais do Service. Não usar http em Views, VMs ou Repositories.
+As operações Supabase continuam encapsuladas nos Services e usam o SDK.
+
+A leitura de fotos usa resolve_photo_read service-only para checar atomicamente
+visibilidade/vínculo ou staff/sessão antes de consultar Storage, pois auth.sessions
+não é exposta no PostgREST. O ator e a sessão são verificados pelo handler, nunca
+aceitos da query do cliente. Migration 004; futuras migrations de escrita,
+finalização e manejo passam a 005/006/007 para preservar ordenação única.
+O SDK functions_client recebe octet-stream por negociação Accept para preservar
+bytes; requisições HTTP comuns recebem image/png ou image/jpeg. Nenhuma URL assinada.
+
+### Storage: garantia por RLS restritiva
+
+A inspeção local mostrou grants SELECT padrão no Storage mesmo após o REVOKE
+inicial. A garantia de privacidade não depende de ausência de grants de tabela:
+policies restritivas por bucket negam todas as operações anon/authenticated em
+animal-photos, inclusive se surgir uma policy permissiva adicional. O servidor
+usa service_role para entregar o proxy autorizado. Testes SQL simulam allow amplo,
+e HTTP comprova negação de download/createSignedUrl; listagem expõe zero objetos.

@@ -6,7 +6,10 @@ List<String> violations(String path, String source) {
   final imports = RegExp(
     r'''(?:import|export)\s+['"]([^'"]+)['"]''',
   ).allMatches(source).map((m) => m[1]!);
-  final isView = path.contains('/views/') || path.startsWith('lib/ui/core/');
+  final isView =
+      path.contains('/views/') ||
+      (path.startsWith('lib/ui/core/widgets/') ||
+          path.startsWith('lib/ui/core/theme/'));
   final isVm = path.contains('/view_models/');
   final isDomain = path.startsWith('lib/domain/');
   for (final uri in imports) {

@@ -1,6 +1,6 @@
 # Data Model: Abrigo dos Anjos
 
-**Date**: 2026-10-31 | **Status**: desenho, sem migrations executadas.
+**Date**: 2026-10-31 | **Status**: migrations 001–004 validadas localmente; RPCs de escrita, upload e manejo pendentes.
 Nomes persistidos em inglês; rótulos visíveis traduzidos pelo ViewModel.
 
 ## Entidades e tabelas

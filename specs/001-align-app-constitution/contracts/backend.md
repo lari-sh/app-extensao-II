@@ -1,7 +1,7 @@
 # Backend contracts: Supabase
 
-**Date**: 2026-10-31. Contratos a implementar e validar; nenhum endpoint foi
-implantado por este plano. Modelo e permissões: [data-model.md](../data-model.md).
+**Date**: 2026-10-31. Leitura pública/fotos implementadas e validadas localmente;
+escrita/upload/manejo pendentes. Nenhum backend de produção implantado. Modelo e permissões: [data-model.md](../data-model.md).
 
 ## Contexto de identidade
 
@@ -168,3 +168,13 @@ correlation_id e códigos, não corpo de formulário, fotos, senha ou prontuári
 7. Mesma chave após resposta perdida: um animal/associação; payload diferente conflita.
 8. Dois uploads concorrentes, perda de resposta e limpeza falha: foto atual sempre
    referenciada e nenhuma exclusão prematura; órfão permanece rastreado até limpeza.
+
+## Evidência de implementação da leitura
+
+Migration 004 adiciona resolve_photo_read service-only e policies restritivas de
+bucket para animal-photos. GRANTs de tabela padrão não concedem acesso ao bucket:
+RLS nega clientes mesmo com uma policy permissiva adicional. O handler verifica
+JWT de usuário quando aplicável e passa ator/sessão verificados ao resolver.
+Revalida o recurso após baixar bytes. Negociação Accept permite octet-stream ao
+SDK functions_client e image/png ou image/jpeg ao consumidor HTTP comum, sempre
+com no-store/private, sem redirect nem 304. Testes em validation.md.

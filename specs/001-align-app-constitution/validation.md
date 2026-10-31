@@ -96,3 +96,97 @@ Baseline: `52c03e2abe04a447af3617c23013da5927427616`.
   .freezed.dart. Mantidas as saídas originais para preservar a regeneração exata;
   `git diff --cached --check -- . ':(exclude)*.freezed.dart'` verifica os arquivos
   mantidos manualmente. Isso não é falha de análise ou teste Dart.
+
+## US1 — Catálogo público T024–T043 [FR-001, FR-002, FR-003, FR-015, FR-018]
+
+Base do incremento: 31326e20a453bc55f69476ec9dfdb189ec2fd13d. Código e evidências
+foram validados antes do commit de entrega; registrar seu SHA abaixo após criação.
+
+- Services reais com SDK e MockClient: filtros combinados antes de paginar,
+  busca literal, ordem ascendente name/id, páginas de 50 e total global, cursor,
+  notFound, rede/HTTP e respostas binárias. Compartilhamento de http 1.6.0
+  justificado previamente no plano; não é usado em VMs/Views/Repositories.
+- Repositories reais com Services falsos: mapeamento DTO/domínio/Result, captura
+  inesperada, favoritos inválidos e batches 50/50/21, persistência confirmada,
+  falha local sem sucesso falso, duas mudanças concorrentes, cópia sem envio e
+  quatro pedidos de fotos simultâneos, sem cache entre novas consultas.
+- VMs: filtros invalidam cursor, resposta antiga/dispose não sobrescrevem estado,
+  loading encerra em falha, seleção/favoritos/adoção calculados fora do Widget.
+- Cinco Widgets felizes: início, catálogo, favoritos, detalhes e sobre. Rotas
+  criam VMs e iniciam operações antes de montar; Provider gerencia dispose.
+- Primeiras execuções comprovaram falhas dos stubs de Services/Repositories,
+  carregamento do VM e cinco telas vazias antes de completar as implementações.
+- Erros do SDK encontrados nos testes: MockClient deve preencher response.request;
+  ordenação precisa ascending:true explícito; maybeSingle pode preservar HTTP 403
+  em vez de 42501. Corrigidos sem expor mensagens brutas à interface.
+- Função animal-photo-read e resolver service-only: bytes apenas do job atual
+  attached, vínculo ao animal e autorização atual, sem redirect/URL assinada/cache.
+- Inspeção SQL encontrou SELECT padrão em storage.objects; a garantia foi tornada
+  explícita com RLS RESTRICTIVE por bucket, inclusive contra policy permissiva
+  adicional. A migration 004 ainda não publicada foi reaplicada por db reset
+  **somente local**, com fixtures reconstruídas. Nenhum banco remoto foi vinculado.
+
+### Gates executados
+
+- `flutter analyze`: PASS, nenhum problema.
+- `flutter test --no-pub --coverage --reporter expanded`: PASS, **59 testes**,
+  incluindo cinco Widgets principais e três testes legados de caracterização.
+- `dart format --output=none --set-exit-if-changed lib test integration_test`:
+  PASS, 126 arquivos sem alteração.
+- `supabase test db`: PASS, **29 testes** em dois arquivos; grants do resolver,
+  RLS de notas/sessões e negação de leitura/insert mesmo sob allow amplo.
+- `deno check` do handler/testes: PASS. Testes HTTP: PASS, **5 testes**; público,
+  privado, membership/sessão revogadas, animal/foto incompatíveis, caminho
+  arbitrário, download/listagem/assinatura diretos e cache/304/redirect.
+- Android: `flutter test integration_test/public_catalog_flow_test.dart -d
+  emulator-5554` com URL 10.0.2.2 e chave pública local: PASS, **1 jornada real**.
+  Conectou a 60 fixtures, exibiu 58 públicas em duas páginas, filtrou um nome,
+  exibiu PNG real, copiou interesse, negou detalhe privado e recuperou favorito
+  após destruir/recriar a árvore do app com novos Repositories e armazenamento
+  nativo. Isso comprova recriação do app; não equivale a reboot físico do aparelho.
+- As duas primeiras tentativas Android encontraram problemas do teste: alvo fora
+  da viewport e busca por texto ambígua entre campo e cartão. Corrigidos com
+  rolagem até hitTestable e seleção do texto dentro do Card; execução final PASS.
+- APK normal debug também compilado; APK de integration_test é temporário e não
+  deve ser confundido com artefato normal. Configuração de backend só por defines
+  públicos; não há service_role ou senha de fixture na build.
+- iOS e dispositivo físico continuam não validados. Autenticação nas telas,
+  escrita, upload e manejo correspondem às histórias seguintes, ainda pendentes.
+- Sem hooks: .specify/extensions.yml ausente. Checklist de requisitos 19/19
+  revisado, sem alterar marcações durante implementação.
+
+## Instalação Android solicitada [FR-019]
+
+- Android Studio Rabbit 2 / 2026.2.2 instalado no perfil da usuária e aberto.
+  A janela foi conferida por computer-use; posteriormente o projeto estava aberto
+  no Studio, sem alteração da sessão de trabalho pela automação.
+- CLI Android 22, API 36, Build Tools 35/36, NDK 28.2.13676358, CMake 3.22.1,
+  Java Microsoft 21.0.13.0.2 e licenças aprovadas; flutter doctor aprovou toolchain.
+- Downloads Google/Microsoft conferidos por SHA-256 oficial antes de extrair;
+  JDK 21 usado pelo Gradle 8.14, JBR do Studio mantido para a própria IDE.
+- SDK/JDK/Flutter configurados no perfil; novos terminais carregam o PATH atualizado.
+- Emulador Medium_Phone_API_37.0, WHPX, usado em modo de teste sem janela e
+  read-only. Testes não alteram a imagem persistente do dispositivo virtual.
+- Fonte: https://developer.android.com/studio e
+  https://learn.microsoft.com/en-us/java/openjdk/download ; compatibilidade:
+  https://docs.gradle.org/current/userguide/compatibility.html .
+
+### Persistência após encerramento real do processo
+
+PASS adicional no APK normal configurado para o Supabase local do emulador.
+Salvo o favorito pela interface, confirmado o estado “Remover ... dos favoritos”,
+executado `adb shell am force-stop` e reaberta MainActivity com `am start -W`.
+O Android confirmou **LaunchState: COLD**. Ao abrir Favoritos novamente, a interface
+mostrou Animal de teste 01, comprovado pela árvore de acessibilidade do Android.
+
+A primeira tentativa de comparar com a instalação do APK de integration_test
+retornou lista vazia: inspeção de flutter_tools/src/test/integration_test_device.dart
+confirmou que kill() desinstala o aplicativo de testes e remove seus dados. A prova
+válida foi refeita salvando no APK normal e reiniciando sem desinstalar. Não foi
+necessária mudança no armazenamento do aplicativo.
+
+Último APK em build/app/outputs/flutter-apk/app-debug.apk é o **APK normal de debug**
+com configuração pública para http://10.0.2.2:54321, exclusivo deste ambiente local
+no emulador. Não contém senha ou service_role; requer Supabase local em execução.
+Geração Freezed refeita: PASS, hashes de todos os arquivos gerados preservados.
+43/108 tarefas concluídas; US2 e seguintes continuam pendentes.

@@ -1,99 +1,90 @@
 # Abrigo dos Anjos
 
-Primeira versão Flutter do aplicativo de adoção e manejo do Abrigo dos Anjos, desenvolvido para a disciplina Extensão II. Prioridade Android, com estrutura iOS gerada e código Dart compartilhado.
+Aplicativo Flutter de adoção e manejo, com prioridade Android e código compartilhado
+com iOS. A migração segue a constituição 2.0.0 e a skill oficial Flutter instalada.
+Trabalho na branch `developer`; integração à `main` por Pull Request.
 
-## Implementado
+## Estado implementado
 
-- Tela inicial com o logo original e paleta vermelha/marrom do protótipo.
-- Catálogo, busca por nome, filtros de espécie/porte/sexo e favoritos.
-- Detalhes, disponibilidade para adoção e cópia de mensagem de interesse.
-- Área de demonstração do voluntário, explicitamente sem login real.
-- Painel Kanban com arraste por toque prolongado, alteração de status por menu e visualização em lista.
-- Cadastro/edição, vacinação, vermifugação e medicações de exemplo.
-- Persistência local dos cadastros de demonstração e favoritos, com tratamento de erro ao salvar.
-- Interface em português brasileiro e suporte à rolagem em telas pequenas.
+- Início, catálogo com filtros combinados e paginação, detalhes, favoritos e sobre.
+- Dados públicos do Supabase; somente animais publicados e não adotados.
+- Fotos atuais entregues em bytes por função autorizada a cada requisição, sem cache.
+- Favoritos persistidos localmente; mensagem de interesse copiada, sem envio de pedido.
+- MVVM com ChangeNotifier, estados Freezed, Repositories abstratos, Services e Provider.
+- Falhas tipadas por Result e mensagens em português; logo e paleta vermelha/marrom.
+
+A autenticação nas telas, cadastro/manejo em nuvem e upload ainda estão pendentes.
+A demonstração antiga está isolada em `lib/legacy_demo.dart` para caracterização;
+não é a entrada do aplicativo e será removida conforme T100.
 
 ## Executar
 
-Requer Flutter 3.41.1 / Dart 3.11 ou versão compatível e SDK Android configurado.
+Requer Flutter 3.41.1/Dart 3.11, Java 21 e SDK Android. Configurar somente URL e
+chave pública do projeto de desenvolvimento. Sem configuração, o app exibe um
+estado de serviço não configurado, sem dados de demonstração como fallback.
 
 ```sh
 flutter pub get
-flutter devices
-flutter run -d <id-do-dispositivo>
+flutter pub run build_runner build --delete-conflicting-outputs
+flutter run -d <dispositivo> --dart-define=SUPABASE_URL=<url> --dart-define=SUPABASE_PUBLISHABLE_KEY=<chave-publica>
 ```
 
-No computador onde o projeto foi iniciado, o SDK está em `C:\Users\Larissa\.puro\envs\stable\flutter`. Se `flutter` não estiver no PATH, no PowerShell:
+Para Supabase local no Android Emulator: URL `http://10.0.2.2:54321` e
+`--dart-define=ALLOW_LOCAL_HTTP=true` apenas em debug. O manifesto de debug permite
+esse tráfego local; a configuração de release exige HTTPS.
+Não incluir service_role, senha de fixture ou qualquer segredo de servidor na build.
 
-```powershell
-& "$env:USERPROFILE\.puro\envs\stable\flutter\bin\flutter.bat" pub get
-& "$env:USERPROFILE\.puro\envs\stable\flutter\bin\flutter.bat" run
-```
-
-Para Android: concluir o assistente do Android Studio, instalar SDK/Build Tools/Command-line Tools, executar `flutter doctor --android-licenses` e conectar um celular com depuração USB ou iniciar um emulador. Conferir com `flutter doctor -v`.
-
-Para iOS: usar um Mac com Xcode e configurar assinatura/identificador de aplicativo antes de executar no dispositivo. A compilação iOS ainda não foi validada.
-
-## Verificar e gerar APK
-
-```sh
-dart format --output=none --set-exit-if-changed lib test
-flutter analyze
-flutter test
-flutter build apk --debug
-```
-
-O APK fica em `build/app/outputs/flutter-apk/app-debug.apk`. O workflow GitHub Actions executa essas verificações e disponibiliza o APK de depuração como artifact quando a execução é bem-sucedida. Não é uma versão assinada para publicação na loja.
+O roteiro completo de banco local, fixtures, funções, versões e testes está em
+[quickstart](specs/001-align-app-constitution/quickstart.md). Evidências e pendências
+em [validation](specs/001-align-app-constitution/validation.md).
 
 ## Estrutura
 
-- `lib/models`: modelo de animal e dados fictícios.
-- `lib/data`: armazenamento local de demonstração.
-- `lib/screens`: início, catálogo, detalhes, painel e formulário.
-- `lib/widgets`: elementos visuais compartilhados.
-- `lib/theme.dart`: identidade visual.
-- `assets/images/logo.png`: logo fornecido no protótipo.
-- `test`: testes de navegação, cadastro e persistência.
+- `lib/ui/features/<feature>/{views,view_models}`: apresentação por funcionalidade.
+- `lib/ui/core`: tema, componentes e apresentação reutilizável.
+- `lib/domain/{models,repositories}`: domínio e contratos sem SDK.
+- `lib/data/{models,services,repositories}`: DTOs, APIs/plugins e implementações.
+- `lib/app`: inicialização, composição e rotas; `lib/utils`: Result e falhas.
+- `supabase`: migrations, funções e testes de autorização.
+- `test`: unitários e Widgets; `integration_test`: jornadas em dispositivo.
 
-## Limites desta entrega
+Views recebem ViewModels. Somente Services fazem queries ou chamam plugins;
+Repositories transformam DTOs e mantêm a fonte de verdade. A composição inicial
+pode inicializar e injetar o SDK. Use Cases são opcionais para complexidade real.
 
-Esta versão é uma demonstração funcional, não um sistema de produção. Usa dados fictícios e ícones provisórios em lugar de fotos. Não oferece autenticação, permissões por perfil, backend, sincronização entre dispositivos, upload/câmera, notificações, exclusão ou envio real de solicitações de adoção. O canal oficial de contato ainda precisa ser informado pelo abrigo.
+## Verificar
 
-O armazenamento em preferências é exclusivo para a demonstração. Não inserir dados pessoais reais, prontuários ou informações críticas. A próxima etapa deve substituir esse armazenamento por um repositório com banco, autenticação e controle de acesso; a tela de demonstração não representa uma barreira de segurança.
-
-Os valores de saúde exibidos são exemplos de interface, não orientações clínicas.
-
-## Próxima etapa
-
-1. Definir backend, perfis e regras de acesso com o abrigo.
-2. Implementar login e persistência em banco, separando campos públicos dos registros internos.
-3. Integrar fotos e contato oficial para adoção.
-4. Validar em dispositivo Android e preparar assinatura/publicação.
-5. Validar o projeto iOS no macOS.
-
-Referência visual: protótipo `abrigo-dos-anjos-figma.html`, consultado pelo MCP, com as cores atualizadas do logo. O canvas/editor do protótipo não faz parte do app final.
-
-## Spec Kit
-
-GitHub Spec Kit / Specify CLI 1.2.5 configurado para Codex, com scripts PowerShell.
-Os modelos e a configuração estão em `.specify/`; as 10 skills estão em `.agents/skills/`.
-A constituição instalada ainda é o modelo oficial; os princípios do projeto não foram definidos automaticamente.
-
-Fluxo no chat do Codex:
-
-1. `$speckit-constitution` — definir os princípios do projeto.
-2. `$speckit-specify` — descrever a próxima funcionalidade.
-3. `$speckit-plan` — preparar o plano técnico.
-4. `$speckit-tasks` — decompor o plano em tarefas.
-5. `$speckit-implement` — implementar as tarefas.
-
-Neste computador, o executável foi instalado em `C:\Users\Larissa\.local\bin\specify.exe`.
-Para verificar pelo PowerShell sem depender do PATH:
-
-```powershell
-& "$env:USERPROFILE\.local\bin\specify.exe" version
-& "$env:USERPROFILE\.local\bin\specify.exe" check
+```sh
+flutter pub run build_runner build --delete-conflicting-outputs
+dart format --output=none --set-exit-if-changed lib test integration_test
+flutter analyze
+flutter test --coverage
+npx --yes supabase@2.122.0 test db
+flutter build apk --debug
 ```
 
-Instalação em outro computador, conforme o projeto oficial: `uv tool install specify-cli==1.2.5`.
-Os arquivos do Spec Kit já estão versionados; não é necessário reinicializar este repositório.
+Gerar modelos pelo comando Flutter mantém o contexto correto do SDK no Puro deste
+Windows. O APK debug fica em `build/app/outputs/flutter-apk/app-debug.apk`.
+Um APK sem dart-defines não conecta automaticamente a um backend. Não é uma versão
+assinada para publicação. Testes de Flutter, SQL, funções HTTP e plataforma têm
+evidências separadas; a CI será ampliada em T103. iOS depende de Mac/Xcode.
+
+## Ambiente Android deste computador
+
+SDK em `C:\Users\Larissa\AppData\Local\Android\Sdk` e Android Studio em
+`C:\Users\Larissa\AppData\Local\Programs\android-studio`.
+Java 21 selecionado no Flutter para compatibilidade com Gradle 8.14.
+Plataforma Android 36, Build Tools 35/36 e NDK 28.2.13676358 instalados.
+As novas variáveis de ambiente são lidas por novos terminais; reinicie o terminal
+se flutter/adb ainda não aparecerem no PATH.
+
+## Planejamento e Spec Kit
+
+Constituição em `.specify/memory/constitution.md`; especificação, plano e tarefas
+em `specs/001-align-app-constitution`. O checklist de requisitos revisados não
+significa que a implementação inteira está concluída. Verificar marcações das tarefas.
+As skills estão versionadas em `.agents/skills/`; Specify CLI 1.2.5 já configurado.
+Não reinicializar o Spec Kit nem substituir a constituição por um template.
+
+Referência visual: protótipo `abrigo-dos-anjos-figma.html`, com as cores do logo.
+O editor/canvas do protótipo não faz parte do aplicativo.

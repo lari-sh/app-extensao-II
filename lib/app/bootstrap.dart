@@ -1,3 +1,4 @@
+import 'public_dependencies.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import '../ui/features/home/view_models/startup_view_model.dart';
@@ -22,15 +23,16 @@ Future<Result<SupabaseClient>> initializeBackend(AppConfig config) async {
   }
 }
 
-/// Public entry fails closed until each tested feature is wired in this scope.
+/// Public entry fails closed when the backend cannot be configured.
 Future<Widget> bootstrapApplication() async {
   final config = AppConfig.fromEnvironment();
   var reason = FailureCode.configuration;
   if (config case Success<AppConfig>(:final value)) {
     final initialized = await initializeBackend(value);
-    reason = initialized is Success<SupabaseClient>
-        ? FailureCode.network
-        : FailureCode.configuration;
+    if (initialized case Success<SupabaseClient>(:final value)) {
+      return createPublicApplication(value);
+    }
+    reason = FailureCode.configuration;
   }
   final startup = StartupViewModel(reason);
   return const AppDependencies().provide(
