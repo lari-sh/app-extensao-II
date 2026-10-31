@@ -392,3 +392,19 @@ O aparelho ficou disponível para os testes manuais da usuária, sem automação
 concorrente. Os testes Flutter desta etapa rodam fora do emulador.
 
 Gate da integração: 125 testes Flutter PASS; análise estática sem problemas. Dois testes adicionais reproduziram e protegeram a troca de animal durante seleção e uma consulta pendente após ausência inicial, evitando loading preso e reenvio prematuro.
+
+
+## US4 — jornada de galeria nativa Android aprovada
+
+Após 3e17055: `flutter test integration_test/photo_gallery_flow_test.dart -d
+emulator-5554` com o controlador local e native_picker_driver.py: **PASS, 1 jornada**.
+Photo Picker real do Android 37: cancelar preserva rascunho; duas imagens sintéticas
+selecionadas, prévia sem upload automático, confirmação, download da foto atual,
+substituição com novo UUID e verificação no Supabase. Notas não salvas continuam em
+memória do formulário, sem alteração remota; logout remove painel privado.
+
+O driver foi adaptado aos controles Compose/Done e pacote com.google.android.photopicker.
+A primeira execução completou em 3m55s, incluindo a adaptação do driver em execução;
+isto não é benchmark do tempo de upload. Testes Flutter seguem 125 PASS, análise
+sem problemas. As fixtures criadas e seus objetos foram removidos pelo helper local.
+Recuperação após destruição de Activity/processo será validada em prova separada.

@@ -44,6 +44,13 @@ def cleanup_editor_animals():
     for row in rows:
         animal_id = row['id']
         api('/rest/v1/write_operations?' + urlencode({'result->animal->>id': 'eq.' + animal_id}), method='DELETE')
+        jobs = api('/rest/v1/photo_upload_jobs?' + urlencode({'select':'id,object_path','animal_id':'eq.'+animal_id}))
+        api('/rest/v1/animals?id=eq.'+animal_id, {'primary_photo_id':None}, 'PATCH')
+        for job in jobs:
+            api('/storage/v1/object/animal-photos', {'prefixes':[job['object_path']]}, 'DELETE')
+            api('/rest/v1/photo_cleanup_queue?job_id=eq.'+job['id'], method='DELETE')
+        api('/rest/v1/photo_upload_jobs?animal_id=eq.'+animal_id, {'previous_photo_id':None}, 'PATCH')
+        api('/rest/v1/photo_upload_jobs?animal_id=eq.'+animal_id, method='DELETE')
         api('/rest/v1/animals?id=eq.' + animal_id, method='DELETE')
     print('Temporary Android editor fixtures removed:', len(rows), flush=True)
 
