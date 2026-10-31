@@ -493,3 +493,21 @@ por ator/chave e digest SHA-256 do payload normalizado, com resultado privado em
 write_operations. O SDK permanece somente no Service. Nenhuma nova dependência.
 Funções SECURITY DEFINER têm search_path vazio e EXECUTE explícito, conforme
 https://supabase.com/docs/guides/database/functions .
+
+
+## US3 — integração de apresentação
+
+A composição fornece callbacks de autorização e época de acesso aos VMs de editor
+/listagem privada. Cargas iniciais agendadas após a montagem evitam notificar o
+Provider raiz durante build. Widgets não consultam Services/Repositories.
+FormVersion no snapshot imutável renova o estado interno dos campos ao receber um
+agregado carregado/salvo, inclusive quando a resposta termina antes do próximo frame;
+edições locais não renovam a versão nem perdem foco/texto. Cuidados novos têm identidade
+local transitória para manter os controladores corretos ao remover um item; esses
+identificadores não são enviados como IDs/autoria de banco.
+
+Após timeout, o VM mantém rascunho e chave, bloqueia edição e permite consultar o
+resultado. Ausência confirmada habilita reenvio do mesmo payload/chave. Um erro de
+reconsulta não prova ausência nem libera nova submissão. Na expiração recuperável,
+o mesmo escopo fica montado, oculto e bloqueado; resultados de épocas antigas são
+ignorados. Logout/revogação/troca de usuário descartam VMs e pilha privada.

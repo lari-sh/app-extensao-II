@@ -29,8 +29,9 @@ class _LoginScreenState extends State<LoginScreen> {
     await widget.viewModel.submit(_email.text, _password.text);
     if (!mounted || !widget.viewModel.state.signedIn) return;
     _password.clear();
-    if (widget.navigateOnSuccess)
+    if (widget.navigateOnSuccess) {
       Navigator.pushReplacementNamed(context, '/volunteer');
+    }
   }
 
   @override

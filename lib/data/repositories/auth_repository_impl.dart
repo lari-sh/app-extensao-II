@@ -106,12 +106,14 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Result<Unit>> signOut() {
     ++_epoch;
     _locallySignedOut = true;
-    if (_remoteLogoutFailure != null)
+    if (_remoteLogoutFailure != null) {
       return Future.value(Failure(_remoteLogoutFailure!));
+    }
     return _enqueue(() async {
       final result = await mapRepositoryResult(service.signOut, (unit) => unit);
-      if (result case Failure<Unit>(:final failure))
+      if (result case Failure<Unit>(:final failure)) {
         _remoteLogoutFailure = failure;
+      }
       return result;
     });
   }

@@ -4,8 +4,50 @@ import 'package:provider/provider.dart';
 import 'package:abrigo_dos_anjos/ui/features/auth/view_models/session_view_model.dart';
 import 'package:abrigo_dos_anjos/domain/repositories/auth_repository.dart';
 import '../support/auth_app_harness.dart';
+import '../support/public_fixtures.dart';
+import 'package:abrigo_dos_anjos/domain/models/animal.dart';
+import 'package:abrigo_dos_anjos/domain/models/session_access.dart';
+import 'package:abrigo_dos_anjos/utils/result.dart';
 
 void main() {
+  testWidgets(
+    'mounting private list and editor never notifies root Provider during build',
+    (tester) async {
+      final harness = AuthAppHarness()
+        ..access = const SessionAccess(
+          level: AccessLevel.authorized,
+          userId: 'u',
+        );
+      addTearDown(harness.auth.dispose);
+      harness.animals.handler = (method, _) async => method == 'listManagement'
+          ? Success(
+              ManagedAnimalPage(
+                items: [ManagedAnimal(animal: fixtureAnimal(1))],
+                total: 1,
+              ),
+            )
+          : Success(ManagedAnimal(animal: fixtureAnimal(1)));
+      await tester.pumpWidget(harness.app());
+      await tester.pumpAndSettle();
+      await tester.ensureVisible(find.text('Área do voluntário'));
+      await tester.tap(find.text('Área do voluntário'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Animais do abrigo'));
+      await tester.pumpAndSettle();
+      expect(tester.takeException(), isNull);
+      expect(find.text('Luna 1'), findsOneWidget);
+      await tester.tap(find.text('Luna 1'));
+      await tester.pumpAndSettle();
+      expect(tester.takeException(), isNull);
+      expect(find.text('Editar animal'), findsOneWidget);
+      await harness.session.signOut();
+      await tester.pumpAndSettle();
+      expect(find.text('Quero adotar'), findsOneWidget);
+      expect(find.text('Editar animal'), findsNothing);
+      await tester.pumpWidget(const SizedBox.shrink());
+      await tester.pumpAndSettle();
+    },
+  );
   testWidgets(
     'Provider owns one session across routes and logout removes private stack',
     (tester) async {

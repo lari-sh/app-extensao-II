@@ -4,9 +4,10 @@ Run from the repository root. Never use with remote or production projects.
 No credentials are compiled into the integration APK or logged by this server.
 """
 import json
+import sys
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
-from urllib.parse import urlparse
+from urllib.parse import urlparse, urlencode
 from urllib.request import Request, urlopen
 
 environment = {}
@@ -37,6 +38,16 @@ def membership(active):
     api('/rest/v1/staff_members?user_id=eq.' + actor, {'active': active}, 'PATCH')
 
 
+def cleanup_editor_animals():
+    query = urlencode({'select': 'id', 'name': 'like.Validação Android *'})
+    rows = api('/rest/v1/animals?' + query)
+    for row in rows:
+        animal_id = row['id']
+        api('/rest/v1/write_operations?' + urlencode({'result->animal->>id': 'eq.' + animal_id}), method='DELETE')
+        api('/rest/v1/animals?id=eq.' + animal_id, method='DELETE')
+    print('Temporary Android editor fixtures removed:', len(rows), flush=True)
+
+
 class Handler(BaseHTTPRequestHandler):
     def log_message(self, *_):
         pass
@@ -61,6 +72,9 @@ class Handler(BaseHTTPRequestHandler):
 
 
 if __name__ == '__main__':
+    if '--cleanup-editor' in sys.argv:
+        cleanup_editor_animals()
+        sys.exit(0)
     membership(True)
     print('Local Android fixture controller ready (loopback only).', flush=True)
     try:

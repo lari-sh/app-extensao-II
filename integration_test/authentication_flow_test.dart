@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import 'package:integration_test/integration_test.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:abrigo_dos_anjos/app/bootstrap.dart';
-import 'package:abrigo_dos_anjos/app/public_dependencies.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -52,10 +51,11 @@ void main() {
     await login('fixture-staff@example.test', password);
     expect(find.text('Acesso autorizado'), findsOneWidget);
 
-    // Recreate composition with the persisted SDK session, not a fake repository.
+    // Dispose the SDK, then recover its session from native storage and revalidate remotely.
     await tester.pumpWidget(const SizedBox.shrink());
     await tester.pumpAndSettle();
-    await tester.pumpWidget(createPublicApplication(Supabase.instance.client));
+    await Supabase.instance.dispose();
+    await tester.pumpWidget(await bootstrapApplication());
     await tester.pumpAndSettle();
     await openLogin();
     expect(find.text('Acesso autorizado'), findsOneWidget);

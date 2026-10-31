@@ -1,3 +1,7 @@
+import '../ui/features/animals/view_models/animal_editor_view_model.dart';
+import '../ui/features/animals/view_models/managed_animals_view_model.dart';
+import '../ui/features/animals/views/animal_editor_screen.dart';
+import '../ui/features/animals/views/managed_animals_screen.dart';
 import '../domain/repositories/auth_repository.dart';
 import '../ui/features/auth/view_models/session_view_model.dart';
 import '../ui/features/auth/view_models/login_view_model.dart';
@@ -55,15 +59,18 @@ class AppRouter {
         return _page(settings, vm, HomeScreen(viewModel: vm, session: session));
       case '/login':
       case '/volunteer':
+      case '/animal-editor':
+      case '/animal-management':
         final access = session;
         final repository = auth;
-        if (access == null || repository == null)
+        if (access == null || repository == null) {
           return MaterialPageRoute(
             settings: settings,
             builder: (_) => const Scaffold(
               body: Center(child: Text('Serviço de acesso indisponível.')),
             ),
           );
+        }
         final vm = LoginViewModel(
           repository,
           beginAttempt: access.beginSignIn,
@@ -72,8 +79,9 @@ class AppRouter {
           onFailure: access.failSignIn,
           onCancel: access.cancelSignIn,
         );
-        if (settings.name == '/login')
+        if (settings.name == '/login') {
           return _page(settings, vm, LoginScreen(viewModel: vm));
+        }
         access.revalidate();
         return _page(
           settings,
@@ -81,7 +89,48 @@ class AppRouter {
           ProtectedScope(
             session: access,
             login: vm,
-            privateBuilder: () => VolunteerAccessScreen(viewModel: access),
+            privateBuilder: () {
+              Future<bool> authorize() async {
+                await access.revalidate();
+                return access.state.canAccessPrivate;
+              }
+
+              if (settings.name == '/animal-editor') {
+                final editor = AnimalEditorViewModel(
+                  animals,
+                  isAuthorized: () => access.state.canAccessPrivate,
+                  accessEpoch: () => access.state.accessEpoch,
+                  authorize: authorize,
+                );
+                if (settings.arguments is String) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    editor.load(settings.arguments as String);
+                  });
+                }
+                return ChangeNotifierProvider<AnimalEditorViewModel>(
+                  create: (_) => editor,
+                  lazy: false,
+                  child: AnimalEditorScreen(viewModel: editor),
+                );
+              }
+              if (settings.name == '/animal-management') {
+                final listing = ManagedAnimalsViewModel(
+                  animals,
+                  isAuthorized: () => access.state.canAccessPrivate,
+                  accessEpoch: () => access.state.accessEpoch,
+                  authorize: authorize,
+                );
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  listing.load();
+                });
+                return ChangeNotifierProvider<ManagedAnimalsViewModel>(
+                  create: (_) => listing,
+                  lazy: false,
+                  child: ManagedAnimalsScreen(viewModel: listing),
+                );
+              }
+              return VolunteerAccessScreen(viewModel: access);
+            },
           ),
         );
       case '/about':

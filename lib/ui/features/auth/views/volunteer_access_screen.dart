@@ -16,6 +16,12 @@ class VolunteerAccessScreen extends StatelessWidget {
         const SizedBox(height: 12),
         const Text('Sua sessão de voluntário está ativa.'),
         const SizedBox(height: 24),
+        FilledButton.icon(
+          onPressed: () => Navigator.pushNamed(context, '/animal-management'),
+          icon: const Icon(Icons.pets),
+          label: const Text('Animais do abrigo'),
+        ),
+        const SizedBox(height: 12),
         OutlinedButton(
           onPressed: viewModel.signOut,
           child: const Text('Sair da conta'),

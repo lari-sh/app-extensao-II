@@ -269,3 +269,56 @@ Incremento após e0ec083, Supabase local descartável, 2026-10-31:
 T055/T056/T057/T060–T063/T066 encerradas: **62/108 tarefas**. T058/T059/T064/T065
 aguardam fechamento da integração da tela. Upload/publicação/manejo continuam nas
 histórias seguintes. Banco remoto de produção não foi vinculado ou alterado.
+
+
+## US3 — formulário e integração Android concluídos [SC-003, FR-006–FR-009]
+
+Incremento após ba81951 em 2026-10-31, somente developer e backend local:
+- **105 testes Flutter PASS** com cobertura; análise estática sem problemas.
+  Editor: validação nos limites, enum obrigatório, duplo clique, timeout/reconsulta/
+  reenvio com a mesma chave, autorização e descarte de respostas antigas, falha de
+  carga sem cadastro acidental e retry. Lista: paginação, falhas e época de acesso.
+- Widgets: cadastro/edição, adicionar/remover cuidado, confirmação remota,
+  lista→edição e editor real preservado mas invisível/bloqueado na expiração;
+  mesmo usuário retoma e logout descarta VM/rascunho. Raiz Provider cobre a montagem
+  e a remoção de todas as rotas privadas, não apenas da confirmação de acesso.
+- Geração Freezed repetida com hashes preservados: **PASS**.
+- `flutter test integration_test/animal_editor_flow_test.dart -d emulator-5554`:
+  **PASS, 1 jornada (22 s + build/instalação)**. Cria privado, registra cuidado e
+  nota, outra sessão verifica, edita sem trocar UUID e fecha/reabre a rota lendo
+  os valores persistidos. Fixture removida pelo controlador --cleanup-editor.
+- Jornada de autenticação repetida, agora com dispose/reinitialize do SDK:
+  **PASS, 1 jornada (13 s + build/instalação)**. Recupera a sessão do armazenamento
+  nativo e revalida remotamente antes de exibir privado. Não é reboot físico.
+- Backend segue **58 SQL PASS / 7 HTTP PASS**. HTTP ampliado: o transporte consome
+  uma resposta bem-sucedida de save e devolve falha ao cliente; outra sessão
+  confirma o commit por get_write_operation e reenvio com a mesma chave é seguro.
+
+As execuções Android anteriores encontraram interações de teste com teclado,
+rolagem de campos fora da árvore e helper Back em inglês. Corrigidas. Também
+revelaram dois defeitos de integração: notificação de sessão durante montagem e
+campos mantendo initialValue antigo após carga rápida. Ambos receberam teste de
+regressão que falhou antes da correção e passou depois. Carga inicial agora ocorre
+após montagem, e formVersion atualiza os campos ao carregar/salvar o agregado.
+Não tratar as tentativas anteriores como evidência aprovada.
+
+T058/T059/T064/T065 encerradas: **66/108 tarefas concluídas (US1–US3)**.
+Upload, publicação/painel por situação, remoção do legado e gates finais permanecem
+pendentes nas histórias seguintes. CI/CD registrada na **T103**; nenhuma execução
+de GitHub Actions nova foi declarada aprovada. iOS segue dependente de Mac/Xcode.
+Sem hooks after_implement: .specify/extensions.yml ausente.
+
+
+### Encerramento da etapa
+
+Revisão final de Widgets/rotas/arquitetura: **7 PASS**, incluindo remoção de cuidado
+após aguardar a atualização do layout. Nenhuma alteração de dependências.
+Fixtures temporárias do editor removidas, membership de teste restaurada e
+controlador de loopback encerrado ao terminar as jornadas. Credenciais de servidor
+permanecem apenas no ambiente ignorado pelo Git.
+
+
+APK normal de debug recompilado com sucesso após as jornadas, em
+build/app/outputs/flutter-apk/app-debug.apk, com URL 10.0.2.2 e chave pública local.
+Substitui o APK temporário de integration_test nesse caminho. Não contém senha,
+service_role ou assinatura de publicação; requer Supabase local em execução.

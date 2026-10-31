@@ -6,7 +6,15 @@ Deno.test('two sessions persist private edits; atomic rollback, concurrent retry
  assert(['localhost','127.0.0.1'].includes(new URL(url).hostname),'Disposable local backend required');
  const options={auth:{persistSession:false,autoRefreshToken:false}};
  const first=createClient(url,key,options),second=createClient(url,key,options),visitor=createClient(url,key,options),admin=createClient(url,adminKey,options);
- const prefix=crypto.randomUUID().replaceAll('-','');const editKey=crypto.randomUUID().replaceAll('-','');
+ const prefix=crypto.randomUUID().replaceAll('-','');const editKey=crypto.randomUUID().replaceAll('-','');const lostKey=crypto.randomUUID().replaceAll('-','');
+ const lost=createClient(url,key,{...options,global:{fetch:async(input,init)=>{
+  const response=await fetch(input,init);
+  if(String(input).endsWith('/rest/v1/rpc/save_animal')&&response.ok){
+   await response.arrayBuffer();
+   throw new TypeError('Simulated transport loss after server commit');
+  }
+  return response;
+ }}});
  let id:string|undefined;let actor:string|undefined;
  try{
   for(const client of [first,second]){const login=await client.auth.signInWithPassword({email:'fixture-staff@example.test',password});assert(!login.error,'Fixture login');actor=login.data.user!.id;}
@@ -25,9 +33,14 @@ Deno.test('two sessions persist private edits; atomic rollback, concurrent retry
   const notes=await visitor.from('animal_internal_details').select('*').eq('animal_id',id!);assert(!notes.error&&notes.data.length===0,'No clinical information for visitor');
   const direct=await first.from('animals').update({name:'Bypass'}).eq('id',id!);assert(direct.error,'Direct client writes denied');
   const conflict=await request();assert(!conflict.error&&conflict.data.animal.name==='Cadastro integrado','Replay returns original result without reverting edit');
+  const loginLost=await lost.auth.signInWithPassword({email:'fixture-staff@example.test',password});assert(!loginLost.error,'Transport-loss fixture login');
+  const lostPayload={...payload,id,name:'Resposta perdida'};
+  const dropped=await lost.rpc('save_animal',{p_operation_key:lostKey,p_payload:lostPayload});assert(dropped.error,'Client receives transport failure after commit');
+  const confirmed=await first.rpc('get_write_operation',{p_operation_key:lostKey});assert(!confirmed.error&&confirmed.data.animal.id===id&&confirmed.data.animal.name==='Resposta perdida','Other session reconciles committed result after dropped transport');
+  const retry=await second.rpc('save_animal',{p_operation_key:lostKey,p_payload:lostPayload});assert(!retry.error&&retry.data.animal.id===id,'Same-key retry never creates another animal');
  }finally{
   if(id)await admin.from('animals').delete().eq('id',id);
-  if(actor)await admin.from('write_operations').delete().eq('actor_id',actor).in('operation_key',[prefix,editKey]);
-  await Promise.all([first.auth.signOut({scope:'local'}),second.auth.signOut({scope:'local'})]);
+  if(actor)await admin.from('write_operations').delete().eq('actor_id',actor).in('operation_key',[prefix,editKey,lostKey]);
+  await Promise.all([first.auth.signOut({scope:'local'}),second.auth.signOut({scope:'local'}),lost.auth.signOut({scope:'local'})]);
  }
 });

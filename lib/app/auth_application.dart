@@ -60,11 +60,18 @@ class _AuthApplicationState extends State<AuthApplication>
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted ||
           widget.session.state.canAccessPrivate ||
-          widget.session.state.retainPrivate)
+          widget.session.state.retainPrivate) {
         return;
+      }
       for (final route
           in _observer.routes
-              .where((route) => route.settings.name == '/volunteer')
+              .where(
+                (route) => const {
+                  '/volunteer',
+                  '/animal-editor',
+                  '/animal-management',
+                }.contains(route.settings.name),
+              )
               .toList()
               .reversed) {
         _navigator.currentState?.removeRoute(route);

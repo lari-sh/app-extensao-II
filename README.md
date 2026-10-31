@@ -12,12 +12,15 @@ Trabalho na branch `developer`; integração à `main` por Pull Request.
 - Favoritos persistidos localmente; mensagem de interesse copiada, sem envio de pedido.
 - MVVM com ChangeNotifier, estados Freezed, Repositories abstratos, Services e Provider.
 - Falhas tipadas por Result e mensagens em português; logo e paleta vermelha/marrom.
+- Login de contas provisionadas, verificação remota de sessão/equipe e saída,
+  validados no Android com Supabase local.
+- Área privada com listagem paginada, cadastro e edição de animais, notas internas,
+  vacinação/castração e cuidados; persistência atômica no Supabase e reconciliação
+  após falha de resposta. Novos animais ficam disponíveis e privados por padrão.
 
-Autenticação validada no Android local: login de contas previamente
-provisionadas, verificação remota de sessão/equipe, proteção de rotas e saída.
-A área autorizada mostra, por enquanto, uma confirmação de acesso; cadastro/manejo
-em nuvem e upload ainda estão pendentes. A jornada nativa cobre login, restauração da composição, revogação e saída;
-consulte as evidências e limitações em validation.md.
+Fluxo: **Área do voluntário → Animais do abrigo → Cadastrar animal**; tocar em um
+animal abre sua edição. Upload de fotos, publicação e painel por situação continuam
+nas próximas histórias. O ambiente validado é local, sem deploy de produção.
 A demonstração antiga está isolada em `lib/legacy_demo.dart` para caracterização;
 não é a entrada do aplicativo e será removida conforme T100.
 

@@ -46,8 +46,9 @@ class LoginViewModel extends ChangeNotifier {
     if (_disposed || state.busy) return;
     final errors = <String, String>{};
     final trimmed = email.trim();
-    if (!RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(trimmed))
+    if (!RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(trimmed)) {
       errors['email'] = 'Informe um e-mail válido.';
+    }
     if (password.isEmpty) errors['password'] = 'Informe sua senha.';
     if (errors.isNotEmpty) {
       _publish(LoginState(fieldErrors: errors));
@@ -62,8 +63,9 @@ class LoginViewModel extends ChangeNotifier {
       final result = await repository.signIn(trimmed, password);
       if (_disposed ||
           generation != _generation ||
-          (isAttemptCurrent != null && !isAttemptCurrent!(ticket)))
+          (isAttemptCurrent != null && !isAttemptCurrent!(ticket))) {
         return;
+      }
       switch (result) {
         case Failure<SessionAccess>():
           onFailure?.call(ticket);

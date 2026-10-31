@@ -1,6 +1,6 @@
 # Data Model: Abrigo dos Anjos
 
-**Date**: 2026-10-31 | **Status**: migrations 001–004 validadas localmente; RPCs de escrita, upload e manejo pendentes.
+**Date**: 2026-10-31 | **Status**: migrations 001–006 validadas localmente; cadastro/edição implementados; upload e manejo pendentes.
 Nomes persistidos em inglês; rótulos visíveis traduzidos pelo ViewModel.
 
 ## Entidades e tabelas
@@ -58,7 +58,8 @@ Auditoria mínima de atualização fica na tabela interna abaixo.
   base64url, gerada com Random.secure no cliente e estável em uma submissão.
 - operation_kind: save_animal, set_status ou set_publication.
 - payload_digest: hash do payload normalizado calculado no servidor.
-- animal_id, result_payload, completed_at: resultado confirmado da transação.
+- result: JSONB privado com animal (incluindo seu id), clinical_notes e care_records;
+  completed_at do servidor. Não duplicar animal_id em outra coluna nem expor o resultado por SELECT ao cliente.
 - A criação de operação, as mudanças e o resultado são confirmados na mesma
   transação. Sem sucesso parcial; rollback não deixa operação marcada concluída.
 - Mesma chave e mesmo payload retornam resultado anterior; chave com payload

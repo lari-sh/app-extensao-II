@@ -166,8 +166,9 @@ class SessionViewModel extends ChangeNotifier {
           : repository.currentAccess());
       if (!_disposed && revision == _revision) _consume(result);
     } catch (_) {
-      if (!_disposed && revision == _revision)
+      if (!_disposed && revision == _revision) {
         _consume(Failure(AppFailure(FailureCode.unknown)));
+      }
     }
   }
 
@@ -239,7 +240,7 @@ class SessionViewModel extends ChangeNotifier {
         ),
       );
     } catch (_) {
-      if (!_disposed && revision == _revision)
+      if (!_disposed && revision == _revision) {
         _publish(
           state.copyWith(
             signingOut: false,
@@ -247,6 +248,7 @@ class SessionViewModel extends ChangeNotifier {
                 'Você saiu neste dispositivo. Não foi possível confirmar a saída no servidor.',
           ),
         );
+      }
     }
   }
 

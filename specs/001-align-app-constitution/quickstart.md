@@ -2,8 +2,8 @@
 
 **Date**: 2026-10-31.
 Este roteiro combina comandos já disponíveis e cenários de aceitação das etapas
-restantes. Migrations 001–005, fixtures locais, leitura de fotos e testes públicos/de
-autorização já existem. Escrita de animais, upload e manejo continuam pendentes.
+restantes. Migrations 001–006, fixtures locais, leitura de fotos e testes públicos/de
+autorização já existem. Cadastro/edição já estão disponíveis; upload e manejo continuam pendentes.
 Resultados executados ficam em [validation](validation.md); um cenário descrito
 neste roteiro não equivale a um teste aprovado.
 Contratos: [repositories](contracts/repositories.md), [backend](contracts/backend.md).
@@ -210,6 +210,28 @@ Para repetir, iniciar `python supabase/tests/fixtures/android_auth_control.py` n
 host com fixtures prontas; executar `flutter test
 integration_test/authentication_flow_test.dart -d emulator-5554` com os defines
 públicos locais. Ao terminar, encerrar o controlador (Ctrl+C). O teste também cobre
-não staff, restauração da composição e revogação de membership; não executar em
+não staff, reinicialização do SDK com recuperação da sessão no armazenamento nativo e
+revogação de membership; não executar em
 paralelo com outros testes que alterem as mesmas contas. Não é teste de reboot.
 Senhas de fixtures são fornecidas somente em execução, nunca em dart-defines.
+
+
+## Cadastro e edição (US3)
+
+Migrations até 006 são necessárias para a área privada. Entrar com fixture staff,
+abrir Animais do abrigo e Cadastrar animal. Preencher nome, idade, espécie, sexo e
+porte; notas/cuidados ficam restritos à equipe. Novo cadastro tem situação
+inicial disponível e permanece privado. Situação e publicação serão alteradas no
+manejo da US5; upload pertence à US4.
+
+O formulário só confirma após sucesso remoto. Em falha incerta, não editar nem
+criar outro animal para substituir a operação: usar Verificar resultado; se o
+servidor ainda não tiver resultado, Tentar salvar novamente reusa o mesmo envio.
+Reautenticação recuperável mascara o formulário; saída/revogação o descartam.
+
+Repetir a prova nativa com o controlador local ativo:
+`flutter test integration_test/animal_editor_flow_test.dart -d emulator-5554`
+e os mesmos defines públicos. O teste cria, edita, consulta em outra sessão e
+reabre o registro; não embute senha no APK. Depois remover somente suas fixtures:
+`python supabase/tests/fixtures/android_auth_control.py --cleanup-editor`.
+Encerrar o controlador após terminar os testes. Nunca executar contra produção.

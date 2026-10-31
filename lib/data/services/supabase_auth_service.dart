@@ -29,8 +29,9 @@ class SupabaseAuthService implements AuthService {
         password: password,
       );
       if (response.user == null ||
-          client.auth.currentSession?.user.id != response.user!.id)
+          client.auth.currentSession?.user.id != response.user!.id) {
         throw const ServiceFailure(FailureCode.unauthenticated);
+      }
       return _verifyCurrent();
     });
   }
@@ -41,15 +42,18 @@ class SupabaseAuthService implements AuthService {
     final expired = _expiredSession();
     if (expired != null) return expired;
     final verified = await client.auth.getUser();
-    if (verified.user == null || verified.user!.id != session.user.id)
+    if (verified.user == null || verified.user!.id != session.user.id) {
       throw const ServiceFailure(FailureCode.unauthenticated);
+    }
     final data = await client.rpc('access_context');
-    if (client.auth.currentSession?.accessToken != session.accessToken)
+    if (client.auth.currentSession?.accessToken != session.accessToken) {
       throw const ServiceFailure(FailureCode.unauthenticated);
+    }
     if (data is! Map ||
         data['user_id'] != verified.user!.id ||
-        data['is_session_current'] != true)
+        data['is_session_current'] != true) {
       return const SessionDto();
+    }
     return SessionDto(
       userId: verified.user!.id,
       isStaffActive: data['is_staff_active'] == true,
@@ -77,13 +81,15 @@ class SupabaseAuthService implements AuthService {
       .asyncMap((event) async {
         if (event case Failure<AuthState>(:final failure)) {
           final expired = _expiredSession();
-          if (expired != null && failure.code != FailureCode.unauthenticated)
+          if (expired != null && failure.code != FailureCode.unauthenticated) {
             return Success(expired);
+          }
           return Failure<SessionDto>(failure);
         }
         final state = (event as Success<AuthState>).value;
-        if (state.event == AuthChangeEvent.signedOut)
+        if (state.event == AuthChangeEvent.signedOut) {
           return const Success(SessionDto());
+        }
         return currentAccess();
       });
   @override
