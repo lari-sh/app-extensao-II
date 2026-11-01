@@ -1,4 +1,5 @@
 import '../../utils/app_failure.dart';
+import '../../utils/civil_date.dart';
 import '../../domain/models/clinical_record.dart';
 import '../models/animal_dto.dart';
 import 'repository_result.dart';
@@ -142,14 +143,16 @@ class AnimalsRepositoryImpl implements AnimalsRepository {
     }
     return mapRepositoryResult(
       () => service.saveAnimal({
-        'last_dewormed_on': draft.lastDewormedOn,
+        'last_dewormed_on': draft.lastDewormedOn == null
+            ? null
+            : canonicalDate(draft.lastDewormedOn!),
         'temperament': _optional(draft.temperament),
         'weight_kg': draft.weightKg,
         'color': _optional(draft.color),
         'vaccinations': draft.vaccinations
             .map(
               (item) => {
-                'applied_on': item.appliedOn,
+                'applied_on': canonicalDate(item.appliedOn),
                 'vaccine_type': item.vaccineType.trim(),
               },
             )

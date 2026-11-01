@@ -47,6 +47,13 @@ final class AnimalDto {
       }
       values[key] = json[key];
     }
+    for (final entry in {'temperament': 120, 'color': 80}.entries) {
+      final text = json[entry.key] as String?;
+      if (text != null &&
+          (text.trim().isEmpty || text.runes.length > entry.value)) {
+        throw FormatException('Invalid ${entry.key}');
+      }
+    }
     final date = json['last_dewormed_on'];
     if (date != null && canonicalDate(date as String) != date) {
       throw const FormatException('Invalid date');

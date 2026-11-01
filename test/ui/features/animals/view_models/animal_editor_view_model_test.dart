@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:abrigo_dos_anjos/domain/models/animal_draft.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:abrigo_dos_anjos/ui/features/animals/view_models/animal_editor_view_model.dart';
 import 'package:abrigo_dos_anjos/domain/models/animal.dart';
@@ -17,6 +18,35 @@ void fill(AnimalEditorViewModel vm) {
 }
 
 void main() {
+  test(
+    'editor loads and saves confirmed public fields while preserving notes',
+    () async {
+      final confirmed = fixtureAnimal(1).copyWith(
+        lastDewormedOn: '2024-02-29',
+        temperament: 'Calma',
+        color: 'Branca',
+        weightKg: 4.25,
+        vaccinations: [
+          const PublicVaccination(appliedOn: '2024-02-29', vaccineType: 'V4'),
+        ],
+      );
+      final repository = FakeAnimalsRepository()
+        ..handler = (_, _) async =>
+            Success(ManagedAnimal(animal: confirmed, clinicalNotes: 'Interna'));
+      final vm = AnimalEditorViewModel(repository);
+      addTearDown(vm.dispose);
+      await vm.load(confirmed.id);
+      expect(vm.dewormingDateText, '29/02/2024');
+      expect(vm.state.draft.vaccinations.single.vaccineType, 'V4');
+      vm.setTemperament('Sociável');
+      await vm.save();
+      final draft = repository.calls.last.arguments.first as AnimalDraft;
+      expect(draft.temperament, 'Sociável');
+      expect(draft.clinicalNotes, 'Interna');
+      expect(vm.state.savedId, confirmed.id);
+      expect(vm.state.message, 'Animal salvo com sucesso.');
+    },
+  );
   test(
     'public editor rejects invalid input, preserves draft and clears optional values',
     () async {
