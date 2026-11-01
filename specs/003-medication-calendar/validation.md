@@ -401,3 +401,13 @@ da ListView lazy após fechar o teclado. O teste agora usa scrollUntilVisible pa
 construir e revelar o botão, preservando o layout e a lógica de autenticação.
 Jornada completa repetida localmente no Android: PASS em 47 s. A nova execução
 remota e o artifact continuam pendentes; T046/T048 permanecem abertas.
+
+## Captura final do APK normal
+
+APK debug normal recompilado e instalado após a jornada de integração, com backend
+local e somente chave pública. Captura real da aba Calendário disponível em
+[android-calendar-final.png](evidence/android-calendar-final.png): mês, navegação,
+dia selecionado, agenda vazia e cabeçalho preservam a composição aprovada.
+A janela Windows continua indisponível por erro OpenGL/controle de janela;
+execução e captura foram feitas no AVD sem janela. Isso não equivale a um teste
+manual do usuário com a janela aberta. Artifact remoto ainda não confirmado.

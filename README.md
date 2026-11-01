@@ -21,7 +21,7 @@ Trabalho na branch `developer`; integração à `main` por Pull Request.
 Fluxo: **Área do voluntário → Animais do abrigo → Cadastrar animal**; tocar em um
 animal abre sua edição. O painel de fotos já permite seleção, prévia e confirmação do envio; o backend
 local tem testes de upload/substituição/limpeza. A galeria, o envio, a substituição e a recuperação após recriar a Activity
-foram validados no emulador Android, com confirmação explícita antes do upload. Painel Kanban/lista, totais globais e comandos de situação/publicação já estão integrados. O editor de animais salvos também permite mudar situação e publicação, sem salvar o rascunho clínico pendente. A aba Calendário está em planejamento. O ambiente validado é local, sem deploy de produção.
+foram validados no emulador Android, com confirmação explícita antes do upload. Painel Kanban/lista, totais globais e comandos de situação/publicação já estão integrados. O editor de animais salvos também permite mudar situação e publicação, sem salvar o rascunho clínico pendente. A aba Calendário permite consultar mês/dia e aplicações, com tratamentos por horários fixos ou intervalos, conclusão com autoria/hora real, interrupção e correção auditada. O ambiente validado é local, sem deploy de produção. Evidências e gates remotos em [validação do calendário](specs/003-medication-calendar/validation.md).
 A implementação antiga de demonstração foi removida. Dados de demo_animals_v1
 não são importados; apenas IDs válidos de favoritos são aproveitados, inclusive
 quando o animal não está disponível no catálogo.
