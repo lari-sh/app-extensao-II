@@ -140,3 +140,17 @@ calculadas em America/Sao_Paulo. Sem API externa nem novo pacote.
 Suíte SQL completa: 200 PASS em 10 arquivos. Teste legado do contador agora aceita
 dados locais existentes, verificando não negatividade em vez de presumir zero.
 T021/T023 concluídas; interface/Android da US2 ainda pendentes.
+
+## US2 — ViewModel e contrato de leitura
+
+MedicationCalendarViewModel com estado Freezed, grade e rótulos prontos em
+português, seleção mês/dia, Hoje pelo calendário civil do servidor, paginação e
+recarga em conflito de snapshot. Respostas antigas de mês/dia/sessão ignoradas;
+logout/troca de geração limpa dados privados. Atraso usa server_now, sem offset
+fixo ou conversão pelo fuso do dispositivo.
+
+Dez testes do VM e onze de Service/Repository passaram (21 no conjunto). Cobertura
+de 28/29/30/31 dias, ano, limite UTC/mês civil, simultâneos, erros, todos os itens,
+cursores repetidos, conflito, gerações privadas e payload restrito de leitura.
+Análise final sem problemas após corrigir avisos de estilo. T022/T024/T025
+concluídas. Nenhuma mudança visual ou pacote novo neste contexto.

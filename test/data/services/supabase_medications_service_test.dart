@@ -128,4 +128,64 @@ void main() {
       expect((await service.getOperation('k' * 32) as Success).value, isNull);
     },
   );
+  test(
+    'calendar reads transmit only month/day/cursor and preserve snapshot conflict',
+    () async {
+      final calls = <http.Request>[];
+      var conflict = false;
+      final client = SupabaseClient(
+        'https://example.test',
+        'public',
+        httpClient: MockClient((request) async {
+          calls.add(request);
+          final isMonth = request.url.path.endsWith(
+            'get_medication_calendar_month',
+          );
+          return http.Response(
+            jsonEncode(
+              conflict
+                  ? {'code': 'PT409', 'message': 'private'}
+                  : isMonth
+                  ? {
+                      'month': '2026-11',
+                      'server_now': '2026-11-01T01:00:00Z',
+                      'shelter_today': '2026-10-31',
+                      'timezone': 'America/Sao_Paulo',
+                      'days': [],
+                    }
+                  : {
+                      'day': '2026-11-01',
+                      'server_now': '2026-11-01T12:00:00Z',
+                      'agenda_version': 9,
+                      'items': [],
+                      'next_cursor': 'next',
+                    },
+            ),
+            conflict ? 409 : 200,
+            request: request,
+            headers: {'content-type': 'application/json'},
+          );
+        }),
+      );
+      addTearDown(client.dispose);
+      final service = SupabaseMedicationsService(client);
+      expect(await service.loadMonth('2026-11'), isA<Success>());
+      expect(jsonDecode(calls.last.body), {'p_month': '2026-11'});
+      expect(
+        await service.loadDay('2026-11-01', cursor: 'opaque'),
+        isA<Success>(),
+      );
+      expect(jsonDecode(calls.last.body), {
+        'p_day': '2026-11-01',
+        'p_cursor': 'opaque',
+      });
+      conflict = true;
+      expect(
+        (await service.loadDay('2026-11-01', cursor: 'opaque') as Failure)
+            .failure
+            .code,
+        FailureCode.conflict,
+      );
+    },
+  );
 }

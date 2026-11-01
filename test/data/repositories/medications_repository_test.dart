@@ -290,4 +290,49 @@ void main() {
       expect(service.calls.last.arguments, ['k' * 32]);
     },
   );
+  test(
+    'day pages retain cursor/version/civil date and cursor errors stay typed',
+    () async {
+      final service = FakeMedicationsService()
+        ..handler = (_, _) async => Success(
+          MedicationDto.parse(MedicationResponseType.day, {
+            'day': '2026-11-01',
+            'server_now': '2026-11-02T02:00:00Z',
+            'agenda_version': 99,
+            'items': [
+              {
+                ...medicationApplicationJson(),
+                'scheduled_at': '2026-11-02T02:30:00Z',
+                'scheduled_local_date': '2026-11-01',
+                'scheduled_local_time': '23:30',
+              },
+            ],
+            'next_cursor': 'next',
+          }),
+        );
+      final repository = MedicationsRepositoryImpl(service);
+      final page =
+          (await repository.loadDay('2026-11-01', cursor: 'first') as Success)
+              .value;
+      expect(page.cursor, 'next');
+      expect(page.agendaVersion, 99);
+      expect(page.items.single.scheduledLocalDate, '2026-11-01');
+      expect(page.items.single.scheduledAt, DateTime.utc(2026, 11, 2, 2, 30));
+      expect(service.calls.last.arguments, ['2026-11-01', 'first']);
+      service.handler = (_, _) async =>
+          Failure<MedicationDto>(AppFailure(FailureCode.conflict));
+      expect(
+        (await repository.loadDay('2026-11-01', cursor: 'first') as Failure)
+            .failure
+            .code,
+        FailureCode.conflict,
+      );
+      final count = service.calls.length;
+      expect(
+        await repository.loadDay('2026-11-01', cursor: 'x' * 1025),
+        isA<Failure>(),
+      );
+      expect(service.calls.length, count);
+    },
+  );
 }
