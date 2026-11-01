@@ -85,8 +85,29 @@ void main() {
         await text('animalNotes', 'Nota interna Android');
         FocusManager.instance.primaryFocus?.unfocus();
         await tester.pumpAndSettle();
+        await text('animalWeight', '4,25');
+        await text('animalColor', 'Branca');
+        await text('animalTemperament', 'Calma');
+        await text('animalLastDewormedOn', '29/02/2024');
+        FocusManager.instance.primaryFocus?.unfocus();
+        await tester.pumpAndSettle();
+        await tester.scrollUntilVisible(
+          find.text('Adicionar vacina'),
+          200,
+          scrollable: find.byType(Scrollable).first,
+        );
+        await tester.tap(find.text('Adicionar vacina'));
+        await tester.pumpAndSettle();
+        await text('vaccinationDate0', '29/02/2024');
+        await text('vaccineType0', 'V4');
+        FocusManager.instance.primaryFocus?.unfocus();
+        await tester.pumpAndSettle();
         final care = find.text('Adicionar cuidado');
-        await tester.ensureVisible(care);
+        await tester.scrollUntilVisible(
+          care,
+          200,
+          scrollable: find.byType(Scrollable).first,
+        );
         await tester.tap(care);
         await tester.pumpAndSettle();
         await text('careDescription0', 'Vacinação registrada no teste');
@@ -102,6 +123,7 @@ void main() {
             await tester.pumpAndSettle();
           }
           await tester.ensureVisible(button);
+          await tester.pumpAndSettle();
           await tester.tap(button);
           await tester.pumpAndSettle(const Duration(milliseconds: 300));
           expect(find.text('Animal salvo com sucesso.'), findsOneWidget);
@@ -122,22 +144,93 @@ void main() {
         );
         expect(saved['animal']['name'], name);
         expect(saved['animal']['is_published'], false);
+        expect(saved['animal']['weight_kg'], 4.25);
+        expect(saved['animal']['color'], 'Branca');
+        expect(saved['animal']['last_dewormed_on'], '2024-02-29');
+        expect(saved['animal']['temperament'], 'Calma');
+        expect(saved['animal']['vaccinations'], [
+          {'applied_on': '2024-02-29', 'vaccine_type': 'V4'},
+        ]);
         expect(saved['clinical_notes'], 'Nota interna Android');
         expect((saved['care_records'] as List).length, 1);
         await text('animalName', '$name editado', upwards: true);
+        await tester.pumpAndSettle();
+        expect(editor.viewModel.state.draft.name, '$name editado');
         await save();
         final edited = await second.rpc(
           'get_managed_animal',
           params: {'p_animal_id': id},
         );
         expect(edited['animal']['name'], '$name editado');
+        await second.rpc(
+          'set_animal_publication',
+          params: {
+            'p_animal_id': id,
+            'p_is_published': true,
+            'p_operation_key': 'v${DateTime.now().microsecondsSinceEpoch}'
+                .padRight(32, 'v'),
+          },
+        );
+        final visitor = SupabaseClient(
+          url,
+          const String.fromEnvironment('SUPABASE_PUBLISHABLE_KEY'),
+        );
+        try {
+          final public = await visitor
+              .from('animals')
+              .select()
+              .eq('id', id)
+              .single();
+          expect(public['vaccinations'], [
+            {'applied_on': '2024-02-29', 'vaccine_type': 'V4'},
+          ]);
+          expect(public.containsKey('clinical_notes'), false);
+          expect(public['weight_kg'], 4.25);
+        } finally {
+          await visitor.dispose();
+        }
+        final appNavigator = Navigator.of(
+          tester.element(find.byType(AnimalEditorScreen)),
+        );
+        appNavigator.pushNamed('/detail', arguments: id);
+        await tester.pumpAndSettle();
+        final sheet = find.byKey(const ValueKey('publicAnimalSheet'));
+        expect(sheet, findsOneWidget);
+        expect(
+          find.descendant(of: sheet, matching: find.text('29/02/2024 • V4')),
+          findsOneWidget,
+        );
+        expect(
+          find.descendant(of: sheet, matching: find.text('Branca')),
+          findsOneWidget,
+        );
+        expect(
+          find.descendant(of: sheet, matching: find.text('4,25 kg')),
+          findsOneWidget,
+        );
+        expect(
+          find.descendant(
+            of: sheet,
+            matching: find.text('Nota interna Android'),
+          ),
+          findsNothing,
+        );
+        await tester.tap(find.byTooltip('Fechar detalhes'));
+        await tester.pumpAndSettle();
+        await text('animalLastDewormedOn', '', upwards: true);
+        await text('animalWeight', '', upwards: true);
+        await save();
+        final cleared = await second.rpc(
+          'get_managed_animal',
+          params: {'p_animal_id': id},
+        );
+        expect(cleared['animal']['last_dewormed_on'], isNull);
+        expect(cleared['animal']['weight_kg'], isNull);
+        expect(cleared['clinical_notes'], 'Nota interna Android');
         // Close and reopen the route to prove the form loads persisted data.
         await tester.tap(find.byTooltip('Voltar'));
         await tester.pumpAndSettle(const Duration(milliseconds: 300));
-        final navigator = Navigator.of(
-          tester.element(find.text('Animais do abrigo')),
-        );
-        navigator.pushNamed('/animal-editor', arguments: id);
+        appNavigator.pushNamed('/animal-editor', arguments: id);
         await tester.pumpAndSettle(const Duration(milliseconds: 300));
         expect(find.text('$name editado'), findsOneWidget);
       } finally {

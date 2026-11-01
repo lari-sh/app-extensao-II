@@ -44,7 +44,7 @@ O indicador legado de vacinação não é uma fonte para preencher data/tipo.
 - [x] P004 Estender DTOs/modelos/Services/Repositories com testes de mapeamento/falhas.
 - [x] P005 Testar ViewModels: validação, mensagens, ausência, rascunho e autorização.
 - [x] P006 Integrar campos no editor e ficha com Widget Tests e sem alterar layout sem autorização.
-- [ ] P007 Validar Android, duas sessões, ocultação/adoção e ausência de exposição clínica.
+- [x] P007 Validar Android, duas sessões, ocultação/adoção e ausência de exposição clínica.
 - [ ] P008 Atualizar evidências e executar CI antes de publicar cada etapa na developer.
 - [x] P009 Definir contrato de peso, cor e registros públicos de vacinação (data/tipo),
   incluindo normalização, limites, limpeza e compatibilidade de clientes antigos.
@@ -75,3 +75,5 @@ continuam pendentes para este incremento.
 Camada de dados Flutter: 77 testes de domínio/dados aprovados; DTO compatível com respostas legadas e lista pública restrita a data/tipo. Modelos Freezed gerados. Validação civil não depende do fuso do aparelho; servidor permanece autoridade para America/Sao_Paulo.
 
 Interface e ViewModels: 179 testes Flutter aprovados e flutter analyze sem problemas. Ficha mantém o painel de duas colunas e passa a mostrar dados confirmados, com Não informado na ausência. Cadastro utiliza os campos existentes e entradas públicas separadas do prontuário. Validação Android em execução.
+
+Jornada Android de cadastro/edição e ficha aprovada em 36 segundos, incluindo leitura anônima e segunda sessão. Evidências detalhadas em validation.md. P008 permanece pendente até confirmação da execução remota da CI.

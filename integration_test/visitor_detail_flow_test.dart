@@ -43,7 +43,7 @@ void main() {
       );
       expect(find.text('Vacinas'), findsOneWidget);
       expect(find.text('Castrado'), findsOneWidget);
-      expect(find.text('Cadastro em planejamento'), findsNWidgets(2));
+      expect(find.text('Não informado'), findsNWidgets(5));
       expect(find.text('Notas internas'), findsNothing);
       final add = find.byTooltip('Favoritar Animal de teste 01');
       if (add.evaluate().isNotEmpty) {
