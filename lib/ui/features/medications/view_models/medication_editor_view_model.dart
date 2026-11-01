@@ -70,6 +70,8 @@ class MedicationEditorViewModel extends ChangeNotifier {
   String? _pendingTreatmentId;
   bool _pendingStop = false;
   bool _disposed = false;
+  bool _recoverRead = false;
+  int _readRecoveries = 0;
   int _revision = 0;
   int _boundGeneration = 0;
   bool get canEdit =>
@@ -152,6 +154,8 @@ class MedicationEditorViewModel extends ChangeNotifier {
   }
 
   void _clear() {
+    _recoverRead = false;
+    _readRecoveries = 0;
     _revision++;
     _pending = null;
     _pendingKey = null;
@@ -160,12 +164,45 @@ class MedicationEditorViewModel extends ChangeNotifier {
     _state = const MedicationEditorState();
   }
 
+  void _recoverStaleRead(int request) {
+    if (!_disposed &&
+        request == _revision &&
+        _boundGeneration == _privateGeneration()) {
+      _recoverRead = true;
+    }
+  }
+
+  void _scheduleReadRecovery() {
+    if (_disposed ||
+        !_recoverRead ||
+        !_isAuthorized() ||
+        state.loading ||
+        state.saving ||
+        state.uncertain) {
+      return;
+    }
+    _recoverRead = false;
+    if (++_readRecoveries > 1) {
+      _publish(
+        state.copyWith(
+          loadFailed: true,
+          message: 'Não foi possível carregar as medicações. Tente novamente.',
+        ),
+      );
+      return;
+    }
+    // The session has just been confirmed. A fresh read must not start another
+    // authorization cycle and invalidate sibling readers again.
+    Future<void>.microtask(() => _load(verifyAccess: false));
+  }
+
   void refreshAccess() {
     if (_disposed) return;
     if (_boundGeneration != _privateGeneration()) {
       _boundGeneration = _privateGeneration();
       _clear();
     }
+    _scheduleReadRecovery();
     notifyListeners();
   }
 
@@ -200,7 +237,12 @@ class MedicationEditorViewModel extends ChangeNotifier {
     return result;
   }
 
-  Future<void> load({bool more = false}) async {
+  Future<void> load({bool more = false}) {
+    _readRecoveries = 0;
+    return _load(more: more);
+  }
+
+  Future<void> _load({bool more = false, bool verifyAccess = true}) async {
     if (_disposed ||
         state.animalId == null ||
         state.loading ||
@@ -215,7 +257,7 @@ class MedicationEditorViewModel extends ChangeNotifier {
         cursor = more ? state.cursor : null;
     _publish(state.copyWith(loading: true, loadFailed: false, message: null));
     try {
-      if (!await _check()) {
+      if (!(verifyAccess ? await _check() : _isAuthorized())) {
         _publish(
           state.copyWith(
             loadFailed: true,
@@ -227,7 +269,10 @@ class MedicationEditorViewModel extends ChangeNotifier {
       final epoch = _accessEpoch();
       if (state.animalName.isEmpty && _animals != null) {
         final animal = await _animals.getManagement(id);
-        if (!_current(request, epoch)) return;
+        if (!_current(request, epoch)) {
+          _recoverStaleRead(request);
+          return;
+        }
         if (animal case Failure<ManagedAnimal>(:final failure)) {
           _publish(state.copyWith(loadFailed: true));
           await _failure(failure);
@@ -240,7 +285,10 @@ class MedicationEditorViewModel extends ChangeNotifier {
         );
       }
       final result = await repository.listTreatments(id, cursor: cursor);
-      if (!_current(request, epoch)) return;
+      if (!_current(request, epoch)) {
+        _recoverStaleRead(request);
+        return;
+      }
       switch (result) {
         case Success<MedicationTreatmentPage>(:final value):
           if (more && value.cursor == cursor && cursor != null) {
@@ -251,6 +299,8 @@ class MedicationEditorViewModel extends ChangeNotifier {
               for (final t in state.treatments) t.id: t,
             for (final t in value.items) t.id: t,
           };
+          _recoverRead = false;
+          _readRecoveries = 0;
           _publish(
             state.copyWith(
               treatments: _sorted(items.values),
@@ -274,6 +324,7 @@ class MedicationEditorViewModel extends ChangeNotifier {
     } finally {
       if (!_disposed && request == _revision) {
         _publish(state.copyWith(loading: false));
+        _scheduleReadRecovery();
       }
     }
   }

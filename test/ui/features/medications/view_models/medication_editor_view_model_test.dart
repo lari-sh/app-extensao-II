@@ -450,4 +450,59 @@ void main() {
       expect(repo.calls.last.arguments.single, key);
     },
   );
+  test(
+    'authorized epoch change recovers discarded treatment read without another authorization cycle',
+    () async {
+      var epoch = 0, checks = 0, reads = 0;
+      var allowed = true;
+      final pending = Completer<Result<MedicationTreatmentPage>>();
+      final repo = FakeMedicationsRepository()
+        ..handler = (_, _) async {
+          reads++;
+          return reads == 1
+              ? pending.future
+              : const Success(MedicationTreatmentPage(items: [treatment]));
+        };
+      final vm = MedicationEditorViewModel(
+        repo,
+        isAuthorized: () => allowed,
+        accessEpoch: () => epoch,
+        authorize: () async {
+          checks++;
+          return allowed;
+        },
+      );
+      addTearDown(vm.dispose);
+      final binding = vm.bindAnimal(medicationAnimalId, 'Atena');
+      await Future<void>.delayed(Duration.zero);
+      epoch++;
+      allowed = false;
+      pending.complete(
+        const Success(MedicationTreatmentPage(items: [treatment])),
+      );
+      await binding;
+      expect(vm.state.treatments, isEmpty);
+      expect(vm.state.loading, false);
+      allowed = true;
+      vm.refreshAccess();
+      await Future<void>.delayed(Duration.zero);
+      expect(vm.state.treatments, [treatment]);
+      expect(reads, 2);
+      expect(checks, 1);
+    },
+  );
+  test('recovery is bounded when authorization epochs keep changing', () async {
+    var epoch = 0;
+    final repo = FakeMedicationsRepository()
+      ..handler = (_, _) async {
+        epoch++;
+        return const Success(MedicationTreatmentPage(items: [treatment]));
+      };
+    final vm = MedicationEditorViewModel(repo, accessEpoch: () => epoch);
+    addTearDown(vm.dispose);
+    await vm.bindAnimal(medicationAnimalId, 'Atena');
+    await Future<void>.delayed(Duration.zero);
+    expect(vm.state.loadFailed, true);
+    expect(repo.calls, hasLength(2));
+  });
 }

@@ -326,3 +326,18 @@ timeout/recibo, conflito, payload sem ator/hora, edição em conflito e stop inc
 Widget Tests de correção com texto 1,4×/320 px e interrupção preservando cartão.
 Suíte completa 260 Flutter PASS; análise final sem problemas. T039/T041/T042
 concluídas. Validação Android completa da US4 permanece para T044/T045.
+
+## Regressão encontrada ao reabrir o editor
+
+A jornada Android da US4 mostrou painel vazio: diagnóstico confirmou binding
+correto, zero itens, nenhum erro e leitura encerrada. Uma alteração de accessEpoch
+entre a requisição e a resposta descartava o resultado sem recarga. Corrigida
+recuperação da leitura após a sessão ser confirmada, sem provocar novo ciclo de
+autorização; limitada a uma tentativa, com retry amigável se houver nova mudança.
+Troca de geração/dispose continua descartando dados privados e comandos incertos
+não são reenviados por essa recuperação.
+
+Dois testes de regressão novos e 13 anteriores do Editor VM PASS (15 no conjunto);
+análise final sem problemas. Jornada Android completa ainda precisa ser repetida
+com a correção. A janela local do emulador falhou em OpenGL; AVD recuperado sem
+janela para execução de testes. Não declarar teste manual com janela como aprovado.
