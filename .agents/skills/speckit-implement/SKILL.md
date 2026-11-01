@@ -224,3 +224,27 @@ Report final status with summary of completed work.
 - [ ] Implementation validated against specification, plan, and test coverage
 - [ ] Extension hooks dispatched or skipped according to the rules in Mandatory Post-Execution Hooks above
 - [ ] Completion reported to user with summary of completed work
+
+
+## Abrigo dos Anjos: calendar task tracking
+
+User-requested project rule, confirmed on 2026-10-31:
+
+- For the medication calendar, read `specs/003-medication-calendar/tasks.md` before
+  implementation and resume from its actual checked/unchecked state. That file is
+  the authoritative task list; do not duplicate the task list inside this skill.
+- Keep `spec.md`, `plan.md`, `data-model.md`, `contracts/`, and the approved design
+  as implementation references. Work on `developer`, never commit directly to `main`.
+- After each validated stage, update the corresponding tasks in `tasks.md` and
+  record the checks and their results in
+  `specs/003-medication-calendar/validation.md` before committing that context.
+- Mark a task complete only when its required implementation and checks are
+  actually finished. Writing a test, generating code, or creating a YAML file does
+  not establish that the test, platform validation, or CI run passed.
+- Keep required Flutter unit/Widget tests, backend tests, Android validation and
+  remote CI evidence distinct. Report checks not run as pending, not successful.
+- Commit and push each validated context to `developer` using the constitution's
+  Conventional Commit format and real requirement IDs; do not accumulate unrelated
+  changes while progressing into another implementation context.
+- Preserve the approved design. Any further layout deviation still requires the
+  prior explanation and explicit authorization specified by the constitution skill.
