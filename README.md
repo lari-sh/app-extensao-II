@@ -138,15 +138,18 @@ do servidor e corrige registros com justificativa, mantendo histórico original.
 Respostas incertas são reconciliadas por recibo, sem duplicar comandos.
 
 Validação local: 262 testes Flutter, 256 testes SQL, jornadas HTTP concorrentes e
-Android completo aprovados. A confirmação final da esteira/artefato remoto está
-em acompanhamento; ver [validation](specs/003-medication-calendar/validation.md).
+Android completo aprovados. Esteira e APK confirmados na entrega do calendário;
+ver [validation](specs/003-medication-calendar/validation.md).
 Sem notificações, sincronização com calendários externos ou implantação em produção.
 O nome de exibição de cada funcionário é configurado no provisionamento da equipe;
 na ausência dele, o histórico usa identificação estável, sem expor e-mail.
 
-O novo [contato público e compartilhamento por link](design/adoption-contact-proposal.md)
-está somente no protótipo, aguardando aprovação. Hospedagem/endereço público,
-App Links e alternativa web precisam de planejamento antes da implementação.
+A [tela de contato público](specs/004-adoption-contact/plan.md) está implementada
+conforme o design aprovado, sem prévia da mensagem. WhatsApp prepara texto com
+dados públicos do animal; Instagram e Facebook abrem os perfis oficiais. O usuário
+revisa e envia a mensagem. Hospedagem, App Links e compartilhamento da ficha foram
+cancelados e removidos das tarefas. Evidências de testes, Android e CI em
+[validation](specs/004-adoption-contact/validation.md).
 
 As telas internas oferecem Voltar visível; programação e ficha pública mantêm
 as ações Fechar existentes. A navegação respeita verificação de sessão.

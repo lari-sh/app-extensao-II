@@ -14,7 +14,7 @@ Aceitação: ficha -> tela aprovada -> canal externo; retorno preserva ficha.
 - [x] T006 Escrever integration_test/adoption_contact_flow_test.dart; validar Android externo/retorno, atualizar .github/scripts/android_management.sh, README.md e validation.md; format/analyze/test/build e CI/artifact; publicar US1 por contexto. [004-FR-002, 004-CR-002]
 
 ## Entrega
-- [ ] T012 Revisar docs/tasks, CI e artifact, commits por contexto na developer e limitações de iOS em specs/004-adoption-contact/validation.md. [004-CR-002]
+- [x] T012 Revisar docs/tasks, CI e artifact, commits por contexto na developer e limitações de iOS em specs/004-adoption-contact/validation.md. [004-CR-002]
 
 ## Dependências e escopo atual
 T001 -> T002 -> T003 -> T004 -> T005 -> T006 -> T012.
@@ -22,3 +22,7 @@ T007–T011 removidas a pedido do usuário em 2026-11-01: cancelados hospedagem,
 ficha compartilhável, App Links e URL na mensagem. Não renumerar nem registrar
 essas tarefas como implementadas. WhatsApp mantém apenas o rascunho textual.
 Atualizar evidências e publicar cada contexto validado na developer.
+
+
+Fechamento: 7/7 tarefas do escopo vigente concluídas. T007–T011 canceladas e
+removidas, sem implementação de hospedagem/compartilhamento. Evidências em validation.md.
