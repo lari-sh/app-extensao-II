@@ -42,6 +42,11 @@ legados: employee; primeiro administrator é promovido explicitamente pelo opera
 Não expor bootstrap público. Role real é consultada na tabela protegida, não em
 user_metadata fornecido pelo usuário ou JWT desatualizado.
 
+Bootstrap é um comando técnico com segredo de servidor que cria a reserva de
+convite do primeiro administrador e envia o e-mail de definição de senha. Não
+compartilhar senha temporária. O vínculo fica sem acesso ativo até o aceite;
+o caminho técnico só admite a reserva inicial e registra ator de sistema.
+
 Edge Function team-invitation valida JWT/sessão/admin, reserva uma operação e chama
 Auth Admin no servidor. Revalida administrador e geração ao finalizar, após chamada
 externa. Falha deixa convite não aceito e nenhum vínculo ativo. Requisições com

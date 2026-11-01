@@ -21,3 +21,17 @@ Botões de Voltar ficam à esquerda, antes do título/conteúdo do cabeçalho.
 No catálogo público, removido o rótulo Vitrine e movido o retorno para a esquerda.
 Controles Fechar continuam com sua função e localização próprias; não foram
 transformados em botões de retorno. Layout, cores e demais conteúdos preservados.
+
+## Proposta de equipe e acesso — DESIGN-TEAM-001
+
+Abrir [team-access-proposal.html](team-access-proposal.html), também acessível pelo
+link lateral Equipe e acesso · proposta no protótipo principal. A proposta é uma
+página separada para preservar as telas já aprovadas. Navegação: equipe, convidar
+pessoa, aceite, recuperação de acesso, nova senha e contexto do painel.
+Alternar Administrador/Funcionário na lateral permite conferir a entrada Equipe.
+Os menus simulam alteração de perfil/desativação; convites simulam reenvio,
+cancelamento e aceite. Nenhum e-mail ou conta é criado. Dados somente em memória.
+
+Capturas em previews/team/. Planejamento e 26 tarefas em
+../specs/005-auth-team-access/. Aprovação visual pendente em design-approval.md;
+a existência deste protótipo não autoriza implementar as novas telas no Flutter.

@@ -1574,5 +1574,16 @@
   updateAdoptionContact();
 })();
 </script>
+<script id="team-access-proposal-link">
+(function(){
+  var contact=document.querySelector('[data-jump="screen-10"]');
+  if(!contact)return;
+  var link=document.createElement('a');
+  link.href='team-access-proposal.html';link.className='page-item';
+  link.style.textDecoration='none';link.style.color='inherit';
+  link.innerHTML='<span class="page-icon">▣</span><span>Equipe e acesso · proposta</span><span class="page-num">↗</span>';
+  contact.insertAdjacentElement('afterend',link);
+})();
+</script>
 </body>
 </html>

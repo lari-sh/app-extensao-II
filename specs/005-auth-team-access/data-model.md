@@ -4,7 +4,8 @@
   (administrator/employee), version crescente, created_at/updated_at. IDs de
   autoria existentes mantidos. Role/active somente por comandos autorizados.
 - **team_invitations** (privado): id, normalized_email, display_name, intended_role,
-  invited_auth_user_id, generation, status, expires_at, created_by, accepted_by,
+  invited_auth_user_id, generation, status, expires_at, created_by_kind,
+  created_by (nulo somente para bootstrap técnico), accepted_by,
   accepted_at, version e timestamps. Uma reserva corrente por e-mail. Status:
   preparing → pending → accepted; preparing → failed; pending → revoked/expired.
   Reenvio cria nova geração pendente e invalida a anterior, sem duplicar vínculo.
