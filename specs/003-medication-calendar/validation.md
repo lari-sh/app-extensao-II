@@ -105,3 +105,10 @@ sem chamadas em build. Binding da medicação não depende de formVersion da fic
 Suíte completa 212 Flutter PASS; análise final sem problemas. Testes de unidade
 adicionais cobrem unidades/seletores. Android e prova com duas sessões reais da US1
 seguem pendentes de T020; a aba calendário ainda pertence à US2.
+
+## Contrato HTTP de tratamentos — duas sessões locais
+
+medication_flow.py aprovado: duas sessões autenticadas, chamadas concorrentes com
+a mesma chave gerando um único tratamento e quatro aplicações, recibo recuperado
+pela segunda sessão e acesso de visitante negado. Massa descartável removida em
+transação, sem alterar animais manuais. Execução restrita ao Supabase local.
