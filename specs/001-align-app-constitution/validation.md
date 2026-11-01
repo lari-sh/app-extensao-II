@@ -1042,3 +1042,21 @@ Fechamento técnico da versão de testes Android concluído. T106/iOS continua
 aberta. Sem implantação em produção, assinatura de release, publicação em loja,
 merge na main ou início da expansão para outros abrigos. Este contexto altera
 somente documentação/tarefas; não repete testes locais de código inalterado.
+
+## T115 — retorno à esquerda e cabeçalho público
+
+Alteração expressamente solicitada pelo usuário em 01/11/2026: removido Vitrine
+no catálogo e colocado o botão Voltar antes do título, à esquerda. Revisadas
+as outras ações Voltar: AppBar.leading/primeiro item do cabeçalho ou ação inferior
+à esquerda já atendem. Fechar e navegação de mês não foram tratados como Voltar.
+Protótipo versionado em design/abrigo-dos-anjos-figma.html atualizado; a cópia
+local exibida no navegador recebeu a mesma edição pontual. MCP indisponível
+(Transport closed); usado arquivo local do projeto, sem sobrescrever seu restante.
+
+flutter analyze sem problemas; suíte completa 273/273 aprovada. Testes do
+catálogo verificam ausência do rótulo e posição relativa do retorno; os dois
+Widgets foram repetidos após acrescentar retorno funcional ao início em 320 px.
+Formato e git diff --check conferidos. APK normal compilado e reinstalado via
+adb install -r, preservando dados, com abertura da Activity confirmada. Não houve
+nova jornada integration_test neste contexto de cabeçalho. CI deste novo commit
+não confirmada; o fechamento anterior continua referenciado ao SHA 1eeb97e.

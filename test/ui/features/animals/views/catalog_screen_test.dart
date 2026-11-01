@@ -11,7 +11,11 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.text('Quero Adotar (Visitante)'));
     await tester.pumpAndSettle();
-    expect(find.text('VITRINE'), findsOneWidget);
+    expect(find.text('VITRINE'), findsNothing);
+    expect(
+      tester.getCenter(find.byTooltip('Voltar')).dx,
+      lessThan(tester.getTopLeft(find.text('Conheça nossos anjos')).dx),
+    );
     expect(find.text('Conheça nossos anjos'), findsOneWidget);
     expect(find.byType(GridView), findsOneWidget);
     expect(find.text('Início'), findsOneWidget);
@@ -41,6 +45,13 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text('1 animais encontrados'), findsOneWidget);
       expect(find.text('Limpar filtros'), findsOneWidget);
+      expect(
+        tester.getCenter(find.byTooltip('Voltar')).dx,
+        lessThan(tester.getTopLeft(find.text('Conheça nossos anjos')).dx),
+      );
+      await tester.tap(find.byTooltip('Voltar'));
+      await tester.pumpAndSettle();
+      expect(find.text('Quero Adotar (Visitante)'), findsOneWidget);
       expect(tester.takeException(), isNull);
     },
   );

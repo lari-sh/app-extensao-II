@@ -109,18 +109,16 @@ class _CatalogScreenState extends State<CatalogScreen> {
           children: [
             Row(
               children: [
+                IconButton.filledTonal(
+                  tooltip: 'Voltar',
+                  onPressed: () => Navigator.maybePop(context),
+                  icon: const Icon(Icons.chevron_left),
+                ),
+                const SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'VITRINE',
-                        style: TextStyle(
-                          fontSize: 10,
-                          letterSpacing: 1.2,
-                          color: Color(0xFFC51D2A),
-                        ),
-                      ),
                       const Text(
                         'Conheça nossos anjos',
                         style: TextStyle(
@@ -131,11 +129,6 @@ class _CatalogScreenState extends State<CatalogScreen> {
                       ),
                     ],
                   ),
-                ),
-                IconButton.filledTonal(
-                  tooltip: 'Voltar',
-                  onPressed: () => Navigator.pop(context),
-                  icon: const Icon(Icons.chevron_left),
                 ),
               ],
             ),

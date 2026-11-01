@@ -14,3 +14,10 @@ As imagens em previews/ são capturas da proposta a 390×844. As interações si
 dados em memória e não se comunicam com o app/backend. Revisão/aprovação formal em
 ../specs/003-medication-calendar/design-approval.md; criar o desenho não autoriza
 sua implementação no Flutter.
+
+## Navegação de retorno — ajuste autorizado em 2026-11-01
+
+Botões de Voltar ficam à esquerda, antes do título/conteúdo do cabeçalho.
+No catálogo público, removido o rótulo Vitrine e movido o retorno para a esquerda.
+Controles Fechar continuam com sua função e localização próprias; não foram
+transformados em botões de retorno. Layout, cores e demais conteúdos preservados.
