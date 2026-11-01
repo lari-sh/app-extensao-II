@@ -310,3 +310,19 @@ Publicação/adoção e save_animal preservaram hash das aplicações e identida
 versões dos tratamentos. Anon continua sem acesso. SQL 256 PASS já registrado;
 HTTP completo PASS com duas sessões e conta de teste B restaurada ao finalizar.
 T037/T043 concluídas. Ainda não é evidência de execução remota da CI.
+
+## US4 — comandos e controles de correção aprovados
+
+ViewModel de aplicação suporta completed→pending com justificativa normalizada,
+versão/chave estáveis, reconciliação e conflito. Confirmação valida tipo/versão do
+evento, motivo e projeção. Repository faz a mesma verificação no limite de dados.
+A tela usa o bloco de correção já aprovado em screen-9; histórico mantém registro
+original e corretor. Motivos técnicos de cancelamento são apresentados em português.
+Editor mantém versões em edição e interrupção, preserva rascunho em conflito e
+recupera stop incerto pelo recibo. Cartão interrompido permanece visível sem editar.
+
+Testes novos: correção com motivo vazio/501/normalizado, nova conclusão distinta,
+timeout/recibo, conflito, payload sem ator/hora, edição em conflito e stop incerto.
+Widget Tests de correção com texto 1,4×/320 px e interrupção preservando cartão.
+Suíte completa 260 Flutter PASS; análise final sem problemas. T039/T041/T042
+concluídas. Validação Android completa da US4 permanece para T044/T045.

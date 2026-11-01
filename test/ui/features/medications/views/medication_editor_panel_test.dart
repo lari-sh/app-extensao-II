@@ -197,4 +197,63 @@ void main() {
     expect(vm.state.errors, isNotEmpty);
     expect(tester.takeException(), isNull);
   });
+  testWidgets(
+    'treatment panel stops confirmed record and disables editing without removing it',
+    (tester) async {
+      var treatment = const MedicationTreatment(
+        id: medicationTreatmentId,
+        animalId: medicationAnimalId,
+        revision: 1,
+        version: 1,
+        medicationName: 'Exemplo',
+        schedule: MedicationSchedule(
+          startsOn: '2026-11-01',
+          endsOn: '2026-11-02',
+        ),
+      );
+      final repository = FakeMedicationsRepository()
+        ..handler = (method, args) async {
+          if (method == 'listTreatments') {
+            return Success(MedicationTreatmentPage(items: [treatment]));
+          }
+          treatment = treatment.copyWith(
+            status: MedicationTreatmentStatus.stopped,
+            version: 2,
+          );
+          return Success(
+            MedicationCommandResult(
+              operationKey: args.last as String,
+              serverNow: DateTime.utc(2026, 11, 1),
+              treatment: treatment,
+            ),
+          );
+        };
+      final vm = MedicationEditorViewModel(repository);
+      addTearDown(vm.dispose);
+      await vm.bindAnimal(medicationAnimalId, 'Atena');
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(body: MedicationEditorPanel(viewModel: vm)),
+        ),
+      );
+      await tester.tap(find.byTooltip('Interromper Exemplo'));
+      await tester.pumpAndSettle();
+      expect(find.text('Exemplo'), findsOneWidget);
+      expect(find.textContaining('Interrompido'), findsOneWidget);
+      expect(
+        tester
+            .widget<IconButton>(
+              find
+                  .ancestor(
+                    of: find.byTooltip('Interromper Exemplo'),
+                    matching: find.byType(IconButton),
+                  )
+                  .first,
+            )
+            .onPressed,
+        isNull,
+      );
+      expect(tester.takeException(), isNull);
+    },
+  );
 }

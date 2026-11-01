@@ -244,6 +244,68 @@ class _MedicationApplicationDetailsSheetState
                           ),
                         ),
                       ],
+                      if (viewModel.isCompleted &&
+                          !viewModel.showCorrectionForm)
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: TextButton(
+                            onPressed: viewModel.canCorrect
+                                ? viewModel.beginCorrection
+                                : null,
+                            child: const Text('Corrigir registro de aplicação'),
+                          ),
+                        ),
+                      if (viewModel.showCorrectionForm)
+                        Container(
+                          margin: const EdgeInsets.only(top: 16),
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: _soft,
+                            border: Border.all(color: _border),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              const Text(
+                                'Motivo da correção',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                  color: brandBrown,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              TextFormField(
+                                key: const ValueKey(
+                                  'medicationCorrectionReason',
+                                ),
+                                initialValue: state.correctionReason,
+                                enabled: viewModel.canCorrect,
+                                minLines: 2,
+                                maxLines: 5,
+                                onChanged: viewModel.setCorrectionReason,
+                                decoration: InputDecoration(
+                                  hintText:
+                                      'Descreva por que este registro precisa ser corrigido',
+                                  errorText: state.correctionError,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              const Text(
+                                'O registro original permanece no histórico.',
+                                style: TextStyle(fontSize: 10, color: _muted),
+                              ),
+                              const SizedBox(height: 10),
+                              FilledButton(
+                                onPressed: viewModel.canCorrect
+                                    ? () => viewModel.reverse()
+                                    : null,
+                                child: const Text('Confirmar correção'),
+                              ),
+                            ],
+                          ),
+                        ),
                       if (state.message != null)
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 12),

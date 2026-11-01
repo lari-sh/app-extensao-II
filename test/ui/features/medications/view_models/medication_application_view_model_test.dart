@@ -1,3 +1,4 @@
+import '../../../../support/fakes/fake_medication_completion_scenario.dart';
 import 'dart:async';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:abrigo_dos_anjos/domain/models/medication_agenda.dart';
@@ -330,6 +331,86 @@ void main() {
       await denied.open(medicationApplicationId);
       expect(denied.state.application, isNull);
       expect(denied.state.loadFailed, true);
+    },
+  );
+  test(
+    'correction validates reason, preserves original event and permits distinct completion',
+    () async {
+      final scenario = FakeMedicationCompletionScenario();
+      final vm = MedicationApplicationViewModel(scenario.repository);
+      addTearDown(vm.dispose);
+      await vm.open(medicationApplicationId);
+      await vm.complete();
+      final original = vm.state.events.single;
+      vm.beginCorrection();
+      expect(await vm.reverse(), false);
+      expect(vm.state.correctionError, isNotNull);
+      vm.setCorrectionReason('é' * 501);
+      expect(await vm.reverse(), false);
+      vm.setCorrectionReason(' Marcação feita por engano ');
+      expect(await vm.reverse(), true);
+      expect(vm.state.application!.version, 3);
+      expect(vm.state.application!.performedAt, isNull);
+      expect(vm.state.events.first, original);
+      expect(vm.state.events.last.reason, 'Marcação feita por engano');
+      expect(vm.state.events.last.actorLabel, 'Equipe revisora');
+      expect(vm.canComplete, true);
+      await vm.complete();
+      expect(vm.state.application!.version, 4);
+      expect(vm.state.events, hasLength(3));
+    },
+  );
+  test(
+    'correction timeout retains normalized reason/key for receipt and blocks changes',
+    () async {
+      final scenario = FakeMedicationCompletionScenario();
+      final vm = MedicationApplicationViewModel(scenario.repository);
+      addTearDown(vm.dispose);
+      await vm.open(medicationApplicationId);
+      await vm.complete();
+      final original = vm.state.events.single;
+      scenario.failure = FailureCode.timeout;
+      vm.beginCorrection();
+      vm.setCorrectionReason(' Engano ');
+      expect(await vm.reverse(), false);
+      vm.setCorrectionReason('Outra razão');
+      expect(vm.state.correctionReason, ' Engano ');
+      expect(vm.canLeave, false);
+      expect(vm.isCompleted, true);
+      expect(await vm.reconcile(), true);
+      expect(vm.state.events.first, original);
+      expect(vm.state.events.last.reason, 'Engano');
+      expect(vm.isCompleted, false);
+      expect(vm.canLeave, true);
+    },
+  );
+  test(
+    'correction conflict reloads state and cancellation reasons are Portuguese',
+    () async {
+      final scenario = FakeMedicationCompletionScenario();
+      final vm = MedicationApplicationViewModel(scenario.repository);
+      addTearDown(vm.dispose);
+      await vm.open(medicationApplicationId);
+      await vm.complete();
+      scenario.failure = FailureCode.conflict;
+      vm.beginCorrection();
+      vm.setCorrectionReason('Engano');
+      expect(await vm.reverse(), false);
+      expect(vm.isCompleted, false);
+      expect(vm.state.events, hasLength(2));
+      expect(vm.state.message, contains('mudou'));
+      final cancelled = completedMedication('k' * 32).event!.copyWith(
+        type: MedicationEventType.cancelled,
+        reason: 'treatment_stopped',
+      );
+      expect(
+        vm.eventDescription(cancelled),
+        contains('Tratamento interrompido'),
+      );
+      expect(
+        vm.eventDescription(cancelled),
+        isNot(contains('treatment_stopped')),
+      );
     },
   );
 }

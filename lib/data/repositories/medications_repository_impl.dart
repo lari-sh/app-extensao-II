@@ -330,8 +330,25 @@ class MedicationsRepositoryImpl implements MedicationsRepository {
         reason.trim(),
         operationKey,
       ),
-      (dto) =>
-          _command(dto.values, operationKey, applicationId: application.id),
+      (dto) {
+        final result = _command(
+          dto.values,
+          operationKey,
+          applicationId: application.id,
+        );
+        final confirmed = result.application!;
+        final event = result.event;
+        if (confirmed.state != MedicationApplicationState.pending ||
+            confirmed.version != application.version + 1 ||
+            event == null ||
+            event.applicationId != confirmed.id ||
+            event.applicationVersion != confirmed.version ||
+            event.type != MedicationEventType.completionReversed ||
+            event.reason != reason.trim()) {
+          throw const FormatException('Invalid reversal confirmation');
+        }
+        return result;
+      },
     );
   }
 

@@ -232,4 +232,63 @@ void main() {
       expect(tester.takeException(), isNull);
     },
   );
+  testWidgets(
+    'approved correction box requires reason and preserves original performer in history',
+    (tester) async {
+      tester.view.physicalSize = const Size(320, 844);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      final scenario = FakeMedicationCompletionScenario();
+      final vm = MedicationApplicationViewModel(scenario.repository);
+      addTearDown(vm.dispose);
+      await vm.open(medicationApplicationId);
+      await vm.complete();
+      await tester.pumpWidget(
+        MaterialApp(
+          builder: (context, child) => MediaQuery(
+            data: MediaQuery.of(
+              context,
+            ).copyWith(textScaler: const TextScaler.linear(1.4)),
+            child: child!,
+          ),
+          theme: buildTheme(),
+          home: MedicationApplicationDetailsSheet(viewModel: vm),
+        ),
+      );
+      final correction = find.text('Corrigir registro de aplicação');
+      await tester.scrollUntilVisible(
+        correction,
+        200,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(correction);
+      await tester.pumpAndSettle();
+      final confirm = find.text('Confirmar correção');
+      await tester.ensureVisible(confirm);
+      await tester.pumpAndSettle();
+      await tester.tap(confirm);
+      await tester.pumpAndSettle();
+      expect(
+        find.text('Informe uma justificativa de 1 a 500 caracteres.'),
+        findsOneWidget,
+      );
+      final reason = find.byKey(const ValueKey('medicationCorrectionReason'));
+      await tester.ensureVisible(reason);
+      await tester.pumpAndSettle();
+      await tester.enterText(reason, 'Marcação feita por engano');
+      FocusManager.instance.primaryFocus?.unfocus();
+      await tester.pumpAndSettle();
+      await tester.ensureVisible(confirm);
+      await tester.pumpAndSettle();
+      await tester.tap(confirm);
+      await tester.pumpAndSettle();
+      expect(vm.isCompleted, false);
+      expect(vm.state.events, hasLength(2));
+      expect(vm.state.events.first.actorLabel, 'Equipe de teste');
+      expect(vm.state.events.last.reason, 'Marcação feita por engano');
+      expect(tester.takeException(), isNull);
+    },
+  );
 }

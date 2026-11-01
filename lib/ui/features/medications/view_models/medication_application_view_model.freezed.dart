@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$MedicationApplicationStateData implements DiagnosticableTreeMixin {
 
- MedicationApplication? get application; List<MedicationApplicationEvent> get events; String? get cursor; DateTime? get serverNow; String get scheduleLabel; bool get loading; bool get busy; bool get uncertain; bool get canRetry; bool get loadFailed; String? get message;
+ MedicationApplication? get application; List<MedicationApplicationEvent> get events; String? get cursor; DateTime? get serverNow; String get scheduleLabel; bool get loading; bool get busy; bool get uncertain; bool get canRetry; bool get loadFailed; bool get showCorrection; String get correctionReason; String? get correctionError; String? get message;
 /// Create a copy of MedicationApplicationStateData
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,21 +26,21 @@ $MedicationApplicationStateDataCopyWith<MedicationApplicationStateData> get copy
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'MedicationApplicationStateData'))
-    ..add(DiagnosticsProperty('application', application))..add(DiagnosticsProperty('events', events))..add(DiagnosticsProperty('cursor', cursor))..add(DiagnosticsProperty('serverNow', serverNow))..add(DiagnosticsProperty('scheduleLabel', scheduleLabel))..add(DiagnosticsProperty('loading', loading))..add(DiagnosticsProperty('busy', busy))..add(DiagnosticsProperty('uncertain', uncertain))..add(DiagnosticsProperty('canRetry', canRetry))..add(DiagnosticsProperty('loadFailed', loadFailed))..add(DiagnosticsProperty('message', message));
+    ..add(DiagnosticsProperty('application', application))..add(DiagnosticsProperty('events', events))..add(DiagnosticsProperty('cursor', cursor))..add(DiagnosticsProperty('serverNow', serverNow))..add(DiagnosticsProperty('scheduleLabel', scheduleLabel))..add(DiagnosticsProperty('loading', loading))..add(DiagnosticsProperty('busy', busy))..add(DiagnosticsProperty('uncertain', uncertain))..add(DiagnosticsProperty('canRetry', canRetry))..add(DiagnosticsProperty('loadFailed', loadFailed))..add(DiagnosticsProperty('showCorrection', showCorrection))..add(DiagnosticsProperty('correctionReason', correctionReason))..add(DiagnosticsProperty('correctionError', correctionError))..add(DiagnosticsProperty('message', message));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MedicationApplicationStateData&&(identical(other.application, application) || other.application == application)&&const DeepCollectionEquality().equals(other.events, events)&&(identical(other.cursor, cursor) || other.cursor == cursor)&&(identical(other.serverNow, serverNow) || other.serverNow == serverNow)&&(identical(other.scheduleLabel, scheduleLabel) || other.scheduleLabel == scheduleLabel)&&(identical(other.loading, loading) || other.loading == loading)&&(identical(other.busy, busy) || other.busy == busy)&&(identical(other.uncertain, uncertain) || other.uncertain == uncertain)&&(identical(other.canRetry, canRetry) || other.canRetry == canRetry)&&(identical(other.loadFailed, loadFailed) || other.loadFailed == loadFailed)&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MedicationApplicationStateData&&(identical(other.application, application) || other.application == application)&&const DeepCollectionEquality().equals(other.events, events)&&(identical(other.cursor, cursor) || other.cursor == cursor)&&(identical(other.serverNow, serverNow) || other.serverNow == serverNow)&&(identical(other.scheduleLabel, scheduleLabel) || other.scheduleLabel == scheduleLabel)&&(identical(other.loading, loading) || other.loading == loading)&&(identical(other.busy, busy) || other.busy == busy)&&(identical(other.uncertain, uncertain) || other.uncertain == uncertain)&&(identical(other.canRetry, canRetry) || other.canRetry == canRetry)&&(identical(other.loadFailed, loadFailed) || other.loadFailed == loadFailed)&&(identical(other.showCorrection, showCorrection) || other.showCorrection == showCorrection)&&(identical(other.correctionReason, correctionReason) || other.correctionReason == correctionReason)&&(identical(other.correctionError, correctionError) || other.correctionError == correctionError)&&(identical(other.message, message) || other.message == message));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,application,const DeepCollectionEquality().hash(events),cursor,serverNow,scheduleLabel,loading,busy,uncertain,canRetry,loadFailed,message);
+int get hashCode => Object.hash(runtimeType,application,const DeepCollectionEquality().hash(events),cursor,serverNow,scheduleLabel,loading,busy,uncertain,canRetry,loadFailed,showCorrection,correctionReason,correctionError,message);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'MedicationApplicationStateData(application: $application, events: $events, cursor: $cursor, serverNow: $serverNow, scheduleLabel: $scheduleLabel, loading: $loading, busy: $busy, uncertain: $uncertain, canRetry: $canRetry, loadFailed: $loadFailed, message: $message)';
+  return 'MedicationApplicationStateData(application: $application, events: $events, cursor: $cursor, serverNow: $serverNow, scheduleLabel: $scheduleLabel, loading: $loading, busy: $busy, uncertain: $uncertain, canRetry: $canRetry, loadFailed: $loadFailed, showCorrection: $showCorrection, correctionReason: $correctionReason, correctionError: $correctionError, message: $message)';
 }
 
 
@@ -51,7 +51,7 @@ abstract mixin class $MedicationApplicationStateDataCopyWith<$Res>  {
   factory $MedicationApplicationStateDataCopyWith(MedicationApplicationStateData value, $Res Function(MedicationApplicationStateData) _then) = _$MedicationApplicationStateDataCopyWithImpl;
 @useResult
 $Res call({
- MedicationApplication? application, List<MedicationApplicationEvent> events, String? cursor, DateTime? serverNow, String scheduleLabel, bool loading, bool busy, bool uncertain, bool canRetry, bool loadFailed, String? message
+ MedicationApplication? application, List<MedicationApplicationEvent> events, String? cursor, DateTime? serverNow, String scheduleLabel, bool loading, bool busy, bool uncertain, bool canRetry, bool loadFailed, bool showCorrection, String correctionReason, String? correctionError, String? message
 });
 
 
@@ -68,7 +68,7 @@ class _$MedicationApplicationStateDataCopyWithImpl<$Res>
 
 /// Create a copy of MedicationApplicationStateData
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? application = freezed,Object? events = null,Object? cursor = freezed,Object? serverNow = freezed,Object? scheduleLabel = null,Object? loading = null,Object? busy = null,Object? uncertain = null,Object? canRetry = null,Object? loadFailed = null,Object? message = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? application = freezed,Object? events = null,Object? cursor = freezed,Object? serverNow = freezed,Object? scheduleLabel = null,Object? loading = null,Object? busy = null,Object? uncertain = null,Object? canRetry = null,Object? loadFailed = null,Object? showCorrection = null,Object? correctionReason = null,Object? correctionError = freezed,Object? message = freezed,}) {
   return _then(_self.copyWith(
 application: freezed == application ? _self.application : application // ignore: cast_nullable_to_non_nullable
 as MedicationApplication?,events: null == events ? _self.events : events // ignore: cast_nullable_to_non_nullable
@@ -80,7 +80,10 @@ as bool,busy: null == busy ? _self.busy : busy // ignore: cast_nullable_to_non_n
 as bool,uncertain: null == uncertain ? _self.uncertain : uncertain // ignore: cast_nullable_to_non_nullable
 as bool,canRetry: null == canRetry ? _self.canRetry : canRetry // ignore: cast_nullable_to_non_nullable
 as bool,loadFailed: null == loadFailed ? _self.loadFailed : loadFailed // ignore: cast_nullable_to_non_nullable
-as bool,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as bool,showCorrection: null == showCorrection ? _self.showCorrection : showCorrection // ignore: cast_nullable_to_non_nullable
+as bool,correctionReason: null == correctionReason ? _self.correctionReason : correctionReason // ignore: cast_nullable_to_non_nullable
+as String,correctionError: freezed == correctionError ? _self.correctionError : correctionError // ignore: cast_nullable_to_non_nullable
+as String?,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -178,10 +181,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( MedicationApplication? application,  List<MedicationApplicationEvent> events,  String? cursor,  DateTime? serverNow,  String scheduleLabel,  bool loading,  bool busy,  bool uncertain,  bool canRetry,  bool loadFailed,  String? message)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( MedicationApplication? application,  List<MedicationApplicationEvent> events,  String? cursor,  DateTime? serverNow,  String scheduleLabel,  bool loading,  bool busy,  bool uncertain,  bool canRetry,  bool loadFailed,  bool showCorrection,  String correctionReason,  String? correctionError,  String? message)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _MedicationApplicationStateData() when $default != null:
-return $default(_that.application,_that.events,_that.cursor,_that.serverNow,_that.scheduleLabel,_that.loading,_that.busy,_that.uncertain,_that.canRetry,_that.loadFailed,_that.message);case _:
+return $default(_that.application,_that.events,_that.cursor,_that.serverNow,_that.scheduleLabel,_that.loading,_that.busy,_that.uncertain,_that.canRetry,_that.loadFailed,_that.showCorrection,_that.correctionReason,_that.correctionError,_that.message);case _:
   return orElse();
 
 }
@@ -199,10 +202,10 @@ return $default(_that.application,_that.events,_that.cursor,_that.serverNow,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( MedicationApplication? application,  List<MedicationApplicationEvent> events,  String? cursor,  DateTime? serverNow,  String scheduleLabel,  bool loading,  bool busy,  bool uncertain,  bool canRetry,  bool loadFailed,  String? message)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( MedicationApplication? application,  List<MedicationApplicationEvent> events,  String? cursor,  DateTime? serverNow,  String scheduleLabel,  bool loading,  bool busy,  bool uncertain,  bool canRetry,  bool loadFailed,  bool showCorrection,  String correctionReason,  String? correctionError,  String? message)  $default,) {final _that = this;
 switch (_that) {
 case _MedicationApplicationStateData():
-return $default(_that.application,_that.events,_that.cursor,_that.serverNow,_that.scheduleLabel,_that.loading,_that.busy,_that.uncertain,_that.canRetry,_that.loadFailed,_that.message);case _:
+return $default(_that.application,_that.events,_that.cursor,_that.serverNow,_that.scheduleLabel,_that.loading,_that.busy,_that.uncertain,_that.canRetry,_that.loadFailed,_that.showCorrection,_that.correctionReason,_that.correctionError,_that.message);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -219,10 +222,10 @@ return $default(_that.application,_that.events,_that.cursor,_that.serverNow,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( MedicationApplication? application,  List<MedicationApplicationEvent> events,  String? cursor,  DateTime? serverNow,  String scheduleLabel,  bool loading,  bool busy,  bool uncertain,  bool canRetry,  bool loadFailed,  String? message)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( MedicationApplication? application,  List<MedicationApplicationEvent> events,  String? cursor,  DateTime? serverNow,  String scheduleLabel,  bool loading,  bool busy,  bool uncertain,  bool canRetry,  bool loadFailed,  bool showCorrection,  String correctionReason,  String? correctionError,  String? message)?  $default,) {final _that = this;
 switch (_that) {
 case _MedicationApplicationStateData() when $default != null:
-return $default(_that.application,_that.events,_that.cursor,_that.serverNow,_that.scheduleLabel,_that.loading,_that.busy,_that.uncertain,_that.canRetry,_that.loadFailed,_that.message);case _:
+return $default(_that.application,_that.events,_that.cursor,_that.serverNow,_that.scheduleLabel,_that.loading,_that.busy,_that.uncertain,_that.canRetry,_that.loadFailed,_that.showCorrection,_that.correctionReason,_that.correctionError,_that.message);case _:
   return null;
 
 }
@@ -234,7 +237,7 @@ return $default(_that.application,_that.events,_that.cursor,_that.serverNow,_tha
 
 
 class _MedicationApplicationStateData with DiagnosticableTreeMixin implements MedicationApplicationStateData {
-  const _MedicationApplicationStateData({this.application, final  List<MedicationApplicationEvent> events = const [], this.cursor, this.serverNow, this.scheduleLabel = 'Vinculada à ficha do animal', this.loading = false, this.busy = false, this.uncertain = false, this.canRetry = false, this.loadFailed = false, this.message}): _events = events;
+  const _MedicationApplicationStateData({this.application, final  List<MedicationApplicationEvent> events = const [], this.cursor, this.serverNow, this.scheduleLabel = 'Vinculada à ficha do animal', this.loading = false, this.busy = false, this.uncertain = false, this.canRetry = false, this.loadFailed = false, this.showCorrection = false, this.correctionReason = '', this.correctionError, this.message}): _events = events;
   
 
 @override final  MedicationApplication? application;
@@ -253,6 +256,9 @@ class _MedicationApplicationStateData with DiagnosticableTreeMixin implements Me
 @override@JsonKey() final  bool uncertain;
 @override@JsonKey() final  bool canRetry;
 @override@JsonKey() final  bool loadFailed;
+@override@JsonKey() final  bool showCorrection;
+@override@JsonKey() final  String correctionReason;
+@override final  String? correctionError;
 @override final  String? message;
 
 /// Create a copy of MedicationApplicationStateData
@@ -266,21 +272,21 @@ _$MedicationApplicationStateDataCopyWith<_MedicationApplicationStateData> get co
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'MedicationApplicationStateData'))
-    ..add(DiagnosticsProperty('application', application))..add(DiagnosticsProperty('events', events))..add(DiagnosticsProperty('cursor', cursor))..add(DiagnosticsProperty('serverNow', serverNow))..add(DiagnosticsProperty('scheduleLabel', scheduleLabel))..add(DiagnosticsProperty('loading', loading))..add(DiagnosticsProperty('busy', busy))..add(DiagnosticsProperty('uncertain', uncertain))..add(DiagnosticsProperty('canRetry', canRetry))..add(DiagnosticsProperty('loadFailed', loadFailed))..add(DiagnosticsProperty('message', message));
+    ..add(DiagnosticsProperty('application', application))..add(DiagnosticsProperty('events', events))..add(DiagnosticsProperty('cursor', cursor))..add(DiagnosticsProperty('serverNow', serverNow))..add(DiagnosticsProperty('scheduleLabel', scheduleLabel))..add(DiagnosticsProperty('loading', loading))..add(DiagnosticsProperty('busy', busy))..add(DiagnosticsProperty('uncertain', uncertain))..add(DiagnosticsProperty('canRetry', canRetry))..add(DiagnosticsProperty('loadFailed', loadFailed))..add(DiagnosticsProperty('showCorrection', showCorrection))..add(DiagnosticsProperty('correctionReason', correctionReason))..add(DiagnosticsProperty('correctionError', correctionError))..add(DiagnosticsProperty('message', message));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MedicationApplicationStateData&&(identical(other.application, application) || other.application == application)&&const DeepCollectionEquality().equals(other._events, _events)&&(identical(other.cursor, cursor) || other.cursor == cursor)&&(identical(other.serverNow, serverNow) || other.serverNow == serverNow)&&(identical(other.scheduleLabel, scheduleLabel) || other.scheduleLabel == scheduleLabel)&&(identical(other.loading, loading) || other.loading == loading)&&(identical(other.busy, busy) || other.busy == busy)&&(identical(other.uncertain, uncertain) || other.uncertain == uncertain)&&(identical(other.canRetry, canRetry) || other.canRetry == canRetry)&&(identical(other.loadFailed, loadFailed) || other.loadFailed == loadFailed)&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MedicationApplicationStateData&&(identical(other.application, application) || other.application == application)&&const DeepCollectionEquality().equals(other._events, _events)&&(identical(other.cursor, cursor) || other.cursor == cursor)&&(identical(other.serverNow, serverNow) || other.serverNow == serverNow)&&(identical(other.scheduleLabel, scheduleLabel) || other.scheduleLabel == scheduleLabel)&&(identical(other.loading, loading) || other.loading == loading)&&(identical(other.busy, busy) || other.busy == busy)&&(identical(other.uncertain, uncertain) || other.uncertain == uncertain)&&(identical(other.canRetry, canRetry) || other.canRetry == canRetry)&&(identical(other.loadFailed, loadFailed) || other.loadFailed == loadFailed)&&(identical(other.showCorrection, showCorrection) || other.showCorrection == showCorrection)&&(identical(other.correctionReason, correctionReason) || other.correctionReason == correctionReason)&&(identical(other.correctionError, correctionError) || other.correctionError == correctionError)&&(identical(other.message, message) || other.message == message));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,application,const DeepCollectionEquality().hash(_events),cursor,serverNow,scheduleLabel,loading,busy,uncertain,canRetry,loadFailed,message);
+int get hashCode => Object.hash(runtimeType,application,const DeepCollectionEquality().hash(_events),cursor,serverNow,scheduleLabel,loading,busy,uncertain,canRetry,loadFailed,showCorrection,correctionReason,correctionError,message);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'MedicationApplicationStateData(application: $application, events: $events, cursor: $cursor, serverNow: $serverNow, scheduleLabel: $scheduleLabel, loading: $loading, busy: $busy, uncertain: $uncertain, canRetry: $canRetry, loadFailed: $loadFailed, message: $message)';
+  return 'MedicationApplicationStateData(application: $application, events: $events, cursor: $cursor, serverNow: $serverNow, scheduleLabel: $scheduleLabel, loading: $loading, busy: $busy, uncertain: $uncertain, canRetry: $canRetry, loadFailed: $loadFailed, showCorrection: $showCorrection, correctionReason: $correctionReason, correctionError: $correctionError, message: $message)';
 }
 
 
@@ -291,7 +297,7 @@ abstract mixin class _$MedicationApplicationStateDataCopyWith<$Res> implements $
   factory _$MedicationApplicationStateDataCopyWith(_MedicationApplicationStateData value, $Res Function(_MedicationApplicationStateData) _then) = __$MedicationApplicationStateDataCopyWithImpl;
 @override @useResult
 $Res call({
- MedicationApplication? application, List<MedicationApplicationEvent> events, String? cursor, DateTime? serverNow, String scheduleLabel, bool loading, bool busy, bool uncertain, bool canRetry, bool loadFailed, String? message
+ MedicationApplication? application, List<MedicationApplicationEvent> events, String? cursor, DateTime? serverNow, String scheduleLabel, bool loading, bool busy, bool uncertain, bool canRetry, bool loadFailed, bool showCorrection, String correctionReason, String? correctionError, String? message
 });
 
 
@@ -308,7 +314,7 @@ class __$MedicationApplicationStateDataCopyWithImpl<$Res>
 
 /// Create a copy of MedicationApplicationStateData
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? application = freezed,Object? events = null,Object? cursor = freezed,Object? serverNow = freezed,Object? scheduleLabel = null,Object? loading = null,Object? busy = null,Object? uncertain = null,Object? canRetry = null,Object? loadFailed = null,Object? message = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? application = freezed,Object? events = null,Object? cursor = freezed,Object? serverNow = freezed,Object? scheduleLabel = null,Object? loading = null,Object? busy = null,Object? uncertain = null,Object? canRetry = null,Object? loadFailed = null,Object? showCorrection = null,Object? correctionReason = null,Object? correctionError = freezed,Object? message = freezed,}) {
   return _then(_MedicationApplicationStateData(
 application: freezed == application ? _self.application : application // ignore: cast_nullable_to_non_nullable
 as MedicationApplication?,events: null == events ? _self._events : events // ignore: cast_nullable_to_non_nullable
@@ -320,7 +326,10 @@ as bool,busy: null == busy ? _self.busy : busy // ignore: cast_nullable_to_non_n
 as bool,uncertain: null == uncertain ? _self.uncertain : uncertain // ignore: cast_nullable_to_non_nullable
 as bool,canRetry: null == canRetry ? _self.canRetry : canRetry // ignore: cast_nullable_to_non_nullable
 as bool,loadFailed: null == loadFailed ? _self.loadFailed : loadFailed // ignore: cast_nullable_to_non_nullable
-as bool,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as bool,showCorrection: null == showCorrection ? _self.showCorrection : showCorrection // ignore: cast_nullable_to_non_nullable
+as bool,correctionReason: null == correctionReason ? _self.correctionReason : correctionReason // ignore: cast_nullable_to_non_nullable
+as String,correctionError: freezed == correctionError ? _self.correctionError : correctionError // ignore: cast_nullable_to_non_nullable
+as String?,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }

@@ -188,4 +188,48 @@ void main() {
       );
     },
   );
+  test(
+    'stop/reverse transmit expected versions/reason without client actor or actual time',
+    () async {
+      final bodies = <Map>[];
+      final paths = <String>[];
+      final client = SupabaseClient(
+        'https://example.test',
+        'public',
+        httpClient: MockClient((request) async {
+          bodies.add(jsonDecode(request.body) as Map);
+          paths.add(request.url.path);
+          return http.Response(
+            jsonEncode({'code': 'PT409', 'message': 'private'}),
+            409,
+            request: request,
+            headers: {'content-type': 'application/json'},
+          );
+        }),
+      );
+      addTearDown(client.dispose);
+      final service = SupabaseMedicationsService(client);
+      await service.stopTreatment(medicationTreatmentId, 2, 3, 'k' * 32);
+      expect(bodies.last, {
+        'p_operation_key': 'k' * 32,
+        'p_treatment_id': medicationTreatmentId,
+        'p_expected_revision': 2,
+        'p_expected_treatment_version': 3,
+      });
+      expect(paths.last, endsWith('/stop_medication_treatment'));
+      await service.reverseCompletion(
+        medicationApplicationId,
+        2,
+        'Engano',
+        'r' * 32,
+      );
+      expect(bodies.last, {
+        'p_operation_key': 'r' * 32,
+        'p_application_id': medicationApplicationId,
+        'p_expected_version': 2,
+        'p_reason': 'Engano',
+      });
+      expect(paths.last, endsWith('/reverse_medication_completion'));
+    },
+  );
 }

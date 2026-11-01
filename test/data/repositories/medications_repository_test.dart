@@ -64,6 +64,33 @@ void main() {
               }),
             );
           }
+          if (method == 'reverseCompletion') {
+            return Success(
+              MedicationDto.parse(MedicationResponseType.command, {
+                'operation_key': 'k' * 32,
+                'server_now': '2026-11-01T12:00:00Z',
+                'result': {
+                  'application': {
+                    ...application,
+                    'version': 3,
+                    'state': 'pending',
+                    'performed_by': null,
+                    'performed_at': null,
+                    'actor_label': null,
+                    'performed_local_date': null,
+                    'performed_local_time': null,
+                  },
+                  'event': {
+                    ...event,
+                    'event_type': 'completion_reversed',
+                    'application_version': 3,
+                    'reason': 'Engano',
+                  },
+                  'cancelled_count': 2,
+                },
+              }),
+            );
+          }
           return Success(
             MedicationDto.parse(MedicationResponseType.command, {
               'operation_key': 'k' * 32,

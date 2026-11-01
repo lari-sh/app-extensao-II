@@ -26,6 +26,9 @@ abstract class MedicationApplicationStateData
     @Default(false) bool uncertain,
     @Default(false) bool canRetry,
     @Default(false) bool loadFailed,
+    @Default(false) bool showCorrection,
+    @Default('') String correctionReason,
+    String? correctionError,
     String? message,
   }) = _MedicationApplicationStateData;
 }
@@ -59,6 +62,8 @@ class MedicationApplicationViewModel extends ChangeNotifier {
   int _request = 0, _generation = 0;
   String? _id, _pendingKey;
   MedicationApplication? _pending;
+  bool _pendingReverse = false;
+  String _pendingReason = '';
   final _operation = OperationId();
   bool get canLeave => !state.busy && !state.uncertain;
   bool get canComplete =>
@@ -73,6 +78,51 @@ class MedicationApplicationViewModel extends ChangeNotifier {
       state.application!.isDue(state.serverNow!);
   bool get canReconcile =>
       !_disposed && _isAuthorized() && state.uncertain && !state.busy;
+  bool get canCorrect =>
+      !_disposed &&
+      _isAuthorized() &&
+      isCompleted &&
+      !state.loading &&
+      !state.busy &&
+      !state.uncertain &&
+      !state.loadFailed;
+  bool get showCorrectionForm => state.showCorrection && isCompleted;
+  void beginCorrection() {
+    if (canCorrect) {
+      _publish(
+        state.copyWith(
+          showCorrection: true,
+          correctionError: null,
+          message: null,
+        ),
+      );
+    }
+  }
+
+  void setCorrectionReason(String value) {
+    if (canCorrect) {
+      _publish(state.copyWith(correctionReason: value, correctionError: null));
+    }
+  }
+
+  Future<bool> reverse() async {
+    if (!canCorrect) return false;
+    final reason = state.correctionReason.trim();
+    if (reason.isEmpty || reason.runes.length > 500) {
+      _publish(
+        state.copyWith(
+          correctionError: 'Informe uma justificativa de 1 a 500 caracteres.',
+        ),
+      );
+      return false;
+    }
+    _pending = state.application;
+    _pendingReverse = true;
+    _pendingReason = reason;
+    _pendingKey = _operation.value;
+    return _run();
+  }
+
   bool get canLoadMore =>
       !_disposed &&
       _isAuthorized() &&
@@ -112,7 +162,7 @@ class MedicationApplicationViewModel extends ChangeNotifier {
     MedicationEventType.cancelled => 'Aplicação cancelada',
   };
   String eventDescription(MedicationApplicationEvent event) =>
-      '${event.actorLabel} · ${_date(event.occurredLocalDate)} às ${event.occurredLocalTime}${event.reason == null ? '' : '\n${event.reason}'}';
+      '${event.actorLabel} · ${_date(event.occurredLocalDate)} às ${event.occurredLocalTime}${event.reason == null ? '' : '\n${event.type == MedicationEventType.cancelled ? (event.reason == 'treatment_stopped' ? 'Tratamento interrompido' : 'Programação alterada') : event.reason}'}';
   String _date(String? value) => value == null
       ? '—'
       : '${value.substring(8)}/${value.substring(5, 7)}/${value.substring(0, 4)}';
@@ -128,6 +178,8 @@ class MedicationApplicationViewModel extends ChangeNotifier {
     _id = null;
     _pending = null;
     _pendingKey = null;
+    _pendingReverse = false;
+    _pendingReason = '';
     _operation.complete();
     _state = const MedicationApplicationStateData();
   }
@@ -301,6 +353,8 @@ class MedicationApplicationViewModel extends ChangeNotifier {
   Future<bool> complete() async {
     if (!canComplete) return false;
     _pending = state.application;
+    _pendingReverse = false;
+    _pendingReason = '';
     _pendingKey = _operation.value;
     return _run();
   }
@@ -312,11 +366,21 @@ class MedicationApplicationViewModel extends ChangeNotifier {
         _pending == null ||
         result.operationKey != _pendingKey ||
         app.id != _pending!.id ||
-        app.state != MedicationApplicationState.completed ||
+        app.state !=
+            (_pendingReverse
+                ? MedicationApplicationState.pending
+                : MedicationApplicationState.completed) ||
         app.version != _pending!.version + 1 ||
         event.applicationId != app.id ||
-        event.actorId != app.performedBy ||
-        event.occurredAt != app.performedAt) {
+        event.applicationVersion != app.version ||
+        event.type !=
+            (_pendingReverse
+                ? MedicationEventType.completionReversed
+                : MedicationEventType.completed) ||
+        (_pendingReverse
+            ? event.reason != _pendingReason
+            : (event.actorId != app.performedBy ||
+                  event.occurredAt != app.performedAt))) {
       throw StateError('Invalid confirmation');
     }
     final events =
@@ -324,6 +388,9 @@ class MedicationApplicationViewModel extends ChangeNotifier {
           ..sort(
             (a, b) => a.applicationVersion.compareTo(b.applicationVersion),
           );
+    final reversed = _pendingReverse;
+    _pendingReverse = false;
+    _pendingReason = '';
     _pending = null;
     _pendingKey = null;
     _operation.complete();
@@ -334,7 +401,12 @@ class MedicationApplicationViewModel extends ChangeNotifier {
         serverNow: result.serverNow,
         uncertain: false,
         canRetry: false,
-        message: 'Aplicação registrada com sucesso.',
+        showCorrection: false,
+        correctionReason: '',
+        correctionError: null,
+        message: reversed
+            ? 'Registro corrigido. O histórico original foi preservado.'
+            : 'Aplicação registrada com sucesso.',
       ),
     );
     return true;
@@ -382,10 +454,13 @@ class MedicationApplicationViewModel extends ChangeNotifier {
       if (!await _check()) return false;
       final epoch = _accessEpoch();
       _publish(state.copyWith(uncertain: true));
-      final result = await repository.completeApplication(
-        _pending!,
-        _pendingKey!,
-      );
+      final result = _pendingReverse
+          ? await repository.reverseCompletion(
+              _pending!,
+              _pendingReason,
+              _pendingKey!,
+            )
+          : await repository.completeApplication(_pending!, _pendingKey!);
       if (!_current(request, epoch)) return false;
       if (result case Success<MedicationCommandResult>(:final value)) {
         return _confirm(value);

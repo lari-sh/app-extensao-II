@@ -383,4 +383,71 @@ void main() {
       expect(vm.state.draft.medicationName, isEmpty);
     },
   );
+  test(
+    'edit sends confirmed versions and conflict preserves draft without false success',
+    () async {
+      final repo = FakeMedicationsRepository()
+        ..handler = (method, args) async => method == 'listTreatments'
+            ? const Success(MedicationTreatmentPage(items: [treatment]))
+            : Failure<MedicationCommandResult>(
+                AppFailure(FailureCode.conflict),
+              );
+      final vm = MedicationEditorViewModel(repo);
+      addTearDown(vm.dispose);
+      await vm.bindAnimal(medicationAnimalId, 'Atena');
+      vm.beginEdit(treatment);
+      vm.setName('Novo nome');
+      expect(await vm.save(), false);
+      expect(vm.state.draft.expectedRevision, 1);
+      expect(vm.state.draft.expectedVersion, 1);
+      expect(vm.state.draft.medicationName, 'Novo nome');
+      expect(vm.state.treatments.single, treatment);
+      expect(vm.state.message, contains('mudou'));
+      expect(vm.state.uncertain, false);
+    },
+  );
+  test(
+    'stop timeout reconciles same treatment/version/key and cannot edit stopped record',
+    () async {
+      String? key;
+      final stopped = treatment.copyWith(
+        status: MedicationTreatmentStatus.stopped,
+        version: 2,
+      );
+      final repo = FakeMedicationsRepository()
+        ..handler = (method, args) async {
+          if (method == 'listTreatments') {
+            return const Success(MedicationTreatmentPage(items: [treatment]));
+          }
+          if (method == 'stopTreatment') {
+            expect(args.first, treatment);
+            key = args.last as String;
+            return Failure<MedicationCommandResult>(
+              AppFailure(FailureCode.timeout),
+            );
+          }
+          return Success<MedicationCommandResult?>(
+            MedicationCommandResult(
+              operationKey: key!,
+              serverNow: DateTime.utc(2026, 11, 1),
+              treatment: stopped,
+            ),
+          );
+        };
+      final vm = MedicationEditorViewModel(repo);
+      addTearDown(vm.dispose);
+      await vm.bindAnimal(medicationAnimalId, 'Atena');
+      expect(await vm.stop(treatment), false);
+      expect(vm.canLeave, false);
+      expect(
+        vm.state.treatments.single.status,
+        MedicationTreatmentStatus.active,
+      );
+      expect(await vm.reconcile(), true);
+      expect(vm.state.treatments.single, stopped);
+      expect(vm.canModify(stopped), false);
+      expect(vm.state.message, contains('atrasadas'));
+      expect(repo.calls.last.arguments.single, key);
+    },
+  );
 }

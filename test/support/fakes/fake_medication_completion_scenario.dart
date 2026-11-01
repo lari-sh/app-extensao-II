@@ -10,6 +10,8 @@ class FakeMedicationCompletionScenario {
   FailureCode? failure;
   MedicationCommandResult? confirmed;
   final keys = <String>[];
+  final history = <MedicationApplicationEvent>[];
+  final receipts = <String, MedicationCommandResult>{};
   MedicationApplication get application =>
       confirmed?.application ?? pendingMedication();
   late final repository = FakeMedicationsRepository()
@@ -19,7 +21,7 @@ class FakeMedicationCompletionScenario {
           return Success(
             MedicationHistoryPage(
               application: application,
-              items: [if (confirmed != null) confirmed!.event!],
+              items: List.of(history),
             ),
           );
         case 'loadDay':
@@ -42,20 +44,43 @@ class FakeMedicationCompletionScenario {
               days: [
                 MedicationDaySummary(
                   day: '2026-11-01',
-                  pending: confirmed == null ? 1 : 0,
-                  completed: confirmed == null ? 0 : 1,
+                  pending:
+                      application.state == MedicationApplicationState.pending
+                      ? 1
+                      : 0,
+                  completed:
+                      application.state == MedicationApplicationState.completed
+                      ? 1
+                      : 0,
                 ),
               ],
             ),
           );
         case 'completeApplication':
           keys.add(args.last as String);
-          confirmed = completedMedication(args.last as String);
+          confirmed = completedMedication(
+            args.last as String,
+            application: application,
+          );
+          history.add(confirmed!.event!);
+          receipts[args.last as String] = confirmed!;
+          return failure == null
+              ? Success(confirmed!)
+              : Failure<MedicationCommandResult>(AppFailure(failure!));
+        case 'reverseCompletion':
+          keys.add(args.last as String);
+          confirmed = reversedMedication(
+            args.last as String,
+            application,
+            (args[1] as String).trim(),
+          );
+          history.add(confirmed!.event!);
+          receipts[args.last as String] = confirmed!;
           return failure == null
               ? Success(confirmed!)
               : Failure<MedicationCommandResult>(AppFailure(failure!));
         case 'getOperation':
-          return Success<MedicationCommandResult?>(confirmed);
+          return Success<MedicationCommandResult?>(receipts[args.single]);
       }
       throw StateError('Unexpected scenario call');
     };
