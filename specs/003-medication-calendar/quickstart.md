@@ -73,4 +73,7 @@ SUPABASE_URL=http://10.0.2.2:54321 e ALLOW_LOCAL_HTTP=true somente no emulador l
 Após reinstalar o APK normal: Acesso Voluntário / Funcionário → login de equipe →
 Animais do abrigo → Calendário. Setas navegam o mês; tocar no dia abre sua agenda.
 Hoje usa a data do abrigo; Carregar mais aplicações percorre páginas de 100.
-Conclusão/detalhes auditados são a próxima etapa; o calendário atual é de consulta.
+Os cartões abrem detalhes. Aplicações devidas permitem Marcar como aplicada;
+funcionário e horário vêm do servidor. Incerto exige verificar o resultado antes
+de repetir. Futuras/canceladas/realizadas não aceitam nova conclusão. Revisão,
+interrupção e correção auditada continuam na próxima etapa.

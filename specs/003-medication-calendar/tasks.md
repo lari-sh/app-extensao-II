@@ -59,7 +59,7 @@ Aceitação independente: ver a jornada US3 em spec.md; semear dependências pel
 - [x] T033 [US3] Escrever test/ui/features/medications/view_models/medication_application_view_model_test.dart e test/ui/features/medications/views/medication_application_details_sheet_test.dart: detalhes, autor/horário previsto/real, paginação de eventos e mensagens amigáveis. Depende de T001 para composição. [003-FR-008, 003-CR-002]
 - [x] T034 [US3] Implementar MedicationApplicationViewModel e lib/ui/features/medications/views/medication_application_details_sheet.dart após T001; a View exibe estado pronto sem SDK/Repository ou regra de autorização em build. [003-FR-008, 003-FR-014, 003-CR-001]
 - [x] T035 [US3] Ampliar test/ui/features/medications/views/medication_calendar_panel_test.dart para concluir uma aplicação devida e ver funcionário/horário confirmados; timeout/conflito sem duplicar e 320 px sem overflow. [003-FR-003, 003-FR-008, 003-CR-002]
-- [ ] T036 [US3] Validar US3 via duas sessões reais em supabase/tests/fixtures/medication_flow.py e registrar specs/003-medication-calendar/validation.md; publicar contexto na developer. [003-CR-003]
+- [x] T036 [US3] Validar US3 via duas sessões reais em supabase/tests/fixtures/medication_flow.py e registrar specs/003-medication-calendar/validation.md; publicar contexto na developer. [003-CR-003]
 
 ## Fase 6 — US4: revisões, interrupção e correção (P2)
 

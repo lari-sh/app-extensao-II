@@ -128,12 +128,13 @@ e evidências em [perfil público](specs/002-public-animal-profile/plan.md).
 
 
 O [calendário de medicamentos](specs/003-medication-calendar/plan.md) tem
-[29 de 51 tarefas concluídas](specs/003-medication-calendar/tasks.md). A ficha salva
+[37 de 51 tarefas concluídas](specs/003-medication-calendar/tasks.md). A ficha salva
 tratamentos por horários fixos ou intervalos; a aba Calendário mostra o mês e a
 agenda diária privada, com horários do abrigo e paginação consistente no Supabase.
-Design aprovado preservado e jornada Android validada com backend local. Conclusão
-de aplicações com autoria/horário real, revisão/interrupção e correções auditadas
-continuam pendentes. Sem API externa de calendário. Evidências e limites em
+Design aprovado preservado e jornada Android validada com backend local. Os
+detalhes permitem concluir aplicações devidas, com funcionário e horário real
+registrados pelo servidor, histórico e reconciliação de respostas incertas.
+Revisão/interrupção de tratamentos e correções auditadas continuam pendentes. Sem API externa de calendário. Evidências e limites em
 [validation](specs/003-medication-calendar/validation.md).
 
 As telas internas oferecem Voltar visível; programação e ficha pública mantêm

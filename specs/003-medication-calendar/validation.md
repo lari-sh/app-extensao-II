@@ -266,3 +266,18 @@ o servidor. Layout 320 px/texto 1,4× sem overflow. Suíte completa 252 Flutter 
 após atualização no resume, 14 Widget Tests de medicação novamente PASS; análise
 final sem problemas. T033/T034/T035 concluídas; T036/Android final ainda pendentes.
 Correção auditada continua na US4; nenhuma ação de correção ativa nesta etapa.
+
+## US3 — jornada Android concluída
+
+medication_calendar_flow_test.dart ampliado e aprovado no emulator-5554: cria uma
+aplicação devida na meia-noite civil atual do abrigo, abre seus detalhes pela
+agenda, conclui e confere funcionário e horário real na tela. Segunda sessão
+confirma performed_by da sessão autenticada, versão 2, um único evento e instante
+idêntico ao do registro. Botão de concluir fica desabilitado após sucesso; retorno
+à agenda mostra Realizada e identificação/horário confirmados. Jornada completa
+(editor, mês/dia, conclusão e Voltar) PASS em 43 s, sem exceções. Massa removida.
+
+T036 concluída: 37/51 tarefas do calendário concluídas, 14 restantes. SQL/HTTP
+locais aprovados neste estágio; 252 testes Flutter e análise sem problemas.
+CI remota e inclusão da jornada na esteira continuam pendentes de T046; nenhuma
+implantação em produção/iOS foi realizada. Edição/interrupção/correção são US4.
