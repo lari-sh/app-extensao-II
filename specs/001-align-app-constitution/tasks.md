@@ -426,3 +426,13 @@ específica é gate antes de implementar o conteúdo novo da aba/recorrência.
   inventado e sem exposição pública. Validar unitários, Widget 320 px/texto ampliado,
   jornada Android e atualizar validation.md antes do commit na developer.
   [FR-003, FR-010, CR-003, CR-004, CR-007]
+
+
+## Verificação ponta a ponta solicitada
+
+- [ ] T110 Executar jornadas Android públicas, autenticação, cadastro/edição,
+  painel clínico, calendário e contato; revisar o roteiro público para a tela
+  aprovada, validar galeria/upload com fixtures sintéticas, registrar falhas e
+  resultados em validation.md e confirmar CI/APK antes do fechamento na developer.
+  Usar integration_test/, controlador local e somente fixtures descartáveis.
+  [FR-001, FR-005, FR-010, CR-007]

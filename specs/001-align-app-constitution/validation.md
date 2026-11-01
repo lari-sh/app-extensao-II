@@ -904,3 +904,21 @@ Fixtures de tentativas anteriores foram limpas pelo controlador local.
 Análise Flutter sem problemas. CI remota da correção será conferida separadamente.
 
 Regressão completa após a correção: 272 testes Flutter PASS; git diff --check limpo.
+
+
+## Ponta a ponta — T110, primeira bateria
+
+Em 2026-11-01, sete jornadas Android locais PASS em 5 min 11 s:
+public_catalog_flow (filtros/paginação/foto/favoritos persistidos), visitor_detail_flow
+(ficha, contato e retorno), authentication_flow (senha inválida, não equipe,
+restauração, revogação e saída), management_dashboard_flow (Kanban com nota clínica,
+situação/publicação e segunda sessão), animal_editor_flow (cadastro/edição),
+medication_calendar_flow (programação, agenda, conclusão/correção/interrupção) e
+adoption_contact_flow (canais e retorno sem envio automático).
+
+Roteiro public_catalog_flow atualizado do antigo “mensagem copiada” para a tela
+aprovada e retorno à ficha. Script Android da CI ampliado das quatro jornadas
+administrativas/contato para as sete executadas localmente; bash -n PASS.
+Somente testes/script/documentação neste contexto. Galeria nativa/upload e nova
+CI/artifact ainda precisam de confirmação para T110, que permanece aberta.
+Não confundir teste com fixture de funcionário com validação iOS/produção.

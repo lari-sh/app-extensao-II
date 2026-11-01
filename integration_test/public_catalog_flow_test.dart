@@ -32,7 +32,7 @@ Future<void> reveal(
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   testWidgets(
-    'visitor uses real pages, filters, photo, clipboard and native favorites after recreation',
+    'visitor uses real pages, filters, photo, contact and native favorites after recreation',
     (tester) async {
       final url = const String.fromEnvironment('SUPABASE_URL');
       expect(
@@ -91,10 +91,10 @@ void main() {
       await reveal(tester, find.text('Entrar em contato para adoção'));
       await tester.tap(find.text('Entrar em contato para adoção'));
       await tester.pumpAndSettle(const Duration(milliseconds: 200));
-      expect(
-        find.text('Mensagem copiada. Nenhum pedido foi enviado.'),
-        findsOneWidget,
-      );
+      expect(find.text('Fale com o abrigo'), findsOneWidget);
+      await reveal(tester, find.text('Voltar à ficha do animal'));
+      await tester.tap(find.text('Voltar à ficha do animal'));
+      await tester.pumpAndSettle();
       final client = Supabase.instance.client;
       final repo = AnimalsRepositoryImpl(SupabaseAnimalsService(client));
       expect(
