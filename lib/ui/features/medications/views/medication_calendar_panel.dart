@@ -70,6 +70,7 @@ class MedicationCalendarPanel extends StatelessWidget {
                             : null,
                         style: OutlinedButton.styleFrom(
                           minimumSize: const Size(0, 30),
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           side: const BorderSide(color: _border),
                           shape: RoundedRectangleBorder(
@@ -264,7 +265,7 @@ class MedicationCalendarPanel extends StatelessWidget {
                 : null,
             borderRadius: BorderRadius.circular(9),
             child: SizedBox(
-              height: 35,
+              height: 32,
               child: Stack(
                 alignment: Alignment.center,
                 children: [
@@ -297,7 +298,7 @@ class MedicationCalendarPanel extends StatelessWidget {
   Widget _application(MedicationApplication item) {
     final label = viewModel.statusLabel(item);
     final color = switch (label) {
-      'Realizada' => const Color(0xFF328154),
+      'Realizada' => brandBrown,
       'Atrasada' => brandRed,
       _ => _muted,
     };
@@ -353,7 +354,9 @@ class MedicationCalendarPanel extends StatelessWidget {
                     vertical: 3,
                   ),
                   decoration: BoxDecoration(
-                    color: color.withValues(alpha: .09),
+                    color: item.state == MedicationApplicationState.completed
+                        ? const Color(0xFFEEE2DC)
+                        : _soft,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(

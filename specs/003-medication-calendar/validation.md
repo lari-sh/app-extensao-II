@@ -169,3 +169,13 @@ Teste unitário cobre o novo modo e seu callback. Suíte Flutter: 229 PASS; aná
 final sem problemas após corrigir dois avisos de estilo. T026/T027 concluídas.
 Validação nativa e revisão visual da US2 continuam em T028. Setas dos cartões
 preservadas visualmente; conclusão/detalhes auditados pertencem à US3 seguinte.
+
+## US2 — comparação visual com screen-7
+
+Captura Flutter de revisão comparada com design/previews/calendar.png: mantidos
+agrupamentos, grade, marcadores, título do dia e cartões. Ajustadas altura das
+células e área de Hoje, além das cores de realizada/setas, para coincidir com o
+protótipo. Cinco Widget Tests de calendário/painel PASS e análise sem problemas.
+Captura é de renderização Flutter de teste, não evidência de Android. A primeira
+jornada nativa da US2 parou no harness ao procurar botão Voltar ausente; será
+repetida usando o comando Voltar do sistema antes de concluir T028.
