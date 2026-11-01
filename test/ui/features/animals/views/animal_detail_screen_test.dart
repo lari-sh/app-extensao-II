@@ -8,7 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../../../support/public_app_harness.dart';
 
 void main() {
-  testWidgets('detail copies interest without sending adoption request', (
+  testWidgets('detail opens contact and returns to the same animal', (
     tester,
   ) async {
     final harness = PublicAppHarness();
@@ -37,11 +37,12 @@ void main() {
     expect(find.byType(AppBar), findsNothing);
     await tester.tap(find.text('Entrar em contato para adoção'));
     await tester.pumpAndSettle();
-    expect(
-      find.text('Mensagem copiada. Nenhum pedido foi enviado.'),
-      findsOneWidget,
-    );
-    expect(harness.adoption.calls.length, 1);
+    expect(find.text('Fale com o abrigo'), findsOneWidget);
+    expect(harness.adoption.calls, isEmpty);
+    await tester.scrollUntilVisible(find.text('Voltar à ficha do animal'), 180);
+    await tester.tap(find.text('Voltar à ficha do animal'));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const ValueKey('publicAnimalSheet')), findsOneWidget);
     await tester.tap(find.byTooltip('Fechar detalhes'));
     await tester.pumpAndSettle();
     expect(find.byKey(const ValueKey('publicAnimalSheet')), findsNothing);

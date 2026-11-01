@@ -56,8 +56,9 @@ class AnimalDetailViewModel extends ChangeNotifier {
   String get contactHint =>
       state.message ??
       (state.canAdopt
-          ? 'Copia uma mensagem. Nenhum pedido é enviado.'
+          ? 'Escolha um canal oficial para conversar com o abrigo.'
           : 'Este animal não está disponível para adoção no momento.');
+  String? get contactAnimalId => state.canAdopt ? _animal?.id : null;
   PublicAnimal? _animal;
   int _generation = 0;
   bool _disposed = false;

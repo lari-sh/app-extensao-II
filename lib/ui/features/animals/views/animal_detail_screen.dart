@@ -251,7 +251,12 @@ class AnimalDetailScreen extends StatelessWidget {
                                           !viewModel.state.canAdopt ||
                                               viewModel.state.copying
                                           ? null
-                                          : viewModel.copyInterest,
+                                          : () => Navigator.pushNamed(
+                                              context,
+                                              '/adoption-contact',
+                                              arguments:
+                                                  viewModel.contactAnimalId,
+                                            ),
                                       style: FilledButton.styleFrom(
                                         backgroundColor: const Color(
                                           0xFFC51D2A,

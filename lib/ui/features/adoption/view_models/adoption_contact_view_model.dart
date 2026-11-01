@@ -59,7 +59,7 @@ class AdoptionContactViewModel extends ChangeNotifier {
         );
       }
     } catch (_) {
-      if (generation == _generation)
+      if (generation == _generation) {
         _publish(
           state.copyWith(
             loading: false,
@@ -67,9 +67,13 @@ class AdoptionContactViewModel extends ChangeNotifier {
                 'Não foi possível carregar os dados do animal. Tente novamente.',
           ),
         );
+      }
     }
   }
 
+  Future<void> openWhatsApp() => open(AdoptionChannel.whatsapp);
+  Future<void> openInstagram() => open(AdoptionChannel.instagram);
+  Future<void> openFacebook() => open(AdoptionChannel.facebook);
   Future<void> retry() async {
     if (_id != null) await load(_id!);
   }
@@ -79,8 +83,9 @@ class AdoptionContactViewModel extends ChangeNotifier {
         !state.canContact ||
         state.opening ||
         state.loading ||
-        _id == null)
+        _id == null) {
       return;
+    }
     final generation = _generation;
     _publish(state.copyWith(opening: true, message: null));
     try {
@@ -99,12 +104,13 @@ class AdoptionContactViewModel extends ChangeNotifier {
         _publish(state.copyWith(animalName: value.name));
         final opened = await _contacts.open(channel, value);
         if (_disposed || generation != _generation) return;
-        if (opened is Failure<Unit>)
+        if (opened is Failure<Unit>) {
           _publish(
             state.copyWith(
               message: 'Não foi possível abrir o contato. Tente novamente.',
             ),
           );
+        }
       } else {
         _publish(
           state.copyWith(
@@ -114,15 +120,17 @@ class AdoptionContactViewModel extends ChangeNotifier {
         );
       }
     } catch (_) {
-      if (generation == _generation)
+      if (generation == _generation) {
         _publish(
           state.copyWith(
             message: 'Não foi possível abrir o contato. Tente novamente.',
           ),
         );
+      }
     } finally {
-      if (!_disposed && generation == _generation)
+      if (!_disposed && generation == _generation) {
         _publish(state.copyWith(opening: false));
+      }
     }
   }
 

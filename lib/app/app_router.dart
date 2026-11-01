@@ -1,3 +1,6 @@
+import '../domain/repositories/adoption_contact_repository.dart';
+import '../ui/features/adoption/view_models/adoption_contact_view_model.dart';
+import '../ui/features/adoption/views/adoption_contact_screen.dart';
 import '../ui/features/medications/view_models/medication_application_view_model.dart';
 import '../ui/features/medications/views/medication_application_details_sheet.dart';
 import '../ui/features/medications/view_models/medication_calendar_view_model.dart';
@@ -45,7 +48,9 @@ class AppRouter {
     this.session,
     this.recovery,
     this.medications,
+    this.contacts,
   });
+  final AdoptionContactRepository? contacts;
   final MedicationsRepository? medications;
   final PhotoRecoveryViewModel? recovery;
   final AuthRepository? auth;
@@ -346,6 +351,20 @@ class AppRouter {
         final vm = FavoritesViewModel(animals, favorites, photos);
         vm.load();
         return _page(settings, vm, FavoritesScreen(viewModel: vm));
+      case '/adoption-contact':
+        final repository = contacts;
+        if (repository == null) {
+          return MaterialPageRoute(
+            builder: (_) => const Scaffold(
+              body: Center(child: Text('Serviço de contato não configurado.')),
+            ),
+          );
+        }
+        final vm = AdoptionContactViewModel(animals, repository);
+        vm.load(
+          settings.arguments is String ? settings.arguments as String : '',
+        );
+        return _page(settings, vm, AdoptionContactScreen(viewModel: vm));
       case '/detail':
         final vm = AnimalDetailViewModel(animals, favorites, photos, adoption);
         vm.load(

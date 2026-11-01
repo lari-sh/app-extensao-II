@@ -1,3 +1,4 @@
+import 'package:abrigo_dos_anjos/domain/repositories/adoption_contact_repository.dart';
 import 'package:flutter/widgets.dart';
 import 'package:abrigo_dos_anjos/app/abrigo_app.dart';
 import 'package:abrigo_dos_anjos/app/app_router.dart';
@@ -9,6 +10,14 @@ import 'fakes/fake_favorites_repository.dart';
 import 'fakes/fake_photo_repository.dart';
 import 'fakes/fake_adoption_message_repository.dart';
 import 'public_fixtures.dart';
+
+class ContactHarnessRepository implements AdoptionContactRepository {
+  @override
+  Future<Result<Unit>> open(
+    AdoptionChannel channel,
+    PublicAnimal animal,
+  ) async => const Success(Unit.value);
+}
 
 class PublicAppHarness {
   final animals = FakeAnimalsRepository();
@@ -53,6 +62,7 @@ class PublicAppHarness {
       favorites: favorites,
       photos: photos,
       adoption: adoption,
+      contacts: ContactHarnessRepository(),
     ).onGenerateRoute,
   );
 }

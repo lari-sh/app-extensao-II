@@ -1,3 +1,5 @@
+import '../data/repositories/adoption_contact_repository_impl.dart';
+import '../data/services/url_launcher_link_service.dart';
 import '../domain/repositories/medications_repository.dart';
 import '../data/services/medications_service.dart';
 import '../data/services/supabase_medications_service.dart';
@@ -76,6 +78,7 @@ Widget createPublicApplication(SupabaseClient client) {
     photos: photos,
     adoption: adoption,
     medications: medications,
+    contacts: AdoptionContactRepositoryImpl(UrlLauncherLinkService()),
   );
   return const AppDependencies().provide(
     registrations: [
