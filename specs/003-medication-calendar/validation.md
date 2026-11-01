@@ -295,3 +295,18 @@ completed/versão atual e registra snapshot/autor/horário, sem apagar o evento 
 de motivo, replay, nova conclusão distinta, versões/estados, não duplicação ativa
 e restrição de visitante. T038/T040 concluídas. Concorrência/corte após espera da
 US4 e integração de interface permanecem pendentes em T037/T043 e T039/T041/T042.
+
+## US4 — concorrência e isolamento em HTTP
+
+Harness local aprovado: edição aguarda lock real do animal e só então captura
+o corte; aplicação inicialmente futura que vence durante a espera é preservada.
+Corrida edição/stop/conclusão aceita um dos comandos de tratamento e a conclusão
+da atrasada, sem perder histórico. Segundo funcionário corrige com motivo;
+resposta descartada simula perda da confirmação e recibo/replay normalizado mantém
+autoria/hora/evento original. Revogação durante lock continua coberta pela jornada
+de conclusão executada no mesmo harness.
+
+Publicação/adoção e save_animal preservaram hash das aplicações e identidades/
+versões dos tratamentos. Anon continua sem acesso. SQL 256 PASS já registrado;
+HTTP completo PASS com duas sessões e conta de teste B restaurada ao finalizar.
+T037/T043 concluídas. Ainda não é evidência de execução remota da CI.

@@ -164,6 +164,87 @@ def validate_completion(animal_id, sessions):
         staff(actor_a,original_a);staff(actor_b,original_b)
         request('/auth/v1/logout?scope=local',{},second,expected=204)
 
+
+def validate_revision(animal_id, sessions):
+    import time
+    from datetime import datetime
+    def sql(statement):
+        result=subprocess.run(['docker','exec','-i',container,'psql','-X','-At','-v','ON_ERROR_STOP=1','-U','postgres','-d','postgres'],input=statement,encoding='utf-8',capture_output=True,timeout=15)
+        assert result.returncode==0,'Revision fixture SQL failed'
+        return result.stdout.strip()
+    def create():
+        payload={'animal_id':animal_id,'medication_name':'Revisão descartável','schedule_mode':'fixed_times','starts_on':'2020-01-01','starts_time':'08:00','ends_on':'2020-01-01','ends_time':'20:00','fixed_times':['08:00','09:00','10:00']}
+        saved=rpc('save_medication_treatment',{'p_operation_key':uuid.uuid4().hex,'p_payload':payload},sessions[0])['result']['treatment']
+        rows=request('/rest/v1/medication_applications?'+urlencode({'select':'id,version,state,scheduled_at','treatment_id':'eq.'+saved['id'],'order':'scheduled_at,id'}),token=sessions[0])
+        return saved,rows
+    def edit_payload(treatment):
+        return {'treatment_id':treatment['id'],'animal_id':animal_id,'expected_revision':treatment['revision'],'expected_treatment_version':treatment['version'],'medication_name':'Série revisada','schedule_mode':'fixed_times','starts_on':'2040-01-01','starts_time':'08:00','ends_on':'2040-01-02','ends_time':'20:00','fixed_times':['08:00','20:00']}
+    treatment,rows=create()
+    # One pending instant becomes overdue while the editor waits for the animal lock.
+    sql("update public.medication_applications set scheduled_at=clock_timestamp()+interval '1 second' where id='"+rows[1]['id']+"';update public.medication_applications set scheduled_at=clock_timestamp()+interval '1 day' where id='"+rows[2]['id']+"';")
+    name='fixture_revision_lock_'+uuid.uuid4().hex
+    process=subprocess.Popen(['docker','exec','-i',container,'psql','-X','-At','-v','ON_ERROR_STOP=1','-U','postgres','-d','postgres','-c',"set application_name='"+name+"';begin;select id from public.animals where id='"+animal_id+"' for update;select pg_sleep(3);select extract(epoch from clock_timestamp());commit;"],stdout=subprocess.PIPE,stderr=subprocess.PIPE,encoding='utf-8')
+    for _ in range(50):
+        if sql("select count(*) from pg_stat_activity where application_name='"+name+"' and wait_event='PgSleep';")=='1':break
+        time.sleep(.03)
+    else:raise AssertionError('Revision lock was not observed')
+    with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
+        action=pool.submit(rpc,'save_medication_treatment',{'p_operation_key':uuid.uuid4().hex,'p_payload':edit_payload(treatment)},sessions[0])
+        for _ in range(50):
+            if int(sql("select count(*) from pg_stat_activity where query like '%save_medication_treatment%' and wait_event_type='Lock';"))>0:break
+            time.sleep(.03)
+        else:raise AssertionError('Revision did not wait for lock')
+        output,_=process.communicate(timeout=10);assert process.returncode==0
+        released=float(next(line for line in output.splitlines() if re.fullmatch(r'\d+\.\d+',line)))
+        edited=action.result()
+        assert datetime.fromisoformat(edited['server_now']).timestamp()>=released
+    assert edited['result']['cancelled_count']==1
+    becoming_due=rpc('get_medication_application_history',{'p_application_id':rows[1]['id'],'p_cursor':None},sessions[1])
+    assert becoming_due['application']['state']=='pending' and becoming_due['items']==[]
+    treatment=edited['result']['treatment']
+    def compete(kind):
+        try:
+            if kind=='edit':return rpc('save_medication_treatment',{'p_operation_key':uuid.uuid4().hex,'p_payload':edit_payload(treatment)},sessions[0])
+            if kind=='stop':return rpc('stop_medication_treatment',{'p_operation_key':uuid.uuid4().hex,'p_treatment_id':treatment['id'],'p_expected_revision':treatment['revision'],'p_expected_treatment_version':treatment['version']},sessions[1])
+            return rpc('complete_medication_application',{'p_operation_key':uuid.uuid4().hex,'p_application_id':rows[0]['id'],'p_expected_version':1},sessions[1])
+        except RuntimeError as error:
+            assert kind!='complete' and '409' in str(error)
+            return None
+    with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
+        raced=list(pool.map(compete,['edit','stop','complete']))
+    assert sum(value is not None for value in raced[:2])==1 and raced[2] is not None
+    original=raced[2]['result']['event']
+    completed=raced[2]['result']['application']
+    # A second staff actor corrects; simulate losing the HTTP success body and reconcile.
+    data=request('/auth/v1/token?grant_type=password',{'email':'fixture-revocable@example.test','password':environment['FIXTURE_PASSWORD']})
+    actor_b=str(uuid.UUID(data['user']['id']));token_b=data['access_token']
+    staff=request('/rest/v1/staff_members?user_id=eq.'+actor_b+'&select=active',privileged=True)[0]
+    try:
+        request('/rest/v1/staff_members?user_id=eq.'+actor_b,{'active':True},method='PATCH',expected=204,privileged=True)
+        key=uuid.uuid4().hex; reason='Marcação de teste feita por engano'
+        command={'p_operation_key':key,'p_application_id':completed['id'],'p_expected_version':completed['version'],'p_reason':reason}
+        rpc('reverse_medication_completion',command,token_b) # Deliberately discard success response.
+        receipt=rpc('get_medication_operation',{'p_operation_key':key},token_b)
+        assert receipt==rpc('reverse_medication_completion',dict(command,p_reason=' '+reason+' '),token_b)
+        history=rpc('get_medication_application_history',{'p_application_id':completed['id'],'p_cursor':None},sessions[0])
+        assert history['items'][0]==original and history['items'][1]['actor_id']==actor_b
+        assert history['items'][1]['reason']==reason and history['application']['state']=='pending'
+    finally:
+        request('/rest/v1/staff_members?user_id=eq.'+actor_b,staff,method='PATCH',expected=204,privileged=True)
+        request('/auth/v1/logout?scope=local',{},token_b,expected=204)
+    # Public changes and general animal save never mutate medication identities/state.
+    before=rpc('list_animal_medication_treatments',{'p_animal_id':animal_id,'p_cursor':None},sessions[0])
+    before_apps=sql("select md5(coalesce(jsonb_agg(to_jsonb(a) order by a.id)::text,'')) from public.medication_applications a join public.medication_treatments t on t.id=a.treatment_id where t.animal_id='"+animal_id+"';")
+    rpc('set_animal_status',{'p_operation_key':uuid.uuid4().hex,'p_animal_id':animal_id,'p_status':'adopted'},sessions[1])
+    animal=rpc('get_managed_animal',{'p_animal_id':animal_id},sessions[1])
+    rpc('save_animal',{'p_operation_key':uuid.uuid4().hex,'p_payload':{'id':animal_id,'name':animal['animal']['name'],'species':'dog','sex':'female','size':'small','approximate_age':'2 anos','clinical_notes':animal['clinical_notes']}},sessions[0])
+    after=rpc('list_animal_medication_treatments',{'p_animal_id':animal_id,'p_cursor':None},sessions[1])
+    assert before==after
+    after_apps=sql("select md5(coalesce(jsonb_agg(to_jsonb(a) order by a.id)::text,'')) from public.medication_applications a join public.medication_treatments t on t.id=a.treatment_id where t.animal_id='"+animal_id+"';")
+    assert before_apps==after_apps
+    request('/rest/v1/medication_applications?select=id',expected=401)
+    print('Revision HTTP PASS: cut after lock, overdue preserved, edit/stop/completion race, correction actor/history/replay and adoption/general save isolation.')
+
 if __name__ == '__main__':
     if '--cleanup' in sys.argv:
         cleanup_owned()
@@ -223,6 +304,7 @@ if __name__ == '__main__':
         request('/rest/v1/rpc/get_medication_calendar_month',{'p_month':'2026-11'},expected=401)
         print('Medication HTTP PASS: two sessions, replay, full 101-item agenda, civil times, snapshot conflict and visitor denial.')
         validate_completion(animal_id,sessions)
+        validate_revision(animal_id,sessions)
 
     finally:
         if animal_id:

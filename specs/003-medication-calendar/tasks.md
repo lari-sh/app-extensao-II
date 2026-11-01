@@ -65,13 +65,13 @@ Aceitação independente: ver a jornada US3 em spec.md; semear dependências pel
 
 Aceitação independente: ver a jornada US4 em spec.md; semear dependências pela RPC para testar isoladamente.
 
-- [ ] T037 [US4] Escrever supabase/tests/database/medication_revision_audit.test.sql: corte após locks, pending futura cancelada, atrasada/realizada preservada, índice ativo sem duplicar, edição parada negada, stop repetido e conclusão concorrente. [003-FR-009, 003-FR-011, 003-FR-015]
+- [x] T037 [US4] Escrever supabase/tests/database/medication_revision_audit.test.sql: corte após locks, pending futura cancelada, atrasada/realizada preservada, índice ativo sem duplicar, edição parada negada, stop repetido e conclusão concorrente. [003-FR-009, 003-FR-011, 003-FR-015]
 - [x] T038 [US4] Escrever casos de correção no supabase/tests/database/medication_revision_audit.test.sql: motivo “1–500 caracteres”, versão esperada, completed→pending, evento anterior imutável, corretor/hora reais e nova conclusão distinta. [003-FR-010]
 - [ ] T039 [US4] Estender testes de Repository/Service e VMs em test/data/repositories/medications_repository_test.dart, test/ui/features/medications/view_models/medication_editor_view_model_test.dart e medication_application_view_model_test.dart: interromper/editar/corrigir, conflito, sessão e estado incerto. [003-FR-009, 003-FR-010, 003-FR-013]
 - [x] T040 [US4] Implementar save com revisão, stop e reverse em supabase/migrations/202610310015_medication_revision_audit.sql: treatment_version separado de revisão, motivo, histórico append-only, atrasadas preservadas, nova série somente após corte e sem mudança automática por adoção. [003-FR-009, 003-FR-010, 003-FR-015]
 - [ ] T041 [US4] Integrar os comandos em lib/data/services/supabase_medications_service.dart, lib/data/repositories/medications_repository_impl.dart e VMs medication_editor_view_model.dart/medication_application_view_model.dart; manter versões/recibos e não apagar auditoria. [003-FR-009, 003-FR-010, 003-FR-011]
 - [ ] T042 [US4] Ampliar test/ui/features/medications/views/medication_editor_panel_test.dart e medication_application_details_sheet_test.dart com interrupção, correção justificada e histórico original; plugar controles apenas da composição aprovada em T001. [003-FR-009, 003-FR-010, 003-FR-014, 003-CR-002]
-- [ ] T043 [US4] Ampliar supabase/tests/fixtures/medication_flow.py: edição/stop/conclusão simultâneos, timeout após commit, revogação, animal publicado/adotado e save_animal sem alterar identidades/aplicações. [003-FR-005, 003-FR-006, 003-FR-009, 003-FR-010, 003-FR-015]
+- [x] T043 [US4] Ampliar supabase/tests/fixtures/medication_flow.py: edição/stop/conclusão simultâneos, timeout após commit, revogação, animal publicado/adotado e save_animal sem alterar identidades/aplicações. [003-FR-005, 003-FR-006, 003-FR-009, 003-FR-010, 003-FR-015]
 - [ ] T044 [US4] Validar US4 e registrar evidências em specs/003-medication-calendar/validation.md; revisar preservação das atrasadas e publicar contexto aprovado na developer. [003-CR-003]
 
 ## Fase 7 — entrega e regressões
