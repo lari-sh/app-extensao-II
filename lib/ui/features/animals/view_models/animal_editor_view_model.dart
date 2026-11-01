@@ -50,6 +50,11 @@ class AnimalEditorViewModel extends ChangeNotifier {
       ? 'O novo animal será cadastrado como disponível e ficará privado até a publicação pela equipe.'
       : 'Esta edição preserva a situação e a publicação atuais do animal.';
   bool _disposed = false;
+  // Authorization can change while the protected widget is retained.
+  void refreshAccess() {
+    if (!_disposed) notifyListeners();
+  }
+
   int _revision = 0;
   String? _targetId;
   static bool _allowed() => true;
@@ -81,7 +86,9 @@ class AnimalEditorViewModel extends ChangeNotifier {
       ? ''
       : displayDate(state.draft.lastDewormedOn);
   String vaccinationDateText(int index) =>
-      displayDate(state.draft.vaccinations[index].appliedOn);
+      state.draft.vaccinations[index].appliedOn.isEmpty
+      ? ''
+      : displayDate(state.draft.vaccinations[index].appliedOn);
   String get weightText =>
       state.draft.weightKg?.toString().replaceAll('.', ',') ?? '';
   String? _dateInput(String text) =>

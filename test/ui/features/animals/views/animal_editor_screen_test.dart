@@ -17,6 +17,34 @@ import 'package:abrigo_dos_anjos/ui/features/animals/views/managed_animals_scree
 
 void main() {
   testWidgets(
+    'retained editor enables inputs again after access verification',
+    (tester) async {
+      var authorized = true;
+      final vm = AnimalEditorViewModel(
+        FakeAnimalsRepository(),
+        isAuthorized: () => authorized,
+      );
+      addTearDown(vm.dispose);
+      await tester.pumpWidget(
+        MaterialApp(home: AnimalEditorScreen(viewModel: vm)),
+      );
+      final field = find.descendant(
+        of: find.byKey(const ValueKey('animalName')),
+        matching: find.byType(TextFormField),
+      );
+      authorized = false;
+      vm.refreshAccess();
+      await tester.pump();
+      expect(tester.widget<TextFormField>(field).enabled, false);
+      authorized = true;
+      vm.refreshAccess();
+      await tester.pump();
+      expect(tester.widget<TextFormField>(field).enabled, true);
+      await tester.enterText(field, 'Luna editada');
+      expect(vm.state.draft.name, 'Luna editada');
+    },
+  );
+  testWidgets(
     'public fields accept data and vaccination removal without overflow',
     (tester) async {
       final vm = AnimalEditorViewModel(FakeAnimalsRepository());
@@ -26,7 +54,11 @@ void main() {
       );
       Future<void> enter(String key, String value) async {
         final field = find.byKey(ValueKey(key));
-        await tester.scrollUntilVisible(field, 180, scrollable: find.byType(Scrollable).first);
+        await tester.scrollUntilVisible(
+          field,
+          180,
+          scrollable: find.byType(Scrollable).first,
+        );
         await tester.enterText(field, value);
         await tester.pump();
       }
@@ -36,7 +68,11 @@ void main() {
       await enter('animalTemperament', 'Calma');
       await enter('animalLastDewormedOn', '29/02/2024');
       final add = find.text('Adicionar vacina');
-      await tester.scrollUntilVisible(add, 180, scrollable: find.byType(Scrollable).first);
+      await tester.scrollUntilVisible(
+        add,
+        180,
+        scrollable: find.byType(Scrollable).first,
+      );
       await tester.tap(add);
       await tester.pump();
       await enter('vaccinationDate0', '29/02/2024');
@@ -171,7 +207,11 @@ void main() {
         await tester.pumpAndSettle();
       }
       final care = find.text('Adicionar cuidado');
-      await tester.scrollUntilVisible(care, 250, scrollable: find.byType(Scrollable).first);
+      await tester.scrollUntilVisible(
+        care,
+        250,
+        scrollable: find.byType(Scrollable).first,
+      );
       await tester.pumpAndSettle();
       await tester.tap(care);
       await tester.pump();
@@ -181,7 +221,11 @@ void main() {
       await tester.tap(remove);
       await tester.pump();
       expect(find.byKey(const ValueKey('careDescription0')), findsNothing);
-      await tester.scrollUntilVisible(care, 250, scrollable: find.byType(Scrollable).first);
+      await tester.scrollUntilVisible(
+        care,
+        250,
+        scrollable: find.byType(Scrollable).first,
+      );
       await tester.pumpAndSettle();
       await tester.tap(care);
       await tester.pump();
@@ -189,7 +233,11 @@ void main() {
       await tester.ensureVisible(description);
       await tester.enterText(description, 'Registro de vacina');
       final save = find.text('Salvar animal');
-      await tester.scrollUntilVisible(save, 250, scrollable: find.byType(Scrollable).first);
+      await tester.scrollUntilVisible(
+        save,
+        250,
+        scrollable: find.byType(Scrollable).first,
+      );
       await tester.pumpAndSettle();
       await tester.tap(save);
       await tester.pumpAndSettle();

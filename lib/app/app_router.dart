@@ -106,6 +106,7 @@ class AppRouter {
                   accessEpoch: () => access.state.accessEpoch,
                   authorize: authorize,
                 );
+                access.addListener(editor.refreshAccess);
                 final management = DashboardViewModel(
                   animals,
                   isAuthorized: () => access.state.canAccessPrivate,
@@ -134,6 +135,7 @@ class AppRouter {
                   recoverCandidate: recovery?.confirmForAnimal,
                   recoveryAvailable: () => recovery?.canOffer ?? false,
                   onDispose: () {
+                    access.removeListener(editor.refreshAccess);
                     editor.removeListener(synchronize);
                     recovery?.removeListener(photo.refreshRecovery);
                   },
