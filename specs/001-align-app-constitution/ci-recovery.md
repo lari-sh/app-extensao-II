@@ -31,3 +31,27 @@ Log do job 124798637718:
 
 A nova execução remota precisa passar antes de concluir T110. Manter as sete
 jornadas na CI; não ignorar as três falhas nem reduzir o conjunto para obter verde.
+
+
+## Segunda execução — carga recuperada, interação de login instável
+
+[41291605301](https://github.com/lari-sh/app-extensao-II/actions/runs/41291605301),
+SHA 69793468d6976bb28dd54f7db69adda237e734e7: Flutter/backend PASS;
+Android 5 PASS e 2 falhas. Os dois fluxos públicos iniciaram e passaram; não houve
+repetição dos timeouts de carga/DDS/offline da tentativa anterior. Preparação x64,
+renderização e checagem ADB passaram. Deliver foi corretamente bloqueado.
+
+Restaram os roteiros authentication_flow e medication_calendar_flow: toque fora
+da área efetivamente atingível/rota em transição e botão ausente após alteração
+do viewport. A tela real já oferece onSubmitted no campo de senha. Os dois
+roteiros agora usam uma única ação explícita TextInputAction.done e aguardam o
+resultado/navegação confirmados, em vez de um toque posterior durante a transição.
+Não chamam ViewModel.submit diretamente nem ignoram erro de toque.
+O SDK Flutter fixado documenta que injetar texto/ações com IME real pode alterar
+seu estado; não depender de pumpAndSettle isoladamente para concluir a autenticação.
+
+Validação local atual: autenticação PASS em 13 s, incluindo todos os casos de
+falha/restauração/revogação; calendário completo PASS em 48 s. Conjunto dos dois
+PASS em 1 min 23 s com compilação intermediária. O caminho do botão continua
+coberto pelo Widget Test do login. Nenhuma regra do app ou asserção de negócio
+foi removida. Próxima CI ainda precisa aprovar as sete jornadas e o artifact.

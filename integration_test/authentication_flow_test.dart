@@ -1,3 +1,4 @@
+import 'package:abrigo_dos_anjos/ui/features/auth/views/login_screen.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -44,16 +45,24 @@ void main() {
         find.byKey(const ValueKey('loginPassword')),
         secret,
       );
-      final button = find.widgetWithText(FilledButton, 'Entrar no painel');
-      FocusManager.instance.primaryFocus?.unfocus();
-      await tester.pumpAndSettle();
-      await tester.scrollUntilVisible(
-        button,
-        160,
-        scrollable: find.byType(Scrollable).first,
-      );
-      await tester.tap(button);
-      await tester.pumpAndSettle(const Duration(milliseconds: 300));
+      // Submit through the actual keyboard action once. Android IME/viewport
+      // transitions can otherwise navigate before a later tap on the old route.
+      await tester.testTextInput.receiveAction(TextInputAction.done);
+      for (var attempt = 0; attempt < 100; attempt++) {
+        await tester.pumpAndSettle(const Duration(milliseconds: 100));
+        if (find.text('Acesso autorizado').evaluate().isNotEmpty) return;
+        final login = find.byType(LoginScreen);
+        if (login.evaluate().length == 1) {
+          final state = tester.widget<LoginScreen>(login).viewModel.state;
+          if (!state.busy &&
+              !state.signedIn &&
+              (state.message != null || state.fieldErrors.isNotEmpty)) {
+            return;
+          }
+        }
+        await Future<void>.delayed(const Duration(milliseconds: 100));
+      }
+      fail('Login did not reach a confirmed success or failure state');
     }
 
     await openLogin();

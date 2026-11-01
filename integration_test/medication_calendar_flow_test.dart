@@ -165,18 +165,10 @@ void main() {
         find.byKey(const ValueKey('loginPassword')),
         password,
       );
-      FocusManager.instance.primaryFocus?.unfocus();
-      await tester.pumpAndSettle();
-      // The login uses a lazy ListView: hiding the keyboard can dispose the
-      // submit row until the viewport is scrolled on smaller Android devices.
-      await tester.scrollUntilVisible(
-        find.text('Entrar no painel'),
-        160,
-        scrollable: find.byType(Scrollable).first,
-      );
-      await tester.pumpAndSettle();
-      await tester.tap(find.text('Entrar no painel'));
-      await tester.pumpAndSettle();
+      // Exercise the screen's keyboard submit action exactly once, then wait
+      // for confirmed navigation instead of tapping a route that may be leaving.
+      await tester.testTextInput.receiveAction(TextInputAction.done);
+      await waitFor(find.text('Animais do abrigo'));
       // Navigate through the real dashboard/editor; the fixture may be on a later page.
       await tester.tap(find.text('Animais do abrigo'));
       await tester.pumpAndSettle();
