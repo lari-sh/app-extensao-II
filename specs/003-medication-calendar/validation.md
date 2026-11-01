@@ -126,3 +126,17 @@ Scaffolds registrados no mesmo messenger. O editor agora possui ScaffoldMessenge
 próprio, preservando a composição visual. Reexecução Android: 1 teste PASS, sem
 exceções. Widget Tests do editor: 3 PASS; flutter analyze: No issues found.
 T020 concluída; US2–US4 e integração desses testes à CI continuam pendentes.
+
+## US2 — leituras privadas do calendário
+
+Migration aditiva 013 aplicada somente no Supabase local. Mês por intervalo
+indexado, contagens completas por estado, dia com 100 aplicações por página e
+histórico com 100 eventos por página. Leituras de versão e itens no mesmo snapshot
+SQL; cursor vincula usuário/dia/versão, conflito PT409 exige recarga. Datas civis
+calculadas em America/Sao_Paulo. Sem API externa nem novo pacote.
+
+32 testes novos cobrem meia-noite, simultâneos, 101 aplicações sem omissão, estados,
+101 eventos, cursores inválidos/trocados, mutação, equipe revogada e visitante.
+Suíte SQL completa: 200 PASS em 10 arquivos. Teste legado do contador agora aceita
+dados locais existentes, verificando não negatividade em vez de presumir zero.
+T021/T023 concluídas; interface/Android da US2 ainda pendentes.

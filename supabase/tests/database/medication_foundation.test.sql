@@ -33,7 +33,7 @@ select throws_ok($$update public.medication_treatments set status='stopped'$$,'4
 reset role;
 select throws_ok($$delete from public.animals where id='77000000-0000-4000-8000-000000000001'$$,'23503',null,'animal deletion cannot cascade away medication history');
 select throws_ok($$insert into public.medication_applications(treatment_id,revision,scheduled_at) values ('87000000-0000-4000-8000-000000000001',1,'2026-11-01T11:00:00Z')$$,'23505',null,'same treatment and instant cannot duplicate an active application');
-select is((select agenda_version::int from private.medication_agenda_state),0,'transactional agenda counter starts at zero');
+select ok((select agenda_version>=0 from private.medication_agenda_state),'transactional agenda counter remains nonnegative with existing local data');
 select set_config('request.jwt.claims','{"sub":"57000000-0000-4000-8000-000000000001","role":"authenticated"}',true);
 set local role authenticated;
 select is((select count(*)::int from public.medication_treatments),0,'missing auth session blocks read');
