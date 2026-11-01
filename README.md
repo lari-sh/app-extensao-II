@@ -125,3 +125,11 @@ aplicações de vacina (somente data e tipo públicos). Campos opcionais ausente
 aparecem como Não informado; o indicador antigo de vacinação não inventa aplicações.
 Nenhum prontuário interno é usado para preencher esses campos. Contrato, tarefas
 e evidências em [perfil público](specs/002-public-animal-profile/plan.md).
+
+
+O [planejamento do calendário de medicamentos](specs/003-medication-calendar/plan.md)
+está detalhado, com [50 tarefas de implementação](specs/003-medication-calendar/tasks.md).
+Prevê horários fixos e intervalos, autoria/horário real e correções auditadas,
+alimentados pelos tratamentos estruturados da ficha. A funcionalidade ainda não
+está implementada. A composição visual nova depende de aprovação, preservando o
+protótipo; não haverá API externa de calendário nesta etapa.

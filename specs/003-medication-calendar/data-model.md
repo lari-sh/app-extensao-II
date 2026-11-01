@@ -51,7 +51,7 @@ permite concluir sem ser atrasada. Estado não é alterado por relógio do apare
 
 UUID; application_id; event_type completed/completion_reversed/cancelled;
 actor_id; occurred_at capturado no servidor; reason nullable (obrigatório com
-1–500 caracteres em completion_reversed); application_version; snapshot do
+1–500 caracteres em completion_reversed); application_version com UNIQUE(application_id,application_version); snapshot do
 horário previsto e referência da revisão. Só INSERT por comandos autorizados,
 sem UPDATE/DELETE do cliente. Não expor email de auth.users na agenda: retornar
 identificador e nome público interno de exibição do funcionário, quando existente;

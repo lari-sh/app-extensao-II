@@ -64,7 +64,7 @@ Save de tratamento stopped é rejeitado: não há reativação implícita nesta 
   alteração relevante entre páginas devolve PT409 e VM reinicia o dia, sem mesclar
   snapshots. Assim nenhuma página oculta/duplica aplicações silenciosamente.
 - get_medication_application_history(p_application_id, p_cursor nullable): 100 eventos
-  por página, ordem (occurred_at,id), com revisão e versão atual. Cursor estável.
+  por página, ordem (application_version,id), com revisão e versão atual. Cursor estável.
 
 Todos retornam instantes RFC3339 com offset/UTC e valores civis calculados pelo
 servidor scheduled_local_date/time e performed_local_date/time, quando aplicáveis.

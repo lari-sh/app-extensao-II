@@ -400,7 +400,7 @@ Nunca marcar tarefa de execução concluída somente por escrever o comando.
   de `/speckit-implement`. Esta lista não inicia a implementação.
 
 
-### Pendência de planejamento: calendário
+### Calendário — especificado; implementação pendente
 
 Solicitado em 2026-10-31: detalhar especificação/contrato de eventos, origem de datas,
 fuso e permissões, plano e testes antes da implementação da aba Calendário. Este
@@ -411,3 +411,9 @@ Definição recebida: calendário de medicações com datas/horários e animais,
 conclusão de aplicações e geração automática pela ficha. A lista C001–C007 de
 planejamento/implementação está em ../003-medication-calendar/scope.md. A agenda
 não será gerada por inferência a partir dos cuidados clínicos em texto livre.
+
+Planejamento detalhado concluído em specs/003-medication-calendar/: spec.md,
+plan.md, research.md, data-model.md, contracts/rpc.md, quickstart.md e tasks.md.
+A lista executável agora contém 50 tarefas, substituindo os resumos C001–C007.
+As 108 tarefas desta adequação original não foram renumeradas. Aprovação visual
+específica é gate antes de implementar o conteúdo novo da aba/recorrência.
