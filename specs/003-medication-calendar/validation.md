@@ -218,3 +218,18 @@ confirmado visualmente na aba Calendário com Voltar visível. Captura nativa:
 a limpeza da massa de testes, sem inserir tratamentos fictícios permanentes.
 Protótipo sincronizado também no projeto local do Open Design. Sem alterações
 pendentes de código; não foi realizada implantação em produção.
+
+## US3 — conclusão transacional no servidor
+
+Migration 014 aditiva: complete_medication_application exige equipe/sessão atual,
+chave estável e versão. Locks actor/key → animal → tratamento → aplicação → contador;
+revalida acesso e captura clock_timestamp somente após as esperas. Registra
+performed_by da sessão, horário real, rótulo original (nome ou identificação estável),
+versão, evento e recibo na mesma transação. Replay não reescreve autoria/horário
+nem incrementa contador. Sem campos de ator/hora aceitos no comando.
+
+21 casos SQL novos; suíte completa 221 PASS em 11 arquivos. Harness HTTP local
+aprovado: duas sessões/replay, dois funcionários em corrida (um evento/um conflito),
+ator/hora forjados rejeitados, conclusão aguardando lock com hora posterior à
+liberação, revogação durante espera sem evento/recibo. Contas de fixture restauradas
+e massa descartável removida. T029/T031 concluídas; UI/Android de conclusão pendentes.
