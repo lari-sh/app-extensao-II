@@ -1,9 +1,14 @@
-# Planejamento — informações públicas de vermifugação e temperamento
+# Planejamento — dados públicos do animal cadastrados pela equipe
 
-Solicitado em 2026-10-31. Status: planejado, não implementado. Complementa a ficha
+Solicitado em 2026-10-31. Status: implementação iniciada, ainda não validada. Complementa a ficha
 pública do protótipo screen-3 e não altera os 108 itens da adequação original.
 
 ## Escopo e aceitação futura
+
+Complemento da responsável: incluir peso (kg), cor e vacinação (data e tipo),
+preservando castração pública. Vermifugação expõe somente a data; vacinação expõe
+somente data e tipo. Nenhuma nota clínica deve ser copiada para esses campos.
+O indicador legado de vacinação não é uma fonte para preencher data/tipo.
 
 - Data da última vermifugação aplicada (date opcional) e resumo público de temperamento
   (texto opcional, 1–120 caracteres quando preenchido), cadastrados pela equipe.
@@ -41,6 +46,14 @@ pública do protótipo screen-3 e não altera os 108 itens da adequação origin
 - [ ] P006 Integrar campos no editor e ficha com Widget Tests e sem alterar layout sem autorização.
 - [ ] P007 Validar Android, duas sessões, ocultação/adoção e ausência de exposição clínica.
 - [ ] P008 Atualizar evidências e executar CI antes de publicar cada etapa na developer.
+- [ ] P009 Definir contrato de peso, cor e registros públicos de vacinação (data/tipo),
+  incluindo normalização, limites, limpeza e compatibilidade de clientes antigos.
+- [ ] P010 Estender migração/RPC e testes pgTAP para peso, cor e vacinação, sem expor
+  doses, notas, prescrições ou autoria; preservar RLS e idempotência.
+- [ ] P011 Integrar peso, cor e vacinação às camadas MVVM e ao cadastro/ficha pública,
+  com testes unitários e de interface; preservar o desenho autorizado.
+- [ ] P012 Validar os campos adicionais no Android e em segunda sessão, atualizar
+  documentação e publicar os contextos validados na developer.
 
 Enquanto planejados, a ficha identifica as duas informações como Cadastro em
 planejamento. O quadro usa somente os booleanos públicos de vacinação/castração
