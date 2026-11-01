@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AnimalDetailState implements DiagnosticableTreeMixin {
 
- String get title; String get description; String get characteristics; String get statusLabel; bool get busy; bool get copying; bool get canAdopt; List<int>? get photo; String? get message;
+ String get title; String get description; String get characteristics; String get statusLabel; bool get busy; bool get copying; bool get canAdopt; bool get hasAnimal; List<String> get tags; Map<String, String> get publicInformation; List<int>? get photo; String? get message;
 /// Create a copy of AnimalDetailState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,21 +26,21 @@ $AnimalDetailStateCopyWith<AnimalDetailState> get copyWith => _$AnimalDetailStat
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'AnimalDetailState'))
-    ..add(DiagnosticsProperty('title', title))..add(DiagnosticsProperty('description', description))..add(DiagnosticsProperty('characteristics', characteristics))..add(DiagnosticsProperty('statusLabel', statusLabel))..add(DiagnosticsProperty('busy', busy))..add(DiagnosticsProperty('copying', copying))..add(DiagnosticsProperty('canAdopt', canAdopt))..add(DiagnosticsProperty('photo', photo))..add(DiagnosticsProperty('message', message));
+    ..add(DiagnosticsProperty('title', title))..add(DiagnosticsProperty('description', description))..add(DiagnosticsProperty('characteristics', characteristics))..add(DiagnosticsProperty('statusLabel', statusLabel))..add(DiagnosticsProperty('busy', busy))..add(DiagnosticsProperty('copying', copying))..add(DiagnosticsProperty('canAdopt', canAdopt))..add(DiagnosticsProperty('hasAnimal', hasAnimal))..add(DiagnosticsProperty('tags', tags))..add(DiagnosticsProperty('publicInformation', publicInformation))..add(DiagnosticsProperty('photo', photo))..add(DiagnosticsProperty('message', message));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AnimalDetailState&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.characteristics, characteristics) || other.characteristics == characteristics)&&(identical(other.statusLabel, statusLabel) || other.statusLabel == statusLabel)&&(identical(other.busy, busy) || other.busy == busy)&&(identical(other.copying, copying) || other.copying == copying)&&(identical(other.canAdopt, canAdopt) || other.canAdopt == canAdopt)&&const DeepCollectionEquality().equals(other.photo, photo)&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AnimalDetailState&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.characteristics, characteristics) || other.characteristics == characteristics)&&(identical(other.statusLabel, statusLabel) || other.statusLabel == statusLabel)&&(identical(other.busy, busy) || other.busy == busy)&&(identical(other.copying, copying) || other.copying == copying)&&(identical(other.canAdopt, canAdopt) || other.canAdopt == canAdopt)&&(identical(other.hasAnimal, hasAnimal) || other.hasAnimal == hasAnimal)&&const DeepCollectionEquality().equals(other.tags, tags)&&const DeepCollectionEquality().equals(other.publicInformation, publicInformation)&&const DeepCollectionEquality().equals(other.photo, photo)&&(identical(other.message, message) || other.message == message));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,title,description,characteristics,statusLabel,busy,copying,canAdopt,const DeepCollectionEquality().hash(photo),message);
+int get hashCode => Object.hash(runtimeType,title,description,characteristics,statusLabel,busy,copying,canAdopt,hasAnimal,const DeepCollectionEquality().hash(tags),const DeepCollectionEquality().hash(publicInformation),const DeepCollectionEquality().hash(photo),message);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'AnimalDetailState(title: $title, description: $description, characteristics: $characteristics, statusLabel: $statusLabel, busy: $busy, copying: $copying, canAdopt: $canAdopt, photo: $photo, message: $message)';
+  return 'AnimalDetailState(title: $title, description: $description, characteristics: $characteristics, statusLabel: $statusLabel, busy: $busy, copying: $copying, canAdopt: $canAdopt, hasAnimal: $hasAnimal, tags: $tags, publicInformation: $publicInformation, photo: $photo, message: $message)';
 }
 
 
@@ -51,7 +51,7 @@ abstract mixin class $AnimalDetailStateCopyWith<$Res>  {
   factory $AnimalDetailStateCopyWith(AnimalDetailState value, $Res Function(AnimalDetailState) _then) = _$AnimalDetailStateCopyWithImpl;
 @useResult
 $Res call({
- String title, String description, String characteristics, String statusLabel, bool busy, bool copying, bool canAdopt, List<int>? photo, String? message
+ String title, String description, String characteristics, String statusLabel, bool busy, bool copying, bool canAdopt, bool hasAnimal, List<String> tags, Map<String, String> publicInformation, List<int>? photo, String? message
 });
 
 
@@ -68,7 +68,7 @@ class _$AnimalDetailStateCopyWithImpl<$Res>
 
 /// Create a copy of AnimalDetailState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? description = null,Object? characteristics = null,Object? statusLabel = null,Object? busy = null,Object? copying = null,Object? canAdopt = null,Object? photo = freezed,Object? message = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? description = null,Object? characteristics = null,Object? statusLabel = null,Object? busy = null,Object? copying = null,Object? canAdopt = null,Object? hasAnimal = null,Object? tags = null,Object? publicInformation = null,Object? photo = freezed,Object? message = freezed,}) {
   return _then(_self.copyWith(
 title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
@@ -77,7 +77,10 @@ as String,statusLabel: null == statusLabel ? _self.statusLabel : statusLabel // 
 as String,busy: null == busy ? _self.busy : busy // ignore: cast_nullable_to_non_nullable
 as bool,copying: null == copying ? _self.copying : copying // ignore: cast_nullable_to_non_nullable
 as bool,canAdopt: null == canAdopt ? _self.canAdopt : canAdopt // ignore: cast_nullable_to_non_nullable
-as bool,photo: freezed == photo ? _self.photo : photo // ignore: cast_nullable_to_non_nullable
+as bool,hasAnimal: null == hasAnimal ? _self.hasAnimal : hasAnimal // ignore: cast_nullable_to_non_nullable
+as bool,tags: null == tags ? _self.tags : tags // ignore: cast_nullable_to_non_nullable
+as List<String>,publicInformation: null == publicInformation ? _self.publicInformation : publicInformation // ignore: cast_nullable_to_non_nullable
+as Map<String, String>,photo: freezed == photo ? _self.photo : photo // ignore: cast_nullable_to_non_nullable
 as List<int>?,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
@@ -164,10 +167,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String title,  String description,  String characteristics,  String statusLabel,  bool busy,  bool copying,  bool canAdopt,  List<int>? photo,  String? message)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String title,  String description,  String characteristics,  String statusLabel,  bool busy,  bool copying,  bool canAdopt,  bool hasAnimal,  List<String> tags,  Map<String, String> publicInformation,  List<int>? photo,  String? message)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AnimalDetailState() when $default != null:
-return $default(_that.title,_that.description,_that.characteristics,_that.statusLabel,_that.busy,_that.copying,_that.canAdopt,_that.photo,_that.message);case _:
+return $default(_that.title,_that.description,_that.characteristics,_that.statusLabel,_that.busy,_that.copying,_that.canAdopt,_that.hasAnimal,_that.tags,_that.publicInformation,_that.photo,_that.message);case _:
   return orElse();
 
 }
@@ -185,10 +188,10 @@ return $default(_that.title,_that.description,_that.characteristics,_that.status
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String title,  String description,  String characteristics,  String statusLabel,  bool busy,  bool copying,  bool canAdopt,  List<int>? photo,  String? message)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String title,  String description,  String characteristics,  String statusLabel,  bool busy,  bool copying,  bool canAdopt,  bool hasAnimal,  List<String> tags,  Map<String, String> publicInformation,  List<int>? photo,  String? message)  $default,) {final _that = this;
 switch (_that) {
 case _AnimalDetailState():
-return $default(_that.title,_that.description,_that.characteristics,_that.statusLabel,_that.busy,_that.copying,_that.canAdopt,_that.photo,_that.message);case _:
+return $default(_that.title,_that.description,_that.characteristics,_that.statusLabel,_that.busy,_that.copying,_that.canAdopt,_that.hasAnimal,_that.tags,_that.publicInformation,_that.photo,_that.message);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -205,10 +208,10 @@ return $default(_that.title,_that.description,_that.characteristics,_that.status
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String title,  String description,  String characteristics,  String statusLabel,  bool busy,  bool copying,  bool canAdopt,  List<int>? photo,  String? message)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String title,  String description,  String characteristics,  String statusLabel,  bool busy,  bool copying,  bool canAdopt,  bool hasAnimal,  List<String> tags,  Map<String, String> publicInformation,  List<int>? photo,  String? message)?  $default,) {final _that = this;
 switch (_that) {
 case _AnimalDetailState() when $default != null:
-return $default(_that.title,_that.description,_that.characteristics,_that.statusLabel,_that.busy,_that.copying,_that.canAdopt,_that.photo,_that.message);case _:
+return $default(_that.title,_that.description,_that.characteristics,_that.statusLabel,_that.busy,_that.copying,_that.canAdopt,_that.hasAnimal,_that.tags,_that.publicInformation,_that.photo,_that.message);case _:
   return null;
 
 }
@@ -220,7 +223,7 @@ return $default(_that.title,_that.description,_that.characteristics,_that.status
 
 
 class _AnimalDetailState with DiagnosticableTreeMixin implements AnimalDetailState {
-  const _AnimalDetailState({this.title = 'Detalhes do animal', this.description = '', this.characteristics = '', this.statusLabel = '', this.busy = false, this.copying = false, this.canAdopt = false, final  List<int>? photo, this.message}): _photo = photo;
+  const _AnimalDetailState({this.title = 'Detalhes do animal', this.description = '', this.characteristics = '', this.statusLabel = '', this.busy = false, this.copying = false, this.canAdopt = false, this.hasAnimal = false, final  List<String> tags = const [], final  Map<String, String> publicInformation = const {}, final  List<int>? photo, this.message}): _tags = tags,_publicInformation = publicInformation,_photo = photo;
   
 
 @override@JsonKey() final  String title;
@@ -230,6 +233,21 @@ class _AnimalDetailState with DiagnosticableTreeMixin implements AnimalDetailSta
 @override@JsonKey() final  bool busy;
 @override@JsonKey() final  bool copying;
 @override@JsonKey() final  bool canAdopt;
+@override@JsonKey() final  bool hasAnimal;
+ final  List<String> _tags;
+@override@JsonKey() List<String> get tags {
+  if (_tags is EqualUnmodifiableListView) return _tags;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_tags);
+}
+
+ final  Map<String, String> _publicInformation;
+@override@JsonKey() Map<String, String> get publicInformation {
+  if (_publicInformation is EqualUnmodifiableMapView) return _publicInformation;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(_publicInformation);
+}
+
  final  List<int>? _photo;
 @override List<int>? get photo {
   final value = _photo;
@@ -252,21 +270,21 @@ _$AnimalDetailStateCopyWith<_AnimalDetailState> get copyWith => __$AnimalDetailS
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'AnimalDetailState'))
-    ..add(DiagnosticsProperty('title', title))..add(DiagnosticsProperty('description', description))..add(DiagnosticsProperty('characteristics', characteristics))..add(DiagnosticsProperty('statusLabel', statusLabel))..add(DiagnosticsProperty('busy', busy))..add(DiagnosticsProperty('copying', copying))..add(DiagnosticsProperty('canAdopt', canAdopt))..add(DiagnosticsProperty('photo', photo))..add(DiagnosticsProperty('message', message));
+    ..add(DiagnosticsProperty('title', title))..add(DiagnosticsProperty('description', description))..add(DiagnosticsProperty('characteristics', characteristics))..add(DiagnosticsProperty('statusLabel', statusLabel))..add(DiagnosticsProperty('busy', busy))..add(DiagnosticsProperty('copying', copying))..add(DiagnosticsProperty('canAdopt', canAdopt))..add(DiagnosticsProperty('hasAnimal', hasAnimal))..add(DiagnosticsProperty('tags', tags))..add(DiagnosticsProperty('publicInformation', publicInformation))..add(DiagnosticsProperty('photo', photo))..add(DiagnosticsProperty('message', message));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AnimalDetailState&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.characteristics, characteristics) || other.characteristics == characteristics)&&(identical(other.statusLabel, statusLabel) || other.statusLabel == statusLabel)&&(identical(other.busy, busy) || other.busy == busy)&&(identical(other.copying, copying) || other.copying == copying)&&(identical(other.canAdopt, canAdopt) || other.canAdopt == canAdopt)&&const DeepCollectionEquality().equals(other._photo, _photo)&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AnimalDetailState&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.characteristics, characteristics) || other.characteristics == characteristics)&&(identical(other.statusLabel, statusLabel) || other.statusLabel == statusLabel)&&(identical(other.busy, busy) || other.busy == busy)&&(identical(other.copying, copying) || other.copying == copying)&&(identical(other.canAdopt, canAdopt) || other.canAdopt == canAdopt)&&(identical(other.hasAnimal, hasAnimal) || other.hasAnimal == hasAnimal)&&const DeepCollectionEquality().equals(other._tags, _tags)&&const DeepCollectionEquality().equals(other._publicInformation, _publicInformation)&&const DeepCollectionEquality().equals(other._photo, _photo)&&(identical(other.message, message) || other.message == message));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,title,description,characteristics,statusLabel,busy,copying,canAdopt,const DeepCollectionEquality().hash(_photo),message);
+int get hashCode => Object.hash(runtimeType,title,description,characteristics,statusLabel,busy,copying,canAdopt,hasAnimal,const DeepCollectionEquality().hash(_tags),const DeepCollectionEquality().hash(_publicInformation),const DeepCollectionEquality().hash(_photo),message);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'AnimalDetailState(title: $title, description: $description, characteristics: $characteristics, statusLabel: $statusLabel, busy: $busy, copying: $copying, canAdopt: $canAdopt, photo: $photo, message: $message)';
+  return 'AnimalDetailState(title: $title, description: $description, characteristics: $characteristics, statusLabel: $statusLabel, busy: $busy, copying: $copying, canAdopt: $canAdopt, hasAnimal: $hasAnimal, tags: $tags, publicInformation: $publicInformation, photo: $photo, message: $message)';
 }
 
 
@@ -277,7 +295,7 @@ abstract mixin class _$AnimalDetailStateCopyWith<$Res> implements $AnimalDetailS
   factory _$AnimalDetailStateCopyWith(_AnimalDetailState value, $Res Function(_AnimalDetailState) _then) = __$AnimalDetailStateCopyWithImpl;
 @override @useResult
 $Res call({
- String title, String description, String characteristics, String statusLabel, bool busy, bool copying, bool canAdopt, List<int>? photo, String? message
+ String title, String description, String characteristics, String statusLabel, bool busy, bool copying, bool canAdopt, bool hasAnimal, List<String> tags, Map<String, String> publicInformation, List<int>? photo, String? message
 });
 
 
@@ -294,7 +312,7 @@ class __$AnimalDetailStateCopyWithImpl<$Res>
 
 /// Create a copy of AnimalDetailState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? title = null,Object? description = null,Object? characteristics = null,Object? statusLabel = null,Object? busy = null,Object? copying = null,Object? canAdopt = null,Object? photo = freezed,Object? message = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? title = null,Object? description = null,Object? characteristics = null,Object? statusLabel = null,Object? busy = null,Object? copying = null,Object? canAdopt = null,Object? hasAnimal = null,Object? tags = null,Object? publicInformation = null,Object? photo = freezed,Object? message = freezed,}) {
   return _then(_AnimalDetailState(
 title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
@@ -303,7 +321,10 @@ as String,statusLabel: null == statusLabel ? _self.statusLabel : statusLabel // 
 as String,busy: null == busy ? _self.busy : busy // ignore: cast_nullable_to_non_nullable
 as bool,copying: null == copying ? _self.copying : copying // ignore: cast_nullable_to_non_nullable
 as bool,canAdopt: null == canAdopt ? _self.canAdopt : canAdopt // ignore: cast_nullable_to_non_nullable
-as bool,photo: freezed == photo ? _self._photo : photo // ignore: cast_nullable_to_non_nullable
+as bool,hasAnimal: null == hasAnimal ? _self.hasAnimal : hasAnimal // ignore: cast_nullable_to_non_nullable
+as bool,tags: null == tags ? _self._tags : tags // ignore: cast_nullable_to_non_nullable
+as List<String>,publicInformation: null == publicInformation ? _self._publicInformation : publicInformation // ignore: cast_nullable_to_non_nullable
+as Map<String, String>,photo: freezed == photo ? _self._photo : photo // ignore: cast_nullable_to_non_nullable
 as List<int>?,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String?,
   ));

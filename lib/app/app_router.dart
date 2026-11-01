@@ -208,7 +208,20 @@ class AppRouter {
         vm.load(
           settings.arguments is String ? settings.arguments as String : '',
         );
-        return _page(settings, vm, AnimalDetailScreen(viewModel: vm));
+        return PageRouteBuilder<void>(
+          settings: settings,
+          opaque: false,
+          barrierDismissible: true,
+          barrierLabel: 'Fechar detalhes',
+          pageBuilder: (_, _, _) =>
+              ChangeNotifierProvider<AnimalDetailViewModel>(
+                create: (_) => vm,
+                lazy: false,
+                child: AnimalDetailScreen(viewModel: vm),
+              ),
+          transitionsBuilder: (_, animation, _, child) =>
+              FadeTransition(opacity: animation, child: child),
+        );
       default:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(

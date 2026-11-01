@@ -24,7 +24,7 @@ void main() {
     expect(find.text('Luna 1'), findsOneWidget);
     await tester.tap(find.text('Luna 1'));
     await tester.pumpAndSettle();
-    expect(find.text('Tenho interesse'), findsOneWidget);
+    expect(find.text('Entrar em contato para adoção'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 }

@@ -20,6 +20,9 @@ abstract class AnimalDetailState with _$AnimalDetailState {
     @Default(false) bool busy,
     @Default(false) bool copying,
     @Default(false) bool canAdopt,
+    @Default(false) bool hasAnimal,
+    @Default([]) List<String> tags,
+    @Default({}) Map<String, String> publicInformation,
     List<int>? photo,
     String? message,
   }) = _AnimalDetailState;
@@ -38,9 +41,17 @@ class AnimalDetailViewModel extends ChangeNotifier {
   final AdoptionMessageRepository adoption;
   AnimalDetailState _state = const AnimalDetailState();
   AnimalDetailState get state => _state;
+  String get contactHint => state.canAdopt
+      ? 'Copia uma mensagem. Nenhum pedido é enviado.'
+      : 'Este animal não está disponível para adoção no momento.';
   PublicAnimal? _animal;
   int _generation = 0;
   bool _disposed = false;
+  String? _requestedId;
+  Future<void> reload() async {
+    if (_requestedId != null && !_disposed) await load(_requestedId!);
+  }
+
   void _publish(AnimalDetailState value) {
     if (!_disposed) {
       _state = value;
@@ -49,6 +60,8 @@ class AnimalDetailViewModel extends ChangeNotifier {
   }
 
   Future<void> load(String id) async {
+    if (_disposed) return;
+    _requestedId = id;
     final generation = ++_generation;
     _animal = null;
     _publish(const AnimalDetailState(busy: true));
@@ -63,7 +76,26 @@ class AnimalDetailViewModel extends ChangeNotifier {
           _publish(
             state.copyWith(
               title: value.name,
-              description: value.publicDescription,
+              hasAnimal: true,
+              description: value.publicDescription.trim().isEmpty
+                  ? 'A história deste animal ainda não foi informada.'
+                  : value.publicDescription,
+              tags: [
+                value.species == AnimalSpecies.dog ? 'Cachorro' : 'Gato',
+                'Porte ${switch (value.size) {
+                  AnimalSize.small => 'P',
+                  AnimalSize.medium => 'M',
+                  AnimalSize.large => 'G',
+                }}',
+                value.approximateAge,
+                value.sex == AnimalSex.female ? 'Fêmea' : 'Macho',
+              ],
+              publicInformation: {
+                'Vacinas': value.isVaccinated ? 'Registradas' : 'Sem registro',
+                'Vermifugado': 'Cadastro em planejamento',
+                'Castrado': value.isNeutered ? 'Sim' : 'Não',
+                'Temperamento': 'Cadastro em planejamento',
+              },
               characteristics:
                   '${value.species == AnimalSpecies.dog ? 'Cachorro' : 'Gato'} • ${value.approximateAge}',
               statusLabel: animalStatusLabel(value.status),

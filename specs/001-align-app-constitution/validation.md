@@ -791,3 +791,23 @@ que dizia apagar também o alvo é substituída por esta decisão: o alvo não c
 bytes/ficha e permite retomada autorizada; cada seleção ainda revalida acesso remoto.
 165 Flutter PASS com cobertura e análise sem problemas. Alteração funcional exige
 novo run da CI; o run a57c4c8 não comprova esta versão posterior.
+
+### Ficha pública — adequação ao artboard screen-3
+
+Planejamento de vermifugação/temperamento publicado separadamente em
+specs/002-public-animal-profile/plan.md; campos ainda não cadastrados no backend.
+Ficha sobreposta ao catálogo com fundo desfocado, bordas 22, foto ampla, fechar,
+etiquetas espécie/porte/idade/sexo, história pública, situação e quadro 2×2.
+Vacinação/castração usam somente flags públicas; os dois campos futuros aparecem
+como Cadastro em planejamento. Uma foto principal, sem inventar carrossel.
+
+Botão mantém rótulo do protótipo e informa que copia mensagem, sem envio externo;
+animal em tratamento mantém área de contato desabilitada. Dados indisponíveis
+limpam ficha e oferecem tentativa novamente. Testes de VM verificam projeção
+pública, reload e ausência de getManagement; Widgets cobrem modal, retorno,
+contato, estado em tratamento e ficha compacta isolada.
+
+O teste compacto também revelou overflow preexistente na contagem do catálogo.
+Ajuste responsivo e coração de favoritos autorizados pela responsável serão
+publicados em contextos separados. Jornada Android da ficha ainda em validação;
+primeira tentativa falhou no seletor do teste (texto de busca igual ao nome do cartão).

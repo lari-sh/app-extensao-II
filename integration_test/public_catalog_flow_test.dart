@@ -83,8 +83,8 @@ void main() {
         ),
         findsOneWidget,
       );
-      await reveal(tester, find.text('Tenho interesse'));
-      await tester.tap(find.text('Tenho interesse'));
+      await reveal(tester, find.text('Entrar em contato para adoção'));
+      await tester.tap(find.text('Entrar em contato para adoção'));
       await tester.pumpAndSettle(const Duration(milliseconds: 200));
       expect(
         find.text('Mensagem copiada. Nenhum pedido foi enviado.'),
