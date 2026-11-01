@@ -71,3 +71,5 @@ Omissão preserva valores; null explícito limpa campos opcionais. A lista de va
 Backend validado: 127 testes pgTAP passaram em 7 arquivos, incluindo os 28 casos
 públicos. Migrações 009/010 aplicadas somente no Supabase local. Android e Flutter
 continuam pendentes para este incremento.
+
+Camada de dados Flutter: 77 testes de domínio/dados aprovados; DTO compatível com respostas legadas e lista pública restrita a data/tipo. Modelos Freezed gerados. Validação civil não depende do fuso do aparelho; servidor permanece autoridade para America/Sao_Paulo.

@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AnimalDraft {
 
- String? get id; String get name; AnimalSpecies? get species; AnimalSex? get sex; AnimalSize? get size; String get approximateAge; String get publicDescription; String get clinicalNotes; bool get isVaccinated; bool get isNeutered; List<ClinicalRecord> get careRecords;
+ String? get id; String? get lastDewormedOn; String? get temperament; double? get weightKg; String? get color; List<PublicVaccination> get vaccinations; String get name; AnimalSpecies? get species; AnimalSex? get sex; AnimalSize? get size; String get approximateAge; String get publicDescription; String get clinicalNotes; bool get isVaccinated; bool get isNeutered; List<ClinicalRecord> get careRecords;
 /// Create a copy of AnimalDraft
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $AnimalDraftCopyWith<AnimalDraft> get copyWith => _$AnimalDraftCopyWithImpl<Anim
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AnimalDraft&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.species, species) || other.species == species)&&(identical(other.sex, sex) || other.sex == sex)&&(identical(other.size, size) || other.size == size)&&(identical(other.approximateAge, approximateAge) || other.approximateAge == approximateAge)&&(identical(other.publicDescription, publicDescription) || other.publicDescription == publicDescription)&&(identical(other.clinicalNotes, clinicalNotes) || other.clinicalNotes == clinicalNotes)&&(identical(other.isVaccinated, isVaccinated) || other.isVaccinated == isVaccinated)&&(identical(other.isNeutered, isNeutered) || other.isNeutered == isNeutered)&&const DeepCollectionEquality().equals(other.careRecords, careRecords));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AnimalDraft&&(identical(other.id, id) || other.id == id)&&(identical(other.lastDewormedOn, lastDewormedOn) || other.lastDewormedOn == lastDewormedOn)&&(identical(other.temperament, temperament) || other.temperament == temperament)&&(identical(other.weightKg, weightKg) || other.weightKg == weightKg)&&(identical(other.color, color) || other.color == color)&&const DeepCollectionEquality().equals(other.vaccinations, vaccinations)&&(identical(other.name, name) || other.name == name)&&(identical(other.species, species) || other.species == species)&&(identical(other.sex, sex) || other.sex == sex)&&(identical(other.size, size) || other.size == size)&&(identical(other.approximateAge, approximateAge) || other.approximateAge == approximateAge)&&(identical(other.publicDescription, publicDescription) || other.publicDescription == publicDescription)&&(identical(other.clinicalNotes, clinicalNotes) || other.clinicalNotes == clinicalNotes)&&(identical(other.isVaccinated, isVaccinated) || other.isVaccinated == isVaccinated)&&(identical(other.isNeutered, isNeutered) || other.isNeutered == isNeutered)&&const DeepCollectionEquality().equals(other.careRecords, careRecords));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,name,species,sex,size,approximateAge,publicDescription,clinicalNotes,isVaccinated,isNeutered,const DeepCollectionEquality().hash(careRecords));
+int get hashCode => Object.hash(runtimeType,id,lastDewormedOn,temperament,weightKg,color,const DeepCollectionEquality().hash(vaccinations),name,species,sex,size,approximateAge,publicDescription,clinicalNotes,isVaccinated,isNeutered,const DeepCollectionEquality().hash(careRecords));
 
 @override
 String toString() {
-  return 'AnimalDraft(id: $id, name: $name, species: $species, sex: $sex, size: $size, approximateAge: $approximateAge, publicDescription: $publicDescription, clinicalNotes: $clinicalNotes, isVaccinated: $isVaccinated, isNeutered: $isNeutered, careRecords: $careRecords)';
+  return 'AnimalDraft(id: $id, lastDewormedOn: $lastDewormedOn, temperament: $temperament, weightKg: $weightKg, color: $color, vaccinations: $vaccinations, name: $name, species: $species, sex: $sex, size: $size, approximateAge: $approximateAge, publicDescription: $publicDescription, clinicalNotes: $clinicalNotes, isVaccinated: $isVaccinated, isNeutered: $isNeutered, careRecords: $careRecords)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $AnimalDraftCopyWith<$Res>  {
   factory $AnimalDraftCopyWith(AnimalDraft value, $Res Function(AnimalDraft) _then) = _$AnimalDraftCopyWithImpl;
 @useResult
 $Res call({
- String? id, String name, AnimalSpecies? species, AnimalSex? sex, AnimalSize? size, String approximateAge, String publicDescription, String clinicalNotes, bool isVaccinated, bool isNeutered, List<ClinicalRecord> careRecords
+ String? id, String? lastDewormedOn, String? temperament, double? weightKg, String? color, List<PublicVaccination> vaccinations, String name, AnimalSpecies? species, AnimalSex? sex, AnimalSize? size, String approximateAge, String publicDescription, String clinicalNotes, bool isVaccinated, bool isNeutered, List<ClinicalRecord> careRecords
 });
 
 
@@ -62,10 +62,15 @@ class _$AnimalDraftCopyWithImpl<$Res>
 
 /// Create a copy of AnimalDraft
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? name = null,Object? species = freezed,Object? sex = freezed,Object? size = freezed,Object? approximateAge = null,Object? publicDescription = null,Object? clinicalNotes = null,Object? isVaccinated = null,Object? isNeutered = null,Object? careRecords = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? lastDewormedOn = freezed,Object? temperament = freezed,Object? weightKg = freezed,Object? color = freezed,Object? vaccinations = null,Object? name = null,Object? species = freezed,Object? sex = freezed,Object? size = freezed,Object? approximateAge = null,Object? publicDescription = null,Object? clinicalNotes = null,Object? isVaccinated = null,Object? isNeutered = null,Object? careRecords = null,}) {
   return _then(_self.copyWith(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String?,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String?,lastDewormedOn: freezed == lastDewormedOn ? _self.lastDewormedOn : lastDewormedOn // ignore: cast_nullable_to_non_nullable
+as String?,temperament: freezed == temperament ? _self.temperament : temperament // ignore: cast_nullable_to_non_nullable
+as String?,weightKg: freezed == weightKg ? _self.weightKg : weightKg // ignore: cast_nullable_to_non_nullable
+as double?,color: freezed == color ? _self.color : color // ignore: cast_nullable_to_non_nullable
+as String?,vaccinations: null == vaccinations ? _self.vaccinations : vaccinations // ignore: cast_nullable_to_non_nullable
+as List<PublicVaccination>,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,species: freezed == species ? _self.species : species // ignore: cast_nullable_to_non_nullable
 as AnimalSpecies?,sex: freezed == sex ? _self.sex : sex // ignore: cast_nullable_to_non_nullable
 as AnimalSex?,size: freezed == size ? _self.size : size // ignore: cast_nullable_to_non_nullable
@@ -160,10 +165,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id,  String name,  AnimalSpecies? species,  AnimalSex? sex,  AnimalSize? size,  String approximateAge,  String publicDescription,  String clinicalNotes,  bool isVaccinated,  bool isNeutered,  List<ClinicalRecord> careRecords)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id,  String? lastDewormedOn,  String? temperament,  double? weightKg,  String? color,  List<PublicVaccination> vaccinations,  String name,  AnimalSpecies? species,  AnimalSex? sex,  AnimalSize? size,  String approximateAge,  String publicDescription,  String clinicalNotes,  bool isVaccinated,  bool isNeutered,  List<ClinicalRecord> careRecords)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AnimalDraft() when $default != null:
-return $default(_that.id,_that.name,_that.species,_that.sex,_that.size,_that.approximateAge,_that.publicDescription,_that.clinicalNotes,_that.isVaccinated,_that.isNeutered,_that.careRecords);case _:
+return $default(_that.id,_that.lastDewormedOn,_that.temperament,_that.weightKg,_that.color,_that.vaccinations,_that.name,_that.species,_that.sex,_that.size,_that.approximateAge,_that.publicDescription,_that.clinicalNotes,_that.isVaccinated,_that.isNeutered,_that.careRecords);case _:
   return orElse();
 
 }
@@ -181,10 +186,10 @@ return $default(_that.id,_that.name,_that.species,_that.sex,_that.size,_that.app
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id,  String name,  AnimalSpecies? species,  AnimalSex? sex,  AnimalSize? size,  String approximateAge,  String publicDescription,  String clinicalNotes,  bool isVaccinated,  bool isNeutered,  List<ClinicalRecord> careRecords)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id,  String? lastDewormedOn,  String? temperament,  double? weightKg,  String? color,  List<PublicVaccination> vaccinations,  String name,  AnimalSpecies? species,  AnimalSex? sex,  AnimalSize? size,  String approximateAge,  String publicDescription,  String clinicalNotes,  bool isVaccinated,  bool isNeutered,  List<ClinicalRecord> careRecords)  $default,) {final _that = this;
 switch (_that) {
 case _AnimalDraft():
-return $default(_that.id,_that.name,_that.species,_that.sex,_that.size,_that.approximateAge,_that.publicDescription,_that.clinicalNotes,_that.isVaccinated,_that.isNeutered,_that.careRecords);case _:
+return $default(_that.id,_that.lastDewormedOn,_that.temperament,_that.weightKg,_that.color,_that.vaccinations,_that.name,_that.species,_that.sex,_that.size,_that.approximateAge,_that.publicDescription,_that.clinicalNotes,_that.isVaccinated,_that.isNeutered,_that.careRecords);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -201,10 +206,10 @@ return $default(_that.id,_that.name,_that.species,_that.sex,_that.size,_that.app
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id,  String name,  AnimalSpecies? species,  AnimalSex? sex,  AnimalSize? size,  String approximateAge,  String publicDescription,  String clinicalNotes,  bool isVaccinated,  bool isNeutered,  List<ClinicalRecord> careRecords)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id,  String? lastDewormedOn,  String? temperament,  double? weightKg,  String? color,  List<PublicVaccination> vaccinations,  String name,  AnimalSpecies? species,  AnimalSex? sex,  AnimalSize? size,  String approximateAge,  String publicDescription,  String clinicalNotes,  bool isVaccinated,  bool isNeutered,  List<ClinicalRecord> careRecords)?  $default,) {final _that = this;
 switch (_that) {
 case _AnimalDraft() when $default != null:
-return $default(_that.id,_that.name,_that.species,_that.sex,_that.size,_that.approximateAge,_that.publicDescription,_that.clinicalNotes,_that.isVaccinated,_that.isNeutered,_that.careRecords);case _:
+return $default(_that.id,_that.lastDewormedOn,_that.temperament,_that.weightKg,_that.color,_that.vaccinations,_that.name,_that.species,_that.sex,_that.size,_that.approximateAge,_that.publicDescription,_that.clinicalNotes,_that.isVaccinated,_that.isNeutered,_that.careRecords);case _:
   return null;
 
 }
@@ -216,10 +221,21 @@ return $default(_that.id,_that.name,_that.species,_that.sex,_that.size,_that.app
 
 
 class _AnimalDraft extends AnimalDraft {
-  const _AnimalDraft({this.id, this.name = '', this.species, this.sex, this.size, this.approximateAge = '', this.publicDescription = '', this.clinicalNotes = '', this.isVaccinated = false, this.isNeutered = false, final  List<ClinicalRecord> careRecords = const []}): _careRecords = careRecords,super._();
+  const _AnimalDraft({this.id, this.lastDewormedOn, this.temperament, this.weightKg, this.color, final  List<PublicVaccination> vaccinations = const [], this.name = '', this.species, this.sex, this.size, this.approximateAge = '', this.publicDescription = '', this.clinicalNotes = '', this.isVaccinated = false, this.isNeutered = false, final  List<ClinicalRecord> careRecords = const []}): _vaccinations = vaccinations,_careRecords = careRecords,super._();
   
 
 @override final  String? id;
+@override final  String? lastDewormedOn;
+@override final  String? temperament;
+@override final  double? weightKg;
+@override final  String? color;
+ final  List<PublicVaccination> _vaccinations;
+@override@JsonKey() List<PublicVaccination> get vaccinations {
+  if (_vaccinations is EqualUnmodifiableListView) return _vaccinations;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_vaccinations);
+}
+
 @override@JsonKey() final  String name;
 @override final  AnimalSpecies? species;
 @override final  AnimalSex? sex;
@@ -247,16 +263,16 @@ _$AnimalDraftCopyWith<_AnimalDraft> get copyWith => __$AnimalDraftCopyWithImpl<_
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AnimalDraft&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.species, species) || other.species == species)&&(identical(other.sex, sex) || other.sex == sex)&&(identical(other.size, size) || other.size == size)&&(identical(other.approximateAge, approximateAge) || other.approximateAge == approximateAge)&&(identical(other.publicDescription, publicDescription) || other.publicDescription == publicDescription)&&(identical(other.clinicalNotes, clinicalNotes) || other.clinicalNotes == clinicalNotes)&&(identical(other.isVaccinated, isVaccinated) || other.isVaccinated == isVaccinated)&&(identical(other.isNeutered, isNeutered) || other.isNeutered == isNeutered)&&const DeepCollectionEquality().equals(other._careRecords, _careRecords));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AnimalDraft&&(identical(other.id, id) || other.id == id)&&(identical(other.lastDewormedOn, lastDewormedOn) || other.lastDewormedOn == lastDewormedOn)&&(identical(other.temperament, temperament) || other.temperament == temperament)&&(identical(other.weightKg, weightKg) || other.weightKg == weightKg)&&(identical(other.color, color) || other.color == color)&&const DeepCollectionEquality().equals(other._vaccinations, _vaccinations)&&(identical(other.name, name) || other.name == name)&&(identical(other.species, species) || other.species == species)&&(identical(other.sex, sex) || other.sex == sex)&&(identical(other.size, size) || other.size == size)&&(identical(other.approximateAge, approximateAge) || other.approximateAge == approximateAge)&&(identical(other.publicDescription, publicDescription) || other.publicDescription == publicDescription)&&(identical(other.clinicalNotes, clinicalNotes) || other.clinicalNotes == clinicalNotes)&&(identical(other.isVaccinated, isVaccinated) || other.isVaccinated == isVaccinated)&&(identical(other.isNeutered, isNeutered) || other.isNeutered == isNeutered)&&const DeepCollectionEquality().equals(other._careRecords, _careRecords));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,name,species,sex,size,approximateAge,publicDescription,clinicalNotes,isVaccinated,isNeutered,const DeepCollectionEquality().hash(_careRecords));
+int get hashCode => Object.hash(runtimeType,id,lastDewormedOn,temperament,weightKg,color,const DeepCollectionEquality().hash(_vaccinations),name,species,sex,size,approximateAge,publicDescription,clinicalNotes,isVaccinated,isNeutered,const DeepCollectionEquality().hash(_careRecords));
 
 @override
 String toString() {
-  return 'AnimalDraft(id: $id, name: $name, species: $species, sex: $sex, size: $size, approximateAge: $approximateAge, publicDescription: $publicDescription, clinicalNotes: $clinicalNotes, isVaccinated: $isVaccinated, isNeutered: $isNeutered, careRecords: $careRecords)';
+  return 'AnimalDraft(id: $id, lastDewormedOn: $lastDewormedOn, temperament: $temperament, weightKg: $weightKg, color: $color, vaccinations: $vaccinations, name: $name, species: $species, sex: $sex, size: $size, approximateAge: $approximateAge, publicDescription: $publicDescription, clinicalNotes: $clinicalNotes, isVaccinated: $isVaccinated, isNeutered: $isNeutered, careRecords: $careRecords)';
 }
 
 
@@ -267,7 +283,7 @@ abstract mixin class _$AnimalDraftCopyWith<$Res> implements $AnimalDraftCopyWith
   factory _$AnimalDraftCopyWith(_AnimalDraft value, $Res Function(_AnimalDraft) _then) = __$AnimalDraftCopyWithImpl;
 @override @useResult
 $Res call({
- String? id, String name, AnimalSpecies? species, AnimalSex? sex, AnimalSize? size, String approximateAge, String publicDescription, String clinicalNotes, bool isVaccinated, bool isNeutered, List<ClinicalRecord> careRecords
+ String? id, String? lastDewormedOn, String? temperament, double? weightKg, String? color, List<PublicVaccination> vaccinations, String name, AnimalSpecies? species, AnimalSex? sex, AnimalSize? size, String approximateAge, String publicDescription, String clinicalNotes, bool isVaccinated, bool isNeutered, List<ClinicalRecord> careRecords
 });
 
 
@@ -284,10 +300,15 @@ class __$AnimalDraftCopyWithImpl<$Res>
 
 /// Create a copy of AnimalDraft
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? name = null,Object? species = freezed,Object? sex = freezed,Object? size = freezed,Object? approximateAge = null,Object? publicDescription = null,Object? clinicalNotes = null,Object? isVaccinated = null,Object? isNeutered = null,Object? careRecords = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? lastDewormedOn = freezed,Object? temperament = freezed,Object? weightKg = freezed,Object? color = freezed,Object? vaccinations = null,Object? name = null,Object? species = freezed,Object? sex = freezed,Object? size = freezed,Object? approximateAge = null,Object? publicDescription = null,Object? clinicalNotes = null,Object? isVaccinated = null,Object? isNeutered = null,Object? careRecords = null,}) {
   return _then(_AnimalDraft(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String?,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String?,lastDewormedOn: freezed == lastDewormedOn ? _self.lastDewormedOn : lastDewormedOn // ignore: cast_nullable_to_non_nullable
+as String?,temperament: freezed == temperament ? _self.temperament : temperament // ignore: cast_nullable_to_non_nullable
+as String?,weightKg: freezed == weightKg ? _self.weightKg : weightKg // ignore: cast_nullable_to_non_nullable
+as double?,color: freezed == color ? _self.color : color // ignore: cast_nullable_to_non_nullable
+as String?,vaccinations: null == vaccinations ? _self._vaccinations : vaccinations // ignore: cast_nullable_to_non_nullable
+as List<PublicVaccination>,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,species: freezed == species ? _self.species : species // ignore: cast_nullable_to_non_nullable
 as AnimalSpecies?,sex: freezed == sex ? _self.sex : sex // ignore: cast_nullable_to_non_nullable
 as AnimalSex?,size: freezed == size ? _self.size : size // ignore: cast_nullable_to_non_nullable

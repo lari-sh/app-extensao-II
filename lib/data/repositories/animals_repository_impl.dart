@@ -12,6 +12,8 @@ import '../services/animals_service.dart';
 class AnimalsRepositoryImpl implements AnimalsRepository {
   AnimalsRepositoryImpl(this.service);
   final AnimalsService service;
+  String? _optional(String? text) =>
+      text == null || text.trim().isEmpty ? null : text.trim();
 
   PublicAnimal _animal(AnimalDto dto) {
     final data = dto.values;
@@ -28,6 +30,18 @@ class AnimalsRepositoryImpl implements AnimalsRepository {
       isVaccinated: data['is_vaccinated'] as bool,
       isNeutered: data['is_neutered'] as bool,
       primaryPhotoId: data['primary_photo_id'] as String?,
+      lastDewormedOn: data['last_dewormed_on'] as String?,
+      temperament: data['temperament'] as String?,
+      weightKg: data['weight_kg'] as double?,
+      color: data['color'] as String?,
+      vaccinations: ((data['vaccinations'] as List?) ?? [])
+          .map(
+            (item) => PublicVaccination(
+              appliedOn: item['applied_on'] as String,
+              vaccineType: item['vaccine_type'] as String,
+            ),
+          )
+          .toList(),
     );
   }
 
@@ -128,6 +142,18 @@ class AnimalsRepositoryImpl implements AnimalsRepository {
     }
     return mapRepositoryResult(
       () => service.saveAnimal({
+        'last_dewormed_on': draft.lastDewormedOn,
+        'temperament': _optional(draft.temperament),
+        'weight_kg': draft.weightKg,
+        'color': _optional(draft.color),
+        'vaccinations': draft.vaccinations
+            .map(
+              (item) => {
+                'applied_on': item.appliedOn,
+                'vaccine_type': item.vaccineType.trim(),
+              },
+            )
+            .toList(),
         'id': draft.id,
         'name': draft.name.trim(),
         'species': draft.species!.name,

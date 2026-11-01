@@ -28,11 +28,32 @@ void main() {
           ),
         );
       final repository = AnimalsRepositoryImpl(service);
-      final result = await repository.saveAnimal(draft, 'a' * 32);
+      final result = await repository.saveAnimal(
+        draft.copyWith(
+          lastDewormedOn: '2024-02-29',
+          temperament: ' Calma ',
+          weightKg: 4.25,
+          color: ' Branca ',
+          vaccinations: [
+            const PublicVaccination(
+              appliedOn: '2024-02-29',
+              vaccineType: ' V4 ',
+            ),
+          ],
+        ),
+        'a' * 32,
+      );
       expect((result as Success<ManagedAnimal>).value.clinicalNotes, 'Interno');
       final call = service.calls.single;
       expect(call.arguments.last, 'a' * 32);
       final payload = call.arguments.first as Map;
+      expect(payload['last_dewormed_on'], '2024-02-29');
+      expect(payload['temperament'], 'Calma');
+      expect(payload['weight_kg'], 4.25);
+      expect(payload['color'], 'Branca');
+      expect(payload['vaccinations'], [
+        {'applied_on': '2024-02-29', 'vaccine_type': 'V4'},
+      ]);
       expect(payload.containsKey('status'), isFalse);
       expect(payload.containsKey('primary_photo_id'), isFalse);
       expect(await repository.getManagement(fixtureId(1)), isA<Success>());

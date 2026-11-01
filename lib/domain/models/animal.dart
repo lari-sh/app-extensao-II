@@ -24,6 +24,11 @@ abstract class PublicAnimal with _$PublicAnimal {
     @Default(false) bool isPublished,
     @Default(false) bool isVaccinated,
     @Default(false) bool isNeutered,
+    String? lastDewormedOn,
+    String? temperament,
+    double? weightKg,
+    String? color,
+    @Default([]) List<PublicVaccination> vaccinations,
     String? primaryPhotoId,
   }) = _PublicAnimal;
 }
@@ -53,4 +58,12 @@ abstract class ManagedAnimalPage with _$ManagedAnimalPage {
     required int total,
     String? cursor,
   }) = _ManagedAnimalPage;
+}
+
+@freezed
+abstract class PublicVaccination with _$PublicVaccination {
+  const factory PublicVaccination({
+    required String appliedOn,
+    required String vaccineType,
+  }) = _PublicVaccination;
 }

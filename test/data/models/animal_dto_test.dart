@@ -17,6 +17,43 @@ void main() {
     'primary_photo_id': null,
   };
   test(
+    'public profile validates dates and rejects private vaccination attributes',
+    () {
+      expect(AnimalDto.fromJson(json).values['vaccinations'], isEmpty);
+      expect(
+        () => AnimalDto.fromJson({...json, 'last_dewormed_on': '2024-02-31'}),
+        throwsFormatException,
+      );
+      expect(
+        () => AnimalDto.fromJson({...json, 'weight_kg': -1}),
+        throwsFormatException,
+      );
+      expect(
+        () => AnimalDto.fromJson({
+          ...json,
+          'vaccinations': [
+            {
+              'applied_on': '2024-02-29',
+              'vaccine_type': 'V4',
+              'notes': 'secret',
+            },
+          ],
+        }),
+        throwsFormatException,
+      );
+      expect(
+        AnimalDto.fromJson({
+          ...json,
+          'weight_kg': 4,
+          'vaccinations': [
+            {'applied_on': '2024-02-29', 'vaccine_type': 'V4'},
+          ],
+        }).values['weight_kg'],
+        4.0,
+      );
+    },
+  );
+  test(
     'public DTO discards private fields and rejects malformed API values',
     () {
       final dto = AnimalDto.fromJson({
