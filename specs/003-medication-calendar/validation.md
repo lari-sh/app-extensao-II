@@ -73,3 +73,16 @@ falhas tipadas/inesperadas e recibo divergente. Suíte Flutter completa: 198 PAS
 flutter analyze sem problemas. Android ainda não validado para o calendário.
 
 Correção de evidência do Repository: a primeira análise final tinha dois avisos de blocos if no teste; foram corrigidos antes de avançar. Nova execução de flutter analyze sem problemas e os seis testes do Repository novamente aprovados. A suíte completa de 198 testes havia passado; a correção alterou apenas delimitadores no teste.
+
+
+## ViewModel de tratamentos
+
+Dez testes unitários com Repository falso passaram: validação/animal não salvo,
+confirmação, binding estável ao salvar a ficha geral, dois modos, autorização,
+respostas de outro animal, geração privada, paginação, exceções e resultado incerto.
+Timeout conserva chave/payload, consulta recibo e só repete a operação original;
+resposta de sessão antiga não confirma visualmente, mas permite reconciliar no
+mesmo usuário. Logout/troca de geração limpa estado privado. Edição/interrupção
+são coordenadas pelo VM; RPCs de revisão continuam pendentes da US4.
+Suíte completa: 208 testes Flutter PASS. Análise final: No issues found.
+Sem pacote novo. Interface aprovada e jornada Android ainda não integradas.
