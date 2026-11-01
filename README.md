@@ -12,6 +12,11 @@ e pendências de produção/iOS. A expansão para outros abrigos fica para depoi
 
 ## Estado implementado
 
+Planejamento da próxima entrega: [acesso e convites da equipe](specs/005-auth-team-access/spec.md),
+com primeiro administrador provisionado e convites pelo app. Inclui os controles
+Permanecer logado/Esqueci a senha ainda pendentes; não são funcionalidades já
+entregues. Novas telas dependem da aprovação do protótipo.
+
 - Início, catálogo com filtros combinados e paginação, detalhes, favoritos e sobre.
 - Dados públicos do Supabase; somente animais publicados e não adotados.
 - Fotos atuais entregues em bytes por função autorizada a cada requisição, sem cache.

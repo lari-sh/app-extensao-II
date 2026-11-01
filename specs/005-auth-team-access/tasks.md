@@ -1,0 +1,61 @@
+# Tarefas — acesso e convites da equipe
+
+Branch developer. Requisitos em spec.md; arquitetura em plan.md; contratos em
+contracts/team-access.md. Proposta não equivale a implementação nem aprovação.
+
+## Planejamento e gate visual
+
+- [x] T001 Registrar spec.md, plan.md, research.md, data-model.md, contracts/team-access.md e quickstart.md conforme decisão do primeiro administrador provisionado e equipe por convite. [005-FR-001, 005-FR-002, 005-CR-001]
+- [ ] T002 Preparar design/team-access-proposal.html com equipe, convite, aceite, recuperação e nova senha; validar interações/responsividade e registrar design-approval.md como pendente. [005-FR-013]
+- [ ] T003 Obter aprovação explícita do usuário para novas telas e entrada Equipe antes de codificar UI; registrar em design-approval.md. [005-FR-013, 005-CR-003]
+
+## Fundação de autorização
+
+- [ ] T004 Escrever supabase/tests/database/team_access.test.sql: visitante/funcionário negados, backfill employee, bootstrap restrito, último admin e concorrência/versionamento. [005-FR-001, 005-FR-002, 005-FR-007]
+- [ ] T005 Implementar migration seguinte com roles, convites, operações, auditoria, RLS e access_context; escrever roteiro técnico de bootstrap em quickstart.md, sem endpoint público. [005-FR-001, 005-FR-002, 005-FR-008]
+- [ ] T006 Atualizar lib/domain/models/session_access.dart, Services/Repository de auth e SessionViewModel; testar perda de capacidade após rebaixamento/revogação em test/data/ e test/ui/features/auth/. [005-FR-001, 005-FR-008]
+
+## US1 — equipe e convites
+
+- [ ] T007 Escrever testes Deno/HTTP e SQL de envio/reenvio/cancelamento: identidade forjada, role editável, expiração, conta existente, timeout, duplicata e revogação durante envio. [005-FR-003, 005-FR-005, 005-FR-009, 005-FR-014]
+- [ ] T008 Implementar supabase/functions/team-invitation e RPCs de listagem/recibos/cancelamento/alteração; estados duráveis, limites e reconciliação sem expor Admin API no app. [005-FR-003, 005-FR-004, 005-FR-009]
+- [ ] T009 Criar modelos Freezed e TeamRepository abstrato; Service/Repository em lib/data/ com unitários em test/data/{services,repositories}/; cobrir erros tipados e paginação. [005-CR-001, 005-CR-002]
+- [ ] T010 Implementar TeamViewModel e InviteMemberViewModel, testes de validação/permissão/busy/dispose/conflito/estado incerto em test/ui/features/team/view_models/. [005-FR-003, 005-FR-004, 005-FR-009]
+- [ ] T011 Após T003, implementar TeamScreen, InviteMemberScreen e confirmação de alteração/desativação em lib/ui/features/team/views/; Widget happy path por tela, 320 px e texto ampliado, Voltar à esquerda. [005-FR-004, 005-FR-007, 005-FR-013]
+- [ ] T012 Após T003, integrar entrada Equipe no dashboard e rotas/composição em lib/app/; teste de rota e negação para funcionário também por URL/rota direta. [005-FR-001, 005-FR-013]
+
+## US2 — aceite
+
+- [ ] T013 Escrever testes SQL/HTTP de get_my_invitation e aceite: prazo, geração, identidade, senha definida, replay e races com cancelamento/role alterado. [005-FR-005, 005-FR-006, 005-FR-009]
+- [ ] T014 Implementar aceite e auditoria atômicos, vincular destinatário confirmado e proteger role/active no servidor; impedir booleano cliente como prova de senha. [005-FR-006, 005-FR-008]
+- [ ] T015 Implementar Service/Repository/AcceptInvitationViewModel e unitários; diferenciar Auth callback de convite e recuperação, sem supor PKCE para inviteUserByEmail. [005-FR-006, 005-FR-012]
+- [ ] T016 Após T003, implementar AcceptInvitationScreen/estados inválidos, Widget happy path/expirado e links Android/iOS/templates/config local; registrar SMTP real como implantação separada. [005-FR-006, 005-FR-012, 005-FR-013]
+
+## US3 — Permanecer logado
+
+- [ ] T017 Testar adaptador SessionStorageService: marcado/desmarcado, falha de escrita, restauração, cleanup, concorrência e preservação do verificador PKCE sem salvar senha. [005-FR-010]
+- [ ] T018 Implementar adaptador LocalStorage e preferência nos Services, mediar por AuthRepository, injetar no bootstrap e propagar escolha via LoginViewModel; unitários de Repository/VM. [005-FR-010, 005-CR-001]
+- [ ] T019 Habilitar checkbox existente preservando layout e testar Widget, login, logout e opções durante busy; validar kill/relaunch Android nos dois modos e revogação de equipe. [005-FR-010, 005-FR-013]
+
+## US4 — Esqueci a senha
+
+- [ ] T020 Implementar e testar requestPasswordReset/updateRecoveredPassword em AuthService/Repository, resposta neutra, rate limit, evento de recuperação e falhas de link/token sem logs sensíveis. [005-FR-011, 005-FR-012]
+- [ ] T021 Após T003, implementar RecoveryViewModel/ResetPasswordViewModel e telas auth; unitários de validação/busy/dispose e Widget happy path/erro; botão existente habilitado com mesmo layout. [005-FR-011, 005-FR-013]
+- [ ] T022 Testar Mailpit/callback/PKCE com app aberto e encerrado, link expirado/repetido, troca efetiva de senha e retorno ao login sem manejo automático; não usar senhas de pessoas reais. [005-FR-011, 005-FR-012]
+
+## Entrega e evidências
+
+- [ ] T023 Criar integration_test/team_access_flow_test.dart e auth_recovery_flow_test.dart; administrador/funcionário, convite/aceite/revogação, persistência e recuperação ponta a ponta, preservando fixtures do usuário. [005-CR-002]
+- [ ] T024 Executar formato/geração/analyze/test, SQL/HTTP e Android; integrar novas jornadas à CI sem remover as sete existentes; confirmar artifact/run/SHA em validation.md. [005-CR-002, 005-CR-003]
+- [ ] T025 Validar links e sessão iOS em Mac/Xcode ou registrar dependência externa explicitamente, sem declarar sucesso por Windows. [005-FR-012]
+- [ ] T026 Atualizar README.md, quickstart.md, validation.md e tasks.md após cada etapa validada; commits por contexto na developer e revisão de segredos/erros/dados públicos. [005-CR-003]
+
+## Dependências
+
+T001/T002 → T003 (UI). T004 → T005 → T006 → T007–T010 → T011/T012.
+T013/T014 dependem da fundação; T015/T016 dependem do backend de aceite.
+T017–T019 podem avançar independentemente dos convites, preservando a base auth.
+T020–T022 reutilizam callbacks/storage e distinguem recuperação de convite.
+T023/T024 após jornadas; T025 é gate de iOS separado; T026 em cada entrega.
+Testes precedem implementação de suas regras. Nenhuma tarefa marcada por mera
+existência de arquivo. 26 tarefas; aprovação visual permanece pendente.
