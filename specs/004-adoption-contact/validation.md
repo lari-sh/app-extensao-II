@@ -19,3 +19,12 @@ indisponível cobertos. Nenhum envio automático nem chamada Supabase adicionada
 url_launcher 6.3.3 já existia transitivamente no lock; promovido a dependência direta
 com justificativa escrita no plano. Não atualizados outros pacotes.
 A tela, VM, Android e link público ainda não estão implementados/validados.
+
+
+## Estado e ViewModel — T004
+
+Estado Freezed gerado. Três testes unitários PASS: nome público, revalidação antes
+de abertura, indisponibilidade, duplicate command, dispose, resposta antiga,
+exceção sem detalhes crus e retry. Teste inicialmente vermelho por VM inexistente.
+Não há prévia de mensagem no estado; aviso explicita URL pública ainda ausente.
+VM não importa plugin ou Service. Integração visual e Android continuam pendentes.
