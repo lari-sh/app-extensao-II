@@ -23,7 +23,7 @@ void main() {
     expect(find.text('Fêmea'), findsOneWidget);
     expect(find.text('Vacinas'), findsOneWidget);
     expect(find.text('Castrado'), findsOneWidget);
-    expect(find.text('Cadastro em planejamento'), findsNWidgets(2));
+    expect(find.text('Não informado'), findsNWidgets(5));
     final firstTile = find
         .ancestor(of: find.text('Vacinas'), matching: find.byType(Container))
         .first;

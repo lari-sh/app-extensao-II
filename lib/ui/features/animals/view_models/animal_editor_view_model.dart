@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import '../../../../utils/civil_date.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../../domain/models/animal.dart';
 import '../../../../domain/models/animal_draft.dart';
@@ -29,13 +30,16 @@ abstract class AnimalEditorState with _$AnimalEditorState {
 class AnimalEditorViewModel extends ChangeNotifier {
   AnimalEditorViewModel(
     this.repository, {
+    DateTime Function()? now,
     bool Function()? isAuthorized,
     int Function()? accessEpoch,
     Future<bool> Function()? authorize,
-  }) : _isAuthorized = isAuthorized ?? _allowed,
+  }) : _now = now ?? DateTime.now,
+       _isAuthorized = isAuthorized ?? _allowed,
        _accessEpoch = accessEpoch ?? _zero,
        _authorize = authorize;
   final AnimalsRepository repository;
+  final DateTime Function() _now;
   final bool Function() _isAuthorized;
   final int Function() _accessEpoch;
   final Future<bool> Function()? _authorize;
@@ -71,6 +75,54 @@ class AnimalEditorViewModel extends ChangeNotifier {
         state.copyWith(draft: draft, errors: {}, message: null, savedId: null),
       );
     }
+  }
+
+  String get dewormingDateText => state.draft.lastDewormedOn == null
+      ? ''
+      : displayDate(state.draft.lastDewormedOn);
+  String vaccinationDateText(int index) =>
+      displayDate(state.draft.vaccinations[index].appliedOn);
+  String get weightText =>
+      state.draft.weightKg?.toString().replaceAll('.', ',') ?? '';
+  String? _dateInput(String text) =>
+      text.trim().isEmpty ? null : canonicalDate(text) ?? text;
+  void setLastDewormedOn(String text) =>
+      _edit(state.draft.copyWith(lastDewormedOn: _dateInput(text)));
+  void setTemperament(String text) =>
+      _edit(state.draft.copyWith(temperament: text));
+  void setColor(String text) => _edit(state.draft.copyWith(color: text));
+  void setWeight(String text) => _edit(
+    state.draft.copyWith(
+      weightKg: text.trim().isEmpty
+          ? null
+          : double.tryParse(text.replaceAll(',', '.')) ?? double.nan,
+    ),
+  );
+  void addVaccination() => _edit(
+    state.draft.copyWith(
+      vaccinations: [
+        ...state.draft.vaccinations,
+        const PublicVaccination(appliedOn: '', vaccineType: ''),
+      ],
+    ),
+  );
+  void removeVaccination(int index) {
+    if (index < 0 || index >= state.draft.vaccinations.length) return;
+    final items = state.draft.vaccinations.toList()..removeAt(index);
+    _edit(state.draft.copyWith(vaccinations: items));
+    if (canEdit) _publish(state.copyWith(formVersion: state.formVersion + 1));
+  }
+
+  void setVaccinationDate(int index, String text) {
+    final items = state.draft.vaccinations.toList();
+    items[index] = items[index].copyWith(appliedOn: _dateInput(text) ?? '');
+    _edit(state.draft.copyWith(vaccinations: items));
+  }
+
+  void setVaccineType(int index, String text) {
+    final items = state.draft.vaccinations.toList();
+    items[index] = items[index].copyWith(vaccineType: text);
+    _edit(state.draft.copyWith(vaccinations: items));
   }
 
   void setName(String value) => _edit(state.draft.copyWith(name: value));
@@ -141,6 +193,11 @@ class AnimalEditorViewModel extends ChangeNotifier {
     isVaccinated: value.animal.isVaccinated,
     isNeutered: value.animal.isNeutered,
     careRecords: value.careRecords,
+    lastDewormedOn: value.animal.lastDewormedOn,
+    temperament: value.animal.temperament,
+    color: value.animal.color,
+    weightKg: value.animal.weightKg,
+    vaccinations: value.animal.vaccinations,
   );
   Future<void> load(String id) async {
     if (_disposed || state.loading || state.saving) return;
@@ -266,14 +323,27 @@ class AnimalEditorViewModel extends ChangeNotifier {
       await reconcile();
       return;
     }
-    final errors = state.draft.validate().map(
-      (key, _) => MapEntry(key, switch (key) {
-        'name' || 'approximateAge' => 'Informe de 1 a 80 caracteres.',
-        'species' || 'sex' || 'size' => 'Selecione uma opção.',
-        'publicDescription' || 'clinicalNotes' => 'Use até 3.000 caracteres.',
-        _ => 'Descreva o cuidado com 1 a 1.000 caracteres.',
-      }),
-    );
+    final errors = state.draft
+        .validate(now: _now())
+        .map(
+          (key, _) => MapEntry(key, switch (key) {
+            'lastDewormedOn' =>
+              'Informe uma data válida, sem ser futura (DD/MM/AAAA).',
+            'temperament' => 'Use até 120 caracteres.',
+            'color' => 'Use até 80 caracteres.',
+            'weightKg' => 'Informe um peso maior que zero e até 1.000 kg.',
+            'vaccinations' => 'Use até 100 aplicações.',
+            final field when field.endsWith('.appliedOn') =>
+              'Informe uma data válida, sem ser futura (DD/MM/AAAA).',
+            final field when field.endsWith('.vaccineType') =>
+              'Informe o tipo de vacina com 1 a 120 caracteres.',
+            'name' || 'approximateAge' => 'Informe de 1 a 80 caracteres.',
+            'species' || 'sex' || 'size' => 'Selecione uma opção.',
+            'publicDescription' ||
+            'clinicalNotes' => 'Use até 3.000 caracteres.',
+            _ => 'Descreva o cuidado com 1 a 1.000 caracteres.',
+          }),
+        );
     if (errors.isNotEmpty) {
       _publish(
         state.copyWith(errors: errors, message: 'Revise os campos indicados.'),

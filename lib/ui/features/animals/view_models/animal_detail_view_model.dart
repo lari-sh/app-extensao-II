@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import '../../../../utils/civil_date.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../../domain/models/animal.dart';
 import '../../../../domain/models/photo_content.dart';
@@ -104,10 +105,21 @@ class AnimalDetailViewModel extends ChangeNotifier {
                 value.sex == AnimalSex.female ? 'Fêmea' : 'Macho',
               ],
               publicInformation: {
-                'Vacinas': value.isVaccinated ? 'Registradas' : 'Sem registro',
-                'Vermifugado': 'Cadastro em planejamento',
+                'Vacinas': value.vaccinations.isEmpty
+                    ? 'Não informado'
+                    : value.vaccinations
+                          .map(
+                            (item) =>
+                                '${displayDate(item.appliedOn)} • ${item.vaccineType}',
+                          )
+                          .join('\n'),
+                'Vermifugado': displayDate(value.lastDewormedOn),
                 'Castrado': value.isNeutered ? 'Sim' : 'Não',
-                'Temperamento': 'Cadastro em planejamento',
+                'Temperamento': value.temperament ?? 'Não informado',
+                'Peso': value.weightKg == null
+                    ? 'Não informado'
+                    : '${value.weightKg.toString().replaceAll('.', ',')} kg',
+                'Cor': value.color ?? 'Não informado',
               },
               characteristics:
                   '${value.species == AnimalSpecies.dog ? 'Cachorro' : 'Gato'} • ${value.approximateAge}',

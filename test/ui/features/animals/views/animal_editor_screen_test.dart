@@ -17,6 +17,37 @@ import 'package:abrigo_dos_anjos/ui/features/animals/views/managed_animals_scree
 
 void main() {
   testWidgets(
+    'public fields accept data and vaccination removal without overflow',
+    (tester) async {
+      final vm = AnimalEditorViewModel(FakeAnimalsRepository());
+      addTearDown(vm.dispose);
+      await tester.pumpWidget(
+        MaterialApp(home: AnimalEditorScreen(viewModel: vm)),
+      );
+      Future<void> enter(String key, String value) async {
+        final field = find.byKey(ValueKey(key));
+        await tester.scrollUntilVisible(field, 180, scrollable: find.byType(Scrollable).first);
+        await tester.enterText(field, value);
+        await tester.pump();
+      }
+
+      await enter('animalWeight', '4,25');
+      await enter('animalColor', 'Branca');
+      await enter('animalTemperament', 'Calma');
+      await enter('animalLastDewormedOn', '29/02/2024');
+      final add = find.text('Adicionar vacina');
+      await tester.scrollUntilVisible(add, 180, scrollable: find.byType(Scrollable).first);
+      await tester.tap(add);
+      await tester.pump();
+      await enter('vaccinationDate0', '29/02/2024');
+      await enter('vaccineType0', 'V4');
+      expect(vm.state.draft.vaccinations.single.vaccineType, 'V4');
+      expect(vm.state.draft.lastDewormedOn, '2024-02-29');
+      expect(vm.state.draft.weightKg, 4.25);
+      expect(tester.takeException(), isNull);
+    },
+  );
+  testWidgets(
     'private list displays remote animals and opens selected editor',
     (tester) async {
       final repository = FakeAnimalsRepository()
@@ -140,7 +171,7 @@ void main() {
         await tester.pumpAndSettle();
       }
       final care = find.text('Adicionar cuidado');
-      await tester.ensureVisible(care);
+      await tester.scrollUntilVisible(care, 250, scrollable: find.byType(Scrollable).first);
       await tester.pumpAndSettle();
       await tester.tap(care);
       await tester.pump();
@@ -150,7 +181,7 @@ void main() {
       await tester.tap(remove);
       await tester.pump();
       expect(find.byKey(const ValueKey('careDescription0')), findsNothing);
-      await tester.ensureVisible(care);
+      await tester.scrollUntilVisible(care, 250, scrollable: find.byType(Scrollable).first);
       await tester.pumpAndSettle();
       await tester.tap(care);
       await tester.pump();
@@ -158,7 +189,7 @@ void main() {
       await tester.ensureVisible(description);
       await tester.enterText(description, 'Registro de vacina');
       final save = find.text('Salvar animal');
-      await tester.ensureVisible(save);
+      await tester.scrollUntilVisible(save, 250, scrollable: find.byType(Scrollable).first);
       await tester.pumpAndSettle();
       await tester.tap(save);
       await tester.pumpAndSettle();

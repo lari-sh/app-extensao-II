@@ -8,8 +8,9 @@ String? canonicalDate(String value) {
   final month = int.parse(iso?[2] ?? local![2]!);
   final day = int.parse(iso?[3] ?? local![1]!);
   final date = DateTime.utc(year, month, day);
-  if (year < 1 || date.year != year || date.month != month || date.day != day)
+  if (year < 1 || date.year != year || date.month != month || date.day != day) {
     return null;
+  }
   return '${year.toString().padLeft(4, '0')}-${month.toString().padLeft(2, '0')}-${day.toString().padLeft(2, '0')}';
 }
 

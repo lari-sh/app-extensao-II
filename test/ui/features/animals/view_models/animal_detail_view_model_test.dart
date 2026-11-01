@@ -12,6 +12,40 @@ import '../../../../support/public_fixtures.dart';
 
 void main() {
   test(
+    'public profile renders confirmed fields without private reads',
+    () async {
+      final animals = FakeAnimalsRepository()
+        ..handler = (_, _) async => Success(
+          fixtureAnimal(1).copyWith(
+            lastDewormedOn: '2024-02-29',
+            temperament: 'Calma',
+            weightKg: 4.25,
+            color: 'Branca',
+            vaccinations: [
+              const PublicVaccination(
+                appliedOn: '2024-02-29',
+                vaccineType: 'V4',
+              ),
+            ],
+          ),
+        );
+      final vm = AnimalDetailViewModel(
+        animals,
+        FakeFavoritesRepository(),
+        FakePhotoRepository(),
+        FakeAdoptionMessageRepository(),
+      );
+      addTearDown(vm.dispose);
+      await vm.load(fixtureId(1));
+      expect(vm.state.publicInformation['Vacinas'], '29/02/2024 • V4');
+      expect(vm.state.publicInformation['Vermifugado'], '29/02/2024');
+      expect(vm.state.publicInformation['Peso'], '4,25 kg');
+      expect(vm.state.publicInformation['Cor'], 'Branca');
+      expect(vm.state.publicInformation['Temperamento'], 'Calma');
+      expect(animals.calls.every((call) => call.method == 'getPublic'), true);
+    },
+  );
+  test(
     'adoption capability is computed and copying revalidates visibility without sending',
     () async {
       var animal = fixtureAnimal(1);
@@ -60,16 +94,10 @@ void main() {
       await vm.load(fixtureId(1));
       expect(vm.state.hasAnimal, true);
       expect(vm.state.tags, ['Cachorro', 'Porte M', '2 anos', 'Fêmea']);
-      expect(vm.state.publicInformation['Vacinas'], 'Registradas');
+      expect(vm.state.publicInformation['Vacinas'], 'Não informado');
       expect(vm.state.publicInformation['Castrado'], 'Sim');
-      expect(
-        vm.state.publicInformation['Vermifugado'],
-        'Cadastro em planejamento',
-      );
-      expect(
-        vm.state.publicInformation['Temperamento'],
-        'Cadastro em planejamento',
-      );
+      expect(vm.state.publicInformation['Vermifugado'], 'Não informado');
+      expect(vm.state.publicInformation['Temperamento'], 'Não informado');
       expect(animals.calls.every((call) => call.method == 'getPublic'), true);
       animals.handler = (_, _) async =>
           Failure<PublicAnimal>(AppFailure(FailureCode.notFound));

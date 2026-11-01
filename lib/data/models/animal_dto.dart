@@ -42,21 +42,25 @@ final class AnimalDto {
     }
     values['primary_photo_id'] = json['primary_photo_id'];
     for (final key in ['last_dewormed_on', 'temperament', 'color']) {
-      if (json[key] != null && json[key] is! String)
+      if (json[key] != null && json[key] is! String) {
         throw FormatException('Invalid $key');
+      }
       values[key] = json[key];
     }
     final date = json['last_dewormed_on'];
-    if (date != null && canonicalDate(date as String) != date)
+    if (date != null && canonicalDate(date as String) != date) {
       throw const FormatException('Invalid date');
+    }
     final weight = json['weight_kg'];
     if (weight != null &&
-        (weight is! num || !weight.isFinite || weight <= 0 || weight > 1000))
+        (weight is! num || !weight.isFinite || weight <= 0 || weight > 1000)) {
       throw const FormatException('Invalid weight');
+    }
     values['weight_kg'] = (weight as num?)?.toDouble();
     final vaccinations = json['vaccinations'] ?? <dynamic>[];
-    if (vaccinations is! List || vaccinations.length > 100)
+    if (vaccinations is! List || vaccinations.length > 100) {
       throw const FormatException('Invalid vaccinations');
+    }
     values['vaccinations'] = List<Map<String, String>>.unmodifiable(
       vaccinations.map((item) {
         if (item is! Map ||
@@ -65,8 +69,9 @@ final class AnimalDto {
             item['vaccine_type'] is! String ||
             canonicalDate(item['applied_on'] as String) != item['applied_on'] ||
             (item['vaccine_type'] as String).trim().isEmpty ||
-            (item['vaccine_type'] as String).runes.length > 120)
+            (item['vaccine_type'] as String).runes.length > 120) {
           throw const FormatException('Invalid vaccination');
+        }
         return Map<String, String>.unmodifiable({
           'applied_on': item['applied_on'] as String,
           'vaccine_type': item['vaccine_type'] as String,

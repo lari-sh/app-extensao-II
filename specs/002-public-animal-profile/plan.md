@@ -41,16 +41,16 @@ O indicador legado de vacinação não é uma fonte para preencher data/tipo.
 - [x] P001 Especificar critérios de data, edição/limpeza e exposição pública com exemplos.
 - [x] P002 Escrever pgTAP de permissões, limites, data futura, idempotência e compatibilidade.
 - [x] P003 Criar migração/RPC e testar criação, atualização e remoção dos valores.
-- [ ] P004 Estender DTOs/modelos/Services/Repositories com testes de mapeamento/falhas.
-- [ ] P005 Testar ViewModels: validação, mensagens, ausência, rascunho e autorização.
-- [ ] P006 Integrar campos no editor e ficha com Widget Tests e sem alterar layout sem autorização.
+- [x] P004 Estender DTOs/modelos/Services/Repositories com testes de mapeamento/falhas.
+- [x] P005 Testar ViewModels: validação, mensagens, ausência, rascunho e autorização.
+- [x] P006 Integrar campos no editor e ficha com Widget Tests e sem alterar layout sem autorização.
 - [ ] P007 Validar Android, duas sessões, ocultação/adoção e ausência de exposição clínica.
 - [ ] P008 Atualizar evidências e executar CI antes de publicar cada etapa na developer.
 - [x] P009 Definir contrato de peso, cor e registros públicos de vacinação (data/tipo),
   incluindo normalização, limites, limpeza e compatibilidade de clientes antigos.
 - [x] P010 Estender migração/RPC e testes pgTAP para peso, cor e vacinação, sem expor
   doses, notas, prescrições ou autoria; preservar RLS e idempotência.
-- [ ] P011 Integrar peso, cor e vacinação às camadas MVVM e ao cadastro/ficha pública,
+- [x] P011 Integrar peso, cor e vacinação às camadas MVVM e ao cadastro/ficha pública,
   com testes unitários e de interface; preservar o desenho autorizado.
 - [ ] P012 Validar os campos adicionais no Android e em segunda sessão, atualizar
   documentação e publicar os contextos validados na developer.
@@ -73,3 +73,5 @@ públicos. Migrações 009/010 aplicadas somente no Supabase local. Android e Fl
 continuam pendentes para este incremento.
 
 Camada de dados Flutter: 77 testes de domínio/dados aprovados; DTO compatível com respostas legadas e lista pública restrita a data/tipo. Modelos Freezed gerados. Validação civil não depende do fuso do aparelho; servidor permanece autoridade para America/Sao_Paulo.
+
+Interface e ViewModels: 179 testes Flutter aprovados e flutter analyze sem problemas. Ficha mantém o painel de duas colunas e passa a mostrar dados confirmados, com Não informado na ausência. Cadastro utiliza os campos existentes e entradas públicas separadas do prontuário. Validação Android em execução.

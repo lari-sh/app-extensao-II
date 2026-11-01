@@ -51,18 +51,22 @@ abstract class AnimalDraft with _$AnimalDraft {
       );
     }
     if (lastDewormedOn != null &&
-        !validApplicationDate(lastDewormedOn!, now: now))
+        !validApplicationDate(lastDewormedOn!, now: now)) {
       errors['lastDewormedOn'] = 'date';
-    if ((temperament?.trim().runes.length ?? 0) > 120)
+    }
+    if ((temperament?.trim().runes.length ?? 0) > 120) {
       errors['temperament'] = 'length';
+    }
     if ((color?.trim().runes.length ?? 0) > 80) errors['color'] = 'length';
     if (weightKg != null &&
-        (!weightKg!.isFinite || weightKg! <= 0 || weightKg! > 1000))
+        (!weightKg!.isFinite || weightKg! <= 0 || weightKg! > 1000)) {
       errors['weightKg'] = 'range';
+    }
     if (vaccinations.length > 100) errors['vaccinations'] = 'length';
     for (var i = 0; i < vaccinations.length; i++) {
-      if (!validApplicationDate(vaccinations[i].appliedOn, now: now))
+      if (!validApplicationDate(vaccinations[i].appliedOn, now: now)) {
         errors['vaccinations.$i.appliedOn'] = 'date';
+      }
       text('vaccinations.$i.vaccineType', vaccinations[i].vaccineType, 1, 120);
     }
     return Map.unmodifiable(errors);

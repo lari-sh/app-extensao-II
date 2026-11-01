@@ -18,6 +18,44 @@ void fill(AnimalEditorViewModel vm) {
 
 void main() {
   test(
+    'public editor rejects invalid input, preserves draft and clears optional values',
+    () async {
+      final vm = AnimalEditorViewModel(
+        FakeAnimalsRepository(),
+        now: () => DateTime.utc(2026, 10, 31, 12),
+      );
+      addTearDown(vm.dispose);
+      fill(vm);
+      vm.setLastDewormedOn('31/02/2024');
+      vm.setWeight('abc');
+      vm.addVaccination();
+      vm.setVaccinationDate(0, '01/11/2026');
+      vm.setVaccineType(0, 'V4');
+      await vm.save();
+      expect(
+        vm.state.errors.keys,
+        containsAll(['lastDewormedOn', 'weightKg', 'vaccinations.0.appliedOn']),
+      );
+      expect(vm.dewormingDateText, '31/02/2024');
+      vm.setLastDewormedOn('29/02/2024');
+      vm.setVaccinationDate(0, '29/02/2024');
+      vm.setWeight('4,25');
+      vm.setColor('Branca');
+      vm.setTemperament('Calma');
+      expect(
+        vm.state.draft.validate(now: DateTime.utc(2026, 10, 31, 12)),
+        isEmpty,
+      );
+      expect(vm.state.draft.lastDewormedOn, '2024-02-29');
+      vm.setLastDewormedOn('');
+      vm.setWeight('');
+      vm.removeVaccination(0);
+      expect(vm.state.draft.lastDewormedOn, isNull);
+      expect(vm.state.draft.weightKg, isNull);
+      expect(vm.state.draft.vaccinations, isEmpty);
+    },
+  );
+  test(
     'denied reconciliation keeps uncertain operation and failed load can be retried',
     () async {
       final repository = FakeAnimalsRepository()

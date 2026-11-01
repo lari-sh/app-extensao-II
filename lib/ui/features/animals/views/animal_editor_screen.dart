@@ -152,6 +152,83 @@ class AnimalEditorScreen extends StatelessWidget {
                       error: 'clinicalNotes',
                       lines: 3,
                     ),
+                    const Text(
+                      'Informações públicas',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    const Text(
+                      'Peso, cor, castração e temperamento aparecem na ficha pública. Vermifugação mostra somente a data; vacinação mostra data e tipo. Notas internas permanecem privadas.',
+                    ),
+                    const SizedBox(height: 16),
+                    field(
+                      'animalWeight',
+                      'Peso (kg)',
+                      viewModel.weightText,
+                      viewModel.setWeight,
+                      error: 'weightKg',
+                    ),
+                    const SizedBox(height: 16),
+                    field(
+                      'animalColor',
+                      'Cor',
+                      draft.color ?? '',
+                      viewModel.setColor,
+                      error: 'color',
+                    ),
+                    const SizedBox(height: 16),
+                    field(
+                      'animalTemperament',
+                      'Temperamento (público)',
+                      draft.temperament ?? '',
+                      viewModel.setTemperament,
+                      error: 'temperament',
+                    ),
+                    const SizedBox(height: 16),
+                    field(
+                      'animalLastDewormedOn',
+                      'Última vermifugação aplicada (DD/MM/AAAA)',
+                      viewModel.dewormingDateText,
+                      viewModel.setLastDewormedOn,
+                      error: 'lastDewormedOn',
+                    ),
+                    const SizedBox(height: 16),
+                    for (
+                      var index = 0;
+                      index < draft.vaccinations.length;
+                      index++
+                    )
+                      Column(
+                        children: [
+                          field(
+                            'vaccinationDate$index',
+                            'Data da vacina (DD/MM/AAAA)',
+                            viewModel.vaccinationDateText(index),
+                            (text) => viewModel.setVaccinationDate(index, text),
+                            error: 'vaccinations.$index.appliedOn',
+                          ),
+                          const SizedBox(height: 16),
+                          field(
+                            'vaccineType$index',
+                            'Tipo de vacina',
+                            draft.vaccinations[index].vaccineType,
+                            (text) => viewModel.setVaccineType(index, text),
+                            error: 'vaccinations.$index.vaccineType',
+                          ),
+                          TextButton(
+                            onPressed: viewModel.canEdit
+                                ? () => viewModel.removeVaccination(index)
+                                : null,
+                            child: const Text('Remover vacina'),
+                          ),
+                        ],
+                      ),
+                    TextButton.icon(
+                      onPressed: viewModel.canEdit
+                          ? viewModel.addVaccination
+                          : null,
+                      icon: const Icon(Icons.add),
+                      label: const Text('Adicionar vacina'),
+                    ),
                     SwitchListTile(
                       title: const Text('Vacinado'),
                       value: draft.isVaccinated,
