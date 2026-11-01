@@ -124,3 +124,12 @@ YAML validado com PyYAML isolado em .tools; bash -n nos dois blocos e guard
 exercitado com df simulado: 11 GiB rejeitados, 12 GiB aceitos. Nenhuma limpeza
 Linux executada no computador Windows. Validação real do runner segue em T116.
 Referência: [diagnóstico do emulador](https://developer.android.com/studio/run/emulator-troubleshooting).
+
+## Reserva de disco e jornadas confirmadas — 41358425256
+
+SHA a9ea9f2766de2b29c720fc5cdd80232246675ae9, developer: quatro gates aprovados,
+7/7 jornadas Android e artifact 13104752554 confirmado. Guard de espaço passou;
+boot em 32552 ms, com 87 GiB livres no runner antes da imagem. A limpeza ampliada
+não remove SDK Android, Java, Flutter ou dados de usuários; vale somente no job
+Linux descartável com guards github-hosted/Linux. Não ampliar o timeout como
+substituto de espaço disponível. Detalhes em validation.md e no registro da versão.

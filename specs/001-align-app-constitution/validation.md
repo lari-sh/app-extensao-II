@@ -1084,3 +1084,28 @@ a necessidade de nova execução Android/entrega. Este contexto atualiza somente
 documentação e tarefas; não altera workflow, aplicativo ou dados, nem repete
 testes locais de código inalterado. O push documental iniciará outra CI pelo
 gatilho existente; seu resultado não é antecipado neste registro.
+
+## T116 — validação Android e entrega concluídas
+
+Execução [41358425256](https://github.com/lari-sh/app-extensao-II/actions/runs/41358425256)
+concluída com success no SHA a9ea9f2766de2b29c720fc5cdd80232246675ae9, developer.
+Flutter, backend, Android e deliver aprovados. Logs: 273 testes Flutter, 256 testes
+pgTAP/12 arquivos, 12 testes de funções HTTP, jornadas HTTP de manejo/medicações e
+7/7 jornadas Android (catálogo, ficha pública, autenticação, painel, cadastro,
+calendário, contato). Nenhuma jornada removida ou erro transformado em aprovação.
+
+Causa da execução 41355629425 identificada: erro fatal por 6362.09 MB disponíveis
+contra 7372.80 MB necessários para userdata, anterior às recusas ADB e ao timeout.
+A correção em a9ea9f2 amplia a limpeza de ferramentas não usadas no runner e
+confere 12 GiB livres antes da imagem/AVD. YAML, Bash e limiar do guard conferidos.
+Na execução aprovada, df registrou 87 GiB livres antes da imagem; boot em 32552 ms.
+O espaço do runner varia: este resultado não prova margem igual em toda máquina.
+
+Artifact [13104752554](https://github.com/lari-sh/app-extensao-II/actions/runs/41358425256/artifacts/13104752554),
+abrigo-dos-anjos-android-debug, 76.794.188 bytes, não expirado na conferência;
+expira 08/11/2026 20:06:20 America/Sao_Paulo. Digest SHA-256 do pacote:
+3b62c331fcb59dfa917bf9890a7063af131eeb7b4510b7ed0d2f74c80fc01059.
+T116 concluída e T115 validada remotamente; registro da versão atualizado.
+T106/iOS permanece aberta. Sem implantação/assinatura de produção, merge na main
+ou expansão para outros abrigos. Este fechamento altera somente documentação;
+não repete testes locais do código já aprovado remotamente.
