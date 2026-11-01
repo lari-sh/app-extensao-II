@@ -1,9 +1,9 @@
 # Planejamento — dados públicos do animal cadastrados pela equipe
 
-Solicitado em 2026-10-31. Status: implementação iniciada, ainda não validada. Complementa a ficha
+Solicitado em 2026-10-31. Status: implementação e validação local concluídas; CI remota em acompanhamento. Complementa a ficha
 pública do protótipo screen-3 e não altera os 108 itens da adequação original.
 
-## Escopo e aceitação futura
+## Escopo e aceitação
 
 Complemento da responsável: incluir peso (kg), cor e vacinação (data e tipo),
 preservando castração pública. Vermifugação expõe somente a data; vacinação expõe

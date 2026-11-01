@@ -310,3 +310,22 @@ Referências das actions: [Supabase CLI](https://github.com/supabase/setup-cli),
 [Deno](https://github.com/denoland/setup-deno) e
 [Android Emulator Runner](https://github.com/ReactiveCircus/android-emulator-runner).
 Esteira criada não equivale a execução aprovada; conferir evidência em validation.md.
+
+
+## Dados públicos cadastrados pela equipe
+
+No cadastro/edição, preencha peso em kg, cor, temperamento e data da última
+vermifugação em DD/MM/AAAA. Use Adicionar vacina para registrar cada aplicação
+com data e tipo. Campos opcionais podem ser limpos; remova a aplicação para
+excluí-la da lista pública. Salvar não publica automaticamente o animal.
+
+Após salvar, publique pelo controle do editor ou pelo painel. Confira a ficha
+como visitante: vacinação mostra somente data/tipo, vermifugação somente data;
+notas internas e cuidados descritivos não aparecem. Campos ausentes mostram
+Não informado. Datas inválidas/futuras e peso inválido são rejeitados.
+
+Para reproduzir a validação Android local, use
+integration_test/animal_editor_flow_test.dart com o controlador temporário e a
+configuração pública descritos acima. A jornada verifica também a segunda sessão,
+a ficha pública e a limpeza dos valores. Evidências do incremento em
+[perfil público](../002-public-animal-profile/validation.md).
