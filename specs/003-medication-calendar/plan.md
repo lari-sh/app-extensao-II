@@ -1,8 +1,8 @@
 # Plano técnico — calendário de medicamentos
 
 Branch Git: developer. Feature documental: 003-medication-calendar.
-Data: 2026-10-31. Spec: [spec.md](spec.md). Estado: planejamento concluído,
-implementação pendente, com gate visual explícito antes das Views novas.
+Data: 2026-10-31. Spec: [spec.md](spec.md). Estado: implementação iniciada; design aprovado explicitamente em design-approval.md.
+Progresso e evidências em tasks.md e validation.md.
 Scripts executados com SPECIFY_FEATURE_DIRECTORY explícito e NO_PERSIST: não
 mudar a branch nem o contexto persistido da adequação anterior.
 
@@ -45,7 +45,7 @@ Sem comando offline, cron, notificações, Google/Outlook ou prescrição inferi
 | Regra de design da skill constituição | Conforme | T001 gate visual antes de novas Views; não alegar artboard inexistente |
 
 Revisão pós-desenho: sem conflito ou dispensa da constituição. A autorização visual
-permanece pendente como dependência operacional, sem impedir testes/modelos/backend.
+foi concedida explicitamente antes da implementação; preservar a referência aprovada.
 Não usar tabela de complexidade para autorizar mudança visual.
 
 ## Arquitetura e caminhos
