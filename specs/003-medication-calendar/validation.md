@@ -281,3 +281,17 @@ T036 concluída: 37/51 tarefas do calendário concluídas, 14 restantes. SQL/HTT
 locais aprovados neste estágio; 252 testes Flutter e análise sem problemas.
 CI remota e inclusão da jornada na esteira continuam pendentes de T046; nenhuma
 implantação em produção/iOS foi realizada. Edição/interrupção/correção são US4.
+
+## US4 — backend de revisão, interrupção e correção
+
+Migration aditiva 015 aplicada somente no Supabase local. Edição gera revisão
+imutável, incrementa treatment_version e cancela pending estritamente futuras após
+locks/corte. Passadas/realizadas preservadas; nova série somente após o corte.
+Stop exige versões, não cria revisão e não repete mutação ao já estar parado.
+Atrasadas continuam resolvíveis. Reverse exige motivo normalizado 1–500 caracteres,
+completed/versão atual e registra snapshot/autor/horário, sem apagar o evento original.
+
+35 testes SQL novos PASS; suíte completa 256 PASS em 12 arquivos. Incluem limites
+de motivo, replay, nova conclusão distinta, versões/estados, não duplicação ativa
+e restrição de visitante. T038/T040 concluídas. Concorrência/corte após espera da
+US4 e integração de interface permanecem pendentes em T037/T043 e T039/T041/T042.
