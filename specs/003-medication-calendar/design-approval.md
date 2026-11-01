@@ -1,9 +1,10 @@
 # Proposta visual — calendário de medicamentos
 
-Data: 2026-10-31. Estado: proposta desenhada, aguardando revisão da responsável.
-Autorização recebida: alterar somente o design. A implementação Flutter não foi
-iniciada e a nova composição não foi considerada aprovada automaticamente.
-T001 de tasks.md permanece pendente até aprovação explícita do resultado.
+Data: 2026-10-31. Estado: design aprovado explicitamente pela responsável.
+Aprovação: “Aprovo o design. Pode iniciar a implementação do calendário de
+medicamentos conforme o plano”. Referência: commit visual 4e738eb, telas 07/08/09.
+T001 concluída. A implementação está autorizada com testes, Android, documentação
+e commits por contexto na developer; novas alterações de layout exigem autorização.
 
 ## Artefatos
 
@@ -44,8 +45,8 @@ apenas seleção/espaços e as duas ligações de navegação acrescentadas. Nav
 a página servida validada: dashboard → calendário e ficha → programação.
 Flutter tests não foram executados: esta alteração modifica apenas o protótipo.
 
-## Revisão ainda necessária
+## Aprovação registrada
 
-A responsável deve revisar a composição do calendário, o formulário e os detalhes.
-A aprovação desta proposta, se dada depois, será registrada aqui antes das tarefas
-que implementam essas composições no app. Não usar silêncio como aprovação.
+A responsável aprovou a composição do calendário, o formulário e os detalhes
+antes da implementação. Não houve aprovação por silêncio. Manter esta referência
+na conferência visual do app, sem ampliar o escopo da autorização.

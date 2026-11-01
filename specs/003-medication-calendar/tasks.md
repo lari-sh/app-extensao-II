@@ -1,12 +1,12 @@
 # Tarefas — calendário de medicamentos
 
 Branch: developer. Origem: spec.md, plan.md, research.md, data-model.md e contracts/rpc.md.
-Todas as tarefas abaixo são de implementação e permanecem pendentes. Testes são obrigatórios.
+Implementação autorizada; marcar somente tarefas comprovadas. Testes são obrigatórios.
 C001–C007 de scope.md são resumos históricos; esta é a lista executável e autoritativa.
 
 ## Fase 1 — preparação
 
-- [ ] T001 Apresentar e registrar aprovação explícita da composição do calendário, editor de recorrência e detalhes em specs/003-medication-calendar/design-approval.md; comparar screen-5/screen-6 do protótipo e preservar topo/abas/cores. Bloqueia somente as Views novas. [003-FR-014]
+- [x] T001 Apresentar e registrar aprovação explícita da composição do calendário, editor de recorrência e detalhes em specs/003-medication-calendar/design-approval.md; comparar screen-5/screen-6 do protótipo e preservar topo/abas/cores. Bloqueia somente as Views novas. [003-FR-014]
 - [ ] T002 Conferir estrutura e fronteiras em test/architecture/layer_boundaries_test.dart e lib/app/public_dependencies.dart; usar dependências existentes sem alterar pubspec.yaml; registrar baseline em specs/003-medication-calendar/validation.md. [003-CR-001, 003-CR-004]
 - [ ] T003 Preparar fixtures/fakes locais e relógio injetável em test/support/fakes/fake_medications_repository.dart e test/support/fakes/fake_medications_service.dart, sem dados privados persistidos ou credenciais compiladas. [003-CR-002, 003-CR-003]
 
