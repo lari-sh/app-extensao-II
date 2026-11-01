@@ -209,3 +209,12 @@ Jornada Android ampliada: Voltar explícito da ficha ao painel e do painel à á
 do voluntário, além da navegação mês/dia; 1 teste PASS em 32 s. Massa descartável
 removida. Protótipo atualizado e testado em 320/390 px, sem erro JS; ações Voltar
 e logo centralizado verificados. T051 concluída: 29/51 tarefas, 22 restantes.
+
+## APK normal aberto para teste manual
+
+APK debug reinstalado após integration_test; conexão ADB recuperada e app normal
+confirmado visualmente na aba Calendário com Voltar visível. Captura nativa:
+[evidence/android-calendar.png](evidence/android-calendar.png). Agenda vazia reflete
+a limpeza da massa de testes, sem inserir tratamentos fictícios permanentes.
+Protótipo sincronizado também no projeto local do Open Design. Sem alterações
+pendentes de código; não foi realizada implantação em produção.
