@@ -27,6 +27,41 @@ void main() {
     schedule: MedicationSchedule(startsOn: '2026-11-01', endsOn: '2026-11-02'),
   );
   test(
+    'persisted interval units and civil picker values remain consistent',
+    () async {
+      final repository = FakeMedicationsRepository()
+        ..handler = (_, _) async => const Success(MedicationTreatmentPage());
+      final vm = MedicationEditorViewModel(repository);
+      addTearDown(vm.dispose);
+      await vm.bindAnimal(medicationAnimalId, 'Atena');
+      vm.beginEdit(
+        treatment.copyWith(
+          schedule: treatment.schedule.copyWith(
+            mode: MedicationScheduleMode.interval,
+            fixedTimes: [],
+            intervalMinutes: 30,
+          ),
+        ),
+      );
+      expect(vm.state.intervalInHours, false);
+      expect(vm.state.intervalInput, '30');
+      vm.setMode(MedicationScheduleMode.interval);
+      expect(vm.state.draft.schedule.intervalMinutes, 30);
+      vm.setMode(MedicationScheduleMode.fixedTimes);
+      vm.setMode(MedicationScheduleMode.interval);
+      expect(vm.state.intervalInput, '8');
+      expect(vm.state.intervalInHours, true);
+      vm.setIntervalUnit(false);
+      expect(vm.state.draft.schedule.intervalMinutes, 8);
+      vm.setPickedDate(true, DateTime(2026, 11, 1));
+      vm.setPickedTime(null, true, 9, 30);
+      expect(vm.startDateText, '01/11/2026');
+      expect(vm.state.draft.schedule.startsTime, '09:30');
+      expect(vm.pickerTime('invalid'), (hour: 8, minute: 0));
+      expect(vm.pickerTime('09:30'), (hour: 9, minute: 30));
+    },
+  );
+  test(
     'same-user epoch change keeps uncertain submission for explicit reconciliation',
     () async {
       var epoch = 0;

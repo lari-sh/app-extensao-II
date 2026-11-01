@@ -1,3 +1,5 @@
+import '../../medications/view_models/medication_editor_view_model.dart';
+import '../../medications/views/medication_editor_panel.dart';
 import '../view_models/dashboard_view_model.dart';
 import 'animal_management_controls.dart';
 import '../../photos/view_models/photo_upload_view_model.dart';
@@ -13,7 +15,9 @@ class AnimalEditorScreen extends StatelessWidget {
     required this.viewModel,
     this.photoViewModel,
     this.managementViewModel,
+    this.medicationViewModel,
   });
+  final MedicationEditorViewModel? medicationViewModel;
   final PhotoUploadViewModel? photoViewModel;
   final DashboardViewModel? managementViewModel;
   final AnimalEditorViewModel viewModel;
@@ -296,6 +300,8 @@ class AnimalEditorScreen extends StatelessWidget {
                       icon: const Icon(Icons.add),
                       label: const Text('Adicionar cuidado'),
                     ),
+                    if (medicationViewModel != null)
+                      MedicationEditorPanel(viewModel: medicationViewModel!),
                     if (photoViewModel != null)
                       PhotoUploadPanel(viewModel: photoViewModel!),
                     if (state.saving) const LinearProgressIndicator(),

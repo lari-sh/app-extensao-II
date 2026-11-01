@@ -1,3 +1,8 @@
+import 'dart:async';
+import '../domain/repositories/medications_repository.dart';
+import '../domain/models/medication_treatment.dart';
+import '../ui/features/medications/view_models/medication_editor_view_model.dart';
+import '../ui/features/medications/views/medication_editor_panel.dart';
 import '../ui/features/photos/view_models/photo_upload_view_model.dart';
 import '../ui/features/photos/view_models/photo_recovery_view_model.dart';
 import '../ui/features/animals/view_models/animal_editor_view_model.dart';
@@ -36,7 +41,9 @@ class AppRouter {
     this.auth,
     this.session,
     this.recovery,
+    this.medications,
   });
+  final MedicationsRepository? medications;
   final PhotoRecoveryViewModel? recovery;
   final AuthRepository? auth;
   final SessionViewModel? session;
@@ -65,6 +72,7 @@ class AppRouter {
       case '/volunteer':
       case '/animal-editor':
       case '/animal-management':
+      case '/medication-editor':
         final access = session;
         final repository = auth;
         if (access == null || repository == null) {
@@ -94,12 +102,69 @@ class AppRouter {
             session: access,
             login: vm,
             privateBuilder: () {
-              Future<bool> authorize() async {
-                await access.revalidate();
-                return access.state.canAccessPrivate;
+              Future<bool>? accessCheck;
+              Future<bool> authorize() {
+                return accessCheck ??= (() async {
+                  await access.revalidate();
+                  return access.state.canAccessPrivate;
+                })().whenComplete(() => accessCheck = null);
+              }
+
+              MedicationEditorViewModel createMedicationEditor() {
+                late final MedicationEditorViewModel editor;
+                editor = MedicationEditorViewModel(
+                  medications!,
+                  animals: animals,
+                  isAuthorized: () => access.state.canAccessPrivate,
+                  accessEpoch: () => access.state.accessEpoch,
+                  privateGeneration: () => access.state.privateGeneration,
+                  authorize: authorize,
+                  onDispose: () => access.removeListener(editor.refreshAccess),
+                );
+                access.addListener(editor.refreshAccess);
+                return editor;
+              }
+
+              if (settings.name == '/medication-editor') {
+                final args = settings.arguments;
+                if (medications == null ||
+                    args is! Map ||
+                    args['animalId'] is! String ||
+                    !isMedicationIdentifier(args['animalId'] as String) ||
+                    (args['treatmentId'] != null &&
+                        (args['treatmentId'] is! String ||
+                            !isMedicationIdentifier(
+                              args['treatmentId'] as String,
+                            )))) {
+                  return const Scaffold(
+                    body: Center(
+                      child: Text('Programação indisponível para este animal.'),
+                    ),
+                  );
+                }
+                final medication = createMedicationEditor();
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  unawaited(
+                    medication
+                        .bindAnimal(args['animalId'] as String, '')
+                        .then(
+                          (_) => medication.openTreatment(
+                            args['treatmentId'] as String?,
+                          ),
+                        ),
+                  );
+                });
+                return ChangeNotifierProvider<MedicationEditorViewModel>(
+                  create: (_) => medication,
+                  lazy: false,
+                  child: MedicationProgrammingScreen(viewModel: medication),
+                );
               }
 
               if (settings.name == '/animal-editor') {
+                final medication = medications == null
+                    ? null
+                    : createMedicationEditor();
                 final editor = AnimalEditorViewModel(
                   animals,
                   isAuthorized: () => access.state.canAccessPrivate,
@@ -117,6 +182,14 @@ class AppRouter {
                 var formVersion = -1;
                 String? boundId;
                 void synchronize() {
+                  if (medication != null) {
+                    unawaited(
+                      medication.bindAnimal(
+                        editor.state.draft.id,
+                        editor.state.draft.name,
+                      ),
+                    );
+                  }
                   if (formVersion != editor.state.formVersion ||
                       boundId != editor.state.draft.id) {
                     formVersion = editor.state.formVersion;
@@ -151,6 +224,11 @@ class AppRouter {
                 });
                 return MultiProvider(
                   providers: [
+                    if (medication != null)
+                      ChangeNotifierProvider<MedicationEditorViewModel>(
+                        create: (_) => medication,
+                        lazy: false,
+                      ),
                     ChangeNotifierProvider<DashboardViewModel>(
                       create: (_) => management,
                       lazy: false,
@@ -168,6 +246,7 @@ class AppRouter {
                     viewModel: editor,
                     photoViewModel: photo,
                     managementViewModel: management,
+                    medicationViewModel: medication,
                   ),
                 );
               }

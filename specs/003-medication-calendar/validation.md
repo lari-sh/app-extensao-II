@@ -86,3 +86,22 @@ mesmo usuário. Logout/troca de geração limpa estado privado. Edição/interru
 são coordenadas pelo VM; RPCs de revisão continuam pendentes da US4.
 Suíte completa: 208 testes Flutter PASS. Análise final: No issues found.
 Sem pacote novo. Interface aprovada e jornada Android ainda não integradas.
+
+
+## Formulário aprovado e composição protegida
+
+Painel Medicações em uso integrado à ficha, com rota privada própria para Programar
+medicação. A rota usa ProtectedScope e é removida da pilha no logout; recebe somente
+identificadores e carrega o nome confirmado via Repository no ViewModel.
+Os campos preservam cabeçalho/paleta, período, dois modos e ações do desenho aprovado.
+Seletores nativos de data/hora enviam eventos ao VM; unidades persistidas são
+reconstruídas corretamente. A prévia não inventa datas: informa a programação e
+explica que a agenda será confirmada ao salvar, pois geração IANA cabe ao servidor.
+
+Widget Tests: criação confirmada, formulário compacto em 320 px com texto 1,4×,
+seleção por intervalo/erros e aplicação real removendo rascunho/rota no logout.
+Revalidação concorrente dos componentes da mesma rota é coordenada na composição,
+sem chamadas em build. Binding da medicação não depende de formVersion da ficha.
+Suíte completa 212 Flutter PASS; análise final sem problemas. Testes de unidade
+adicionais cobrem unidades/seletores. Android e prova com duas sessões reais da US1
+seguem pendentes de T020; a aba calendário ainda pertence à US2.

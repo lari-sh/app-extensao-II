@@ -70,6 +70,7 @@ class _AuthApplicationState extends State<AuthApplication>
                   '/volunteer',
                   '/animal-editor',
                   '/animal-management',
+                  '/medication-editor',
                 }.contains(route.settings.name),
               )
               .toList()

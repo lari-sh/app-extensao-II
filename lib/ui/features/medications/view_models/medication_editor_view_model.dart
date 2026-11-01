@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../../domain/models/medication_treatment.dart';
+import '../../../../domain/models/animal.dart';
+import '../../../../domain/repositories/animals_repository.dart';
 import '../../../../domain/models/medication_schedule.dart';
 import '../../../../domain/models/medication_agenda.dart';
 import '../../../../domain/models/medication_application.dart';
@@ -26,6 +28,8 @@ abstract class MedicationEditorState with _$MedicationEditorState {
     @Default(false) bool canRetryPending,
     @Default({}) Map<String, String> errors,
     @Default(0) int formVersion,
+    @Default(true) bool intervalInHours,
+    @Default('8') String intervalInput,
     String? cursor,
     String? confirmedTreatmentId,
     String? message,
@@ -35,17 +39,23 @@ abstract class MedicationEditorState with _$MedicationEditorState {
 class MedicationEditorViewModel extends ChangeNotifier {
   MedicationEditorViewModel(
     this.repository, {
+    AnimalsRepository? animals,
+    VoidCallback? onDispose,
     bool Function()? isAuthorized,
     int Function()? accessEpoch,
     int Function()? privateGeneration,
     Future<bool> Function()? authorize,
-  }) : _isAuthorized = isAuthorized ?? _allowed,
+  }) : _animals = animals,
+       _onDispose = onDispose,
+       _isAuthorized = isAuthorized ?? _allowed,
        _accessEpoch = accessEpoch ?? _zero,
        _privateGeneration = privateGeneration ?? _zero,
        _authorize = authorize {
     _boundGeneration = _privateGeneration();
   }
   final MedicationsRepository repository;
+  final AnimalsRepository? _animals;
+  final VoidCallback? _onDispose;
   final bool Function() _isAuthorized;
   final int Function() _accessEpoch;
   final int Function() _privateGeneration;
@@ -70,6 +80,15 @@ class MedicationEditorViewModel extends ChangeNotifier {
       !state.saving &&
       !state.uncertain &&
       !state.loadFailed;
+  String get animalDisplayName =>
+      state.animalName.trim().isEmpty ? 'Animal do abrigo' : state.animalName;
+  String get animalInitial =>
+      String.fromCharCodes(animalDisplayName.runes.take(1));
+  bool get canLeave => !_disposed && !state.saving && !state.uncertain;
+  bool get canReconcile =>
+      !_disposed && _isAuthorized() && state.uncertain && !state.saving;
+  bool canModify(MedicationTreatment treatment) =>
+      canEdit && treatment.status == MedicationTreatmentStatus.active;
   bool get canLoadMore => canEdit && state.cursor != null;
   String get startDateText => state.draft.schedule.startsOn.isEmpty
       ? ''
@@ -77,6 +96,46 @@ class MedicationEditorViewModel extends ChangeNotifier {
   String get endDateText => state.draft.schedule.endsOn.isEmpty
       ? ''
       : displayDate(state.draft.schedule.endsOn);
+  DateTime get firstPickerDate => DateTime(2000);
+  DateTime get lastPickerDate => DateTime(2100, 12, 31);
+  DateTime? pickerDate(bool start) => DateTime.tryParse(
+    canonicalDate(
+          start ? state.draft.schedule.startsOn : state.draft.schedule.endsOn,
+        ) ??
+        '',
+  );
+  ({int hour, int minute}) pickerTime(String value) {
+    if (!MedicationSchedule.validTime(value)) return (hour: 8, minute: 0);
+    return (
+      hour: int.parse(value.substring(0, 2)),
+      minute: int.parse(value.substring(3, 5)),
+    );
+  }
+
+  void setPickedDate(bool start, DateTime value) {
+    final text =
+        '${value.year.toString().padLeft(4, '0')}-${value.month.toString().padLeft(2, '0')}-${value.day.toString().padLeft(2, '0')}';
+    if (start) {
+      setStartDate(text);
+    } else {
+      setEndDate(text);
+    }
+    if (canEdit) _publish(state.copyWith(formVersion: state.formVersion + 1));
+  }
+
+  void setPickedTime(int? index, bool start, int hour, int minute) {
+    final text =
+        '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}';
+    if (index != null) {
+      setTime(index, text);
+    } else if (start) {
+      setStartTime(text);
+    } else {
+      setEndTime(text);
+    }
+    if (canEdit) _publish(state.copyWith(formVersion: state.formVersion + 1));
+  }
+
   String scheduleLabel(MedicationTreatment t) =>
       t.schedule.mode == MedicationScheduleMode.fixedTimes
       ? t.schedule.fixedTimes.join(' e ')
@@ -147,7 +206,7 @@ class MedicationEditorViewModel extends ChangeNotifier {
         state.loading ||
         state.saving ||
         state.uncertain ||
-        !_isAuthorized() ||
+        (!_isAuthorized() && _authorize == null) ||
         (more && state.cursor == null)) {
       return;
     }
@@ -166,6 +225,20 @@ class MedicationEditorViewModel extends ChangeNotifier {
         return;
       }
       final epoch = _accessEpoch();
+      if (state.animalName.isEmpty && _animals != null) {
+        final animal = await _animals.getManagement(id);
+        if (!_current(request, epoch)) return;
+        if (animal case Failure<ManagedAnimal>(:final failure)) {
+          _publish(state.copyWith(loadFailed: true));
+          await _failure(failure);
+          return;
+        }
+        _publish(
+          state.copyWith(
+            animalName: (animal as Success<ManagedAnimal>).value.animal.name,
+          ),
+        );
+      }
       final result = await repository.listTreatments(id, cursor: cursor);
       if (!_current(request, epoch)) return;
       switch (result) {
@@ -205,6 +278,25 @@ class MedicationEditorViewModel extends ChangeNotifier {
     }
   }
 
+  Future<void> openTreatment(String? treatmentId) async {
+    if (treatmentId == null) {
+      startCreate();
+      return;
+    }
+    while (canLoadMore &&
+        !state.treatments.any((item) => item.id == treatmentId)) {
+      final before = state.cursor;
+      await load(more: true);
+      if (state.cursor == before) break;
+    }
+    final matching = state.treatments.where((item) => item.id == treatmentId);
+    if (matching.isEmpty) {
+      _publish(state.copyWith(message: 'Tratamento não encontrado.'));
+      return;
+    }
+    beginEdit(matching.first);
+  }
+
   void startCreate() {
     if (!canEdit) return;
     _operation.complete();
@@ -231,6 +323,15 @@ class MedicationEditorViewModel extends ChangeNotifier {
       state.copyWith(
         hasDraft: true,
         draft: _draft(treatment),
+        intervalInHours:
+            treatment.schedule.intervalMinutes == null ||
+            treatment.schedule.intervalMinutes! % 60 == 0,
+        intervalInput: treatment.schedule.intervalMinutes == null
+            ? '8'
+            : (treatment.schedule.intervalMinutes! % 60 == 0
+                      ? treatment.schedule.intervalMinutes! ~/ 60
+                      : treatment.schedule.intervalMinutes!)
+                  .toString(),
         formVersion: state.formVersion + 1,
         errors: {},
         message: null,
@@ -284,24 +385,35 @@ class MedicationEditorViewModel extends ChangeNotifier {
       _schedule(state.draft.schedule.copyWith(startsTime: value));
   void setEndTime(String value) =>
       _schedule(state.draft.schedule.copyWith(endsTime: value));
-  void setMode(MedicationScheduleMode mode) => _schedule(
-    state.draft.schedule.copyWith(
-      mode: mode,
-      fixedTimes: mode == MedicationScheduleMode.fixedTimes
-          ? ['08:00', '20:00']
-          : [],
-      intervalMinutes: mode == MedicationScheduleMode.interval ? 480 : null,
-    ),
-  );
+  void setMode(MedicationScheduleMode mode) {
+    if (!canEdit || !state.hasDraft || mode == state.draft.schedule.mode) {
+      return;
+    }
+    _schedule(
+      state.draft.schedule.copyWith(
+        mode: mode,
+        fixedTimes: mode == MedicationScheduleMode.fixedTimes
+            ? ['08:00', '20:00']
+            : [],
+        intervalMinutes: mode == MedicationScheduleMode.interval ? 480 : null,
+      ),
+    );
+    _publish(state.copyWith(intervalInHours: true, intervalInput: '8'));
+  }
+
   void setInterval(String value, {required bool hours}) {
     final parsed = int.tryParse(value);
+    if (!canEdit || !state.hasDraft) return;
     _schedule(
       state.draft.schedule.copyWith(
         intervalMinutes: parsed == null ? null : parsed * (hours ? 60 : 1),
       ),
     );
+    _publish(state.copyWith(intervalInHours: hours, intervalInput: value));
   }
 
+  void setIntervalUnit(bool hours) =>
+      setInterval(state.intervalInput, hours: hours);
   void addTime() {
     if (state.draft.schedule.fixedTimes.length < 24) {
       _schedule(
@@ -523,6 +635,7 @@ class MedicationEditorViewModel extends ChangeNotifier {
   void dispose() {
     _disposed = true;
     _clear();
+    _onDispose?.call();
     super.dispose();
   }
 }

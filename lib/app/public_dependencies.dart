@@ -1,3 +1,7 @@
+import '../domain/repositories/medications_repository.dart';
+import '../data/services/medications_service.dart';
+import '../data/services/supabase_medications_service.dart';
+import '../data/repositories/medications_repository_impl.dart';
 import '../data/services/gallery_service.dart';
 import '../data/services/image_picker_gallery_service.dart';
 import '../ui/features/photos/view_models/photo_recovery_view_model.dart';
@@ -43,6 +47,8 @@ Widget createPublicApplication(SupabaseClient client) {
   );
   final clipboardService = FlutterClipboardService();
   final animals = AnimalsRepositoryImpl(animalsService);
+  final medicationService = SupabaseMedicationsService(client);
+  final medications = MedicationsRepositoryImpl(medicationService);
   final favorites = FavoritesRepositoryImpl(favoritesService);
   final gallery = ImagePickerGalleryService();
   final photos = PhotoRepositoryImpl(photosService, gallery: gallery);
@@ -69,6 +75,7 @@ Widget createPublicApplication(SupabaseClient client) {
     favorites: favorites,
     photos: photos,
     adoption: adoption,
+    medications: medications,
   );
   return const AppDependencies().provide(
     registrations: [
@@ -84,6 +91,8 @@ Widget createPublicApplication(SupabaseClient client) {
         lazy: false,
       ),
       Provider<AnimalsService>.value(value: animalsService),
+      Provider<MedicationsService>.value(value: medicationService),
+      Provider<MedicationsRepository>.value(value: medications),
       Provider<PhotoApiService>.value(value: photosService),
       Provider<FavoritesStorageService>.value(value: favoritesService),
       Provider<ClipboardService>.value(value: clipboardService),
