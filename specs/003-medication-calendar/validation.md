@@ -390,3 +390,14 @@ limitações; removidas afirmações obsoletas de funcionalidades ainda inexiste
 T047/T049 concluídas: 48/51 tarefas. T046/T048/T050 dependem da confirmação final
 de CI/artifact e revisão de entrega. iOS requer validação própria em Mac/Xcode.
 A proposta de contato/link público continua separada, sem implementação Flutter.
+
+## CI — sincronização do login no dispositivo menor
+
+Execução [41278619887](https://github.com/lari-sh/app-extensao-II/actions/runs/41278619887):
+Flutter e backend PASS, incluindo o harness HTTP de medicações. O runner Android
+iniciou normalmente após a liberação de disco; as jornadas de manejo e cadastro
+passaram. Medicações falhou em ensureVisible no botão de login, ausente da árvore
+da ListView lazy após fechar o teclado. O teste agora usa scrollUntilVisible para
+construir e revelar o botão, preservando o layout e a lógica de autenticação.
+Jornada completa repetida localmente no Android: PASS em 47 s. A nova execução
+remota e o artifact continuam pendentes; T046/T048 permanecem abertas.

@@ -167,7 +167,13 @@ void main() {
       );
       FocusManager.instance.primaryFocus?.unfocus();
       await tester.pumpAndSettle();
-      await tester.ensureVisible(find.text('Entrar no painel'));
+      // The login uses a lazy ListView: hiding the keyboard can dispose the
+      // submit row until the viewport is scrolled on smaller Android devices.
+      await tester.scrollUntilVisible(
+        find.text('Entrar no painel'),
+        160,
+        scrollable: find.byType(Scrollable).first,
+      );
       await tester.pumpAndSettle();
       await tester.tap(find.text('Entrar no painel'));
       await tester.pumpAndSettle();
