@@ -67,3 +67,18 @@ Estado da revisão: aguardando aprovação. Sem implementação Flutter deste fl
 Validação da revisão: 320/390 px, mensagem/cartão vinculados ao nome da ficha,
 características públicas preservadas, clique da prévia voltando ao mesmo animal
 e três contatos oficiais conferidos. Sem erro JS/overflow. Aprovação ainda pendente.
+
+
+## Revisão sem prévia — DESIGN-CONTACT-003
+
+Em 2026-11-01, usuário rejeitou a prévia de mensagem anexada à tela e autorizou
+removê-la do protótipo. Esta revisão substitui a composição visual de
+DESIGN-CONTACT-002: sem mensagem, cartão de link ou características anexadas.
+Permanecem logo, contexto com nome do animal, três canais oficiais e retornos à ficha.
+Dados e link do animal devem compor somente a mensagem preparada ao abrir o WhatsApp,
+revisada e enviada pelo usuário. A definição de endereço público e App Links continua
+no planejamento futuro; nenhum link definitivo é inventado no protótipo.
+
+Estado: aguardando avaliação e aprovação explícita desta revisão; sem alteração Flutter.
+
+Validação DESIGN-CONTACT-003: 320/390 px, entrada e ambos os retornos, três URLs oficiais, sem overflow horizontal ou erros JavaScript; captura atualizada e inspecionada visualmente.
