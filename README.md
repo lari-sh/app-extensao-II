@@ -119,8 +119,9 @@ computador: Abrigo_Anjos_Test_API37; o AVD original foi preservado.
 
 
 A ficha pública segue o artboard de detalhes: foto ampla, características, história,
-quadro público, coração de favoritos e contato por cópia de mensagem. Vermifugação
-e temperamento aparecem como cadastro em planejamento; definição e tarefas futuras
-em [perfil público](specs/002-public-animal-profile/plan.md). Nenhum prontuário
-interno é usado para preencher esses campos. O protótipo foi atualizado somente
-com as alterações visuais explicitamente autorizadas.
+quadro público, coração de favoritos e contato por cópia de mensagem. O administrador
+cadastra peso (kg), cor, castração, temperamento, data da última vermifugação e
+aplicações de vacina (somente data e tipo públicos). Campos opcionais ausentes
+aparecem como Não informado; o indicador antigo de vacinação não inventa aplicações.
+Nenhum prontuário interno é usado para preencher esses campos. Contrato, tarefas
+e evidências em [perfil público](specs/002-public-animal-profile/plan.md).

@@ -12,7 +12,7 @@ Abrigo_Anjos_Test_API37. Nenhuma migração aplicada em produção.
   anônima, ficha com peso/cor/vacina, limpeza de data/peso e reabertura do editor.
   Notas internas preservadas e ausentes da ficha. O teste usa credencial descartável
   obtida em runtime pelo controlador local, sem gravá-la no APK.
-- Regressão visitante e reinstalação do APK normal: em execução.
+- Regressão visitante aprovada em 10 segundos: ficha, foto, favoritos, cópia e fechamento. APK normal compilado, instalado com sucesso e aberto no emulador. Dados descartáveis do editor removidos.
 - Geração Freezed determinística e formato de 176 arquivos sem alterações.
 
 Os registros públicos de vacina contêm apenas data e tipo. Notas e cuidados

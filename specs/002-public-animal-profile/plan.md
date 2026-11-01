@@ -36,7 +36,7 @@ O indicador legado de vacinação não é uma fonte para preencher data/tipo.
 6. Nenhuma dependência Flutter nova é necessária. Atualizar geração, documentação,
    testes e CI antes de marcar esta funcionalidade concluída.
 
-## Tarefas futuras (não executadas)
+## Tarefas e situação atual
 
 - [x] P001 Especificar critérios de data, edição/limpeza e exposição pública com exemplos.
 - [x] P002 Escrever pgTAP de permissões, limites, data futura, idempotência e compatibilidade.
@@ -52,12 +52,12 @@ O indicador legado de vacinação não é uma fonte para preencher data/tipo.
   doses, notas, prescrições ou autoria; preservar RLS e idempotência.
 - [x] P011 Integrar peso, cor e vacinação às camadas MVVM e ao cadastro/ficha pública,
   com testes unitários e de interface; preservar o desenho autorizado.
-- [ ] P012 Validar os campos adicionais no Android e em segunda sessão, atualizar
+- [x] P012 Validar os campos adicionais no Android e em segunda sessão, atualizar
   documentação e publicar os contextos validados na developer.
 
-Enquanto planejados, a ficha identifica as duas informações como Cadastro em
-planejamento. O quadro usa somente os booleanos públicos de vacinação/castração
-já disponíveis. O app continua com uma foto principal, sem carrossel fictício.
+A ficha apresenta os dados públicos confirmados pelo backend. Ausências aparecem
+como Não informado; vacinação usa aplicações com data/tipo, sem inferir valores
+do booleano legado. O app mantém uma foto principal e o painel em duas colunas.
 
 ## Contrato público definido
 
@@ -68,12 +68,16 @@ remove as aplicações públicas. Não gerar aplicações a partir do booleano l
 Omissão preserva valores; null explícito limpa campos opcionais. A lista de vacinas
 é substituída atomicamente pelo editor, como os demais dados do animal.
 
-Backend validado: 127 testes pgTAP passaram em 7 arquivos, incluindo os 28 casos
-públicos. Migrações 009/010 aplicadas somente no Supabase local. Android e Flutter
-continuam pendentes para este incremento.
+## Validação atual
 
-Camada de dados Flutter: 77 testes de domínio/dados aprovados; DTO compatível com respostas legadas e lista pública restrita a data/tipo. Modelos Freezed gerados. Validação civil não depende do fuso do aparelho; servidor permanece autoridade para America/Sao_Paulo.
+- Supabase local: 127 testes pgTAP aprovados em sete arquivos (28 do perfil público).
+- Flutter: 181 testes aprovados, análise limpa, geração determinística e formatação
+  de 176 arquivos sem alterações. Nenhuma dependência nova.
+- Android API 37: jornada de cadastro/edição/ficha aprovada (36 s) e jornada
+  visitante aprovada (10 s); confirmação em segunda sessão e leitura anônima.
+- APK debug normal reinstalado e aberto no emulador. Dados descartáveis removidos.
+- CI inclui a jornada do editor. P008 permanece pendente até confirmar a execução
+  remota; não confundir os resultados locais com a entrega do artifact.
 
-Interface e ViewModels: 179 testes Flutter aprovados e flutter analyze sem problemas. Ficha mantém o painel de duas colunas e passa a mostrar dados confirmados, com Não informado na ausência. Cadastro utiliza os campos existentes e entradas públicas separadas do prontuário. Validação Android em execução.
-
-Jornada Android de cadastro/edição e ficha aprovada em 36 segundos, incluindo leitura anônima e segunda sessão. Evidências detalhadas em validation.md. P008 permanece pendente até confirmação da execução remota da CI.
+Evidências e limites em validation.md. Migrações aplicadas somente no ambiente
+local. Não foi realizada validação iOS nem implantação em produção.
