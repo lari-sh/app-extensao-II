@@ -43,3 +43,19 @@ Suíte completa: 192 testes Flutter aprovados, flutter analyze sem problemas.
 Erros SQL, AuthException, timeout e rede continuam tipados/sanitizados por Result.
 As chamadas foram verificadas com HTTP controlado: as RPCs reais do calendário
 continuam na próxima etapa; não confundir essa aprovação com integração funcional.
+
+
+## Geração e gravação de tratamentos
+
+Migração 012 aplicada somente localmente. Teste de contrato executado primeiro em
+vermelho pela ausência das RPCs; depois 19 casos de programação aprovados.
+Suíte completa pgTAP: 168 testes em nove arquivos, sem falhas. Casos: fixos e
+intervalos, limites inclusivos, meia-noite, datas inválidas, gaps/folds IANA de
+São Paulo, horários duplicados, 10.000 aplicações e rollback do excesso,
+campos de autoria indevidos, período/intervalo inválidos, digest/replay/conflito,
+listagem e recibo privado negado após revogação.
+Resolver civil e geração ficam no servidor; o corpo da RPC fixa UTC e preserva
+America/Sao_Paulo no contrato. A verificação de sessão da medicação usa relógio
+real também após esperas/generação. Recibo e contador são transacionais.
+Nesta etapa save cria tratamentos e rejeita edição; revisão/interrupção pertencem
+à US4. Integração Repository/VM/tela e Android ainda pendentes.
