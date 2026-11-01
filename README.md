@@ -116,3 +116,11 @@ Matriz SC-001 a SC-008 e limitações em [validation](specs/001-align-app-consti
 Calendário, recuperação de senha e opção configurável de persistência de login
 continuam planejados, sem serem apresentados como funcionais. AVD atual deste
 computador: Abrigo_Anjos_Test_API37; o AVD original foi preservado.
+
+
+A ficha pública segue o artboard de detalhes: foto ampla, características, história,
+quadro público, coração de favoritos e contato por cópia de mensagem. Vermifugação
+e temperamento aparecem como cadastro em planejamento; definição e tarefas futuras
+em [perfil público](specs/002-public-animal-profile/plan.md). Nenhum prontuário
+interno é usado para preencher esses campos. O protótipo foi atualizado somente
+com as alterações visuais explicitamente autorizadas.

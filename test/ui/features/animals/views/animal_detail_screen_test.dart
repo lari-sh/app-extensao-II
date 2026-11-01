@@ -24,6 +24,16 @@ void main() {
     expect(find.text('Vacinas'), findsOneWidget);
     expect(find.text('Castrado'), findsOneWidget);
     expect(find.text('Cadastro em planejamento'), findsNWidgets(2));
+    final firstTile = find
+        .ancestor(of: find.text('Vacinas'), matching: find.byType(Container))
+        .first;
+    final secondTile = find
+        .ancestor(
+          of: find.text('Vermifugado'),
+          matching: find.byType(Container),
+        )
+        .first;
+    expect(tester.getSize(firstTile).height, tester.getSize(secondTile).height);
     expect(find.byType(AppBar), findsNothing);
     await tester.tap(find.text('Entrar em contato para adoção'));
     await tester.pumpAndSettle();

@@ -198,60 +198,12 @@ class AnimalDetailScreen extends StatelessWidget {
                                         ),
                                       ),
                                       const SizedBox(height: 14),
-                                      LayoutBuilder(
-                                        builder: (context, width) => Wrap(
-                                          spacing: 8,
-                                          runSpacing: 8,
-                                          children: [
-                                            for (final info
-                                                in viewModel
-                                                    .state
-                                                    .publicInformation
-                                                    .entries)
-                                              SizedBox(
-                                                width: (width.maxWidth - 8) / 2,
-                                                child: Container(
-                                                  padding:
-                                                      const EdgeInsets.symmetric(
-                                                        horizontal: 12,
-                                                        vertical: 10,
-                                                      ),
-                                                  decoration: BoxDecoration(
-                                                    color: _soft,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                          10,
-                                                        ),
-                                                  ),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Text(
-                                                        info.key,
-                                                        style: const TextStyle(
-                                                          fontSize: 9,
-                                                          letterSpacing: 0.6,
-                                                          color: _muted,
-                                                        ),
-                                                      ),
-                                                      const SizedBox(height: 4),
-                                                      Text(
-                                                        info.value,
-                                                        style: const TextStyle(
-                                                          fontSize: 13,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          color: _brown,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                          ],
-                                        ),
+                                      _informationGrid(
+                                        viewModel
+                                            .state
+                                            .publicInformation
+                                            .entries
+                                            .toList(),
                                       ),
                                     ],
                                     if (!viewModel.state.hasAnimal &&
@@ -350,6 +302,58 @@ class AnimalDetailScreen extends StatelessWidget {
           ),
         ],
       ),
+    ),
+  );
+  Widget _informationGrid(List<MapEntry<String, String>> entries) => Column(
+    children: [
+      for (var index = 0; index < entries.length; index += 2)
+        Padding(
+          padding: const EdgeInsets.only(bottom: 8),
+          child: IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(child: _informationTile(entries[index])),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: index + 1 < entries.length
+                      ? _informationTile(entries[index + 1])
+                      : const SizedBox.shrink(),
+                ),
+              ],
+            ),
+          ),
+        ),
+    ],
+  );
+  Widget _informationTile(MapEntry<String, String> info) => Container(
+    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+    decoration: BoxDecoration(
+      color: _soft,
+      borderRadius: BorderRadius.circular(10),
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          info.key,
+          style: const TextStyle(
+            fontSize: 9,
+            letterSpacing: 0.6,
+            color: _muted,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          info.value,
+          style: const TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.w600,
+            color: _brown,
+          ),
+        ),
+      ],
     ),
   );
   Widget _placeholder() => Center(

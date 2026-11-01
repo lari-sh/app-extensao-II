@@ -136,4 +136,29 @@ void main() {
       expect(vm.state.isFavorite, false);
     },
   );
+  test(
+    'favorite storage failure is visible and reload can recover without losing public boundaries',
+    () async {
+      final animals = FakeAnimalsRepository()
+        ..handler = (_, _) async => Success(fixtureAnimal(1));
+      final favorites = FakeFavoritesRepository()
+        ..handler = (_, _) async =>
+            Failure<Set<String>>(AppFailure(FailureCode.network));
+      final vm = AnimalDetailViewModel(
+        animals,
+        favorites,
+        FakePhotoRepository(),
+        FakeAdoptionMessageRepository(),
+      );
+      addTearDown(vm.dispose);
+      await vm.load(fixtureId(1));
+      expect(vm.canToggleFavorite, false);
+      expect(vm.state.message, contains('favoritos'));
+      favorites.handler = (_, _) async => const Success(<String>{});
+      await vm.reload();
+      expect(vm.canToggleFavorite, true);
+      expect(vm.state.message, isNull);
+      expect(animals.calls.every((call) => call.method == 'getPublic'), true);
+    },
+  );
 }

@@ -840,3 +840,20 @@ Primeira tentativa nativa falhou apenas no harness (texto da busca igual ao nome
 cartão); seletor passou a identificar o cartão. Ajuste responsivo já autorizado e
 publicado separadamente. HTML servido em 127.0.0.1:53764 confirmado HTTP 200 com o
 coração da ficha. Jornada ampla de paginação/favoritos atualizada e será reexecutada.
+
+### Encerramento da adequação da ficha pública
+
+173 Flutter PASS com cobertura; analyze sem problemas. Jornada pública ampla
+public_catalog_flow_test.dart PASS no Android (15 s além do build): 58 resultados,
+paginação, busca combinada, foto atual, coração, clipboard sem envio e favoritos
+persistidos após recriar o app. Jornada específica da ficha também aprovada.
+
+Conferência visual do APK normal: ficha sobreposta, coração/fechar na foto, etiquetas,
+quadro público 2×2 e contato. Cartões de uma linha agora mantêm alturas iguais entre
+as duas colunas, como no CSS grid do protótipo; teste verifica alinhamento e 320 px.
+Imagem vermelha e texto Fixture isolada pertencem ao ambiente local descartável,
+não a dados reais do abrigo. Nenhum dado de teste foi publicado em produção.
+
+Planejamento dos campos novos é separado das 108 tarefas originais, com oito tarefas
+futuras em specs/002-public-animal-profile/plan.md. Sem implementação de migração ou
+importação de histórico clínico para o visitante nesta etapa.
