@@ -114,6 +114,17 @@ class DashboardViewModel extends ChangeNotifier {
       animal.isPublished ? 'Publicado' : 'Privado';
   String cardSubtitle(PublicAnimal animal) =>
       '${animal.approximateAge} · ${animal.sex == AnimalSex.female ? 'F' : 'M'}';
+  String cardClinicalSummary(ManagedAnimal animal) {
+    final notes = animal.clinicalNotes.trim();
+    if (notes.isNotEmpty) return notes;
+    return switch (animal.animal.status) {
+      AnimalStatus.available => 'Sem observações clínicas',
+      AnimalStatus.treatment => 'Em tratamento',
+      AnimalStatus.quarantine => 'Quarentena',
+      AnimalStatus.adopted => 'Adotado',
+    };
+  }
+
   String get subtitle => 'Manejo · $total animais';
   void _publish(DashboardState value) {
     if (!_disposed) {

@@ -8,6 +8,40 @@ import '../../../../support/fakes/fake_animals_repository.dart';
 import '../../../../support/public_fixtures.dart';
 
 void main() {
+  test('management card uses clinical notes without inventing a diagnosis', () {
+    final vm = DashboardViewModel(
+      FakeAnimalsRepository(),
+      isAuthorized: () => true,
+    );
+    addTearDown(vm.dispose);
+    final animal = fixtureAnimal(1);
+    expect(
+      vm.cardClinicalSummary(
+        ManagedAnimal(
+          animal: animal,
+          clinicalNotes: '  Dermatite — cuidado diário  ',
+        ),
+      ),
+      'Dermatite — cuidado diário',
+    );
+    expect(
+      vm.cardClinicalSummary(ManagedAnimal(animal: animal)),
+      'Sem observações clínicas',
+    );
+    expect(
+      vm.cardClinicalSummary(
+        ManagedAnimal(animal: animal.copyWith(status: AnimalStatus.treatment)),
+      ),
+      'Em tratamento',
+    );
+    expect(
+      vm.cardClinicalSummary(
+        ManagedAnimal(animal: animal.copyWith(status: AnimalStatus.quarantine)),
+      ),
+      'Quarentena',
+    );
+  });
+
   FakeAnimalsRepository repository() => FakeAnimalsRepository()
     ..handler = (method, args) async {
       if (method == 'getStatusCounts') {

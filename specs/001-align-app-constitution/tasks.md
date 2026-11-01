@@ -417,3 +417,12 @@ plan.md, research.md, data-model.md, contracts/rpc.md, quickstart.md e tasks.md.
 A lista executável agora contém 50 tarefas, substituindo os resumos C001–C007.
 As 108 tarefas desta adequação original não foram renumeradas. Aprovação visual
 específica é gate antes de implementar o conteúdo novo da aba/recorrência.
+
+
+## Correção solicitada — cartão clínico do Kanban
+
+- [x] T109 Restaurar no dashboard a etiqueta clínica do cartão conforme protótipo
+  screen-5, usando ManagedAnimal.clinicalNotes no ViewModel, sem diagnóstico
+  inventado e sem exposição pública. Validar unitários, Widget 320 px/texto ampliado,
+  jornada Android e atualizar validation.md antes do commit na developer.
+  [FR-003, FR-010, CR-003, CR-004, CR-007]

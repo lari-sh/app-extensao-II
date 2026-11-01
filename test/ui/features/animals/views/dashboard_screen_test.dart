@@ -13,6 +13,54 @@ import '../../../../support/public_fixtures.dart';
 
 void main() {
   testWidgets(
+    'Kanban shows private clinical summary in prototype pill at 320 px',
+    (tester) async {
+      tester.view.physicalSize = const Size(320, 844);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      final animal = fixtureAnimal(1).copyWith(status: AnimalStatus.treatment);
+      final repo = FakeAnimalsRepository()
+        ..handler = (method, args) async => method == 'getStatusCounts'
+            ? const Success<Map<AnimalStatus, int>>({AnimalStatus.treatment: 1})
+            : Success(
+                ManagedAnimalPage(
+                  items: args.first == AnimalStatus.treatment
+                      ? [
+                          ManagedAnimal(
+                            animal: animal,
+                            clinicalNotes:
+                                'Dermatite — acompanhamento e cuidado diário da pele',
+                          ),
+                        ]
+                      : [],
+                  total: args.first == AnimalStatus.treatment ? 1 : 0,
+                ),
+              );
+      final vm = DashboardViewModel(repo, isAuthorized: () => true);
+      addTearDown(vm.dispose);
+      await vm.load();
+      await tester.pumpWidget(
+        MaterialApp(
+          home: MediaQuery(
+            data: const MediaQueryData(textScaler: TextScaler.linear(1.4)),
+            child: DashboardScreen(viewModel: vm),
+          ),
+        ),
+      );
+      expect(
+        find.text('Dermatite — acompanhamento e cuidado diário da pele'),
+        findsOneWidget,
+      );
+      expect(
+        find.byKey(ValueKey('clinicalSummary-${animal.id}')),
+        findsOneWidget,
+      );
+      expect(tester.takeException(), isNull);
+    },
+  );
+
+  testWidgets(
     'prototype dashboard switches list, updates status by menu and publishes confirmed animal',
     (tester) async {
       var animal = fixtureAnimal(1).copyWith(isPublished: false);

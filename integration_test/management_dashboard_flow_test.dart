@@ -54,7 +54,18 @@ void main() {
       try {
         await tester.pumpWidget(await bootstrapApplication());
         await tester.pumpAndSettle();
+        await Supabase.instance.client.auth.signOut(scope: SignOutScope.local);
+        await tester.pumpAndSettle();
         await tester.tap(find.text('Acesso Voluntário / Funcionário'));
+        for (
+          var attempt = 0;
+          attempt < 100 &&
+              find.byKey(const ValueKey('loginEmail')).evaluate().isEmpty;
+          attempt++
+        ) {
+          await tester.pumpAndSettle();
+          await Future<void>.delayed(const Duration(milliseconds: 100));
+        }
         await tester.pumpAndSettle();
         await tester.enterText(
           find.byKey(const ValueKey('loginEmail')),
@@ -66,12 +77,24 @@ void main() {
         );
         FocusManager.instance.primaryFocus?.unfocus();
         await tester.pumpAndSettle();
-        await tester.ensureVisible(find.text('Entrar no painel'));
+        await tester.scrollUntilVisible(
+          find.text('Entrar no painel'),
+          160,
+          scrollable: find.byType(Scrollable).first,
+        );
         await tester.tap(find.text('Entrar no painel'));
         await tester.pumpAndSettle();
         await tester.tap(find.text('Animais do abrigo'));
         await tester.pumpAndSettle();
         expect(find.text('Olá, equipe'), findsOneWidget);
+        expect(find.byKey(ValueKey('clinicalSummary-$id')), findsOneWidget);
+        expect(
+          find.descendant(
+            of: find.byKey(ValueKey('clinicalSummary-$id')),
+            matching: find.text('Nota protegida'),
+          ),
+          findsOneWidget,
+        );
         await tester.tap(find.text('Lista'));
         await tester.pumpAndSettle();
         await tester.tap(find.byTooltip('Ações de $name'));

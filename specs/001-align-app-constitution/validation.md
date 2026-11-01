@@ -881,3 +881,26 @@ O incremento público já está implementado, com 12 tarefas em
 specs/002-public-animal-profile/plan.md, substituindo o estado histórico de oito
 tarefas futuras mencionado na seção anterior. O escopo do calendário está em
 specs/003-medication-calendar/scope.md, com sete tarefas ainda pendentes.
+
+
+## Correção do cartão clínico no Kanban — T109
+
+Solicitação do usuário em 2026-11-01: cartão não informava a condição como no
+protótipo screen-5. A View recebia somente PublicAnimal e descartava os campos
+administrativos já carregados em ManagedAnimal. Corrigido o binding para manter
+ManagedAnimal e exibir clinicalNotes em etiqueta com a cor da situação, limite de
+linhas e tooltip. Regra de texto no DashboardViewModel: nota não vazia é exibida;
+na ausência, situação confirmada ou “Sem observações clínicas”, sem diagnosticar
+saúde por ausência de dados. Campos de publicação e ações permanecem funcionais.
+Somente área administrativa; nenhum endpoint/campo público ou pacote foi alterado.
+
+Testes escritos antes da correção reproduziram ausência da regra/etiqueta.
+15 testes de Dashboard VM/View PASS, incluindo 320 px com texto 1,4×. Jornada
+Android real com fixture exclusiva PASS em 19 s: nota protegida no cartão alvo,
+situação e publicação confirmadas por segunda sessão, notas preservadas.
+O roteiro foi isolado da sessão anteriormente aberta; asserção clínica limitada
+à fixture correta para não depender de animais de execuções anteriores.
+Fixtures de tentativas anteriores foram limpas pelo controlador local.
+Análise Flutter sem problemas. CI remota da correção será conferida separadamente.
+
+Regressão completa após a correção: 272 testes Flutter PASS; git diff --check limpo.

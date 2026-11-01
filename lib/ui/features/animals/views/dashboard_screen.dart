@@ -262,7 +262,7 @@ class _DashboardScreenState extends State<DashboardScreen>
         ),
         for (final item
             in viewModel.state.pages[status]?.items ?? <ManagedAnimal>[])
-          _card(context, item.animal),
+          _card(context, item),
         if (viewModel.state.pages[status]?.items.isEmpty ?? true)
           const Padding(
             padding: EdgeInsets.all(8),
@@ -316,7 +316,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                         for (final item
                             in viewModel.state.pages[status]?.items ??
                                 <ManagedAnimal>[])
-                          _card(context, item.animal, compact: true),
+                          _card(context, item, compact: true),
                         if (viewModel.state.pages[status]?.items.isEmpty ??
                             true)
                           const Text(
@@ -346,104 +346,134 @@ class _DashboardScreenState extends State<DashboardScreen>
   );
   Widget _card(
     BuildContext context,
-    PublicAnimal animal, {
+    ManagedAnimal item, {
     bool compact = false,
-  }) => Card(
-    margin: const EdgeInsets.only(bottom: 6),
-    elevation: 0,
-    color: Colors.white,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10),
-      side: const BorderSide(color: _border),
-    ),
-    child: InkWell(
-      onTap: viewModel.canManage ? () => _edit(context, animal.id) : null,
-      borderRadius: BorderRadius.circular(10),
-      child: Padding(
-        padding: EdgeInsets.all(compact ? 6 : 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                if (!compact) ...[
-                  Container(
-                    width: 32,
-                    height: 32,
-                    decoration: BoxDecoration(
-                      color: _soft,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: const Icon(
-                      Icons.pets_outlined,
-                      size: 22,
-                      color: Color(0xFFC51D2A),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                ],
-                Expanded(
-                  child: Text(
-                    animal.name,
-                    style: TextStyle(
-                      fontSize: compact ? 12 : 14,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: compact ? 24 : 40,
-                  child: PopupMenuButton<String>(
-                    tooltip: 'Ações de ${animal.name}',
-                    padding: EdgeInsets.zero,
-                    iconSize: 18,
-                    enabled: viewModel.canManage,
-                    onSelected: (value) {
-                      if (value == 'edit') {
-                        _edit(context, animal.id);
-                      } else if (value == 'publication') {
-                        viewModel.togglePublication(animal);
-                      } else {
-                        viewModel.setStatus(
-                          animal.id,
-                          AnimalStatus.values.byName(value),
-                        );
-                      }
-                    },
-                    itemBuilder: (_) => [
-                      const PopupMenuItem(
-                        value: 'edit',
-                        child: Text('Editar cadastro'),
+  }) {
+    final animal = item.animal;
+    final clinicalSummary = viewModel.cardClinicalSummary(item);
+    return Card(
+      margin: const EdgeInsets.only(bottom: 6),
+      elevation: 0,
+      color: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+        side: const BorderSide(color: _border),
+      ),
+      child: InkWell(
+        onTap: viewModel.canManage ? () => _edit(context, animal.id) : null,
+        borderRadius: BorderRadius.circular(10),
+        child: Padding(
+          padding: EdgeInsets.all(compact ? 6 : 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  if (!compact) ...[
+                    Container(
+                      width: 32,
+                      height: 32,
+                      decoration: BoxDecoration(
+                        color: _soft,
+                        borderRadius: BorderRadius.circular(8),
                       ),
-                      for (final status in AnimalStatus.values)
-                        PopupMenuItem(
-                          value: status.name,
-                          child: Text(
-                            'Mover para ${DashboardViewModel.labels[status]}',
-                          ),
+                      child: const Icon(
+                        Icons.pets_outlined,
+                        size: 22,
+                        color: Color(0xFFC51D2A),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                  ],
+                  Expanded(
+                    child: Text(
+                      animal.name,
+                      style: TextStyle(
+                        fontSize: compact ? 12 : 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: compact ? 24 : 40,
+                    child: PopupMenuButton<String>(
+                      tooltip: 'Ações de ${animal.name}',
+                      padding: EdgeInsets.zero,
+                      iconSize: 18,
+                      enabled: viewModel.canManage,
+                      onSelected: (value) {
+                        if (value == 'edit') {
+                          _edit(context, animal.id);
+                        } else if (value == 'publication') {
+                          viewModel.togglePublication(animal);
+                        } else {
+                          viewModel.setStatus(
+                            animal.id,
+                            AnimalStatus.values.byName(value),
+                          );
+                        }
+                      },
+                      itemBuilder: (_) => [
+                        const PopupMenuItem(
+                          value: 'edit',
+                          child: Text('Editar cadastro'),
                         ),
-                      PopupMenuItem(
-                        value: 'publication',
-                        enabled: viewModel.canChangePublication(animal),
-                        child: Text(viewModel.publicationLabel(animal)),
-                      ),
-                    ],
+                        for (final status in AnimalStatus.values)
+                          PopupMenuItem(
+                            value: status.name,
+                            child: Text(
+                              'Mover para ${DashboardViewModel.labels[status]}',
+                            ),
+                          ),
+                        PopupMenuItem(
+                          value: 'publication',
+                          enabled: viewModel.canChangePublication(animal),
+                          child: Text(viewModel.publicationLabel(animal)),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              Text(
+                viewModel.cardSubtitle(animal),
+                style: const TextStyle(fontSize: 10, color: Color(0xFF795C52)),
+              ),
+              const SizedBox(height: 6),
+              Tooltip(
+                message: clinicalSummary,
+                child: Container(
+                  key: ValueKey('clinicalSummary-${animal.id}'),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 6,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: (_colors[animal.status] ?? const Color(0xFF795C52))
+                        .withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Text(
+                    clinicalSummary,
+                    maxLines: compact ? 3 : 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 10,
+                      height: 1.4,
+                      color: _colors[animal.status],
+                    ),
                   ),
                 ),
-              ],
-            ),
-            Text(
-              viewModel.cardSubtitle(animal),
-              style: const TextStyle(fontSize: 10, color: Color(0xFF795C52)),
-            ),
-            const SizedBox(height: 6),
-            Text(
-              viewModel.visibilityLabel(animal),
-              style: TextStyle(fontSize: 10, color: _colors[animal.status]),
-            ),
-          ],
+              ),
+              const SizedBox(height: 6),
+              Text(
+                viewModel.visibilityLabel(animal),
+                style: TextStyle(fontSize: 10, color: _colors[animal.status]),
+              ),
+            ],
+          ),
         ),
       ),
-    ),
-  );
+    );
+  }
 }
