@@ -71,3 +71,5 @@ Testes do Repository escritos antes da implementação e aprovados com Service f
 normalização, DTO→domínio, páginas, autoria/eventos, Result, reconciliação,
 falhas tipadas/inesperadas e recibo divergente. Suíte Flutter completa: 198 PASS;
 flutter analyze sem problemas. Android ainda não validado para o calendário.
+
+Correção de evidência do Repository: a primeira análise final tinha dois avisos de blocos if no teste; foram corrigidos antes de avançar. Nova execução de flutter analyze sem problemas e os seis testes do Repository novamente aprovados. A suíte completa de 198 testes havia passado; a correção alterou apenas delimitadores no teste.

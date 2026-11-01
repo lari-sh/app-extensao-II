@@ -36,7 +36,7 @@ void main() {
       };
       final service = FakeMedicationsService()
         ..handler = (method, _) async {
-          if (method == 'loadMonth')
+          if (method == 'loadMonth') {
             return Success(
               MedicationDto.parse(MedicationResponseType.month, {
                 'month': '2026-11',
@@ -53,7 +53,8 @@ void main() {
                 ],
               }),
             );
-          if (method == 'loadApplicationHistory')
+          }
+          if (method == 'loadApplicationHistory') {
             return Success(
               MedicationDto.parse(MedicationResponseType.history, {
                 'application': application,
@@ -61,6 +62,7 @@ void main() {
                 'next_cursor': null,
               }),
             );
+          }
           return Success(
             MedicationDto.parse(MedicationResponseType.command, {
               'operation_key': 'k' * 32,
