@@ -1,6 +1,6 @@
 # Calendário de medicações — definição da responsável
 
-Status: escopo registrado; planejamento técnico e implementação pendentes.
+Status: especificação, plano e tarefas detalhados; implementação pendente.
 Origem: esclarecimento da responsável em 2026-10-31. Complementa a aba Calendário
 já prevista no protótipo; não altera a contagem das 108 tarefas originais.
 
@@ -58,9 +58,9 @@ já prevista no protótipo; não altera a contagem das 108 tarefas originais.
 
 ## Próximas tarefas de planejamento e implementação
 
-- [ ] C001 Especificar exemplos de recorrência, conclusão, interrupção e correção;
+- [x] C001 Especificar exemplos de recorrência, conclusão, interrupção e correção;
   fechar as decisões pendentes com a responsável antes de implementar dependências.
-- [ ] C002 Preparar plano, modelo de dados, contratos Supabase e análise de
+- [x] C002 Preparar plano, modelo de dados, contratos Supabase e análise de
   conformidade com a constituição; justificar qualquer pacote novo antes de adicioná-lo.
 - [ ] C003 Escrever testes SQL de equipe/sessão, geração sem duplicação, alterações
   e preservação de histórico; implementar migrations/RPCs transacionais.
@@ -75,3 +75,13 @@ já prevista no protótipo; não altera a contagem das 108 tarefas originais.
 
 Este documento registra o pedido; não declara a aba funcional nem substitui
 especificação e plano técnico revisados.
+
+
+## Documentação executável desta etapa
+
+Decisões confirmadas adicionais: preservar atrasadas e realizadas ao editar/parar;
+correção com justificativa e histórico imutável. Contrato detalhado em spec.md,
+plan.md, research.md, data-model.md e contracts/rpc.md. tasks.md substitui os
+resumos C003–C007 por 50 tarefas executáveis, todas pendentes. C001/C002 representam
+planejamento, não aprovação de tela nem conclusão de implementação.
+Aprovação visual específica será solicitada em T001 antes das novas composições.
