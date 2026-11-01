@@ -33,7 +33,7 @@ Aceitação independente: ver a jornada US1 em spec.md; semear dependências pel
 - [x] T017 [US1] Escrever Widget Test feliz e erro em test/ui/features/medications/views/medication_editor_panel_test.dart: selecionar animal salvo, preencher cada modo e confirmar; manter binding ao salvar ficha geral. Depende de T001 para expectativas visuais. [003-CR-002, 003-FR-014]
 - [x] T018 [US1] Integrar lib/ui/features/medications/views/medication_editor_panel.dart nos cartões da ficha lib/ui/features/animals/views/animal_editor_screen.dart, somente após T001; salvar medicação separadamente, preservando tratamentos ao salvar o animal. [003-FR-005, 003-FR-014]
 - [x] T019 [US1] Registrar Service/Repository/VM em lib/app/public_dependencies.dart e lib/app/app_router.dart com ProtectedScope, listeners/dispose, authorize/accessEpoch/privateGeneration; binding por animal_id, não formVersion. [003-FR-013, 003-CR-001]
-- [ ] T020 [US1] Validar US1 com testes e duas sessões locais em supabase/tests/fixtures/medication_flow.py e registrar specs/003-medication-calendar/validation.md; publicar contexto aprovado na developer com IDs reais. [003-CR-003, 003-FR-004]
+- [x] T020 [US1] Validar US1 com testes e duas sessões locais em supabase/tests/fixtures/medication_flow.py e registrar specs/003-medication-calendar/validation.md; publicar contexto aprovado na developer com IDs reais. [003-CR-003, 003-FR-004]
 
 ## Fase 4 — US2: mês e agenda do dia (P1)
 

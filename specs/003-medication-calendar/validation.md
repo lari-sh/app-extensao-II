@@ -112,3 +112,17 @@ medication_flow.py aprovado: duas sessões autenticadas, chamadas concorrentes c
 a mesma chave gerando um único tratamento e quatro aplicações, recibo recuperado
 pela segunda sessão e acesso de visitante negado. Massa descartável removida em
 transação, sem alterar animais manuais. Execução restrita ao Supabase local.
+
+## US1 no Android — formulário de medicação
+
+Jornada nativa medication_calendar_flow_test.dart aprovada no emulator-5554:
+login da equipe, abertura da ficha pelo painel, gravação de horários fixos 08h/20h
+e intervalo de oito horas. Segunda sessão confirmou dois tratamentos, quatro
+aplicações por tratamento e o instante após a meia-noite, preservando as notas
+privadas e a publicação da ficha. Logout local e limpeza da massa ao finalizar.
+
+A primeira execução revelou colisão de Hero nas mensagens de sucesso entre
+Scaffolds registrados no mesmo messenger. O editor agora possui ScaffoldMessenger
+próprio, preservando a composição visual. Reexecução Android: 1 teste PASS, sem
+exceções. Widget Tests do editor: 3 PASS; flutter analyze: No issues found.
+T020 concluída; US2–US4 e integração desses testes à CI continuam pendentes.
