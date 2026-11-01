@@ -533,5 +533,9 @@ Preservar a aba Calendário do protótipo. Sua implementação fica em etapa pos
 à US5: definir primeiro eventos reais, datas, fuso, permissões e relação com os
 cuidados clínicos; especificar ações e estados, testes unitários/Widget e migrations
 antes de implementar. Não gerar eventos ou datas a partir de textos livres de cuidados.
+A responsável definiu uma agenda de medicamentos: calendário com compromissos por
+animal, datas/horários e conclusão como lista de tarefas, alimentada automaticamente
+por tratamentos estruturados da ficha. Escopo e decisões em
+[calendário de medicações](../003-medication-calendar/scope.md).
 Até essa etapa, a aba informa que está em planejamento, sem exibir calendário fictício.
 Não confundir esta inclusão no plano com funcionalidade entregue.

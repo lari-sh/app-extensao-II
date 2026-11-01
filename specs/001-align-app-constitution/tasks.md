@@ -406,3 +406,8 @@ Solicitado em 2026-10-31: detalhar especificação/contrato de eventos, origem d
 fuso e permissões, plano e testes antes da implementação da aba Calendário. Este
 item de descoberta não altera retroativamente os 108 itens da adequação; gerar
 as tarefas funcionais após definir o escopo do calendário.
+
+Definição recebida: calendário de medicações com datas/horários e animais,
+conclusão de aplicações e geração automática pela ficha. A lista C001–C007 de
+planejamento/implementação está em ../003-medication-calendar/scope.md. A agenda
+não será gerada por inferência a partir dos cuidados clínicos em texto livre.
