@@ -120,7 +120,9 @@ substitui unidade/Widget. Referências exatas e dependências em tasks.md.
 Só declarar entregue com geração determinística, formato, análise, flutter_test,
 pgTAP, HTTP concorrente, jornada Android e run CI/artifact confirmados. Execução
 Windows não valida iOS. Mudanças posteriores de layout exigem nova autorização.
-Nesta fase, não instalar pacote, criar tabelas ou alterar o app/emulador.
+A restrição de execução da fase inicial de planejamento foi encerrada pela
+autorização explícita de implementação registrada em design-approval.md. Não
+autoriza implantar em produção nem adicionar pacote sem justificativa.
 
 Ajuste autorizado em 2026-11-01: ação Voltar visível, por componente compartilhado
 de apresentação usando maybePop (respeita guards), no login/painel/telas internas.

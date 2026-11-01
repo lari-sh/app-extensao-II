@@ -374,3 +374,19 @@ Execução ocorreu em AVD sem janela por falha OpenGL da janela local. Isso vali
 o Android, mas não confirma disponibilidade da janela para teste manual. UI
 preserva o protótipo aprovado e Widget Tests incluem correção em 320 px/texto 1,4×.
 CI remota atualizada e artifact final ainda pendentes de T046/T048.
+
+## Regressão final local — T047/T049
+
+Geração Freezed e pubspec.lock determinísticos (hashes normalizados antes/depois
+iguais); formato de 216 arquivos sem alteração; flutter analyze sem problemas;
+flutter test --coverage: 262 PASS, incluindo os testes de fronteiras de arquitetura.
+pgTAP: 256 PASS em 12 arquivos. Harness HTTP completo: PASS nas jornadas agenda,
+conclusão e revisão/concorrência, com cleanup de fixtures. Limite 10.000/10.001
+aplicações, DTO/Result, nomes e isolamento de dados privados permanecem cobertos.
+Nenhum pacote novo no pubspec.
+
+README, quickstart, contrato RPC e plano atualizados para o comportamento real e
+limitações; removidas afirmações obsoletas de funcionalidades ainda inexistentes.
+T047/T049 concluídas: 48/51 tarefas. T046/T048/T050 dependem da confirmação final
+de CI/artifact e revisão de entrega. iOS requer validação própria em Mac/Xcode.
+A proposta de contato/link público continua separada, sem implementação Flutter.

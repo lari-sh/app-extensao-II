@@ -127,15 +127,24 @@ Nenhum prontuário interno é usado para preencher esses campos. Contrato, taref
 e evidências em [perfil público](specs/002-public-animal-profile/plan.md).
 
 
-O [calendário de medicamentos](specs/003-medication-calendar/plan.md) tem
-[37 de 51 tarefas concluídas](specs/003-medication-calendar/tasks.md). A ficha salva
-tratamentos por horários fixos ou intervalos; a aba Calendário mostra o mês e a
-agenda diária privada, com horários do abrigo e paginação consistente no Supabase.
-Design aprovado preservado e jornada Android validada com backend local. Os
-detalhes permitem concluir aplicações devidas, com funcionário e horário real
-registrados pelo servidor, histórico e reconciliação de respostas incertas.
-Revisão/interrupção de tratamentos e correções auditadas continuam pendentes. Sem API externa de calendário. Evidências e limites em
-[validation](specs/003-medication-calendar/validation.md).
+O [calendário de medicamentos](specs/003-medication-calendar/plan.md) está implementado
+com [tarefas e evidências acompanhadas aqui](specs/003-medication-calendar/tasks.md).
+Tratamentos aceitam horários fixos ou intervalos; mês e agenda diária usam o fuso
+do abrigo e snapshots paginados do Supabase. A equipe edita ou interrompe séries
+preservando atrasadas/realizadas; conclui aplicações devidas com autoria/hora reais
+do servidor e corrige registros com justificativa, mantendo histórico original.
+Respostas incertas são reconciliadas por recibo, sem duplicar comandos.
+
+Validação local: 262 testes Flutter, 256 testes SQL, jornadas HTTP concorrentes e
+Android completo aprovados. A confirmação final da esteira/artefato remoto está
+em acompanhamento; ver [validation](specs/003-medication-calendar/validation.md).
+Sem notificações, sincronização com calendários externos ou implantação em produção.
+O nome de exibição de cada funcionário é configurado no provisionamento da equipe;
+na ausência dele, o histórico usa identificação estável, sem expor e-mail.
+
+O novo [contato público e compartilhamento por link](design/adoption-contact-proposal.md)
+está somente no protótipo, aguardando aprovação. Hospedagem/endereço público,
+App Links e alternativa web precisam de planejamento antes da implementação.
 
 As telas internas oferecem Voltar visível; programação e ficha pública mantêm
 as ações Fechar existentes. A navegação respeita verificação de sessão.

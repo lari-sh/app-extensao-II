@@ -1,8 +1,7 @@
 # Contrato Supabase e Repository — medicações
 
 Contrato alvo. Criação/listagem/recibo e leituras mês/dia/histórico implementadas
-até migration 013, e conclusão auditada na 014; edição, interrupção e correção
-permanecem pendentes.
+até migration 013, conclusão auditada na 014 e edição/interrupção/correção na 015.
 Nenhum endpoint de Google/Outlook é necessário.
 
 ## Acesso e mensagens

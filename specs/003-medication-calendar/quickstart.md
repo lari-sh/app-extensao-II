@@ -1,16 +1,17 @@
 # Roteiro de validação — calendário de medicamentos
 
-Este roteiro é planejado: os novos testes/RPCs/telas ainda não existem. Não é
-uma evidência de aprovação e não deve ser executado como implantação em produção.
+Roteiro executável para o backend local e Android. Resultados reais estão em
+validation.md; estes comandos não constituem autorização de implantação em produção.
 
 ## Preparação
 
 Branch developer; Flutter/Android SDK e Docker/Supabase locais já provisionados.
 Reutilizar supabase/.env.local ignorado e controlador loopback para credenciais
 descartáveis em runtime. Nunca compilar senha nem service_role. Preservar o AVD e
-o app usados nos testes manuais. Aprovar a proposta visual antes das novas Views.
+o app usados nos testes manuais. A proposta visual foi aprovada em design-approval.md; novas mudanças de layout
+continuam sujeitas à autorização.
 
-## Gates após implementar
+## Checks de validação
 
 ```powershell
 flutter pub run build_runner build --delete-conflicting-outputs
@@ -53,7 +54,7 @@ ler tratamentos, eventos ou operações nem quando o animal está publicado.
 
 Incluir jornada na .github/scripts/android_management.sh; confirmar os jobs Flutter,
 backend, Android e deliver e artifact da execução. Registrar links e limitações em
-validation.md, a ser criado na implementação. Reinstalar o APK normal após testes
+validation.md. Reinstalar o APK normal após testes
 integration_test (eles removem o app de teste) e abrir para validação manual.
 Sem alterar main, sem produção/lojas; iOS permanece dependente de Mac/Xcode.
 
@@ -75,5 +76,6 @@ Animais do abrigo → Calendário. Setas navegam o mês; tocar no dia abre sua a
 Hoje usa a data do abrigo; Carregar mais aplicações percorre páginas de 100.
 Os cartões abrem detalhes. Aplicações devidas permitem Marcar como aplicada;
 funcionário e horário vêm do servidor. Incerto exige verificar o resultado antes
-de repetir. Futuras/canceladas/realizadas não aceitam nova conclusão. Revisão,
-interrupção e correção auditada continuam na próxima etapa.
+de repetir. Futuras/canceladas/realizadas não aceitam nova conclusão. Para editar/interromper, use os cartões de Medicações em uso na ficha. Interromper
+preserva atrasadas/realizadas. Em detalhes de aplicação realizada, Corrigir registro
+exige justificativa de 1–500 caracteres e preserva autor/hora originais no histórico.

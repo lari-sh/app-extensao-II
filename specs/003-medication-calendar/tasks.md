@@ -78,9 +78,9 @@ Aceitação independente: ver a jornada US4 em spec.md; semear dependências pel
 
 - [x] T045 Implementar integration_test/medication_calendar_flow_test.dart: ambos os modos, mês/dia, segunda sessão, autoria/hora, interrupção/correção, privacidade e retorno ao app; usar controlador supabase/tests/fixtures/android_auth_control.py com fixtures exclusivas A/B com nomes de teste sem credenciais na build. [003-CR-003]
 - [ ] T046 Ampliar .github/scripts/android_management.sh para jornada de medicações e .github/workflows/flutter.yml somente se necessário para executar os novos SQL/HTTP; confirmar gates remotos e artifact, sem omitir falha. [003-CR-003]
-- [ ] T047 Executar geração determinística, formato, analyze, flutter test, pgTAP e HTTP; revisar test/architecture/layer_boundaries_test.dart, nomes PT/inglês, erros Result, limites de 10.000 aplicações e ausência de dados privados em catálogo/favoritos. Registrar specs/003-medication-calendar/validation.md. [003-CR-001, 003-CR-002, 003-FR-012]
+- [x] T047 Executar geração determinística, formato, analyze, flutter test, pgTAP e HTTP; revisar test/architecture/layer_boundaries_test.dart, nomes PT/inglês, erros Result, limites de 10.000 aplicações e ausência de dados privados em catálogo/favoritos. Registrar specs/003-medication-calendar/validation.md. [003-CR-001, 003-CR-002, 003-FR-012]
 - [ ] T048 Validar Android, comparar visual com aprovação T001, reinstalar/abrir APK normal e registrar link CI/artifact em specs/003-medication-calendar/validation.md; iOS separado depende de Mac/Xcode. [003-FR-014, 003-CR-003]
-- [ ] T049 Atualizar README.md, specs/003-medication-calendar/quickstart.md e validation.md com uso real, limitações, dados privados e evidências; não apresentar notificações/API externa como disponíveis. [003-CR-004, 003-CR-003]
+- [x] T049 Atualizar README.md, specs/003-medication-calendar/quickstart.md e validation.md com uso real, limitações, dados privados e evidências; não apresentar notificações/API externa como disponíveis. [003-CR-004, 003-CR-003]
 - [ ] T050 Revisar git status/commits por contexto na developer e marcar somente tarefas comprovadas em specs/003-medication-calendar/tasks.md; preservar main e não aplicar produção implicitamente. [003-CR-003]
 
 ## Dependências e execução
