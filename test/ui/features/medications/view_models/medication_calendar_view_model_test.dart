@@ -291,4 +291,28 @@ void main() {
       expect(checks, greaterThan(2));
     },
   );
+  test(
+    'return from application reloads confirmed state without optimistic mutation',
+    () async {
+      final repo = repository();
+      final vm = MedicationCalendarViewModel(repo);
+      addTearDown(vm.dispose);
+      await vm.initialize();
+      final completed = application('done').copyWith(
+        state: MedicationApplicationState.completed,
+        performedBy: 'staff',
+        actorLabel: 'Equipe',
+        performedAt: DateTime.utc(2026, 11, 1, 12),
+        performedLocalDate: '2026-11-01',
+        performedLocalTime: '09:00',
+      );
+      repo.handler = (method, args) async => method == 'loadMonth'
+          ? Success(month(args.first as String))
+          : Success(page(args.first as String, items: [completed], version: 2));
+      expect(vm.state.items, isEmpty);
+      await vm.applicationReturned();
+      expect(vm.state.items.single.actorLabel, 'Equipe');
+      expect(vm.state.agendaVersion, 2);
+    },
+  );
 }

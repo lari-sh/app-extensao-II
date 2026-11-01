@@ -207,6 +207,8 @@ class MedicationCalendarViewModel extends ChangeNotifier {
     );
   }
 
+  Future<void> applicationReturned() => refresh();
+
   Future<void> refresh() async {
     if (state.month.isEmpty) {
       await initialize();

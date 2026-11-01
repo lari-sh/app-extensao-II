@@ -233,3 +233,21 @@ aprovado: duas sessões/replay, dois funcionários em corrida (um evento/um conf
 ator/hora forjados rejeitados, conclusão aguardando lock com hora posterior à
 liberação, revogação durante espera sem evento/recibo. Contas de fixture restauradas
 e massa descartável removida. T029/T031 concluídas; UI/Android de conclusão pendentes.
+
+## US3 — confirmação e reconciliação em ViewModels/Repository
+
+MedicationApplicationViewModel com estado imutável, detalhes/histórico paginado,
+conclusão bloqueada para futuras/canceladas e resultado incerto conservando
+chave/aplicação/versão. Consulta recibo e só repete o mesmo comando quando permitido.
+Conflito recarrega projeção; respostas antigas de sessão não confirmam visualmente.
+Logout/troca de geração descarta dados e pendências. Calendar VM recarrega snapshot
+ao retornar dos detalhes, sem marcar otimisticamente. Repository verifica coerência
+do evento, versão, autoria e instante confirmados.
+
+Histórico usa leitura diária adicional para clock do servidor; programação vem
+da lista de tratamentos, com paginação, e revisões anteriores são identificadas
+como tal, sem atribuir a programação atual a uma aplicação antiga. Sem relógio
+do aparelho para autorizar conclusão.
+
+10 testes Application VM, 11 Calendar VM e 8 Repository PASS; análise final sem
+problemas. T030/T032 concluídas; View e Widget Tests de detalhes ainda pendentes.

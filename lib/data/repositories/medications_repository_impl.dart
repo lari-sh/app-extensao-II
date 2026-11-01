@@ -287,8 +287,26 @@ class MedicationsRepositoryImpl implements MedicationsRepository {
         application.version,
         operationKey,
       ),
-      (dto) =>
-          _command(dto.values, operationKey, applicationId: application.id),
+      (dto) {
+        final result = _command(
+          dto.values,
+          operationKey,
+          applicationId: application.id,
+        );
+        final confirmed = result.application!;
+        final event = result.event;
+        if (confirmed.state != MedicationApplicationState.completed ||
+            confirmed.version != application.version + 1 ||
+            event == null ||
+            event.type != MedicationEventType.completed ||
+            event.applicationId != confirmed.id ||
+            event.applicationVersion != confirmed.version ||
+            event.actorId != confirmed.performedBy ||
+            event.occurredAt != confirmed.performedAt) {
+          throw const FormatException('Invalid completion confirmation');
+        }
+        return result;
+      },
     );
   }
 

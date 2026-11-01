@@ -16,6 +16,7 @@ void main() {
       final application = {
         ...medicationApplicationJson(),
         'state': 'completed',
+        'version': 2,
         'performed_by': medicationAnimalId,
         'actor_label': 'Equipe A',
         'performed_at': '2026-11-01T12:00:00Z',
@@ -86,7 +87,10 @@ void main() {
       expect(history.application.performedAt, DateTime.utc(2026, 11, 1, 12));
       expect(history.items.single.actorLabel, 'Equipe A');
       expect(
-        (await repository.completeApplication(history.application, 'k' * 32)
+        (await repository.completeApplication(
+                  history.application.copyWith(version: 1),
+                  'k' * 32,
+                )
                 as Success)
             .value
             .event
@@ -333,6 +337,71 @@ void main() {
         isA<Failure>(),
       );
       expect(service.calls.length, count);
+    },
+  );
+  test(
+    'completion keeps server receipt values and rejects mismatched audit event',
+    () async {
+      var wrong = false;
+      final app = {
+        ...medicationApplicationJson(),
+        'state': 'completed',
+        'version': 2,
+        'performed_by': medicationAnimalId,
+        'actor_label': 'Equipe original',
+        'performed_at': '2026-11-01T12:06:00Z',
+        'performed_local_date': '2026-11-01',
+        'performed_local_time': '09:06',
+      };
+      final service = FakeMedicationsService()
+        ..handler = (_, _) async => Success(
+          MedicationDto.parse(MedicationResponseType.command, {
+            'operation_key': 'k' * 32,
+            'server_now': '2026-11-01T12:06:00Z',
+            'result': {
+              'application': app,
+              'event': {
+                'id': medicationApplicationId,
+                'application_id': medicationApplicationId,
+                'event_type': 'completed',
+                'actor_id': wrong ? medicationTreatmentId : medicationAnimalId,
+                'actor_label': 'Equipe original',
+                'occurred_at': '2026-11-01T12:06:00Z',
+                'occurred_local_date': '2026-11-01',
+                'occurred_local_time': '09:06',
+                'application_version': 2,
+              },
+            },
+          }),
+        );
+      final repository = MedicationsRepositoryImpl(service);
+      final pending = MedicationApplication(
+        id: medicationApplicationId,
+        treatmentId: medicationTreatmentId,
+        animalId: medicationAnimalId,
+        animalName: 'Atena',
+        medicationName: 'Exemplo',
+        revision: 1,
+        version: 1,
+        scheduledAt: DateTime.utc(2026, 11, 1, 11),
+        scheduledLocalDate: '2026-11-01',
+        scheduledLocalTime: '08:00',
+      );
+      final result =
+          (await repository.completeApplication(pending, 'k' * 32) as Success)
+              .value;
+      expect(result.application.actorLabel, 'Equipe original');
+      expect(result.application.performedAt, DateTime.utc(2026, 11, 1, 12, 6));
+      expect(service.calls.last.arguments, [
+        medicationApplicationId,
+        1,
+        'k' * 32,
+      ]);
+      wrong = true;
+      expect(
+        await repository.completeApplication(pending, 'k' * 32),
+        isA<Failure>(),
+      );
     },
   );
 }
