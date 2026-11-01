@@ -780,3 +780,14 @@ T108 — rastreabilidade de resultados:
 
 Sem hooks finais registrados: .specify/extensions.yml ausente. CI só será marcada
 aprovada após resultado remoto; criar YAML ou iniciar execução não satisfaz T103.
+
+### Regressão final — formulário retomado após 401
+
+Um novo teste RED confirmou que apagar também o vínculo de animal bloqueava seleção
+quando o mesmo usuário verificado retomava o editor montado. Corrigido para manter
+somente esse vínculo, sem candidato, imagem, photoId ou chave. Logout/revogação/troca
+de usuário continuam descartando todo o VM pelo escopo protegido. A nota anterior
+que dizia apagar também o alvo é substituída por esta decisão: o alvo não contém
+bytes/ficha e permite retomada autorizada; cada seleção ainda revalida acesso remoto.
+165 Flutter PASS com cobertura e análise sem problemas. Alteração funcional exige
+novo run da CI; o run a57c4c8 não comprova esta versão posterior.

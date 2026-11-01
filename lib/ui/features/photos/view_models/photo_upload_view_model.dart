@@ -287,7 +287,14 @@ class PhotoUploadViewModel extends ChangeNotifier {
           ].contains(failure.code)) {
             ++_revision;
             _operation.complete();
-            _publish(PhotoPanelState(message: _message(failure)));
+            // Keep only the editor binding. Candidate/image/job bytes are erased;
+            // the protected scope still disposes this VM on logout/revocation.
+            _publish(
+              PhotoPanelState(
+                animalId: state.animalId,
+                message: _message(failure),
+              ),
+            );
             await _authorize?.call();
           }
           return;

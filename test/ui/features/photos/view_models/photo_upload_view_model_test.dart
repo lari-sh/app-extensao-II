@@ -247,4 +247,29 @@ void main() {
       },
     );
   }
+  test(
+    'verified same-user recovery can select again after denied upload without retaining bytes',
+    () async {
+      final repo = FakePhotoRepository()
+        ..handler = (method, _) async => method == 'pickFromGallery'
+            ? const Success<PhotoCandidate?>(candidate)
+            : Failure<PhotoUploadState>(
+                AppFailure(FailureCode.unauthenticated),
+              );
+      final vm = PhotoUploadViewModel(
+        repo,
+        isAuthorized: () => true,
+        authorize: () async => true,
+      );
+      addTearDown(vm.dispose);
+      await vm.bindAnimal(fixtureId(1), null);
+      await vm.pick();
+      await vm.upload();
+      expect(vm.state.candidate, isNull);
+      expect(vm.state.image, isNull);
+      expect(vm.canSelect, true);
+      await vm.pick();
+      expect(vm.state.candidate, isNotNull);
+    },
+  );
 }
