@@ -93,4 +93,27 @@ void main() {
     );
     expect(tester.takeException(), isNull);
   });
+  testWidgets(
+    'authorized heart changes favorite and public favorites reflect confirmed selection',
+    (tester) async {
+      final harness = PublicAppHarness();
+      harness.ids.clear();
+      await tester.pumpWidget(harness.app());
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Quero Adotar (Visitante)'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Luna 1'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byTooltip('Favoritar Luna 1'));
+      await tester.pumpAndSettle();
+      expect(find.byTooltip('Remover Luna 1 dos favoritos'), findsOneWidget);
+      expect(harness.ids, contains(fixtureId(1)));
+      await tester.tap(find.byTooltip('Fechar detalhes'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Favoritos'));
+      await tester.pumpAndSettle();
+      expect(find.text('Luna 1'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    },
+  );
 }

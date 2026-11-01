@@ -817,3 +817,13 @@ primeira tentativa falhou no seletor do teste (texto de busca igual ao nome do c
 Somente a contagem de animais ganhou largura flexível para quebra de linha; botão,
 cores e posições mantidos. 2 Widget Tests PASS, incluindo 320 px sem overflow.
 Ficha anterior: 168 Flutter PASS e análise sem problemas antes deste incremento.
+
+### Coração na ficha — alteração visual autorizada
+
+Adicionado coração no canto superior esquerdo da foto, mantendo Fechar à direita,
+no app e no HTML original screen-3. FavoritesRepository continua persistindo apenas
+IDs locais; VM espera confirmação, bloqueia duplo toque, preserva estado anterior
+em falha e ignora resposta após fechar. Sem SDK ou persistência dentro da View.
+8 testes direcionados PASS, incluindo favorito confirmado aparecendo na lista e
+remoção segura. O controle compensa a ausência de ação de adicionar favoritos no
+protótipo original, com autorização explícita da responsável.

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:abrigo_dos_anjos/utils/app_failure.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:abrigo_dos_anjos/ui/features/animals/view_models/animal_detail_view_model.dart';
@@ -77,6 +78,62 @@ void main() {
       expect(vm.state.tags, isEmpty);
       expect(vm.state.photo, isNull);
       expect(vm.state.canAdopt, false);
+    },
+  );
+  test(
+    'favorite is confirmed only after storage succeeds and failures preserve prior state',
+    () async {
+      final gate = Completer<Result<Set<String>>>();
+      final favorites = FakeFavoritesRepository()
+        ..handler = (method, _) async =>
+            method == 'loadIds' ? const Success(<String>{}) : gate.future;
+      final animals = FakeAnimalsRepository()
+        ..handler = (_, _) async => Success(fixtureAnimal(1));
+      final vm = AnimalDetailViewModel(
+        animals,
+        favorites,
+        FakePhotoRepository(),
+        FakeAdoptionMessageRepository(),
+      );
+      addTearDown(vm.dispose);
+      await vm.load(fixtureId(1));
+      final saving = vm.toggleFavorite();
+      await Future<void>.delayed(Duration.zero);
+      expect(vm.state.isFavorite, false);
+      expect(vm.state.changingFavorite, true);
+      gate.complete(Success({fixtureId(1)}));
+      await saving;
+      expect(vm.state.isFavorite, true);
+      favorites.handler = (_, _) async =>
+          Failure<Set<String>>(AppFailure(FailureCode.network));
+      await vm.toggleFavorite();
+      expect(vm.state.isFavorite, true);
+      expect(vm.state.changingFavorite, false);
+      expect(vm.state.message, isNotNull);
+    },
+  );
+  test(
+    'late favorite confirmation is ignored after closing the detail',
+    () async {
+      final gate = Completer<Result<Set<String>>>();
+      final favorites = FakeFavoritesRepository()
+        ..handler = (method, _) async =>
+            method == 'loadIds' ? const Success(<String>{}) : gate.future;
+      final animals = FakeAnimalsRepository()
+        ..handler = (_, _) async => Success(fixtureAnimal(1));
+      final vm = AnimalDetailViewModel(
+        animals,
+        favorites,
+        FakePhotoRepository(),
+        FakeAdoptionMessageRepository(),
+      );
+      await vm.load(fixtureId(1));
+      final saving = vm.toggleFavorite();
+      await Future<void>.delayed(Duration.zero);
+      vm.dispose();
+      gate.complete(Success({fixtureId(1)}));
+      await saving;
+      expect(vm.state.isFavorite, false);
     },
   );
 }

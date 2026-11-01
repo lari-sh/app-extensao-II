@@ -84,6 +84,38 @@ class AnimalDetailScreen extends StatelessWidget {
                                       ),
                                     Positioned(
                                       top: 10,
+                                      left: 10,
+                                      child: IconButton.filledTonal(
+                                        tooltip: viewModel.favoriteTooltip,
+                                        onPressed: viewModel.canToggleFavorite
+                                            ? viewModel.toggleFavorite
+                                            : null,
+                                        style: IconButton.styleFrom(
+                                          backgroundColor: const Color(
+                                            0xE6FFFFFF,
+                                          ),
+                                          foregroundColor: const Color(
+                                            0xFFC51D2A,
+                                          ),
+                                        ),
+                                        icon: viewModel.state.changingFavorite
+                                            ? const SizedBox.square(
+                                                dimension: 18,
+                                                child:
+                                                    CircularProgressIndicator(
+                                                      strokeWidth: 2,
+                                                    ),
+                                              )
+                                            : Icon(
+                                                viewModel.state.isFavorite
+                                                    ? Icons.favorite
+                                                    : Icons.favorite_outline,
+                                                size: 18,
+                                              ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      top: 10,
                                       right: 10,
                                       child: _close(context),
                                     ),

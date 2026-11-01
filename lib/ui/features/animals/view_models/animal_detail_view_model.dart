@@ -23,6 +23,9 @@ abstract class AnimalDetailState with _$AnimalDetailState {
     @Default(false) bool hasAnimal,
     @Default([]) List<String> tags,
     @Default({}) Map<String, String> publicInformation,
+    @Default(false) bool isFavorite,
+    @Default(false) bool favoritesReady,
+    @Default(false) bool changingFavorite,
     List<int>? photo,
     String? message,
   }) = _AnimalDetailState;
@@ -41,6 +44,14 @@ class AnimalDetailViewModel extends ChangeNotifier {
   final AdoptionMessageRepository adoption;
   AnimalDetailState _state = const AnimalDetailState();
   AnimalDetailState get state => _state;
+  bool get canToggleFavorite =>
+      !_disposed &&
+      state.hasAnimal &&
+      state.favoritesReady &&
+      !state.changingFavorite;
+  String get favoriteTooltip => state.isFavorite
+      ? 'Remover ${state.title} dos favoritos'
+      : 'Favoritar ${state.title}';
   String get contactHint => state.canAdopt
       ? 'Copia uma mensagem. Nenhum pedido é enviado.'
       : 'Este animal não está disponível para adoção no momento.';
@@ -103,6 +114,16 @@ class AnimalDetailViewModel extends ChangeNotifier {
                   value.isPublished && value.status == AnimalStatus.available,
             ),
           );
+          final ids = await favorites.loadIds();
+          if (_disposed || generation != _generation) return;
+          if (ids case Success<Set<String>>(:final value)) {
+            _publish(
+              state.copyWith(
+                isFavorite: value.contains(id),
+                favoritesReady: true,
+              ),
+            );
+          }
           if (value.primaryPhotoId != null) {
             final photo = await photos.readPrimary(
               value.id,
@@ -172,6 +193,30 @@ class AnimalDetailViewModel extends ChangeNotifier {
       if (!_disposed && generation == _generation) {
         _publish(state.copyWith(copying: false));
       }
+    }
+  }
+
+  Future<void> toggleFavorite() async {
+    if (!canToggleFavorite || _animal == null) return;
+    final id = _animal!.id, generation = _generation;
+    _publish(state.copyWith(changingFavorite: true, message: null));
+    try {
+      final result = await favorites.setFavorite(id, !state.isFavorite);
+      if (_disposed || generation != _generation) return;
+      switch (result) {
+        case Success<Set<String>>(:final value):
+          _publish(state.copyWith(isFavorite: value.contains(id)));
+        case Failure<Set<String>>(:final failure):
+          _publish(state.copyWith(message: failureMessage(failure)));
+      }
+    } catch (_) {
+      if (!_disposed && generation == _generation)
+        _publish(
+          state.copyWith(message: 'Não foi possível atualizar os favoritos.'),
+        );
+    } finally {
+      if (!_disposed && generation == _generation)
+        _publish(state.copyWith(changingFavorite: false));
     }
   }
 
