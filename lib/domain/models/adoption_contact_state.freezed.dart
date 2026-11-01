@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AdoptionContactState {
 
- bool get loading; bool get opening; bool get canContact; String get animalName; String get linkNotice; String? get message;
+ bool get loading; bool get opening; bool get canContact; String get animalName; String get contactNotice; String? get message;
 /// Create a copy of AdoptionContactState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $AdoptionContactStateCopyWith<AdoptionContactState> get copyWith => _$AdoptionCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AdoptionContactState&&(identical(other.loading, loading) || other.loading == loading)&&(identical(other.opening, opening) || other.opening == opening)&&(identical(other.canContact, canContact) || other.canContact == canContact)&&(identical(other.animalName, animalName) || other.animalName == animalName)&&(identical(other.linkNotice, linkNotice) || other.linkNotice == linkNotice)&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AdoptionContactState&&(identical(other.loading, loading) || other.loading == loading)&&(identical(other.opening, opening) || other.opening == opening)&&(identical(other.canContact, canContact) || other.canContact == canContact)&&(identical(other.animalName, animalName) || other.animalName == animalName)&&(identical(other.contactNotice, contactNotice) || other.contactNotice == contactNotice)&&(identical(other.message, message) || other.message == message));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,loading,opening,canContact,animalName,linkNotice,message);
+int get hashCode => Object.hash(runtimeType,loading,opening,canContact,animalName,contactNotice,message);
 
 @override
 String toString() {
-  return 'AdoptionContactState(loading: $loading, opening: $opening, canContact: $canContact, animalName: $animalName, linkNotice: $linkNotice, message: $message)';
+  return 'AdoptionContactState(loading: $loading, opening: $opening, canContact: $canContact, animalName: $animalName, contactNotice: $contactNotice, message: $message)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $AdoptionContactStateCopyWith<$Res>  {
   factory $AdoptionContactStateCopyWith(AdoptionContactState value, $Res Function(AdoptionContactState) _then) = _$AdoptionContactStateCopyWithImpl;
 @useResult
 $Res call({
- bool loading, bool opening, bool canContact, String animalName, String linkNotice, String? message
+ bool loading, bool opening, bool canContact, String animalName, String contactNotice, String? message
 });
 
 
@@ -62,13 +62,13 @@ class _$AdoptionContactStateCopyWithImpl<$Res>
 
 /// Create a copy of AdoptionContactState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? loading = null,Object? opening = null,Object? canContact = null,Object? animalName = null,Object? linkNotice = null,Object? message = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? loading = null,Object? opening = null,Object? canContact = null,Object? animalName = null,Object? contactNotice = null,Object? message = freezed,}) {
   return _then(_self.copyWith(
 loading: null == loading ? _self.loading : loading // ignore: cast_nullable_to_non_nullable
 as bool,opening: null == opening ? _self.opening : opening // ignore: cast_nullable_to_non_nullable
 as bool,canContact: null == canContact ? _self.canContact : canContact // ignore: cast_nullable_to_non_nullable
 as bool,animalName: null == animalName ? _self.animalName : animalName // ignore: cast_nullable_to_non_nullable
-as String,linkNotice: null == linkNotice ? _self.linkNotice : linkNotice // ignore: cast_nullable_to_non_nullable
+as String,contactNotice: null == contactNotice ? _self.contactNotice : contactNotice // ignore: cast_nullable_to_non_nullable
 as String,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
@@ -155,10 +155,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool loading,  bool opening,  bool canContact,  String animalName,  String linkNotice,  String? message)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool loading,  bool opening,  bool canContact,  String animalName,  String contactNotice,  String? message)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AdoptionContactState() when $default != null:
-return $default(_that.loading,_that.opening,_that.canContact,_that.animalName,_that.linkNotice,_that.message);case _:
+return $default(_that.loading,_that.opening,_that.canContact,_that.animalName,_that.contactNotice,_that.message);case _:
   return orElse();
 
 }
@@ -176,10 +176,10 @@ return $default(_that.loading,_that.opening,_that.canContact,_that.animalName,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool loading,  bool opening,  bool canContact,  String animalName,  String linkNotice,  String? message)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool loading,  bool opening,  bool canContact,  String animalName,  String contactNotice,  String? message)  $default,) {final _that = this;
 switch (_that) {
 case _AdoptionContactState():
-return $default(_that.loading,_that.opening,_that.canContact,_that.animalName,_that.linkNotice,_that.message);case _:
+return $default(_that.loading,_that.opening,_that.canContact,_that.animalName,_that.contactNotice,_that.message);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -196,10 +196,10 @@ return $default(_that.loading,_that.opening,_that.canContact,_that.animalName,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool loading,  bool opening,  bool canContact,  String animalName,  String linkNotice,  String? message)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool loading,  bool opening,  bool canContact,  String animalName,  String contactNotice,  String? message)?  $default,) {final _that = this;
 switch (_that) {
 case _AdoptionContactState() when $default != null:
-return $default(_that.loading,_that.opening,_that.canContact,_that.animalName,_that.linkNotice,_that.message);case _:
+return $default(_that.loading,_that.opening,_that.canContact,_that.animalName,_that.contactNotice,_that.message);case _:
   return null;
 
 }
@@ -211,14 +211,14 @@ return $default(_that.loading,_that.opening,_that.canContact,_that.animalName,_t
 
 
 class _AdoptionContactState implements AdoptionContactState {
-  const _AdoptionContactState({this.loading = false, this.opening = false, this.canContact = false, this.animalName = '', this.linkNotice = 'No WhatsApp, você revisa e envia a mensagem quando quiser. O link público da ficha ainda não está disponível.', this.message});
+  const _AdoptionContactState({this.loading = false, this.opening = false, this.canContact = false, this.animalName = '', this.contactNotice = 'No WhatsApp, você revisa e envia a mensagem quando quiser.', this.message});
   
 
 @override@JsonKey() final  bool loading;
 @override@JsonKey() final  bool opening;
 @override@JsonKey() final  bool canContact;
 @override@JsonKey() final  String animalName;
-@override@JsonKey() final  String linkNotice;
+@override@JsonKey() final  String contactNotice;
 @override final  String? message;
 
 /// Create a copy of AdoptionContactState
@@ -231,16 +231,16 @@ _$AdoptionContactStateCopyWith<_AdoptionContactState> get copyWith => __$Adoptio
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AdoptionContactState&&(identical(other.loading, loading) || other.loading == loading)&&(identical(other.opening, opening) || other.opening == opening)&&(identical(other.canContact, canContact) || other.canContact == canContact)&&(identical(other.animalName, animalName) || other.animalName == animalName)&&(identical(other.linkNotice, linkNotice) || other.linkNotice == linkNotice)&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AdoptionContactState&&(identical(other.loading, loading) || other.loading == loading)&&(identical(other.opening, opening) || other.opening == opening)&&(identical(other.canContact, canContact) || other.canContact == canContact)&&(identical(other.animalName, animalName) || other.animalName == animalName)&&(identical(other.contactNotice, contactNotice) || other.contactNotice == contactNotice)&&(identical(other.message, message) || other.message == message));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,loading,opening,canContact,animalName,linkNotice,message);
+int get hashCode => Object.hash(runtimeType,loading,opening,canContact,animalName,contactNotice,message);
 
 @override
 String toString() {
-  return 'AdoptionContactState(loading: $loading, opening: $opening, canContact: $canContact, animalName: $animalName, linkNotice: $linkNotice, message: $message)';
+  return 'AdoptionContactState(loading: $loading, opening: $opening, canContact: $canContact, animalName: $animalName, contactNotice: $contactNotice, message: $message)';
 }
 
 
@@ -251,7 +251,7 @@ abstract mixin class _$AdoptionContactStateCopyWith<$Res> implements $AdoptionCo
   factory _$AdoptionContactStateCopyWith(_AdoptionContactState value, $Res Function(_AdoptionContactState) _then) = __$AdoptionContactStateCopyWithImpl;
 @override @useResult
 $Res call({
- bool loading, bool opening, bool canContact, String animalName, String linkNotice, String? message
+ bool loading, bool opening, bool canContact, String animalName, String contactNotice, String? message
 });
 
 
@@ -268,13 +268,13 @@ class __$AdoptionContactStateCopyWithImpl<$Res>
 
 /// Create a copy of AdoptionContactState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? loading = null,Object? opening = null,Object? canContact = null,Object? animalName = null,Object? linkNotice = null,Object? message = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? loading = null,Object? opening = null,Object? canContact = null,Object? animalName = null,Object? contactNotice = null,Object? message = freezed,}) {
   return _then(_AdoptionContactState(
 loading: null == loading ? _self.loading : loading // ignore: cast_nullable_to_non_nullable
 as bool,opening: null == opening ? _self.opening : opening // ignore: cast_nullable_to_non_nullable
 as bool,canContact: null == canContact ? _self.canContact : canContact // ignore: cast_nullable_to_non_nullable
 as bool,animalName: null == animalName ? _self.animalName : animalName // ignore: cast_nullable_to_non_nullable
-as String,linkNotice: null == linkNotice ? _self.linkNotice : linkNotice // ignore: cast_nullable_to_non_nullable
+as String,contactNotice: null == contactNotice ? _self.contactNotice : contactNotice // ignore: cast_nullable_to_non_nullable
 as String,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String?,
   ));

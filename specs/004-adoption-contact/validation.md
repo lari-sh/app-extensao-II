@@ -68,3 +68,22 @@ ID 13075460909, 76.793.343 bytes, não expirado na conferência, expira em
 T006 concluída com gates e artifact remotos, além de 270 testes Flutter e Android
 local já registrados. APK normal local reinstalado e iniciado após integração.
 Não equivale a publicação em lojas nem à entrega de link público da ficha.
+
+
+## Decisão vigente — cancelamento do compartilhamento
+
+Em 2026-11-01, usuário cancelou hospedagem gratuita e determinou remover da lista
+as tarefas de envio da ficha. Referências anteriores ao link/hospedagem são
+históricas e estão revogadas. T007–T011 removidas, não concluídas por implementação.
+Nenhum host foi preparado/publicado. WhatsApp mantém apenas rascunho textual com
+dados públicos, sem ficha/link anexado; rodapé do app/protótipo atualizado sem mudar
+composição aprovada. Não há trabalho pendente de hospedagem nesta feature.
+
+
+Verificação do ajuste: geração Freezed concluída, 7 testes de contato/Repository
+PASS, análise sem problemas, protótipo em 320/390 px sem erros JS/overflow.
+Teste confirma que o texto WhatsApp não inclui URL. Layout mantido. Janela do AVD
+recuperada com renderização swiftshader, reposicionada na tela e aviso de
+compatibilidade dispensado; tela inicial do app observada na janela Windows.
+Nenhuma publicação de hospedagem realizada. CI da alteração será nova execução;
+a aprovação remota anterior continua identificada pelo SHA acima.

@@ -34,6 +34,7 @@ void main() {
       expect(uri.queryParameters['text'], contains('Luna & João? #1'));
       expect(uri.queryParameters['text'], contains(animal.approximateAge));
       expect(uri.queryParameters.keys, ['text']);
+      expect(uri.queryParameters['text'], isNot(contains('http')));
       await repo.open(AdoptionChannel.instagram, animal);
       expect(
         links.opened.last.toString(),

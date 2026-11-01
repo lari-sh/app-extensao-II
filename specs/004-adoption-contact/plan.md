@@ -22,8 +22,7 @@ com retorno de sucesso/falha e compatibilidade Android/iOS. Reutilizar APIs SDK
 não fornece abertura multiplataforma equivalente; não criar plugin nativo próprio.
 Android minSdk24 já atende. Service encapsula launchUrl em externalApplication e
 captura false/exceções; não bloquear botão por canLaunchUrl (falsos negativos).
-Nenhum outro pacote novo. App Links inicialmente usam mecanismo nativo Flutter;
-não adicionar app_links sem necessidade comprovada e novo plano justificado.
+Nenhum outro pacote novo. App Links e hospedagem foram removidos do escopo.
 
 ## Estrutura e responsabilidades
 - lib/domain/models/adoption_contact_state.dart: estado imutável Freezed.
@@ -40,18 +39,14 @@ não adicionar app_links sem necessidade comprovada e novo plano justificado.
 - test/data/{services,repositories}, test/ui/features/adoption: regras e happy path.
 - integration_test/adoption_contact_flow_test.dart: jornada pública Android.
 
-## Incrementos
-1. Aprovação/spec/plano/tarefas; commit documental antes do código.
-2. US1: testes antes de Service/Repository/VM/View, regressão completa e Android.
-   Sem host publicado, mensagem só textual e nota curta informa isso; US2 pendente.
-3. US2: preparar ficha web local com acesso somente público, endereço grátis e
-   assetlinks parametrizados pelo certificado real. Autorização final antes de
-   publicar. Só anexar URL real após validação de host/App Links e fallback.
-4. CI, evidências e commits por contexto; iOS não é validado por Windows.
+## Incrementos e fechamento
+1. Aprovação/spec/plano/tarefas e commits por contexto na developer.
+2. US1 com testes Service/Repository/VM/View, regressão e Android.
+3. Conferência da CI/artifact e atualização de documentação/tarefas.
 
-## Riscos e gates
-Preferência de subdomínio grátis não define conta/host/nome disponível nem autoriza
-publicação. Não prometer prefixo ou prévia social. Associar apenas host controlado,
-sem handlers genéricos; serviço web não usa service_role. Página removida/oculta não
-expõe cache antigo. Definir foto sem cache conforme política vigente.
-Uma falha de rede impede usar o animal antigo para preparar contato; permite retry.
+## Alteração de escopo em 2026-11-01
+Cancelados a pedido do usuário: hospedagem gratuita da ficha, fallback web,
+App Links e envio de link/anexo da ficha pelo WhatsApp. Removidas T007–T011.
+Não adicionar configuração de host, manifest handlers ou plataforma de hospedagem.
+O rascunho inclui apenas dados públicos em texto; continua revisável e sem envio
+automático. Remover do rodapé a promessa/pendência de link mantendo o layout.

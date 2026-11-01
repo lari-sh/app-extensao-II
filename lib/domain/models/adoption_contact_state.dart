@@ -8,10 +8,8 @@ abstract class AdoptionContactState with _$AdoptionContactState {
     @Default(false) bool opening,
     @Default(false) bool canContact,
     @Default('') String animalName,
-    @Default(
-      'No WhatsApp, você revisa e envia a mensagem quando quiser. O link público da ficha ainda não está disponível.',
-    )
-    String linkNotice,
+    @Default('No WhatsApp, você revisa e envia a mensagem quando quiser.')
+    String contactNotice,
     String? message,
   }) = _AdoptionContactState;
 }

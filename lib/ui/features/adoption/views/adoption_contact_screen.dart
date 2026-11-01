@@ -168,7 +168,7 @@ class AdoptionContactScreen extends StatelessWidget {
                   const Divider(color: _border),
                   const SizedBox(height: 8),
                   Text(
-                    viewModel.state.linkNotice,
+                    viewModel.state.contactNotice,
                     style: const TextStyle(
                       fontSize: 11,
                       height: 1.6,

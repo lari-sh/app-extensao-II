@@ -27,7 +27,6 @@ class AdoptionContactRepositoryImpl implements AdoptionContactRepository {
             'Olá! Tenho interesse em adotar ${animal.name}. '
             '$species · $sex · ${animal.approximateAge}. '
             'Gostaria de saber mais sobre a adoção.';
-        // A real public URL will be appended only after the hosting gate (US2).
         uri = Uri.https('wa.me', '/5534991378936', {'text': message});
       case AdoptionChannel.instagram:
         uri = Uri.parse('https://www.instagram.com/abrigodosanjosoficial/');

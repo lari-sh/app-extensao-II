@@ -90,3 +90,13 @@ Em 2026-11-01, após revisar a tela sem prévia, o usuário respondeu “aprovo,
 Aprovada DESIGN-CONTACT-003 do commit 73d1e55, substituindo a v2 rejeitada. Autoriza
 implementar essa composição Flutter. Planejamento em specs/004-adoption-contact;
 usuário escolheu planejar subdomínio gratuito, sem publicação/contratação nesta etapa.
+
+
+## Decisão vigente — cancelamento do compartilhamento
+
+Em 2026-11-01, usuário cancelou hospedagem gratuita e determinou remover da lista
+as tarefas de envio da ficha. Referências anteriores ao link/hospedagem são
+históricas e estão revogadas. T007–T011 removidas, não concluídas por implementação.
+Nenhum host foi preparado/publicado. WhatsApp mantém apenas rascunho textual com
+dados públicos, sem ficha/link anexado; rodapé do app/protótipo atualizado sem mudar
+composição aprovada. Não há trabalho pendente de hospedagem nesta feature.

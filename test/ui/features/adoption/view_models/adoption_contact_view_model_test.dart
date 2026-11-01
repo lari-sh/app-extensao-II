@@ -34,7 +34,7 @@ void main() {
       expect(contact.calls, 1);
       expect(animals.calls.length, 2);
       expect(vm.state.message, isNull);
-      expect(vm.state.linkNotice, contains('ainda não'));
+      expect(vm.state.contactNotice, isNot(contains('link')));
       animals.handler = (_, args) async =>
           Success(fixtureAnimal(1).copyWith(isPublished: false));
       await vm.open(AdoptionChannel.whatsapp);

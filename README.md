@@ -10,8 +10,8 @@ Trabalho na branch `developer`; integração à `main` por Pull Request.
 - Dados públicos do Supabase; somente animais publicados e não adotados.
 - Fotos atuais entregues em bytes por função autorizada a cada requisição, sem cache.
 - Favoritos persistidos localmente; tela de contato para adoção com canais oficiais,
-  rascunho WhatsApp revisável e sem envio automático. O link público da ficha ainda
-  depende da hospedagem e da validação de App Links.
+  rascunho WhatsApp com dados públicos do animal, revisável e sem envio automático.
+  Sem anexar ficha ou link compartilhável; hospedagem da ficha cancelada.
 - MVVM com ChangeNotifier, estados Freezed, Repositories abstratos, Services e Provider.
 - Falhas tipadas por Result e mensagens em português; logo e paleta vermelha/marrom.
 - Login de contas provisionadas, verificação remota de sessão/equipe e saída,
