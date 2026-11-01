@@ -18,3 +18,15 @@ Nenhum pacote novo. Fronteiras arquiteturais conferidas pela suíte existente.
 Interfaces, Services/Repositories, RPCs funcionais, ViewModels, telas, Android e
 CI do calendário ainda precisam das tarefas posteriores. Não declarar o calendário
 funcional com apenas modelos. Ver tasks.md para o acompanhamento autoritativo.
+
+
+## Fundação SQL privada
+
+Migração 011 aplicada somente no Supabase local, após teste vermelho confirmado.
+Suíte pgTAP: 149 testes aprovados em oito arquivos, incluindo 22 da fundação.
+Verifica tabelas/ledger, equipe atual, anonimato, não equipe, sessão ausente/expirada,
+revogação, auditoria/recibos sem leitura direta, DML direto negado, FK de animal
+restritiva, unicidade de aplicação ativa e contador transacional inicial.
+O schema público de animals não recebeu informações de medicação. As revisões
+possuem referência deferida e IDs próprios, separados dos clinical_records legados.
+Nenhuma migração de produção realizada; RPCs e jornada Android do calendário pendentes.
