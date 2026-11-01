@@ -101,3 +101,7 @@ Total: 50 tarefas. Distribuição: transversal: 16, US1: 10, US2: 8, US3: 8, US4
 ## Ajuste adicional autorizado — navegação visível
 
 - [x] T051 Adicionar Voltar onde ausente no login, painel de manejo e telas internas, sem remover Fechar existente; preservar guards/reautenticação, refletir a adição no protótipo e validar Widgets/Android. Solicitação expressa do usuário em 2026-11-01; item independente das fases restantes. [003-FR-014, 003-CR-002, 003-CR-003]
+
+## Correção de interação na agenda
+
+- [x] T052 Fazer o cartão inteiro da aplicação abrir os detalhes ao tocar no nome, medicamento ou área livre, mantendo a seta, o design e a confirmação explícita de conclusão. Validar regressão Widget, analyze, suíte Flutter e abertura/conclusão no Android com animal fictício; registrar evidências e commit na developer. [003-FR-008, 003-FR-014, 003-CR-002, 003-CR-003]

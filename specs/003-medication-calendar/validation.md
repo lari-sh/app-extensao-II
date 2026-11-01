@@ -434,3 +434,32 @@ fechamento documental. Main preservada. As 51 tarefas do calendário estão
 concluídas; este commit altera apenas documentação e mantém o código validado.
 iOS continua como dependência externa separada, e o contato de adoção/link público
 continua aguardando aprovação explícita do design antes da implementação Flutter.
+
+## T052 — clique no cartão da agenda (2026-11-01)
+
+Problema reproduzido: o nome do animal e o medicamento não abriam os detalhes;
+somente a seta possuía ação. Os três cenários Widget de conclusão falharam ao
+passarem a tocar no nome. Correção: Material/InkWell envolve o cartão inteiro,
+preservando cores, dimensões, borda, conteúdo, seta e guard canNavigate do VM.
+Abrir detalhes continua sem concluir automaticamente a aplicação.
+
+Validação local desta correção:
+- flutter analyze: sem problemas (41,3 s).
+- flutter test: 273 testes aprovados, incluindo sete do painel. Toque no nome
+  percorre conclusão normal, timeout reconciliado e conflito; medicamento e seta
+  abrem a mesma aplicação exatamente uma vez. Responsividade em 320 px mantida.
+- APK debug normal compilado (62,4 s), instalado com adb install -r e aberto no
+  emulator-5554, sem limpar dados ou reiniciar o AVD.
+- Android: toque no nome de `Teste de agenda - Bento`, longe da seta, abriu os
+  detalhes. Confirmação explícita de `Simulação B - não administrar` registrou o
+  funcionário autenticado e 01/11/2026 às 18:01 (horário do abrigo). Retorno à
+  agenda mostrou Realizada, autor/hora e contagem de 5 pendentes / 2 realizadas.
+  Apenas a aplicação fictícia foi concluída; registros do usuário preservados.
+
+Dados locais solicitados para testes: Nina, Bento e Mel, seis aplicações por animal
+entre 01 e 03/11/2026, identificadas como simulação. Não são prescrição clínica nem
+seed de produção. Emulador deixado na agenda com o APK corrigido.
+
+Sem alteração de backend/dependências: pgTAP/HTTP não repetidos neste contexto.
+CI remota deste commit ainda não confirmada; os resultados acima são locais e não
+substituem a execução remota. T052 acrescenta uma tarefa às 51 anteriores.

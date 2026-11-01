@@ -74,7 +74,9 @@ SUPABASE_URL=http://10.0.2.2:54321 e ALLOW_LOCAL_HTTP=true somente no emulador l
 Após reinstalar o APK normal: Acesso Voluntário / Funcionário → login de equipe →
 Animais do abrigo → Calendário. Setas navegam o mês; tocar no dia abre sua agenda.
 Hoje usa a data do abrigo; Carregar mais aplicações percorre páginas de 100.
-Os cartões abrem detalhes. Aplicações devidas permitem Marcar como aplicada;
+Toque no nome, medicamento ou área do cartão para abrir os detalhes; a seta
+continua disponível. Abrir o cartão não marca a aplicação automaticamente.
+Aplicações devidas permitem Marcar como aplicada;
 funcionário e horário vêm do servidor. Incerto exige verificar o resultado antes
 de repetir. Futuras/canceladas/realizadas não aceitam nova conclusão. Para editar/interromper, use os cartões de Medicações em uso na ficha. Interromper
 preserva atrasadas/realizadas. Em detalhes de aplicação realizada, Corrigir registro

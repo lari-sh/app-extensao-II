@@ -309,106 +309,114 @@ class MedicationCalendarPanel extends StatelessWidget {
       'Atrasada' => brandRed,
       _ => _muted,
     };
-    return Container(
+    return Material(
       key: ValueKey('medicationApplication-${item.id}'),
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: _border),
+      color: Colors.white,
+      shape: RoundedRectangleBorder(
+        side: const BorderSide(color: _border),
         borderRadius: BorderRadius.circular(14),
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 39,
-            child: Text(
-              item.scheduledLocalTime,
-              style: const TextStyle(
-                fontFamily: 'monospace',
-                fontSize: 11,
-                fontWeight: FontWeight.w600,
-                color: brandBrown,
-              ),
-            ),
-          ),
-          const SizedBox(width: 9),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  item.animalName,
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: viewModel.canNavigate ? () => _open(context, item.id) : null,
+        borderRadius: BorderRadius.circular(14),
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: 39,
+                child: Text(
+                  item.scheduledLocalTime,
                   style: const TextStyle(
-                    fontSize: 13,
+                    fontFamily: 'monospace',
+                    fontSize: 11,
                     fontWeight: FontWeight.w600,
                     color: brandBrown,
                   ),
                 ),
-                const SizedBox(height: 2),
-                Text(
-                  item.medicationName,
-                  style: const TextStyle(
-                    fontSize: 11,
-                    color: _muted,
-                    height: 1.5,
-                  ),
+              ),
+              const SizedBox(width: 9),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      item.animalName,
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: brandBrown,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      item.medicationName,
+                      style: const TextStyle(
+                        fontSize: 11,
+                        color: _muted,
+                        height: 1.5,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 7,
+                        vertical: 3,
+                      ),
+                      decoration: BoxDecoration(
+                        color:
+                            item.state == MedicationApplicationState.completed
+                            ? const Color(0xFFEEE2DC)
+                            : _soft,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Text(
+                        label,
+                        style: TextStyle(color: color, fontSize: 10),
+                      ),
+                    ),
+                    if (item.state == MedicationApplicationState.completed)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8),
+                        child: Text(
+                          viewModel.appliedLabel(item),
+                          style: const TextStyle(fontSize: 10, color: _muted),
+                        ),
+                      ),
+                  ],
                 ),
-                const SizedBox(height: 6),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 7,
-                    vertical: 3,
-                  ),
+              ),
+              const SizedBox(width: 9),
+              SizedBox(
+                width: 30,
+                height: 30,
+                child: DecoratedBox(
                   decoration: BoxDecoration(
-                    color: item.state == MedicationApplicationState.completed
-                        ? const Color(0xFFEEE2DC)
-                        : _soft,
-                    borderRadius: BorderRadius.circular(20),
+                    color: _soft,
+                    borderRadius: BorderRadius.circular(9),
                   ),
-                  child: Text(
-                    label,
-                    style: TextStyle(color: color, fontSize: 10),
-                  ),
-                ),
-                if (item.state == MedicationApplicationState.completed)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8),
-                    child: Text(
-                      viewModel.appliedLabel(item),
-                      style: const TextStyle(fontSize: 10, color: _muted),
+                  child: IconButton(
+                    tooltip:
+                        'Ver aplicação de ${item.animalName} às ${item.scheduledLocalTime}',
+                    onPressed: viewModel.canNavigate
+                        ? () => _open(context, item.id)
+                        : null,
+                    padding: EdgeInsets.zero,
+                    icon: Icon(
+                      item.state == MedicationApplicationState.completed
+                          ? Icons.check
+                          : Icons.chevron_right,
+                      size: 18,
+                      color: color,
                     ),
                   ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 9),
-          SizedBox(
-            width: 30,
-            height: 30,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: _soft,
-                borderRadius: BorderRadius.circular(9),
-              ),
-              child: IconButton(
-                tooltip:
-                    'Ver aplicação de ${item.animalName} às ${item.scheduledLocalTime}',
-                onPressed: viewModel.canNavigate
-                    ? () => _open(context, item.id)
-                    : null,
-                padding: EdgeInsets.zero,
-                icon: Icon(
-                  item.state == MedicationApplicationState.completed
-                      ? Icons.check
-                      : Icons.chevron_right,
-                  size: 18,
-                  color: color,
                 ),
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

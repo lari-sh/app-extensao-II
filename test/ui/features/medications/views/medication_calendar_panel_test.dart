@@ -50,6 +50,40 @@ FakeMedicationsRepository repository() =>
         );
       };
 void main() {
+  testWidgets(
+    'medication label and arrow each open the same application once',
+    (tester) async {
+      final vm = MedicationCalendarViewModel(repository());
+      addTearDown(vm.dispose);
+      await vm.initialize();
+      final opened = <String>[];
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(body: MedicationCalendarPanel(viewModel: vm)),
+          onGenerateRoute: (settings) {
+            opened.add(settings.arguments as String);
+            return MaterialPageRoute<void>(
+              builder: (_) => const Scaffold(body: Text('Aplicação aberta')),
+            );
+          },
+        ),
+      );
+      for (final finder in [
+        find.text('Amoxicilina'),
+        find.byTooltip('Ver aplicação de Atena às 08:00'),
+      ]) {
+        await tester.ensureVisible(finder);
+        await tester.tap(finder);
+        await tester.pumpAndSettle();
+        expect(find.text('Aplicação aberta'), findsOneWidget);
+        Navigator.of(tester.element(find.text('Aplicação aberta'))).pop();
+        await tester.pumpAndSettle();
+      }
+      expect(opened, ['application', 'application']);
+      expect(tester.takeException(), isNull);
+    },
+  );
+
   testWidgets('approved month/day view navigates and shows real day state', (
     tester,
   ) async {
@@ -160,7 +194,7 @@ void main() {
           },
         ),
       );
-      await tester.tap(find.byTooltip('Ver aplicação de Atena às 08:00'));
+      await tester.tap(find.text('Atena'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Marcar como aplicada'));
       await tester.pumpAndSettle();
