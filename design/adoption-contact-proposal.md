@@ -1,6 +1,6 @@
 # Contato público para adoção — proposta visual
 
-Estado: aguardando aprovação explícita. Alteração exclusiva do protótipo HTML.
+Estado atual: DESIGN-CONTACT-003 aprovado explicitamente em 2026-11-01. Revisões anteriores abaixo são históricas.
 Solicitação e contatos fornecidos pelo usuário em 2026-11-01.
 
 ## Requisito DESIGN-CONTACT-001
@@ -19,7 +19,7 @@ Após aprovação, planejar binding ao animal selecionado, abertura de links em
 Service, ViewModel/Repository conforme a constituição, justificativa de eventual
 pacote novo e testes unitários/Widget/Android antes de alterar o Flutter.
 
-- [ ] Aprovação explícita da tela 10 pelo usuário.
+- [x] Aprovação explícita da tela 10 pelo usuário (DESIGN-CONTACT-003).
 - [ ] Planejamento/tarefas da implementação após aprovação.
 - [ ] Implementação Flutter e validação — bloqueadas pela aprovação visual.
 
@@ -82,3 +82,11 @@ no planejamento futuro; nenhum link definitivo é inventado no protótipo.
 Estado: aguardando avaliação e aprovação explícita desta revisão; sem alteração Flutter.
 
 Validação DESIGN-CONTACT-003: 320/390 px, entrada e ambos os retornos, três URLs oficiais, sem overflow horizontal ou erros JavaScript; captura atualizada e inspecionada visualmente.
+
+
+## Aprovação registrada
+
+Em 2026-11-01, após revisar a tela sem prévia, o usuário respondeu “aprovo, continue”.
+Aprovada DESIGN-CONTACT-003 do commit 73d1e55, substituindo a v2 rejeitada. Autoriza
+implementar essa composição Flutter. Planejamento em specs/004-adoption-contact;
+usuário escolheu planejar subdomínio gratuito, sem publicação/contratação nesta etapa.
