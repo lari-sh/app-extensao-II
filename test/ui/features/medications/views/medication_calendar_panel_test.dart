@@ -1,3 +1,6 @@
+import 'package:abrigo_dos_anjos/ui/features/medications/views/medication_application_details_sheet.dart';
+import 'package:abrigo_dos_anjos/ui/features/medications/view_models/medication_application_view_model.dart';
+import '../../../../support/fakes/fake_medication_completion_scenario.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:abrigo_dos_anjos/domain/models/medication_agenda.dart';
@@ -134,4 +137,44 @@ void main() {
     expect(find.text('Tentar carregar agenda'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
+  for (final failure in [null, FailureCode.timeout, FailureCode.conflict]) {
+    testWidgets('calendar details return confirmed actor/time for $failure', (
+      tester,
+    ) async {
+      final scenario = FakeMedicationCompletionScenario(failure: failure);
+      final vm = MedicationCalendarViewModel(scenario.repository);
+      addTearDown(vm.dispose);
+      await vm.initialize();
+      final details = MedicationApplicationViewModel(scenario.repository);
+      addTearDown(details.dispose);
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: buildTheme(),
+          home: Scaffold(body: MedicationCalendarPanel(viewModel: vm)),
+          onGenerateRoute: (settings) {
+            details.open(settings.arguments as String);
+            return MaterialPageRoute<void>(
+              builder: (_) =>
+                  MedicationApplicationDetailsSheet(viewModel: details),
+            );
+          },
+        ),
+      );
+      await tester.tap(find.byTooltip('Ver aplicação de Atena às 08:00'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Marcar como aplicada'));
+      await tester.pumpAndSettle();
+      if (failure == FailureCode.timeout) {
+        expect(vm.state.items.single.performedAt, isNull);
+        await tester.tap(find.text('Verificar resultado'));
+        await tester.pumpAndSettle();
+      }
+      await tester.tap(find.text('Voltar à agenda'));
+      await tester.pumpAndSettle();
+      expect(find.text('Equipe de teste · aplicada às 09:06'), findsOneWidget);
+      expect(find.text('Realizada'), findsOneWidget);
+      expect(scenario.keys, hasLength(1));
+      expect(tester.takeException(), isNull);
+    });
+  }
 }

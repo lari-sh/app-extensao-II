@@ -1,3 +1,5 @@
+import '../ui/features/medications/view_models/medication_application_view_model.dart';
+import '../ui/features/medications/views/medication_application_details_sheet.dart';
 import '../ui/features/medications/view_models/medication_calendar_view_model.dart';
 import 'dart:async';
 import '../domain/repositories/medications_repository.dart';
@@ -73,6 +75,7 @@ class AppRouter {
       case '/volunteer':
       case '/animal-editor':
       case '/animal-management':
+      case '/medication-application':
       case '/medication-editor':
         final access = session;
         final repository = auth;
@@ -124,6 +127,38 @@ class AppRouter {
                 );
                 access.addListener(editor.refreshAccess);
                 return editor;
+              }
+
+              if (settings.name == '/medication-application') {
+                final id = settings.arguments;
+                if (medications == null ||
+                    id is! String ||
+                    !isMedicationIdentifier(id)) {
+                  return const Scaffold(
+                    body: Center(child: Text('Aplicação indisponível.')),
+                  );
+                }
+                late final MedicationApplicationViewModel application;
+                application = MedicationApplicationViewModel(
+                  medications!,
+                  isAuthorized: () => access.state.canAccessPrivate,
+                  accessEpoch: () => access.state.accessEpoch,
+                  privateGeneration: () => access.state.privateGeneration,
+                  authorize: authorize,
+                  onDispose: () =>
+                      access.removeListener(application.refreshAccess),
+                );
+                access.addListener(application.refreshAccess);
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  unawaited(application.open(id));
+                });
+                return ChangeNotifierProvider<MedicationApplicationViewModel>(
+                  create: (_) => application,
+                  lazy: false,
+                  child: MedicationApplicationDetailsSheet(
+                    viewModel: application,
+                  ),
+                );
               }
 
               if (settings.name == '/medication-editor') {

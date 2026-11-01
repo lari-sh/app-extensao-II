@@ -251,3 +251,18 @@ do aparelho para autorizar conclusão.
 
 10 testes Application VM, 11 Calendar VM e 8 Repository PASS; análise final sem
 problemas. T030/T032 concluídas; View e Widget Tests de detalhes ainda pendentes.
+
+## US3 — detalhes e conclusão no design aprovado
+
+Detalhes da aplicação seguem screen-9: contexto do animal, medicamento, datas/
+horários previstos, programação, funcionário/horário real, histórico e ações.
+A agenda abre rota própria protegida por ID e recarrega ao voltar. Logout remove
+a rota e os dados privados. Retomar o app atualiza detalhes quando não há comando
+incerto; busy/incerto bloqueia fechamento, preservando consulta/repetição da operação.
+
+Widget Tests: feliz com autoria/hora confirmadas, timeout/reconciliação, conflito,
+paginação de eventos, erro/retry, rota real no logout e retorno à agenda refletindo
+o servidor. Layout 320 px/texto 1,4× sem overflow. Suíte completa 252 Flutter PASS;
+após atualização no resume, 14 Widget Tests de medicação novamente PASS; análise
+final sem problemas. T033/T034/T035 concluídas; T036/Android final ainda pendentes.
+Correção auditada continua na US4; nenhuma ação de correção ativa nesta etapa.

@@ -10,6 +10,13 @@ const _border = Color(0xFFEADDD7),
 class MedicationCalendarPanel extends StatelessWidget {
   const MedicationCalendarPanel({super.key, required this.viewModel});
   final MedicationCalendarViewModel viewModel;
+  Future<void> _open(BuildContext context, String id) async {
+    await Navigator.of(
+      context,
+    ).pushNamed('/medication-application', arguments: id);
+    if (context.mounted) await viewModel.applicationReturned();
+  }
+
   @override
   Widget build(BuildContext context) => ListenableBuilder(
     listenable: viewModel,
@@ -214,7 +221,7 @@ class MedicationCalendarPanel extends StatelessWidget {
             for (final item in state.items)
               Padding(
                 padding: const EdgeInsets.only(bottom: 10),
-                child: _application(item),
+                child: _application(context, item),
               ),
             if (state.cursor != null)
               TextButton(
@@ -295,7 +302,7 @@ class MedicationCalendarPanel extends StatelessWidget {
     );
   }
 
-  Widget _application(MedicationApplication item) {
+  Widget _application(BuildContext context, MedicationApplication item) {
     final label = viewModel.statusLabel(item);
     final color = switch (label) {
       'Realizada' => brandBrown,
@@ -384,12 +391,20 @@ class MedicationCalendarPanel extends StatelessWidget {
                 color: _soft,
                 borderRadius: BorderRadius.circular(9),
               ),
-              child: Icon(
-                item.state == MedicationApplicationState.completed
-                    ? Icons.check
-                    : Icons.chevron_right,
-                size: 18,
-                color: color,
+              child: IconButton(
+                tooltip:
+                    'Ver aplicação de ${item.animalName} às ${item.scheduledLocalTime}',
+                onPressed: viewModel.canNavigate
+                    ? () => _open(context, item.id)
+                    : null,
+                padding: EdgeInsets.zero,
+                icon: Icon(
+                  item.state == MedicationApplicationState.completed
+                      ? Icons.check
+                      : Icons.chevron_right,
+                  size: 18,
+                  color: color,
+                ),
               ),
             ),
           ),
