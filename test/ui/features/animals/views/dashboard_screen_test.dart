@@ -1,3 +1,7 @@
+import 'package:abrigo_dos_anjos/ui/features/medications/view_models/medication_calendar_view_model.dart';
+import 'package:abrigo_dos_anjos/ui/features/medications/views/medication_calendar_panel.dart';
+import 'package:abrigo_dos_anjos/domain/models/medication_agenda.dart';
+import '../../../../support/fakes/fake_medications_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:abrigo_dos_anjos/ui/features/animals/views/dashboard_screen.dart';
@@ -61,6 +65,69 @@ void main() {
       await tester.pumpAndSettle();
       expect(animal.isPublished, true);
       expect(find.text('Publicado'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    },
+  );
+  testWidgets(
+    'calendar tab preserves dashboard header and Kanban/List regressions at 320 px',
+    (tester) async {
+      tester.view.physicalSize = const Size(320, 844);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      final animals = FakeAnimalsRepository()
+        ..handler = (method, args) async => method == 'getStatusCounts'
+            ? const Success<Map<AnimalStatus, int>>({AnimalStatus.available: 2})
+            : const Success(ManagedAnimalPage(items: [], total: 0));
+      final meds = FakeMedicationsRepository()
+        ..handler = (method, args) async => method == 'loadMonth'
+            ? Success(
+                MedicationMonth(
+                  month: args.first as String,
+                  serverNow: DateTime.utc(2026, 11, 1),
+                  shelterToday: '2026-11-01',
+                ),
+              )
+            : Success(
+                MedicationDayPage(
+                  day: args.first as String,
+                  serverNow: DateTime.utc(2026, 11, 1),
+                  agendaVersion: 1,
+                ),
+              );
+      final calendar = MedicationCalendarViewModel(meds);
+      addTearDown(calendar.dispose);
+      final vm = DashboardViewModel(
+        animals,
+        isAuthorized: () => true,
+        onCalendarSelected: calendar.initialize,
+      );
+      addTearDown(vm.dispose);
+      await vm.load();
+      await tester.pumpWidget(
+        MaterialApp(
+          home: MediaQuery(
+            data: const MediaQueryData(
+              size: Size(320, 844),
+              textScaler: TextScaler.linear(1.4),
+            ),
+            child: DashboardScreen(viewModel: vm, calendarViewModel: calendar),
+          ),
+        ),
+      );
+      await tester.tap(find.text('Calendário'));
+      await tester.pumpAndSettle();
+      expect(find.byType(MedicationCalendarPanel), findsOneWidget);
+      expect(find.text('Novembro 2026'), findsOneWidget);
+      expect(find.text('Olá, equipe'), findsOneWidget);
+      expect(find.byKey(const ValueKey('count-available')), findsOneWidget);
+      await tester.tap(find.text('Lista'));
+      await tester.pumpAndSettle();
+      expect(vm.state.mode, DashboardMode.list);
+      expect(find.byType(MedicationCalendarPanel), findsNothing);
+      await tester.tap(find.text('Kanban'));
+      await tester.pumpAndSettle();
+      expect(vm.state.mode, DashboardMode.kanban);
       expect(tester.takeException(), isNull);
     },
   );

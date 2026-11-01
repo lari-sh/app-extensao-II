@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../../domain/models/animal.dart';
@@ -9,14 +10,18 @@ import '../../../core/view_models/public_list_view_model.dart'
     show failureMessage;
 part 'dashboard_view_model.freezed.dart';
 
+enum DashboardMode { kanban, list, calendar }
+
 @freezed
 abstract class DashboardState with _$DashboardState {
+  const DashboardState._();
+  bool get listMode => mode == DashboardMode.list;
   const factory DashboardState({
     @Default({}) Map<AnimalStatus, ManagedAnimalPage> pages,
     @Default({}) Map<AnimalStatus, int> counts,
     @Default(false) bool loading,
     @Default(false) bool busy,
-    @Default(false) bool listMode,
+    @Default(DashboardMode.kanban) DashboardMode mode,
     @Default(false) bool uncertain,
     @Default(false) bool canRetry,
     ManagedAnimal? focusedAnimal,
@@ -29,10 +34,14 @@ class DashboardViewModel extends ChangeNotifier {
     this.repository, {
     required this.isAuthorized,
     this.authorize,
+    this.onCalendarSelected,
     this.accessEpoch,
     Future<void> Function(Duration)? delay,
   }) : delay = delay ?? Future<void>.delayed;
   final AnimalsRepository repository;
+  final Future<void> Function()? onCalendarSelected;
+  bool get isCalendar => state.mode == DashboardMode.calendar;
+  bool get showRegistration => !isCalendar;
   final bool Function() isAuthorized;
   final Future<bool> Function()? authorize;
   final int Function()? accessEpoch;
@@ -154,9 +163,15 @@ class DashboardViewModel extends ChangeNotifier {
     }
   }
 
-  void setListMode(bool value) => _publish(state.copyWith(listMode: value));
-  void showCalendarPlan() =>
-      _publish(state.copyWith(message: 'O calendário está em planejamento.'));
+  void setListMode(bool value) =>
+      setMode(value ? DashboardMode.list : DashboardMode.kanban);
+  void setMode(DashboardMode mode) {
+    _publish(state.copyWith(mode: mode, message: null));
+    if (mode == DashboardMode.calendar && onCalendarSelected != null) {
+      unawaited(onCalendarSelected!());
+    }
+  }
+
   Future<void> load() async {
     if (_disposed || state.loading || state.busy) return;
     final revision = ++_revision;

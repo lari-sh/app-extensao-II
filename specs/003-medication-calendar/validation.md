@@ -154,3 +154,18 @@ de 28/29/30/31 dias, ano, limite UTC/mês civil, simultâneos, erros, todos os i
 cursores repetidos, conflito, gerações privadas e payload restrito de leitura.
 Análise final sem problemas após corrigir avisos de estilo. T022/T024/T025
 concluídas. Nenhuma mudança visual ou pacote novo neste contexto.
+
+## US2 — grade e agenda integradas ao painel
+
+A aba Calendário agora seleciona modo próprio no DashboardViewModel, carrega via
+callback de composição fora de build e usa MedicationCalendarPanel. Preservados
+cabeçalho, estatísticas, abas, paleta, cartão mensal, marcadores e lista do dia do
+screen-7 aprovado. Retomar o app/atualizar/selecionar aba recarrega dados. Providers
+privados removem listeners e descartam VM ao encerrar o escopo.
+
+Widget Tests aprovados: mês anterior/próximo, Hoje, seleção diária, aplicações,
+vazio/erro/retry e regressões Kanban/Lista; painel completo em 320 px e texto 1,4×.
+Teste unitário cobre o novo modo e seu callback. Suíte Flutter: 229 PASS; análise
+final sem problemas após corrigir dois avisos de estilo. T026/T027 concluídas.
+Validação nativa e revisão visual da US2 continuam em T028. Setas dos cartões
+preservadas visualmente; conclusão/detalhes auditados pertencem à US3 seguinte.

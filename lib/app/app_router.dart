@@ -1,3 +1,4 @@
+import '../ui/features/medications/view_models/medication_calendar_view_model.dart';
 import 'dart:async';
 import '../domain/repositories/medications_repository.dart';
 import '../domain/models/medication_treatment.dart';
@@ -251,20 +252,46 @@ class AppRouter {
                 );
               }
               if (settings.name == '/animal-management') {
+                MedicationCalendarViewModel? calendar;
+                if (medications != null) {
+                  late final MedicationCalendarViewModel calendarModel;
+                  calendarModel = MedicationCalendarViewModel(
+                    medications!,
+                    isAuthorized: () => access.state.canAccessPrivate,
+                    accessEpoch: () => access.state.accessEpoch,
+                    privateGeneration: () => access.state.privateGeneration,
+                    authorize: authorize,
+                    onDispose: () =>
+                        access.removeListener(calendarModel.refreshAccess),
+                  );
+                  access.addListener(calendarModel.refreshAccess);
+                  calendar = calendarModel;
+                }
                 final listing = DashboardViewModel(
                   animals,
                   isAuthorized: () => access.state.canAccessPrivate,
                   accessEpoch: () => access.state.accessEpoch,
                   authorize: authorize,
+                  onCalendarSelected: calendar?.initialize,
                 );
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   listing.load();
                 });
-                return ChangeNotifierProvider<DashboardViewModel>(
-                  create: (_) => listing,
-                  lazy: false,
+                return MultiProvider(
+                  providers: [
+                    ChangeNotifierProvider<DashboardViewModel>(
+                      create: (_) => listing,
+                      lazy: false,
+                    ),
+                    if (calendar != null)
+                      ChangeNotifierProvider<MedicationCalendarViewModel>(
+                        create: (_) => calendar!,
+                        lazy: false,
+                      ),
+                  ],
                   child: DashboardScreen(
                     viewModel: listing,
+                    calendarViewModel: calendar,
                     onSignOut: access.signOut,
                   ),
                 );

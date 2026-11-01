@@ -1,11 +1,50 @@
+import '../../medications/views/medication_calendar_panel.dart';
+import '../../medications/view_models/medication_calendar_view_model.dart';
 import 'package:flutter/material.dart';
 import '../../../../domain/models/animal.dart';
 import '../view_models/dashboard_view_model.dart';
 
-class DashboardScreen extends StatelessWidget {
-  const DashboardScreen({super.key, required this.viewModel, this.onSignOut});
+class DashboardScreen extends StatefulWidget {
+  const DashboardScreen({
+    super.key,
+    required this.viewModel,
+    this.onSignOut,
+    this.calendarViewModel,
+  });
   final DashboardViewModel viewModel;
   final VoidCallback? onSignOut;
+  final MedicationCalendarViewModel? calendarViewModel;
+  @override
+  State<DashboardScreen> createState() => _DashboardScreenState();
+}
+
+class _DashboardScreenState extends State<DashboardScreen>
+    with WidgetsBindingObserver {
+  DashboardViewModel get viewModel => widget.viewModel;
+  VoidCallback? get onSignOut => widget.onSignOut;
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      if (viewModel.isCalendar) {
+        widget.calendarViewModel?.refresh();
+      } else {
+        viewModel.load();
+      }
+    }
+  }
+
   static const _border = Color(0xFFEADDD7),
       _soft = Color(0xFFF6EAE5),
       _brown = Color(0xFF45180D);
@@ -19,11 +58,13 @@ class DashboardScreen extends StatelessWidget {
   Widget build(BuildContext context) => ListenableBuilder(
     listenable: viewModel,
     builder: (context, _) => Scaffold(
-      floatingActionButton: FloatingActionButton(
-        tooltip: 'Cadastrar animal',
-        onPressed: viewModel.canManage ? () => _edit(context) : null,
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: !viewModel.showRegistration
+          ? null
+          : FloatingActionButton(
+              tooltip: 'Cadastrar animal',
+              onPressed: viewModel.canManage ? () => _edit(context) : null,
+              child: const Icon(Icons.add),
+            ),
       body: SafeArea(
         child: Column(
           children: [
@@ -56,7 +97,14 @@ class DashboardScreen extends StatelessWidget {
                   ),
                   IconButton(
                     tooltip: 'Atualizar painel',
-                    onPressed: viewModel.state.busy ? null : viewModel.load,
+                    onPressed: viewModel.state.busy
+                        ? null
+                        : () {
+                            viewModel.load();
+                            if (viewModel.isCalendar) {
+                              widget.calendarViewModel?.refresh();
+                            }
+                          },
                     icon: const Icon(Icons.refresh),
                   ),
                   if (onSignOut != null)
@@ -118,7 +166,7 @@ class DashboardScreen extends StatelessWidget {
                 children: [
                   _tab(
                     'Kanban',
-                    !viewModel.state.listMode,
+                    viewModel.state.mode == DashboardMode.kanban,
                     () => viewModel.setListMode(false),
                   ),
                   const SizedBox(width: 4),
@@ -128,7 +176,11 @@ class DashboardScreen extends StatelessWidget {
                     () => viewModel.setListMode(true),
                   ),
                   const SizedBox(width: 4),
-                  _tab('Calendário', false, viewModel.showCalendarPlan),
+                  _tab(
+                    'Calendário',
+                    viewModel.isCalendar,
+                    () => viewModel.setMode(DashboardMode.calendar),
+                  ),
                 ],
               ),
             ),
@@ -159,7 +211,13 @@ class DashboardScreen extends StatelessWidget {
                 ],
               ),
             Expanded(
-              child: viewModel.state.listMode
+              child: viewModel.isCalendar
+                  ? (widget.calendarViewModel == null
+                        ? const Center(child: Text('Agenda indisponível.'))
+                        : MedicationCalendarPanel(
+                            viewModel: widget.calendarViewModel!,
+                          ))
+                  : viewModel.state.listMode
                   ? _list(context)
                   : _kanban(context),
             ),
@@ -185,6 +243,7 @@ class DashboardScreen extends StatelessWidget {
   Future<void> _edit(BuildContext context, [String? id]) async {
     await Navigator.pushNamed(context, '/animal-editor', arguments: id);
     await viewModel.load();
+    if (viewModel.isCalendar) await widget.calendarViewModel?.refresh();
   }
 
   Widget _list(BuildContext context) => ListView(
