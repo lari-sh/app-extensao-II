@@ -449,6 +449,28 @@
     body.proposal-preview .artboard { display:none; position:relative; left:0!important; top:0!important; width:min(100%,390px)!important; height:100dvh!important; margin:0 auto; border-radius:0; box-shadow:none; cursor:default; }
     body.proposal-preview .artboard.preview-active { display:flex; }
     body.proposal-preview .resize-handle { display:none; }
+
+    /* Public adoption contact proposal: isolated from the approved screens. */
+    .adoption-contact .contact-scroll {flex:1;min-height:0;overflow-y:auto;padding:0 20px 24px;}
+    .adoption-contact .contact-logo {display:block;width:92px;height:92px;object-fit:contain;margin:8px auto 18px;}
+    .adoption-contact .contact-intro {font-size:13px;line-height:1.6;color:var(--s-muted);margin:0 0 18px;}
+    .adoption-contact .contact-pet {padding:12px 14px;background:var(--s-soft);border:1px solid var(--s-border);border-radius:12px;margin:0 0 22px;display:flex;gap:10px;align-items:center;}
+    .adoption-contact .contact-pet svg {width:24px;height:24px;color:var(--s-accent);flex-shrink:0;}
+    .adoption-contact .contact-pet small {display:block;font-size:10px;color:var(--s-muted);margin-bottom:3px;}
+    .adoption-contact .contact-pet strong {font-family:var(--font-display);font-size:18px;color:var(--s-fg);}
+    .adoption-contact .contact-section-label {font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--s-muted);margin:0 0 10px;}
+    .adoption-contact .contact-channels {display:grid;gap:10px;}
+    .adoption-contact .contact-channel {display:flex;gap:12px;align-items:center;text-decoration:none;color:var(--s-fg);background:white;border:1px solid var(--s-border);border-radius:14px;padding:14px;min-width:0;}
+    .adoption-contact .contact-channel:hover {background:var(--s-soft);}
+    .adoption-contact .contact-channel:focus-visible {outline:2px solid var(--s-accent);outline-offset:3px;}
+    .adoption-contact .contact-symbol {width:40px;height:40px;display:grid;place-items:center;border-radius:12px;background:var(--s-soft);color:var(--s-accent);flex-shrink:0;}
+    .adoption-contact .contact-symbol svg {width:22px;height:22px;}
+    .adoption-contact .contact-copy {flex:1;min-width:0;}
+    .adoption-contact .contact-copy strong {display:block;font-size:13px;font-weight:650;}
+    .adoption-contact .contact-copy small {display:block;font-size:11px;line-height:1.5;color:var(--s-muted);margin-top:3px;overflow-wrap:anywhere;}
+    .adoption-contact .contact-external {width:17px;height:17px;color:var(--s-muted);flex-shrink:0;}
+    .adoption-contact .contact-note {border-top:1px solid var(--s-border);padding-top:16px;margin-top:22px;color:var(--s-muted);font-size:11px;line-height:1.6;}
+    .adoption-contact .contact-return {width:100%;margin-top:16px;padding:13px;border:1px solid var(--s-border);border-radius:12px;background:white;color:var(--s-fg);font-size:13px;font-weight:600;}
   </style>
 </head>
 <body>
@@ -493,7 +515,7 @@
             <div class="page-item" data-jump="screen-4"><svg class="page-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="6" y="3" width="12" height="18" rx="2"/><rect x="9" y="8" width="6" height="4" rx="1"/><path d="M10 16h4"/></svg><span>Login Voluntário</span><span class="page-num">04</span></div>
             <div class="page-item" data-jump="screen-5"><svg class="page-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M9 8h2M9 11h2M9 14h2M14 8h1M14 11h1M14 14h1"/></svg><span>Dashboard Kanban</span><span class="page-num">05</span></div>
             <div class="page-item" data-jump="screen-6"><svg class="page-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="6" y="3" width="12" height="18" rx="2"/><circle cx="11" cy="10" r="2"/><path d="M8 15h6"/></svg><span>Cadastro Animal</span><span class="page-num">06</span></div>
-<div class="page-item" data-jump="screen-7"><span class="page-icon">▣</span><span>Calendário de medicações</span><span class="page-num">07</span></div><div class="page-item" data-jump="screen-8"><span class="page-icon">▣</span><span>Programar medicação</span><span class="page-num">08</span></div><div class="page-item" data-jump="screen-9"><span class="page-icon">▣</span><span>Aplicação e histórico</span><span class="page-num">09</span></div>          </div>
+<div class="page-item" data-jump="screen-7"><span class="page-icon">▣</span><span>Calendário de medicações</span><span class="page-num">07</span></div><div class="page-item" data-jump="screen-8"><span class="page-icon">▣</span><span>Programar medicação</span><span class="page-num">08</span></div><div class="page-item" data-jump="screen-9"><span class="page-icon">▣</span><span>Aplicação e histórico</span><span class="page-num">09</span></div><div class="page-item" data-jump="screen-10"><span class="page-icon">▣</span><span>Contato para adoção</span><span class="page-num">10</span></div>          </div>
         </div>
         <div class="panel-section">
           <h3 class="panel-title">Camadas</h3>
@@ -631,7 +653,7 @@
                     </div>
                   </div>
                   <div class="detail-cta">
-                    <button class="detail-cta-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5z"/></svg>Entrar em contato para adoção</button>
+                    <button class="detail-cta-btn" data-nav="screen-10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5z"/></svg>Entrar em contato para adoção</button>
                   </div>
                 </div>
               </div>
@@ -971,6 +993,22 @@
                 <div class="prototype-feedback" id="medDetailFeedback" aria-live="polite"></div>
               </div>
               <div class="med-footer"><button class="secondary" data-nav="screen-7">Voltar à agenda</button><button class="primary" id="medConfirmApplication">Marcar como aplicada</button></div>
+            </div>
+          </article>
+
+          <article class="artboard" data-artboard="screen-10" data-od-id="screen-10" data-name="Contato para adoção" data-index="10" style="left:100px;top:2990px;">
+            <span class="artboard-label">Contato para adoção · proposta para aprovação</span><span class="artboard-num">10</span><span class="resize-handle tl"></span><span class="resize-handle tr"></span><span class="resize-handle bl"></span><span class="resize-handle br"></span>
+            <div class="mb adoption-contact"><div class="mb-statusbar"><span>9:41</span><div class="icons"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 22h2v-8H2zM6 22h2V10H6zM10 22h2V6h-2zM14 22h2V4h-2zM18 22h2V8h-2z"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11a14 14 0 0 1 18 0M6 14a10 10 0 0 1 12 0M9 17a6 6 0 0 1 6 0"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="7" width="16" height="10" rx="2"/><path d="M21 10v4"/></svg></div></div>
+              <div class="mb-app-bar"><button class="mb-icon-btn" data-nav="screen-3" aria-label="Voltar à ficha do animal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 12H5m7-7-7 7 7 7"/></svg></button><div style="flex:1;min-width:0;margin-left:12px"><div class="subtitle">Adoção responsável</div><div class="title">Fale com o abrigo</div></div></div>
+              <div class="contact-scroll">
+                <img class="contact-logo" src="image.png" alt="Abrigo dos Anjos — Humanizando Vidas" />
+                <p class="contact-intro">Que bom que você quer dar um novo lar! Escolha um dos canais oficiais para conversar com nossa equipe sobre a adoção.</p>
+                <div class="contact-pet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 20s-8-4.8-8-10a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.2-8 10-8 10z"/></svg><div><small>Tenho interesse em adotar</small><strong>Luna</strong></div></div>
+                <h2 class="contact-section-label">Converse com a nossa equipe</h2>
+                <div class="contact-channels"><a class="contact-channel" data-contact="whatsapp" href="https://wa.me/5534991378936" target="_blank" rel="noopener noreferrer" aria-label="Abrir WhatsApp do Abrigo dos Anjos"><span class="contact-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 11.5a8 8 0 0 1-8 8 8 8 0 0 1-3.6-.9L3 20l1.4-5.2a8 8 0 1 1 15.6-3.3z"/><path d="M8 7c0 4 3 7 7 8l2-2-3-2-1 1c-1.3-.5-2.5-1.7-3-3l1-1-2-2z"/></svg></span><span class="contact-copy"><strong>WhatsApp</strong><small>(34) 99137-8936</small></span><svg class="contact-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 4h6v6m0-6L10 14M10 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg></a><a class="contact-channel" data-contact="instagram" href="https://www.instagram.com/abrigodosanjosoficial/" target="_blank" rel="noopener noreferrer" aria-label="Abrir Instagram do Abrigo dos Anjos"><span class="contact-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span><span class="contact-copy"><strong>Instagram</strong><small>@abrigodosanjosoficial</small></span><svg class="contact-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 4h6v6m0-6L10 14M10 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg></a><a class="contact-channel" data-contact="facebook" href="https://www.facebook.com/abrigodosanjosura/?locale=pt_BR" target="_blank" rel="noopener noreferrer" aria-label="Abrir Facebook do Abrigo dos Anjos"><span class="contact-symbol"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 22v-9h3l.5-4H14V7c0-1 .3-2 2-2h2V1.4A25 25 0 0 0 15 1c-3 0-5 1.8-5 5v3H7v4h3v9z"/></svg></span><span class="contact-copy"><strong>Facebook</strong><small>/abrigodosanjosura</small></span><svg class="contact-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 4h6v6m0-6L10 14M10 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg></a></div>
+                <p class="contact-note">Ao conversar com a equipe, informe o nome do animal para que possamos ajudar você com os próximos passos da adoção.</p>
+                <button class="contact-return" data-nav="screen-3">Voltar à ficha do animal</button>
+              </div>
             </div>
           </article>
         </div>
