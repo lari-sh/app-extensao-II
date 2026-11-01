@@ -26,9 +26,18 @@ já prevista no protótipo; não altera a contagem das 108 tarefas originais.
   autorizado; testes unitários das regras, Widget Tests e validação Android,
   testes de autorização/idempotência no backend e commits por contexto na developer.
 
+## Decisões confirmadas pela responsável
+
+- **003-FR-007**: Permitir horários fixos por dia (ex.: 08h e 20h) e recorrência por
+  intervalo (ex.: a cada 8 horas), escolhidos no cadastro do tratamento. O modo por
+  intervalo precisa de uma primeira aplicação com data e hora para ancorar a série.
+- **003-FR-008**: Ao concluir uma aplicação, registrar automaticamente o funcionário
+  autenticado e o horário real no servidor, além de preservar o horário previsto.
+  A autoria vem da sessão verificada, sem permitir escolher outro funcionário.
+
 ## Decisões que o plano técnico precisa fechar
 
-1. Campos do tratamento: nome do medicamento, início/término, horários ou intervalo,
+1. Campos do tratamento: nome do medicamento, início/término, horários fixos ou intervalo (ambos confirmados),
    instruções registradas pela equipe e relacionamento com o animal. Não transformar
    descrições clínicas legadas automaticamente em prescrições estruturadas.
 2. Recorrência e fuso do abrigo (America/Sao_Paulo): travessia de meia-noite,
@@ -37,7 +46,7 @@ já prevista no protótipo; não altera a contagem das 108 tarefas originais.
 3. Criação automática e alterações: evitar duplicar aplicações ao salvar/repetir
    uma requisição. Detalhar interrupção/edição do tratamento, preservação das
    aplicações realizadas e comportamento das aplicações futuras.
-4. Conclusão/correção: autoria, horário previsto e realizado, concorrência entre
+4. Conclusão/correção: autoria e horário real automáticos confirmados; detalhar concorrência entre
    funcionários e reenvio após falha de rede. Uma aplicação não pode ser registrada
    duas vezes por repetição da mesma operação.
 5. Exibição de pendentes/realizadas/atrasadas/canceladas e regras para animal adotado,
