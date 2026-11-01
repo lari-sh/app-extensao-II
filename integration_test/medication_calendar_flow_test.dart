@@ -1,3 +1,4 @@
+import 'package:abrigo_dos_anjos/ui/features/animals/views/animal_editor_screen.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -30,6 +31,73 @@ void main() {
       email: 'fixture-staff@example.test',
       password: password,
     );
+    final utcGuess = DateTime.now().toUtc();
+    final initialClock =
+        await second.rpc(
+              'get_medication_calendar_month',
+              params: {
+                'p_month':
+                    '${utcGuess.year}-${utcGuess.month.toString().padLeft(2, '0')}',
+              },
+            )
+            as Map;
+    final shelterDate = DateTime.parse(initialClock['shelter_today'] as String);
+    final windowFirst = DateTime.utc(shelterDate.year, shelterDate.month + 1);
+    final windowSecond = windowFirst.add(const Duration(days: 1));
+    String civil(DateTime date) =>
+        '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+    String display(DateTime date) =>
+        '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
+    const months = [
+      'Janeiro',
+      'Fevereiro',
+      'Março',
+      'Abril',
+      'Maio',
+      'Junho',
+      'Julho',
+      'Agosto',
+      'Setembro',
+      'Outubro',
+      'Novembro',
+      'Dezembro',
+    ];
+    const shortMonths = [
+      'jan.',
+      'fev.',
+      'mar.',
+      'abr.',
+      'mai.',
+      'jun.',
+      'jul.',
+      'ago.',
+      'set.',
+      'out.',
+      'nov.',
+      'dez.',
+    ];
+    const weekdays = [
+      'Segunda',
+      'Terça',
+      'Quarta',
+      'Quinta',
+      'Sexta',
+      'Sábado',
+      'Domingo',
+    ];
+    final windowMonth = civil(windowFirst).substring(0, 7);
+    Future<void> waitFor(Finder finder) async {
+      for (
+        var attempt = 0;
+        attempt < 100 && finder.evaluate().isEmpty;
+        attempt++
+      ) {
+        await tester.pumpAndSettle();
+        await Future<void>.delayed(const Duration(milliseconds: 100));
+      }
+      expect(finder, findsWidgets);
+    }
+
     final name =
         '000 Fixture calendario medicacao ${DateTime.now().microsecondsSinceEpoch}';
     String key(String prefix) =>
@@ -53,6 +121,34 @@ void main() {
             )
             as Map;
     final animalId = (animal['animal'] as Map)['id'] as String;
+    Future<void> waitEditor() async {
+      var stable = 0;
+      for (var attempt = 0; attempt < 100; attempt++) {
+        await tester.pumpAndSettle();
+        final editor = find.byType(AnimalEditorScreen);
+        if (editor.evaluate().length == 1) {
+          final screen = tester.widget<AnimalEditorScreen>(editor);
+          final medication = screen.medicationViewModel;
+          if (screen.viewModel.state.draft.id == animalId &&
+              screen.viewModel.canEdit &&
+              medication != null &&
+              !medication.state.loading &&
+              !medication.state.saving &&
+              !medication.state.uncertain &&
+              !(screen.managementViewModel?.state.loading ?? false)) {
+            stable++;
+            if (stable >= 2) return;
+          } else {
+            stable = 0;
+          }
+        } else {
+          stable = 0;
+        }
+        await Future<void>.delayed(const Duration(milliseconds: 100));
+      }
+      fail('Animal editor did not finish loading and access verification');
+    }
+
     try {
       await tester.pumpWidget(await bootstrapApplication());
       await tester.pumpAndSettle();
@@ -60,6 +156,7 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.text('Acesso Voluntário / Funcionário'));
       await tester.pumpAndSettle();
+      await waitFor(find.byKey(const ValueKey('loginEmail')));
       await tester.enterText(
         find.byKey(const ValueKey('loginEmail')),
         'fixture-staff@example.test',
@@ -99,6 +196,7 @@ void main() {
       await tester.tap(find.text('Editar cadastro'));
       await tester.pumpAndSettle();
       Future<void> openMedication() async {
+        await waitEditor();
         final add = find.text('Adicionar medicação');
         await tester.scrollUntilVisible(
           add,
@@ -135,8 +233,8 @@ void main() {
 
       await openMedication();
       await enter('medicationName', 'Medicação Android fixos');
-      await enter('medicationStartsOn', '01/11/2026');
-      await enter('medicationEndsOn', '02/11/2026');
+      await enter('medicationStartsOn', display(windowFirst));
+      await enter('medicationEndsOn', display(windowSecond));
       await save();
       var page =
           await second.rpc(
@@ -156,8 +254,8 @@ void main() {
       );
       await openMedication();
       await enter('medicationName', 'Medicação Android intervalo');
-      await enter('medicationStartsOn', '01/11/2026');
-      await enter('medicationEndsOn', '02/11/2026');
+      await enter('medicationStartsOn', display(windowFirst));
+      await enter('medicationEndsOn', display(windowSecond));
       await enter('medicationStartsTime', '20:00');
       final interval = find.text('Por intervalo');
       await tester.ensureVisible(interval);
@@ -181,14 +279,20 @@ void main() {
           .select('scheduled_at')
           .eq('treatment_id', elapsed['id'] as String);
       expect(applications, hasLength(4));
-      expect(
-        applications.any(
-          (item) =>
-              DateTime.parse(item['scheduled_at'] as String).toUtc() ==
-              DateTime.utc(2026, 11, 2, 7),
-        ),
-        true,
-      );
+      final instants =
+          applications
+              .map(
+                (item) =>
+                    DateTime.parse(item['scheduled_at'] as String).toUtc(),
+              )
+              .toList()
+            ..sort();
+      for (var i = 1; i < instants.length; i++) {
+        expect(
+          instants[i].difference(instants[i - 1]),
+          const Duration(hours: 8),
+        );
+      }
       final confirmed =
           await second.rpc(
                 'get_managed_animal',
@@ -200,6 +304,30 @@ void main() {
         'Nota privada da jornada de medicação',
       );
       expect(confirmed['animal']['is_published'], false);
+      // US4 edit through the real medication route, preserving treatment identity.
+      final fixedCard = find.text('Medicação Android fixos');
+      await tester.scrollUntilVisible(
+        fixedCard,
+        200,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(fixedCard);
+      await tester.pumpAndSettle();
+      await enter('medicationInstructions', 'Instrução revisada no Android');
+      await save();
+      final revisedList =
+          await second.rpc(
+                'list_animal_medication_treatments',
+                params: {'p_animal_id': animalId, 'p_cursor': null},
+              )
+              as Map;
+      final revisedFixed = (revisedList['items'] as List)
+          .cast<Map>()
+          .singleWhere((item) => item['id'] == fixed['id']);
+      expect(revisedFixed['revision'], 2);
+      expect(revisedFixed['version'], 2);
+      expect(revisedFixed['instructions'], 'Instrução revisada no Android');
 
       await tester.tap(find.byTooltip('Voltar'));
       await tester.pumpAndSettle();
@@ -209,11 +337,11 @@ void main() {
       final monthResponse =
           await second.rpc(
                 'get_medication_calendar_month',
-                params: {'p_month': '2026-11'},
+                params: {'p_month': windowMonth},
               )
               as Map;
       final today = monthResponse['shelter_today'] as String;
-      final target = DateTime(2026, 11);
+      final target = windowFirst;
       final current = DateTime.parse('$today 00:00:00');
       final delta =
           (target.year - current.year) * 12 + target.month - current.month;
@@ -223,8 +351,13 @@ void main() {
         );
         await tester.pumpAndSettle();
       }
-      expect(find.text('Novembro 2026'), findsOneWidget);
-      final dayOne = find.byKey(const ValueKey('medicationDay-2026-11-01'));
+      expect(
+        find.text('${months[windowFirst.month - 1]} ${windowFirst.year}'),
+        findsOneWidget,
+      );
+      final dayOne = find.byKey(
+        ValueKey('medicationDay-${civil(windowFirst)}'),
+      );
       await tester.ensureVisible(dayOne);
       await tester.tap(dayOne);
       await tester.pumpAndSettle();
@@ -249,29 +382,44 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.byTooltip('Próximo mês'));
       await tester.pumpAndSettle();
-      expect(find.text('Dezembro 2026'), findsOneWidget);
+      expect(
+        find.text(
+          '${months[DateTime.utc(windowFirst.year, windowFirst.month + 1).month - 1]} ${DateTime.utc(windowFirst.year, windowFirst.month + 1).year}',
+        ),
+        findsOneWidget,
+      );
       await tester.tap(find.byTooltip('Mês anterior'));
       await tester.pumpAndSettle();
-      final dayTwo = find.byKey(const ValueKey('medicationDay-2026-11-02'));
+      final dayTwo = find.byKey(
+        ValueKey('medicationDay-${civil(windowSecond)}'),
+      );
       await tester.ensureVisible(dayTwo);
       await tester.tap(dayTwo);
       await tester.pumpAndSettle();
       final dayPage =
           await second.rpc(
                 'list_medication_day',
-                params: {'p_day': '2026-11-02', 'p_cursor': null},
+                params: {'p_day': civil(windowSecond), 'p_cursor': null},
               )
               as Map;
       final ownApplications = (dayPage['items'] as List)
           .cast<Map>()
-          .where((item) => item['animal_id'] == animalId)
+          .where(
+            (item) =>
+                item['animal_id'] == animalId && item['state'] != 'cancelled',
+          )
           .toList();
       expect(ownApplications, hasLength(5));
       expect(
         ownApplications.map((item) => item['scheduled_local_time']),
         contains('04:00'),
       );
-      expect(find.text('Segunda, 2 nov.'), findsOneWidget);
+      expect(
+        find.text(
+          '${weekdays[windowSecond.weekday - 1]}, ${windowSecond.day} ${shortMonths[windowSecond.month - 1]}',
+        ),
+        findsOneWidget,
+      );
       await tester.scrollUntilVisible(
         find.text(name).first,
         160,
@@ -341,7 +489,7 @@ void main() {
                 params: {'p_application_id': dueId, 'p_cursor': null},
               )
               as Map;
-      final applied = history['application'] as Map;
+      var applied = history['application'] as Map;
       expect(applied['state'], 'completed');
       expect(applied['version'], 2);
       expect(
@@ -388,6 +536,68 @@ void main() {
             .onPressed,
         isNull,
       );
+
+      final correct = find.text('Corrigir registro de aplicação');
+      await tester.scrollUntilVisible(
+        correct,
+        200,
+        scrollable: find
+            .descendant(
+              of: find.byKey(const ValueKey('medicationApplicationScroll')),
+              matching: find.byType(Scrollable),
+            )
+            .first,
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(correct);
+      await tester.pumpAndSettle();
+      final reason = find.byKey(const ValueKey('medicationCorrectionReason'));
+      await tester.ensureVisible(reason);
+      await tester.pumpAndSettle();
+      await tester.enterText(reason, 'Registro de teste feito por engano');
+      FocusManager.instance.primaryFocus?.unfocus();
+      await tester.pumpAndSettle();
+      final correctionConfirm = find.text('Confirmar correção');
+      await tester.ensureVisible(correctionConfirm);
+      await tester.pumpAndSettle();
+      await tester.tap(correctionConfirm);
+      await tester.pumpAndSettle();
+      final corrected =
+          await second.rpc(
+                'get_medication_application_history',
+                params: {'p_application_id': dueId, 'p_cursor': null},
+              )
+              as Map;
+      expect(corrected['application']['state'], 'pending');
+      expect(corrected['application']['version'], 3);
+      expect(corrected['items'], hasLength(2));
+      expect(
+        (corrected['items'] as List).first,
+        (history['items'] as List).first,
+      );
+      expect(
+        (corrected['items'] as List).last['reason'],
+        'Registro de teste feito por engano',
+      );
+      expect(
+        (corrected['items'] as List).last['actor_id'],
+        Supabase.instance.client.auth.currentUser!.id,
+      );
+      await tester.tap(find.text('Marcar como aplicada'));
+      await tester.pumpAndSettle();
+      final repeated =
+          await second.rpc(
+                'get_medication_application_history',
+                params: {'p_application_id': dueId, 'p_cursor': null},
+              )
+              as Map;
+      expect(repeated['application']['version'], 4);
+      expect(repeated['items'], hasLength(3));
+      expect(
+        (repeated['items'] as List).first,
+        (history['items'] as List).first,
+      );
+      applied = repeated['application'] as Map;
       await tester.tap(find.text('Voltar à agenda'));
       await tester.pumpAndSettle();
       final note = find.text(
@@ -412,6 +622,71 @@ void main() {
       );
       await tester.pumpAndSettle();
       await tester.tap(find.text('Lista'));
+      await tester.pumpAndSettle();
+
+      await tester.ensureVisible(menu);
+      await tester.pumpAndSettle();
+      await tester.tap(menu);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Editar cadastro'));
+      await tester.pumpAndSettle();
+      await waitEditor();
+      final stop = find.byTooltip('Interromper Medicação Android intervalo');
+      try {
+        await tester.scrollUntilVisible(
+          stop,
+          200,
+          scrollable: find.byType(Scrollable).first,
+        );
+      } catch (_) {
+        final screen = tester.widget<AnimalEditorScreen>(
+          find.byType(AnimalEditorScreen, skipOffstage: false).first,
+        );
+        final m = screen.medicationViewModel!;
+        debugPrint(
+          'Medication panel diagnostic: bound=${m.state.animalId == animalId}, items=${m.state.treatments.length}, failed=${m.state.loadFailed}, loading=${m.state.loading}, message=${m.state.message}',
+        );
+        rethrow;
+      }
+      await tester.pumpAndSettle();
+      await tester.tap(stop);
+      await tester.pumpAndSettle();
+      final stoppedPage =
+          await second.rpc(
+                'list_animal_medication_treatments',
+                params: {'p_animal_id': animalId, 'p_cursor': null},
+              )
+              as Map;
+      final stopped = (stoppedPage['items'] as List).cast<Map>().singleWhere(
+        (item) => item['id'] == elapsed['id'],
+      );
+      expect(stopped['status'], 'stopped');
+      expect(stopped['revision'], 1);
+      expect(stopped['version'], 2);
+      final stoppedApps = await second
+          .from('medication_applications')
+          .select('id,state')
+          .eq('treatment_id', elapsed['id'] as String);
+      expect(stoppedApps, hasLength(4));
+      expect(stoppedApps.any((item) => item['state'] == 'cancelled'), true);
+      await waitEditor();
+      final saveAnimal = find.text('Salvar animal');
+      await tester.scrollUntilVisible(
+        saveAnimal,
+        200,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(saveAnimal);
+      await tester.pumpAndSettle();
+      final preserved =
+          await second.rpc(
+                'list_animal_medication_treatments',
+                params: {'p_animal_id': animalId, 'p_cursor': null},
+              )
+              as Map;
+      expect(preserved, stoppedPage);
+      await tester.tap(find.byTooltip('Voltar'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Kanban'));
       await tester.pumpAndSettle();

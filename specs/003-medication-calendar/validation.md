@@ -355,3 +355,22 @@ Adicionada jornada HTTP de medicações ao backend e jornada Android ao script;
 cleanup remove primeiro as fixtures de medicação e sempre encerra o controlador.
 Sintaxe Bash e parse YAML/entradas conferidos localmente. Execução remota com essas
 mudanças ainda pendente; T046 não concluída somente pela edição do YAML.
+
+## US4 — Android e jornada completa aprovados
+
+Jornada medication_calendar_flow_test.dart PASS em 47 s no emulator-5554 após a
+correção de recarga. Dados de programação usam o próximo mês da data civil do
+servidor; a aplicação devida usa meia-noite civil atual, evitando expiração do
+roteiro por datas fixas. Sincronização espera carregamento/autorização dos módulos.
+
+Validados: ambos os modos; edição pela interface mantendo ID e incrementando
+revisão/versão; mês/dia e simultâneos; conclusão com funcionário/hora; correção
+justificada com evento original idêntico; nova conclusão como versão 4 e três
+eventos; interrupção preservando as quatro identidades da série; save_animal sem
+alterar tratamentos; retorno à área do voluntário. Segunda sessão conferiu os
+resultados; massa descartável limpa. T044/T045 concluídas, 46/51 tarefas.
+
+Execução ocorreu em AVD sem janela por falha OpenGL da janela local. Isso valida
+o Android, mas não confirma disponibilidade da janela para teste manual. UI
+preserva o protótipo aprovado e Widget Tests incluem correção em 320 px/texto 1,4×.
+CI remota atualizada e artifact final ainda pendentes de T046/T048.
