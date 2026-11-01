@@ -106,3 +106,21 @@ porta 5554, antes de executar android_management.sh e as jornadas. Não houve
 artifact. O limite configurado de boot é 600 s. Causa específica não determinada;
 esta verificação não altera workflow nem relaxa timeout/asserts. T116 acompanha
 nova validação e investigação se a inicialização falhar novamente.
+
+## T116 — causa identificada e reserva de disco corrigida
+
+Inspeção completa do log 41355629425 encontrou o erro fatal que antecedeu o
+timeout: Not enough space to create userdata partition. Available: 6362.09 MB,
+need 7372.80 MB. A recusa ADB era consequência de o emulador não iniciar.
+A hipótese agora tem evidência direta; a falha não chegou aos testes do app.
+
+A limpeza inicial do job Android passou a incluir CodeQL, Azure CLI, Google
+Cloud SDK e Miniconda, não usados pelo workflow. Mantidos os guards Linux e
+github-hosted, os diretórios estáticos e os SDKs Android/Java/Flutter necessários.
+Antes do download da imagem/boot, a CI verifica 12 GiB disponíveis no volume do
+HOME, deixando margem para imagem, userdata e builds. Falta de espaço falha com
+mensagem explícita; não ampliar timeout nem ignorar as sete jornadas.
+YAML validado com PyYAML isolado em .tools; bash -n nos dois blocos e guard
+exercitado com df simulado: 11 GiB rejeitados, 12 GiB aceitos. Nenhuma limpeza
+Linux executada no computador Windows. Validação real do runner segue em T116.
+Referência: [diagnóstico do emulador](https://developer.android.com/studio/run/emulator-troubleshooting).
