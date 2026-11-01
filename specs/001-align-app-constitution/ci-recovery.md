@@ -88,3 +88,11 @@ preexistente de demonstração. A asserção foi restringida ao ValueKey da apli
 criada pela jornada, mantendo a exigência de estado Realizada. Não apagar dados
 preexistentes para satisfazer o teste. Segunda execução completa: PASS em 48 s,
 com conclusão, correção, nova conclusão, edição e interrupção preservadas.
+
+## Confirmação remota final
+
+Execução 41352219289, SHA 1eeb97e0ffdacdf94912fb09c3669524171d972f:
+Flutter, backend, Android e deliver aprovados. Logs Android: 7/7 jornadas,
+incluindo o calendário com correção e nova conclusão. Artifact 13101944660
+confirmado; evidência completa e link em docs/releases/1.0.0-android.md.
+A execução 41349870296 permanece como falha histórica, sem reclassificação.

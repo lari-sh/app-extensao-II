@@ -447,5 +447,5 @@ específica é gate antes de implementar o conteúdo novo da aba/recorrência.
 ## Consolidação da versão Android para um único abrigo
 
 - [x] T112 Documentar o escopo 1.0.0+1 de testes Android em docs/releases/1.0.0-android.md, preservando controles desabilitados acordados e separando iOS, produção e expansão para outros abrigos. [CR-004, CR-007]
-- [ ] T113 Confirmar Android, deliver e artifact da nova execução após corrigir a falha da CI 41349870296 e registrar evidência antes de declarar o candidato aprovado remotamente. [CR-007]
+- [x] T113 Confirmar Android, deliver e artifact da nova execução após corrigir a falha da CI 41349870296 e registrar evidência antes de declarar o candidato aprovado remotamente. Execução 41352219289 aprovada nos quatro gates; artifact 13101944660 confirmado em docs/releases/1.0.0-android.md. [CR-007]
 - [x] T114 Corrigir a navegação do roteiro Android até Confirmar correção em lista lazy e restringir a asserção Realizada ao cartão da fixture, preservando demais dados. Jornada completa local aprovada em 48 s; evidência em ci-recovery.md. [CR-007]

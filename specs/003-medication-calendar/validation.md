@@ -463,3 +463,14 @@ seed de produção. Emulador deixado na agenda com o APK corrigido.
 Sem alteração de backend/dependências: pgTAP/HTTP não repetidos neste contexto.
 CI remota deste commit ainda não confirmada; os resultados acima são locais e não
 substituem a execução remota. T052 acrescenta uma tarefa às 51 anteriores.
+
+## Confirmação remota de T052 e fechamento Android
+
+Execução 41352219289, SHA 1eeb97e0ffdacdf94912fb09c3669524171d972f:
+Flutter, backend, Android e deliver aprovados. Confirmados 273 testes Flutter,
+256 testes pgTAP, 12 testes de funções HTTP e 7/7 jornadas Android. A falha
+intermediária 41349870296 foi corrigida no roteiro de rolagem/confirmação;
+asserções de conclusão, correção, autoria e histórico preservadas.
+Artifact 13101944660 publicado; digest, validade, link e limitações registrados
+em [fechamento Android](../../docs/releases/1.0.0-android.md). A execução aprovada
+confirma o gate remoto que estava pendente na seção T052. iOS/produção separados.

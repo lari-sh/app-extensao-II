@@ -1023,3 +1023,22 @@ aberto; não altera drivers/configurações globais nem apaga dados. Não automa
 login. Parser PowerShell e -WhatIf conferidos; proteção de AVD já aberto conferida
 sem fechar a janela em uso. A composição Flutter não foi alterada; testes do app
 não foram repetidos por essa mudança de iniciador/documentação.
+
+## Fechamento Android 1.0.0+1 — T113 concluída
+
+Em 01/11/2026, conferida a execução 41352219289 no SHA
+1eeb97e0ffdacdf94912fb09c3669524171d972f, branch developer: Flutter, backend,
+Android e deliver concluídos com success. Logs confirmam 273 testes Flutter,
+256 testes pgTAP/12 arquivos, 12 testes de funções HTTP, cenários HTTP de manejo,
+medicações/concorrência e 7/7 jornadas Android. A jornada do calendário passou
+após os ajustes de rolagem e escopo da asserção, sem remover verificações.
+
+Artifact 13101944660, abrigo-dos-anjos-android-debug, 76.793.038 bytes, não expirado;
+expiração 08/11/2026 18:54:23 America/Sao_Paulo. Digest do arquivo compactado:
+sha256:76febbf0b3679f8871d87ac23c21a6302179784f067aaf632c73d200fb2da7f6.
+Links, escopo, limitações e configuração do pacote em
+[registro da versão](../../docs/releases/1.0.0-android.md).
+Fechamento técnico da versão de testes Android concluído. T106/iOS continua
+aberta. Sem implantação em produção, assinatura de release, publicação em loja,
+merge na main ou início da expansão para outros abrigos. Este contexto altera
+somente documentação/tarefas; não repete testes locais de código inalterado.

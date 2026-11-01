@@ -4,7 +4,8 @@ Aplicativo Flutter de adoção e manejo, com prioridade Android e código compar
 com iOS. A migração segue a constituição 2.0.0 e a skill oficial Flutter instalada.
 Trabalho na branch `developer`; integração à `main` por Pull Request.
 
-Consolidação para um único abrigo: consulte o
+Fechamento técnico da versão de testes Android concluído para um único abrigo:
+CI 41352219289 aprovada em Flutter, backend, Android e entrega. Consulte o
 [registro 1.0.0+1 Android](docs/releases/1.0.0-android.md), com escopo, evidências
 e pendências de produção/iOS. A expansão para outros abrigos fica para depois.
 
