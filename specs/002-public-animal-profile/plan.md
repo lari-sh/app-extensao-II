@@ -38,17 +38,17 @@ O indicador legado de vacinação não é uma fonte para preencher data/tipo.
 
 ## Tarefas futuras (não executadas)
 
-- [ ] P001 Especificar critérios de data, edição/limpeza e exposição pública com exemplos.
-- [ ] P002 Escrever pgTAP de permissões, limites, data futura, idempotência e compatibilidade.
-- [ ] P003 Criar migração/RPC e testar criação, atualização e remoção dos valores.
+- [x] P001 Especificar critérios de data, edição/limpeza e exposição pública com exemplos.
+- [x] P002 Escrever pgTAP de permissões, limites, data futura, idempotência e compatibilidade.
+- [x] P003 Criar migração/RPC e testar criação, atualização e remoção dos valores.
 - [ ] P004 Estender DTOs/modelos/Services/Repositories com testes de mapeamento/falhas.
 - [ ] P005 Testar ViewModels: validação, mensagens, ausência, rascunho e autorização.
 - [ ] P006 Integrar campos no editor e ficha com Widget Tests e sem alterar layout sem autorização.
 - [ ] P007 Validar Android, duas sessões, ocultação/adoção e ausência de exposição clínica.
 - [ ] P008 Atualizar evidências e executar CI antes de publicar cada etapa na developer.
-- [ ] P009 Definir contrato de peso, cor e registros públicos de vacinação (data/tipo),
+- [x] P009 Definir contrato de peso, cor e registros públicos de vacinação (data/tipo),
   incluindo normalização, limites, limpeza e compatibilidade de clientes antigos.
-- [ ] P010 Estender migração/RPC e testes pgTAP para peso, cor e vacinação, sem expor
+- [x] P010 Estender migração/RPC e testes pgTAP para peso, cor e vacinação, sem expor
   doses, notas, prescrições ou autoria; preservar RLS e idempotência.
 - [ ] P011 Integrar peso, cor e vacinação às camadas MVVM e ao cadastro/ficha pública,
   com testes unitários e de interface; preservar o desenho autorizado.
@@ -58,3 +58,16 @@ O indicador legado de vacinação não é uma fonte para preencher data/tipo.
 Enquanto planejados, a ficha identifica as duas informações como Cadastro em
 planejamento. O quadro usa somente os booleanos públicos de vacinação/castração
 já disponíveis. O app continua com uma foto principal, sem carrossel fictício.
+
+## Contrato público definido
+
+Peso opcional: número em kg, maior que zero e até 1.000; cor opcional com até
+80 caracteres. Vacinação: lista de até 100 aplicações, cada uma somente com
+applied_on (data civil não futura) e vaccine_type (1–120 caracteres). Lista vazia
+remove as aplicações públicas. Não gerar aplicações a partir do booleano legado.
+Omissão preserva valores; null explícito limpa campos opcionais. A lista de vacinas
+é substituída atomicamente pelo editor, como os demais dados do animal.
+
+Backend validado: 127 testes pgTAP passaram em 7 arquivos, incluindo os 28 casos
+públicos. Migrações 009/010 aplicadas somente no Supabase local. Android e Flutter
+continuam pendentes para este incremento.
