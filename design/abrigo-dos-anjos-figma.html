@@ -365,6 +365,90 @@
     .hint { position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%); background: var(--fg); color: var(--surface); padding: 8px 14px; border-radius: 999px; font-size: 12px; font-family: var(--font-mono); box-shadow: 0 8px 24px -8px rgba(0,0,0,.4); opacity: 0; transition: opacity .25s ease; pointer-events: none; z-index: 100; display: flex; align-items: center; gap: 10px; }
     .hint.show { opacity: 1; }
     .hint .kbd { background: rgba(255,255,255,.18); padding: 2px 6px; border-radius: 4px; font-size: 10px; }
+
+    /* Calendar proposal: scoped components preserve the six established screens. */
+    .canvas { height: 3020px; }
+    .med-design button:focus-visible,.med-design input:focus-visible,.med-design textarea:focus-visible { outline:2px solid var(--s-accent); outline-offset:3px; }
+    .med-design .med-scroll { flex:1; overflow-y:auto; padding:0 20px 24px; min-height:0; }
+    .med-design .eyebrow { font:10px var(--font-mono); text-transform:uppercase; letter-spacing:.07em; color:var(--s-muted); }
+    .med-design .calendar-card { border:1px solid var(--s-border); border-radius:14px; background:white; padding:12px; }
+    .med-design .month-nav { display:flex; align-items:center; gap:7px; margin-bottom:10px; }
+    .med-design .month-name { font:600 19px var(--font-display); margin-right:auto; }
+    .med-design .round-control { width:32px; height:32px; border-radius:50%; background:var(--s-soft); font-size:19px; display:grid; place-items:center; }
+    .med-design .today-control { font-size:11px; border:1px solid var(--s-border); border-radius:8px; padding:6px 10px; }
+    .med-design .week-labels,.med-design .calendar-grid { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:3px; text-align:center; }
+    .med-design .week-labels { font-size:10px; color:var(--s-muted); margin-bottom:6px; }
+    .med-design .calendar-day { height:32px; border-radius:9px; position:relative; font-size:12px; }
+    .med-design .calendar-day:hover { background:var(--s-soft); }
+    .med-design .calendar-day.has-events:after { content:''; position:absolute; bottom:3px; left:calc(50% - 2px); width:4px; height:4px; border-radius:50%; background:var(--s-accent); }
+    .med-design .calendar-day.selected { background:var(--s-accent); color:white; font-weight:700; }
+    .med-design .calendar-day.selected:after { background:white; }
+    .med-design .calendar-key { font-size:10px; color:var(--s-muted); margin:9px 0 0; display:flex; align-items:center; gap:5px; }
+    .med-design .calendar-key:before { content:''; width:4px; height:4px; border-radius:50%; background:var(--s-accent); }
+    .med-design .day-heading { display:flex; align-items:center; justify-content:space-between; margin:19px 0 4px; }
+    .med-design h2 { font:600 21px var(--font-display); margin:0; }
+    .med-design .day-summary { color:var(--s-muted); font-size:11px; margin:0 0 13px; }
+    .med-design .agenda-list { display:grid; gap:10px; }
+    .med-design .agenda-item { padding:12px; border:1px solid var(--s-border); border-radius:14px; background:white; display:grid; grid-template-columns:39px minmax(0,1fr) 30px; gap:9px; align-items:start; }
+    .med-design .agenda-time { font:600 11px var(--font-mono); padding-top:2px; }
+    .med-design .agenda-pet { display:block; font-weight:650; font-size:13px; text-align:left; }
+    .med-design .agenda-drug { color:var(--s-muted); font-size:11px; line-height:1.5; margin:2px 0 6px; overflow-wrap:anywhere; }
+    .med-design .state-pill { display:inline-flex; align-items:center; border-radius:999px; padding:3px 7px; background:var(--s-soft); color:var(--s-muted); font-size:10px; font-weight:600; }
+    .med-design .state-pill.late { color:var(--s-accent); }
+    .med-design .state-pill.done { color:var(--s-fg); background:#EEE2DC; }
+    .med-design .check-action { width:28px; height:28px; border-radius:9px; border:1px solid var(--s-border); display:grid; place-items:center; font-size:15px; }
+    .med-design .check-action.done { color:white; background:var(--s-fg); border-color:var(--s-fg); }
+    .med-design .agenda-note { font-size:10px; color:var(--s-muted); margin-top:8px; grid-column:2/-1; }
+    .med-design .quiet-note { font-size:11px; color:var(--s-muted); line-height:1.6; margin:12px 0; }
+    .med-design .animal-context { display:flex; align-items:center; gap:11px; padding:12px; background:var(--s-soft); border-radius:12px; margin-bottom:20px; }
+    .med-design .animal-letter { width:38px; height:38px; border-radius:50%; background:white; display:grid; place-items:center; font:600 18px var(--font-display); color:var(--s-accent); flex-shrink:0; }
+    .med-design .animal-context strong { display:block; font-size:14px; }
+    .med-design .animal-context small { display:block; font-size:10px; color:var(--s-muted); }
+    .med-design .form-label { display:block; margin:0 0 7px; font-size:12px; font-weight:600; }
+    .med-design .form-block { margin-bottom:18px; }
+    .med-design .text-input,.med-design .select-input { width:100%; min-width:0; }
+    .med-design .field-2col { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .med-design .field-2col>div { min-width:0; }
+    .med-design input[type=date] { padding:12px 8px; font-size:12px; }
+    .med-design .mode-tabs { display:flex; gap:6px; background:var(--s-soft); padding:4px; border-radius:11px; }
+    .med-design .mode-tab { flex:1; font-size:11px; font-weight:600; padding:9px 4px; border-radius:8px; }
+    .med-design .mode-tab.active { background:white; box-shadow:0 1px 4px #45180d0a; color:var(--s-accent); }
+    .med-design .time-chips { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+    .med-design .time-slot { display:flex; align-items:center; gap:8px; padding:8px 10px; border-radius:9px; border:1px solid var(--s-border); background:white; font:12px var(--font-mono); }
+    .med-design .time-slot input { width:68px; border:0; background:transparent; font:inherit; }
+    .med-design .add-time { color:var(--s-accent); font-size:11px; font-weight:600; padding:8px; }
+    .med-design .field-caption { font-size:10px; color:var(--s-muted); margin-top:6px; line-height:1.5; }
+    .med-design .schedule-preview { border:1px solid var(--s-border); border-radius:12px; padding:12px; background:var(--s-soft); }
+    .med-design .schedule-preview strong { display:block; font-size:12px; margin-bottom:4px; }
+    .med-design .schedule-preview p { margin:0; font-size:11px; color:var(--s-muted); line-height:1.6; }
+    .med-design .med-footer { padding:12px 20px 20px; border-top:1px solid var(--s-border); background:var(--s-bg); display:flex; gap:8px; flex-shrink:0; }
+    .med-design .med-footer button { min-height:42px; border-radius:11px; font-size:12px; font-weight:600; }
+    .med-design .med-footer .secondary { flex:1; border:1px solid var(--s-border); background:white; }
+    .med-design .med-footer .primary { flex:2; background:var(--s-accent); color:white; }
+    .med-design .med-footer button:disabled { opacity:.5; cursor:default; }
+    .med-design .detail-value { font-size:13px; font-weight:600; margin-top:5px; }
+    .med-design .detail-section { padding:15px 0; border-bottom:1px solid var(--s-border); }
+    .med-design .detail-row { display:flex; justify-content:space-between; gap:12px; margin:8px 0; font-size:12px; }
+    .med-design .detail-row span { color:var(--s-muted); }
+    .med-design .history-event { border-left:2px solid var(--s-border); padding:0 0 15px 12px; margin-left:4px; position:relative; }
+    .med-design .history-event:before { content:''; width:8px; height:8px; position:absolute; top:4px; left:-5px; background:var(--s-fg); border-radius:50%; }
+    .med-design .history-event strong { font-size:12px; display:block; }
+    .med-design .history-event p { font-size:11px; color:var(--s-muted); margin:3px 0; line-height:1.5; }
+    .med-design .text-action { font-size:11px; font-weight:600; color:var(--s-accent); margin-top:10px; }
+    .med-design .correction-box { padding:12px; background:var(--s-soft); border-radius:12px; margin-top:12px; }
+    .med-design .correction-box textarea { width:100%; border:1px solid var(--s-border); border-radius:9px; background:white; padding:10px; min-height:70px; font-size:12px; resize:vertical; }
+    .med-design .correction-box button { width:100%; background:var(--s-fg); color:white; border-radius:9px; padding:10px; margin-top:8px; font-size:11px; }
+    .med-design [hidden] { display:none!important; }
+    .med-design .empty-agenda { border:1px dashed var(--s-border); padding:24px 16px; border-radius:14px; text-align:center; }
+    .med-design .empty-agenda p { color:var(--s-muted); font-size:12px; }
+    .med-design .prototype-feedback { font-size:11px; color:var(--s-accent); margin-top:8px; min-height:16px; }
+    body.proposal-preview .topbar,body.proposal-preview .panel,body.proposal-preview .canvas-toolbar,body.proposal-preview .hint { display:none; }
+    body.proposal-preview .figma-app,body.proposal-preview .figma-main { display:block; height:100dvh; }
+    body.proposal-preview .canvas-area { height:100dvh; overflow:hidden; background:var(--s-soft); }
+    body.proposal-preview .canvas { width:100%; height:100%; padding:0; }
+    body.proposal-preview .artboard { display:none; position:relative; left:0!important; top:0!important; width:min(100%,390px)!important; height:100dvh!important; margin:0 auto; border-radius:0; box-shadow:none; cursor:default; }
+    body.proposal-preview .artboard.preview-active { display:flex; }
+    body.proposal-preview .resize-handle { display:none; }
   </style>
 </head>
 <body>
@@ -374,7 +458,7 @@
         <div class="brand-mark">A</div>
         <div class="file-info">
           <span class="file-name">Abrigo dos Anjos · Uberaba-MG</span>
-          <span class="file-status">protótipo · v0.4 · salvo 2min atrás</span>
+          <span class="file-status">protótipo · v0.5 · proposta de calendário</span>
         </div>
       </div>
       <div class="topbar-center">
@@ -409,7 +493,7 @@
             <div class="page-item" data-jump="screen-4"><svg class="page-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="6" y="3" width="12" height="18" rx="2"/><rect x="9" y="8" width="6" height="4" rx="1"/><path d="M10 16h4"/></svg><span>Login Voluntário</span><span class="page-num">04</span></div>
             <div class="page-item" data-jump="screen-5"><svg class="page-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M9 8h2M9 11h2M9 14h2M14 8h1M14 11h1M14 14h1"/></svg><span>Dashboard Kanban</span><span class="page-num">05</span></div>
             <div class="page-item" data-jump="screen-6"><svg class="page-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="6" y="3" width="12" height="18" rx="2"/><circle cx="11" cy="10" r="2"/><path d="M8 15h6"/></svg><span>Cadastro Animal</span><span class="page-num">06</span></div>
-          </div>
+<div class="page-item" data-jump="screen-7"><span class="page-icon">▣</span><span>Calendário de medicações</span><span class="page-num">07</span></div><div class="page-item" data-jump="screen-8"><span class="page-icon">▣</span><span>Programar medicação</span><span class="page-num">08</span></div><div class="page-item" data-jump="screen-9"><span class="page-icon">▣</span><span>Aplicação e histórico</span><span class="page-num">09</span></div>          </div>
         </div>
         <div class="panel-section">
           <h3 class="panel-title">Camadas</h3>
@@ -437,14 +521,14 @@
         </div>
       </aside>
 
-      <main class="canvas-area" data-od-id="canvas-area">
+      <main class="canvas-area" id="canvas-area" data-od-id="canvas-area">
         <div class="canvas-toolbar">
           <span class="pill-light"><span class="dot"></span>Fluxo público + administrativo</span>
           <span class="sep">·</span>
           <span class="meta">6 telas · iPhone 14 Pro · 390×844</span>
           <button class="cta-mini" id="presentBtn">▶ Apresentar</button>
         </div>
-        <div class="canvas" data-od-id="canvas">
+        <div class="canvas" id="canvas" data-od-id="canvas">
 
           <article class="artboard" data-artboard="screen-1" data-od-id="screen-1" style="left: 100px; top: 100px;" data-name="Splash &amp; Acesso" data-index="01">
             <span class="artboard-label">Splash &amp; Acesso</span>
@@ -607,7 +691,7 @@
               <div class="view-tabs">
                 <div class="view-tab active">Kanban</div>
                 <div class="view-tab">Lista</div>
-                <div class="view-tab">Calendário</div>
+                <div class="view-tab" data-nav="screen-7">Calendário</div>
               </div>
               <div class="kanban" id="kanban">
                 <div class="kcol" data-col="available">
@@ -808,7 +892,7 @@
                       </div>
                     </div>
                   </div>
-                  <button type="button" class="btn-add-med">
+                  <button type="button" class="btn-add-med" data-nav="screen-8">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 5v14M5 12h14"/></svg>
                     Adicionar medicação
                   </button>
@@ -822,6 +906,71 @@
                 <button class="btn-secondary-mobile" data-nav="screen-5">Cancelar</button>
                 <button class="btn-save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12l4 4 10-10"/></svg>Salvar cadastro</button>
               </div>
+            </div>
+          </article>
+
+          <article class="artboard" data-artboard="screen-7" data-od-id="screen-7" data-name="Calendário de medicações" data-index="07" style="left:100px;top:2020px;">
+            <span class="artboard-label">Calendário · proposta visual</span><span class="artboard-num">07</span><span class="resize-handle tl"></span><span class="resize-handle tr"></span><span class="resize-handle bl"></span><span class="resize-handle br"></span>
+            <div class="mb med-design"><div class="mb-statusbar"><span>9:41</span><div class="icons"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 22h2v-8H2zM6 22h2V10H6zM10 22h2V6h-2zM14 22h2V4h-2zM18 22h2V8h-2z"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11a14 14 0 0 1 18 0M6 14a10 10 0 0 1 12 0M9 17a6 6 0 0 1 6 0"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="7" width="16" height="10" rx="2"/><path d="M21 10v4"/></svg></div></div><div class="mb-app-bar">
+                <div><div class="subtitle">Manejo · 42 animais</div><div class="title">Olá, Maria</div></div>
+                <button class="mb-icon-btn" data-nav="screen-4" title="Sair"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg></button>
+              </div>
+              <div class="dash-stats">
+                <div class="stat-card good"><div class="num">28</div><div class="lbl">Disponíveis</div></div>
+                <div class="stat-card warn"><div class="num">11</div><div class="lbl">Em tratamento</div></div>
+                <div class="stat-card risk"><div class="num">03</div><div class="lbl">Quarentena</div></div>
+              </div>
+
+              <div class="view-tabs"><button class="view-tab" data-nav="screen-5">Kanban</button><button class="view-tab" data-nav="screen-5">Lista</button><button class="view-tab active">Calendário</button></div>
+              <div class="med-scroll">
+                <div class="calendar-card">
+                  <div class="month-nav"><span class="month-name" id="medMonthName">Novembro 2026</span><button class="round-control" data-month-step="-1" aria-label="Mês anterior">‹</button><button class="round-control" data-month-step="1" aria-label="Próximo mês">›</button><button class="today-control" id="medToday">Hoje</button></div>
+                  <div class="week-labels"><span>Dom</span><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span></div>
+                  <div class="calendar-grid" id="medCalendarGrid" aria-label="Dias do mês"></div>
+                  <p class="calendar-key">Dia com aplicações programadas</p>
+                </div>
+                <div class="day-heading"><h2 id="medDayTitle">Domingo, 1 nov.</h2><span class="eyebrow">Agenda do dia</span></div>
+                <p class="day-summary" id="medDaySummary">4 aplicações · 3 pendentes · 1 realizada</p>
+                <div class="agenda-list" id="medAgendaList"></div>
+                <p class="quiet-note">Horários do abrigo · Uberaba, MG<br>Aplicações vinculadas à ficha de cada animal.</p>
+              </div>
+            </div>
+          </article>
+          <article class="artboard" data-artboard="screen-8" data-od-id="screen-8" data-name="Programar medicação" data-index="08" style="left:580px;top:2020px;">
+            <span class="artboard-label">Medicação · horários e intervalos</span><span class="artboard-num">08</span><span class="resize-handle tl"></span><span class="resize-handle tr"></span><span class="resize-handle bl"></span><span class="resize-handle br"></span>
+            <div class="mb med-design"><div class="mb-statusbar"><span>9:41</span><div class="icons"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 22h2v-8H2zM6 22h2V10H6zM10 22h2V6h-2zM14 22h2V4h-2zM18 22h2V8h-2z"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11a14 14 0 0 1 18 0M6 14a10 10 0 0 1 12 0M9 17a6 6 0 0 1 6 0"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="7" width="16" height="10" rx="2"/><path d="M21 10v4"/></svg></div></div>
+              <div class="mb-app-bar"><div><div class="subtitle">Ficha do animal</div><div class="title">Programar medicação</div></div><button class="mb-icon-btn" data-nav="screen-6" aria-label="Fechar programação">×</button></div>
+              <div class="med-scroll">
+                <div class="animal-context"><span class="animal-letter">A</span><div><strong>Atena</strong><small>#A0024 · Tratamento do animal</small></div></div>
+                <div class="form-block"><label class="form-label" for="medicationName">Medicamento</label><input class="text-input" id="medicationName" value="Amoxicilina 250 mg" /></div>
+                <div class="form-block"><label class="form-label" for="medicationInstructions">Instruções do tratamento</label><textarea class="text-area" id="medicationInstructions" placeholder="Orientações cadastradas pela equipe"></textarea></div>
+                <div class="form-block"><span class="form-label">Período do tratamento</span><div class="field-2col"><div><label class="eyebrow" for="medStartsOn">Início</label><input class="text-input" id="medStartsOn" type="date" value="2026-11-01" /><input class="text-input" style="margin-top:6px;" id="medStartsAt" type="time" value="08:00" aria-label="Horário de início" /></div><div><label class="eyebrow" for="medEndsOn">Término</label><input class="text-input" id="medEndsOn" type="date" value="2026-11-07" /><input class="text-input" style="margin-top:6px;" id="medEndsAt" type="time" value="20:00" aria-label="Horário de término" /></div></div></div>
+                <div class="form-block"><span class="form-label">Como programar</span><div class="mode-tabs" role="group" aria-label="Modo de programação"><button class="mode-tab active" data-med-mode="fixed" aria-pressed="true">Horários fixos</button><button class="mode-tab" data-med-mode="interval" aria-pressed="false">Por intervalo</button></div></div>
+                <div class="form-block" id="medFixedFields"><span class="form-label">Horários de aplicação</span><div class="time-chips" id="medTimeSlots"><label class="time-slot"><input type="time" value="08:00" aria-label="Primeiro horário" /></label><label class="time-slot"><input type="time" value="20:00" aria-label="Segundo horário" /></label><button class="add-time" id="medAddTime">+ Horário</button></div><p class="field-caption">Os mesmos horários em cada dia do período.</p></div>
+                <div class="form-block" id="medIntervalFields" hidden><div class="field-2col"><div><label class="form-label" for="medInterval">A cada</label><input class="text-input" id="medInterval" type="number" min="1" value="8" /><p class="field-caption">Intervalo entre aplicações</p></div><div><label class="form-label" for="medIntervalUnit">Unidade</label><select class="select-input" id="medIntervalUnit"><option value="hours">Horas</option><option value="minutes">Minutos</option></select><p class="field-caption">A partir do início informado.</p></div></div></div>
+                <div class="schedule-preview"><strong>Próximas aplicações</strong><p id="medSchedulePreview">01 nov. às 08:00 e 20:00<br>02 nov. às 08:00 e 20:00</p></div>
+                <p class="quiet-note">Ao salvar, as aplicações entram na agenda do abrigo. Informações restritas à equipe.</p>
+                <div class="prototype-feedback" id="medScheduleFeedback" aria-live="polite"></div>
+              </div>
+              <div class="med-footer"><button class="secondary" data-nav="screen-6">Cancelar</button><button class="primary" id="medSavePreview">Salvar programação</button></div>
+            </div>
+          </article>
+          <article class="artboard" data-artboard="screen-9" data-od-id="screen-9" data-name="Aplicação e histórico" data-index="09" style="left:1060px;top:2020px;">
+            <span class="artboard-label">Aplicação · confirmação e histórico</span><span class="artboard-num">09</span><span class="resize-handle tl"></span><span class="resize-handle tr"></span><span class="resize-handle bl"></span><span class="resize-handle br"></span>
+            <div class="mb med-design"><div class="mb-statusbar"><span>9:41</span><div class="icons"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 22h2v-8H2zM6 22h2V10H6zM10 22h2V6h-2zM14 22h2V4h-2zM18 22h2V8h-2z"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11a14 14 0 0 1 18 0M6 14a10 10 0 0 1 12 0M9 17a6 6 0 0 1 6 0"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="7" width="16" height="10" rx="2"/><path d="M21 10v4"/></svg></div></div>
+              <div class="mb-app-bar"><div><div class="subtitle" id="medDetailSubtitle">Agenda · 1 de novembro</div><div class="title">Detalhes da aplicação</div></div><button class="mb-icon-btn" data-nav="screen-7" aria-label="Fechar aplicação">×</button></div>
+              <div class="med-scroll">
+                <div class="animal-context"><span class="animal-letter" id="medDetailLetter">T</span><div><strong id="medDetailAnimal">Thor</strong><small id="medDetailAnimalId">#A0008 · Em tratamento</small></div></div>
+                <div><span class="eyebrow">Medicamento</span><div class="detail-value" id="medDetailName">Amoxicilina 250 mg</div><p class="quiet-note" style="margin-top:6px;">Conforme as instruções da ficha do animal.</p><span class="state-pill late" id="medDetailState">Atrasada</span></div>
+                <div class="detail-section"><div class="detail-row"><span>Data prevista</span><strong id="medDetailDate">01/11/2026</strong></div><div class="detail-row"><span>Horário previsto</span><strong id="medDetailTime">08:00</strong></div><div class="detail-row"><span>Programação</span><strong id="medDetailRecurrence">A cada 8 horas</strong></div></div>
+                <div class="detail-section" id="medPerformedSection" hidden><div class="detail-row"><span>Aplicado por</span><strong id="medPerformedBy">Maria Alves</strong></div><div class="detail-row"><span>Horário real</span><strong id="medPerformedAt">01/11 às 08:06</strong></div></div>
+                <div class="detail-section"><span class="form-label">Histórico da aplicação</span><div id="medApplicationHistory"><div class="history-event"><strong>Aplicação programada</strong><p>01 nov. · 08:00<br>Vinculada ao tratamento de Thor.</p></div></div></div>
+                <p class="quiet-note" id="medCompletionHint">Ao confirmar, seu nome e o horário da aplicação serão registrados.</p>
+                <button class="text-action" id="medShowCorrection" hidden>Corrigir registro de aplicação</button>
+                <div class="correction-box" id="medCorrectionBox" hidden><label class="form-label" for="medCorrectionReason">Motivo da correção</label><textarea id="medCorrectionReason" placeholder="Descreva por que este registro precisa ser corrigido"></textarea><p class="field-caption">O registro original permanece no histórico.</p><button id="medConfirmCorrection">Confirmar correção</button></div>
+                <div class="prototype-feedback" id="medDetailFeedback" aria-live="polite"></div>
+              </div>
+              <div class="med-footer"><button class="secondary" data-nav="screen-7">Voltar à agenda</button><button class="primary" id="medConfirmApplication">Marcar como aplicada</button></div>
             </div>
           </article>
         </div>
@@ -887,6 +1036,8 @@
   var hint = $('#hint');
   var artboards = $$('.artboard');
   var selectedArtboard = artboards[0];
+  var previewMode = new URLSearchParams(location.search).has('preview');
+  if (previewMode) document.body.classList.add('proposal-preview');
   var propX = $('#propX'), propY = $('#propY'), propW = $('#propW'), propH = $('#propH'), propR = $('#propR');
 
   /* ─── hint banner ────────────────────────────────────────────── */
@@ -899,6 +1050,7 @@
     artboards.forEach(function (a) { a.classList.remove('selected'); });
     ab.classList.add('selected');
     selectedArtboard = ab;
+    if (previewMode) artboards.forEach(function(a) { a.classList.toggle('preview-active', a === ab); });
     syncProps();
     syncPageHighlight();
   }
@@ -921,7 +1073,7 @@
   artboards.forEach(function (ab) {
     ab.addEventListener('mousedown', function (e) {
       if (e.target.closest('.resize-handle')) return;
-      if (e.target.closest('[data-nav], .pet-card, .chip, .kcard, .fab, .btn-primary-mobile, .detail-overlay, .upload-zone, .checkbox, .view-tab, .mb-nav-item, .text-input, .text-area, .select-input, .med-item, .btn-add-med, .med-remove, .rec-item, .btn-add-rec, .rec-remove, .mb-icon-btn, .btn-save, .btn-secondary-mobile, label')) return;
+      if (e.target.closest('button, input, textarea, select, [data-nav], .pet-card, .chip, .kcard, .fab, .btn-primary-mobile, .detail-overlay, .upload-zone, .checkbox, .view-tab, .mb-nav-item, .text-input, .text-area, .select-input, .med-item, .btn-add-med, .med-remove, .rec-item, .btn-add-rec, .rec-remove, .mb-icon-btn, .btn-save, .btn-secondary-mobile, label')) return;
       e.preventDefault();
       selectArtboard(ab);
       startDrag(ab, e);
@@ -1028,6 +1180,7 @@
   $$('.row-tabs, .view-tabs').forEach(function (group) {
     $$('button, .view-tab', group).forEach(function (b) {
       b.addEventListener('click', function () {
+        if (b.dataset.nav) return;
         $$('button, .view-tab', group).forEach(function (x) { x.classList.remove('active'); });
         b.classList.add('active');
       });
@@ -1056,6 +1209,7 @@
   });
   $$('.btn-add-med').forEach(function (btn) {
     btn.addEventListener('click', function () {
+      if (btn.dataset.nav) return;
       var list = btn.parentElement.querySelector('.med-list');
       if (!list) return;
       var idx = list.querySelectorAll('.med-item').length + 1;
@@ -1281,7 +1435,92 @@
   });
 
   /* ─── initial selection ──────────────────────────────────────── */
-  selectArtboard(artboards[0]);
+  var requested = location.hash.slice(1) || new URLSearchParams(location.search).get('preview');
+  var initial = artboards.filter(function(a) { return a.dataset.artboard === requested; })[0] || artboards[0];
+  selectArtboard(initial);
+  if (!previewMode && requested) setTimeout(function() { var r=initial.getBoundingClientRect(),c=canvasArea.getBoundingClientRect();canvasArea.scrollTo({left:canvasArea.scrollLeft+r.left-c.left-70,top:canvasArea.scrollTop+r.top-c.top-70}); },100);
+})();
+</script>
+
+<script>
+/* Visual-only calendar flow. In-memory illustrative data; no network or persistence. */
+(function() {
+  'use strict';
+  var q=function(s){return document.querySelector(s);};
+  var esc=function(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});};
+  var month=10,year=2026,day=1,mode='fixed',selected=null;
+  var months=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  var shortMonths=['jan.','fev.','mar.','abr.','mai.','jun.','jul.','ago.','set.','out.','nov.','dez.'];
+  var weekdays=['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'];
+  var records=[
+    {id:1,day:1,time:'08:00',animal:'Luna',animalId:'#A0024',drug:'Prednisona 5 mg',recurrence:'08:00 e 20:00',state:'done',by:'Maria Alves',at:'08:06'},
+    {id:2,day:1,time:'08:00',animal:'Thor',animalId:'#A0008',drug:'Amoxicilina 250 mg',recurrence:'A cada 8 horas',state:'late'},
+    {id:3,day:1,time:'12:00',animal:'Atena',animalId:'#A0037',drug:'Amoxicilina 250 mg',recurrence:'A cada 8 horas',state:'pending'},
+    {id:4,day:1,time:'20:00',animal:'Luna',animalId:'#A0024',drug:'Prednisona 5 mg',recurrence:'08:00 e 20:00',state:'pending'},
+    {id:5,day:2,time:'08:00',animal:'Thor',animalId:'#A0008',drug:'Amoxicilina 250 mg',recurrence:'A cada 8 horas',state:'pending'},
+    {id:6,day:3,time:'08:00',animal:'Atena',animalId:'#A0037',drug:'Amoxicilina 250 mg',recurrence:'A cada 8 horas',state:'pending'}
+  ];
+  records.forEach(function(a){a.events=[{title:'Aplicação programada',text:a.day+' nov. · '+a.time+' · Vinculada ao tratamento de '+a.animal+'.'}];if(a.state==='done')a.events.push({title:'Aplicação realizada',text:a.by+' · 01 nov. às '+a.at});});
+  function itemsFor(d){return year===2026&&month===10?records.filter(function(a){return a.day===d;}):[];}
+  function renderCalendar(){
+    q('#medMonthName').textContent=months[month]+' '+year;
+    var grid=q('#medCalendarGrid');grid.replaceChildren();
+    var first=new Date(Date.UTC(year,month,1)).getUTCDay(),count=new Date(Date.UTC(year,month+1,0)).getUTCDate();
+    for(var i=0;i<first;i++)grid.appendChild(document.createElement('span'));
+    for(var d=1;d<=count;d++){
+      var b=document.createElement('button');b.type='button';b.className='calendar-day'+(d===day?' selected':'')+(itemsFor(d).length?' has-events':'');b.textContent=d;b.dataset.day=d;b.setAttribute('aria-label',d+' de '+months[month]);b.setAttribute('aria-pressed',String(d===day));b.addEventListener('click',function(){day=Number(this.dataset.day);renderCalendar();});grid.appendChild(b);
+    }
+    q('#medDayTitle').textContent=weekdays[new Date(Date.UTC(year,month,day)).getUTCDay()]+', '+day+' '+shortMonths[month];
+    var items=itemsFor(day),done=items.filter(function(a){return a.state==='done';}).length;
+    q('#medDaySummary').textContent=items.length?items.length+' aplicações · '+(items.length-done)+' pendentes · '+done+' realizada'+(done===1?'':'s'):'Nenhuma aplicação programada';
+    var list=q('#medAgendaList');list.replaceChildren();
+    if(!items.length){list.innerHTML='<div class="empty-agenda"><strong>Dia livre de aplicações</strong><p>Não há medicações programadas para este dia.</p><button class="text-action" data-agenda-back>Voltar para 1 de novembro</button></div>';list.querySelector('button').onclick=function(){year=2026;month=10;day=1;renderCalendar();};return;}
+    items.sort(function(a,b){return a.time.localeCompare(b.time)||a.id-b.id;}).forEach(function(a){
+      var card=document.createElement('div');card.className='agenda-item';card.dataset.application=a.id;
+      var label=a.state==='done'?'Realizada':a.state==='late'?'Atrasada':'Programada';
+      card.innerHTML='<span class="agenda-time">'+esc(a.time)+'</span><div><button class="agenda-pet">'+esc(a.animal)+'</button><div class="agenda-drug">'+esc(a.drug)+'</div><span class="state-pill '+esc(a.state)+'">'+label+'</span></div><button class="check-action '+(a.state==='done'?'done':'')+'" aria-label="Ver aplicação de '+esc(a.animal)+' às '+esc(a.time)+'">'+(a.state==='done'?'✓':'›')+'</button>'+(a.state==='done'?'<div class="agenda-note">'+esc(a.by)+' · aplicada às '+esc(a.at)+'</div>':'');
+      card.querySelectorAll('button').forEach(function(b){b.onclick=function(){showApplication(a);go('screen-9');};});list.appendChild(card);
+    });
+  }
+  function go(id){var shortcut=document.querySelector('.page-item[data-jump="'+id+'"]');if(shortcut)shortcut.click();}
+  function showApplication(a){
+    selected=a;q('#medDetailSubtitle').textContent='Agenda · '+a.day+' de novembro';q('#medDetailDate').textContent=String(a.day).padStart(2,'0')+'/11/2026';q('#medDetailLetter').textContent=a.animal.charAt(0);q('#medDetailAnimal').textContent=a.animal;q('#medDetailAnimalId').textContent=a.animalId+' · Ficha do animal';q('#medDetailName').textContent=a.drug;q('#medDetailTime').textContent=a.time;q('#medDetailRecurrence').textContent=a.recurrence;
+    var done=a.state==='done',label=done?'Realizada':a.state==='late'?'Atrasada':'Programada';q('#medDetailState').textContent=label;q('#medDetailState').className='state-pill '+a.state;
+    q('#medPerformedSection').hidden=!done;q('#medShowCorrection').hidden=!done;q('#medCorrectionBox').hidden=true;q('#medCorrectionReason').value='';q('#medDetailFeedback').textContent='';
+    q('#medPerformedBy').textContent=a.by||'';q('#medPerformedAt').textContent=a.at?'01/11 às '+a.at:'';
+    q('#medConfirmApplication').disabled=done||a.state==='pending';q('#medConfirmApplication').textContent=done?'Aplicação registrada':'Marcar como aplicada';
+    q('#medCompletionHint').textContent=done?'Autor e horário real preservados no histórico.':a.state==='pending'?'Esta aplicação está programada para um horário futuro.':'Ao confirmar, seu nome e o horário da aplicação serão registrados.';
+    q('#medApplicationHistory').innerHTML=a.events.map(function(e){return '<div class="history-event"><strong>'+esc(e.title)+'</strong><p>'+esc(e.text)+'</p></div>';}).join('');
+  }
+  q('#medConfirmApplication').onclick=function(){if(!selected||selected.state==='done'||selected.state==='pending')return;selected.state='done';selected.by='Maria Alves';selected.at='09:41';selected.events.push({title:'Aplicação realizada',text:'Maria Alves · 01 nov. às 09:41'});showApplication(selected);renderCalendar();q('#medDetailFeedback').textContent='Aplicação registrada nesta prévia.';};
+  q('#medShowCorrection').onclick=function(){q('#medCorrectionBox').hidden=!q('#medCorrectionBox').hidden;if(!q('#medCorrectionBox').hidden)q('#medCorrectionReason').focus();};
+  q('#medConfirmCorrection').onclick=function(){var reason=q('#medCorrectionReason').value.trim();if(!reason){q('#medDetailFeedback').textContent='Informe o motivo da correção.';return;}if(reason.length>500){q('#medDetailFeedback').textContent='Use até 500 caracteres no motivo.';return;}selected.events.push({title:'Registro corrigido',text:'Maria Alves · 01 nov. às 09:41 · '+reason});selected.state='late';selected.by=null;selected.at=null;showApplication(selected);renderCalendar();q('#medDetailFeedback').textContent='Correção registrada. A aplicação voltou a pendente.';};
+  document.querySelectorAll('[data-month-step]').forEach(function(b){b.onclick=function(){month+=Number(b.dataset.monthStep);if(month<0){month=11;year--;}if(month>11){month=0;year++;}day=1;renderCalendar();};});
+  q('#medToday').onclick=function(){year=2026;month=10;day=1;renderCalendar();};
+  function previewSchedule(){
+    var from=q('#medStartsOn').value,to=q('#medEndsOn').value,start=q('#medStartsAt').value,end=q('#medEndsAt').value;
+    var target=q('#medSchedulePreview');q('#medScheduleFeedback').textContent='';
+    if(!from||!to||!start||!end){target.textContent='Informe o período para visualizar os horários.';return false;}
+    var begin=Date.parse(from+'T'+start+':00Z'),finish=Date.parse(to+'T'+end+':00Z');
+    if(finish<=begin){target.textContent='O término deve ser posterior ao início.';return false;}
+    var times=Array.from(q('#medTimeSlots').querySelectorAll('input')).map(function(i){return i.value;}).filter(Boolean).sort();
+    var out=[];
+    if(mode==='fixed'){
+      if(new Set(times).size!==times.length){target.textContent='Os horários devem ser diferentes.';return false;}
+      for(var date=new Date(from+'T00:00:00Z');date.getTime()<=finish&&out.length<4;date.setUTCDate(date.getUTCDate()+1))times.forEach(function(t){var v=Date.parse(date.toISOString().slice(0,10)+'T'+t+':00Z');if(v>=begin&&v<=finish&&out.length<4)out.push(v);});
+    }else{
+      var interval=Number(q('#medInterval').value)*(q('#medIntervalUnit').value==='hours'?60:1);
+      if(!Number.isInteger(interval)||interval<1||interval>10080){target.textContent='Informe um intervalo válido.';return false;}
+      for(var at=begin;at<=finish&&out.length<4;at+=interval*60000)out.push(at);
+    }
+    target.textContent=out.map(function(v){var d=new Date(v);return String(d.getUTCDate()).padStart(2,'0')+' '+shortMonths[d.getUTCMonth()]+' às '+d.toISOString().slice(11,16);}).join(' · ');
+    return out.length>0;
+  }
+  document.querySelectorAll('[data-med-mode]').forEach(function(b){b.onclick=function(){mode=b.dataset.medMode;document.querySelectorAll('[data-med-mode]').forEach(function(x){x.classList.toggle('active',x===b);x.setAttribute('aria-pressed',String(x===b));});q('#medFixedFields').hidden=mode!=='fixed';q('#medIntervalFields').hidden=mode!=='interval';previewSchedule();};});
+  q('#medAddTime').onclick=function(){var count=q('#medTimeSlots').querySelectorAll('input').length;if(count>=24)return;var label=document.createElement('label');label.className='time-slot';label.innerHTML='<input type="time" value="12:00" aria-label="Horário adicional" /><button type="button" aria-label="Remover horário">×</button>';label.querySelector('input').onchange=previewSchedule;label.querySelector('button').onclick=function(){label.remove();previewSchedule();};q('#medTimeSlots').insertBefore(label,this);previewSchedule();};
+  q('[data-artboard="screen-8"]').querySelectorAll('input,select').forEach(function(el){el.addEventListener('input',previewSchedule);el.addEventListener('change',previewSchedule);});
+  q('#medSavePreview').onclick=function(){if(!previewSchedule()){q('#medScheduleFeedback').textContent='Revise o período e os horários informados.';return;}q('#medScheduleFeedback').textContent='Prévia da programação pronta. Dados ilustrativos, sem gravação no app.';q('#medScheduleFeedback').scrollIntoView({block:'nearest'});};
+  renderCalendar();showApplication(records[1]);previewSchedule();
 })();
 </script>
 </body>
