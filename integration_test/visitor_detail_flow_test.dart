@@ -6,7 +6,7 @@ import 'package:abrigo_dos_anjos/app/bootstrap.dart';
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   testWidgets(
-    'visitor opens prototype sheet with real public photo, copies interest and closes',
+    'visitor opens prototype sheet with real public photo, opens contact and closes',
     (tester) async {
       expect(
         Uri.parse(const String.fromEnvironment('SUPABASE_URL')).host,
@@ -56,10 +56,13 @@ void main() {
       );
       await tester.tap(find.text('Entrar em contato para adoção'));
       await tester.pumpAndSettle();
-      expect(
-        find.text('Mensagem copiada. Nenhum pedido foi enviado.'),
-        findsOneWidget,
+      expect(find.text('Fale com o abrigo'), findsOneWidget);
+      await tester.scrollUntilVisible(
+        find.text('Voltar à ficha do animal'),
+        160,
       );
+      await tester.tap(find.text('Voltar à ficha do animal'));
+      await tester.pumpAndSettle();
       await tester.tap(find.byTooltip('Fechar detalhes'));
       await tester.pumpAndSettle();
       expect(sheet, findsNothing);

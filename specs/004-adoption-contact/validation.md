@@ -40,3 +40,17 @@ URL pública ainda indisponível. Não há envio ou acesso direto a plugin pela 
 Widget Tests novos passaram em 320/390 px e texto 1,4×; regressão navega da ficha
 para contato e volta à mesma ficha, sem copiar mensagem. Análise sem problemas,
 270 testes Flutter PASS. T006 Android/CI e US2 permanecem pendentes.
+
+
+## Android local — progresso de T006
+
+adoption_contact_flow_test.dart PASS em 14 s no emulator-5554: catálogo/ficha com
+animal público real, entrada na tela sem prévia, nome correto, Voltar do topo e
+rodapé para a mesma ficha e abertura externa aceita pelo SO para Instagram oficial
+via plugin real. Nenhuma mensagem enviada. AVD sem janela; não representa teste
+manual do usuário nem comprova comportamento de todos os aplicativos sociais.
+Teste legado visitor_detail_flow_test.dart atualizado para a nova navegação.
+Jornada de contato adicionada ao script Android da CI; bash -n PASS. A execução
+remota e artifact dessa revisão ainda precisam de confirmação; T006 continua
+aberta por esse gate. Não há alteração SQL, portanto pgTAP não foi repetido.
+README atualizado; link público, fallback web e App Links continuam pendentes.
