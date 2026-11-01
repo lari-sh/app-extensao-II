@@ -1001,3 +1001,25 @@ Commits por contexto publicados na developer: 2da089b (cartão clínico), a4fa1a
 Este fechamento é somente documental e conserva o código validado acima; não
 requer repetir os testes de código. Main preservada. Sem hooks de pós-execução,
 pois .specify/extensions.yml está ausente. Verificados formato e git diff --check.
+
+
+## Janela preta/fora do monitor — T111
+
+Usuário confirmou que a janela subia ao topo e ficava preta. Android respondia por
+ADB, mas a janela do emulador registrava falha de OpenGL software e coordenadas
+fora da área capturável. Reiniciar somente o Android e ajustar escala salva do AVD
+não foram suficientes. Backup da configuração visual ficou em .tools, ignorado.
+
+Abertura com QT_ENABLE_HIGHDPI_SCALING=0, QT_AUTO_SCREEN_SCALE_FACTOR=0,
+QT_SCALE_FACTOR=1 e QT_OPENGL=desktop, além de SwiftShader e Vulkan desativado,
+produziu janela em posição correta e imagens do app visíveis. Observadas pela
+captura da janela Windows as telas de início, edição e painel com calendário.
+Dados e sessão preservados; os comandos de recuperação não gravaram cadastros.
+Referência de escala: [Qt High DPI](https://doc.qt.io/qt-6.8/highdpi.html).
+
+As opções validadas estão no iniciador scripts/open_android_emulator.ps1. Ele usa
+ambiente de processo, restaura as variáveis do terminal e preserva um AVD já
+aberto; não altera drivers/configurações globais nem apaga dados. Não automatiza
+login. Parser PowerShell e -WhatIf conferidos; proteção de AVD já aberto conferida
+sem fechar a janela em uso. A composição Flutter não foi alterada; testes do app
+não foram repetidos por essa mudança de iniciador/documentação.

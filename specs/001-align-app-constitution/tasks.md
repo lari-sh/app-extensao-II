@@ -436,3 +436,10 @@ específica é gate antes de implementar o conteúdo novo da aba/recorrência.
   resultados em validation.md e confirmar CI/APK antes do fechamento na developer.
   Usar integration_test/, controlador local e somente fixtures descartáveis.
   [FR-001, FR-005, FR-010, CR-007]
+
+
+## Ambiente local — janela do emulador
+
+- [x] T111 Disponibilizar scripts/open_android_emulator.ps1 com opções de escala
+  Qt e SwiftShader validadas no Windows, preservar os dados/sessão, registrar a
+  verificação da imagem e documentar a reabertura no README. [CR-007]

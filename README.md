@@ -90,6 +90,17 @@ Plataforma Android 36, Build Tools 35/36 e NDK 28.2.13676358 instalados.
 As novas variáveis de ambiente são lidas por novos terminais; reinicie o terminal
 se flutter/adb ainda não aparecerem no PATH.
 
+Para abrir o AVD neste Windows com a configuração de janela validada:
+
+```powershell
+powershell -NoProfile -File .\scripts\open_android_emulator.ps1
+```
+
+O iniciador aplica escala Qt fixa e SwiftShader somente ao processo iniciado e
+restaura as variáveis do terminal. Feche uma janela antiga antes de usá-lo para
+aplicar as opções; um AVD já aberto é preservado. `-WhatIf` apenas mostra a ação.
+O comando não apaga dados nem inicia sessão de usuário automaticamente.
+
 ## Planejamento e Spec Kit
 
 Constituição em `.specify/memory/constitution.md`; especificação, plano e tarefas
