@@ -411,3 +411,26 @@ dia selecionado, agenda vazia e cabeçalho preservam a composição aprovada.
 A janela Windows continua indisponível por erro OpenGL/controle de janela;
 execução e captura foram feitas no AVD sem janela. Isso não equivale a um teste
 manual do usuário com a janela aberta. Artifact remoto ainda não confirmado.
+
+## Fechamento — T046/T048/T050
+
+Em 2026-11-01, confirmados os quatro jobs da execução
+[41279939260](https://github.com/lari-sh/app-extensao-II/actions/runs/41279939260):
+Flutter, backend, Android e deliver concluídos com success. SHA validado:
+`c7867df1e2a9a4304e6960a90bd78bd2b48d5cba`, branch developer. O job Android executou
+as jornadas de manejo, cadastro e calendário, sem ignorar a falha anterior.
+
+Artifact [abrigo-dos-anjos-android-debug](https://github.com/lari-sh/app-extensao-II/actions/runs/41279939260/artifacts/13073054019),
+ID `13073054019`, 76.770.515 bytes, não expirado na conferência, com expiração em
+2026-11-08 06:35:13 UTC. Digest do arquivo publicado:
+`sha256:8da11f049cd3cd9800c950a4125478b4c51af04a03110fbacec6939d9bd623fb`.
+O artifact é debug; configuração pública de backend depende das variáveis DEV
+do repositório. Não equivale a release de produção ou publicação em lojas.
+
+Validação visual e reinstalação do APK normal estão registradas acima; permanece
+a limitação da janela local, sem invalidar os testes Android automatizados.
+Revisados commits por contexto, branch developer e árvore limpa antes deste
+fechamento documental. Main preservada. As 51 tarefas do calendário estão
+concluídas; este commit altera apenas documentação e mantém o código validado.
+iOS continua como dependência externa separada, e o contato de adoção/link público
+continua aguardando aprovação explícita do design antes da implementação Flutter.
