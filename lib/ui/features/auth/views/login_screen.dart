@@ -1,3 +1,4 @@
+import '../../../core/widgets/app_back_button.dart';
 import 'package:flutter/material.dart';
 import '../view_models/login_view_model.dart';
 
@@ -42,15 +43,27 @@ class _LoginScreenState extends State<LoginScreen> {
         builder: (context, _) => ListView(
           padding: const EdgeInsets.fromLTRB(28, 24, 28, 24),
           children: [
-            Center(
-              child: Image.asset(
-                'assets/images/logo.png',
-                key: const ValueKey('loginShelterLogo'),
-                width: 140,
-                height: 140,
-                fit: BoxFit.contain,
-                semanticLabel: 'Abrigo dos Anjos — Humanizando Vidas',
-              ),
+            Stack(
+              children: [
+                Center(
+                  child: Image.asset(
+                    'assets/images/logo.png',
+                    key: const ValueKey('loginShelterLogo'),
+                    width: 140,
+                    height: 140,
+                    fit: BoxFit.contain,
+                    semanticLabel: 'Abrigo dos Anjos — Humanizando Vidas',
+                  ),
+                ),
+                Positioned(
+                  left: 0,
+                  top: 0,
+                  child: AppBackButton(
+                    enabled: !widget.viewModel.state.busy,
+                    onPressed: widget.onCancel,
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 18),
             const Text(

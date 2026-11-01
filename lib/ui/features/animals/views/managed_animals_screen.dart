@@ -1,3 +1,4 @@
+import '../../../core/widgets/app_back_button.dart';
 import 'package:flutter/material.dart';
 import '../view_models/managed_animals_view_model.dart';
 
@@ -7,6 +8,7 @@ class ManagedAnimalsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
+      leading: const AppBackButton(),
       title: const Text('Animais do abrigo'),
       actions: [
         IconButton(

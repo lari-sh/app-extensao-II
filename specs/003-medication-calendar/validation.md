@@ -195,3 +195,17 @@ seguida de PT409 no cursor antigo e leitura mensal negada ao visitante.
 T028 concluída. US1/US2 somam 28/50 tarefas; US3/US4 ainda não implementadas.
 CI remota desta entrega não foi declarada aprovada; inclusão dessas jornadas na
 esteira segue em T046. Somente backend local, sem implantação em produção.
+
+## Navegação visível — solicitação adicional T051
+
+AppBackButton em português no login, painel de manejo, cadastro/edição, área do
+voluntário, favoritos, sobre e lista administrativa legada. Retorno usa maybePop,
+preserva guard de rota e não encerra sessão. Login desabilita ação enquanto envia
+credenciais; reautenticação usa onCancel. Fechar da programação/detalhes mantidos.
+
+Suíte Flutter completa: 232 PASS; análise sem problemas. Testes novos de retorno
+à origem, rota bloqueada, cancelamento de reautenticação e logo centralizado.
+Jornada Android ampliada: Voltar explícito da ficha ao painel e do painel à área
+do voluntário, além da navegação mês/dia; 1 teste PASS em 32 s. Massa descartável
+removida. Protótipo atualizado e testado em 320/390 px, sem erro JS; ações Voltar
+e logo centralizado verificados. T051 concluída: 29/51 tarefas, 22 restantes.

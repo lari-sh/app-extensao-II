@@ -1,3 +1,4 @@
+import '../../../core/widgets/app_back_button.dart';
 import 'package:flutter/material.dart';
 import '../view_models/about_view_model.dart';
 
@@ -6,7 +7,10 @@ class AboutScreen extends StatelessWidget {
   final AboutViewModel viewModel;
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: Text(viewModel.title)),
+    appBar: AppBar(
+      leading: const AppBackButton(),
+      title: Text(viewModel.title),
+    ),
     body: ListView(
       padding: const EdgeInsets.all(24),
       children: [

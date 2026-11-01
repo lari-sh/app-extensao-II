@@ -1,3 +1,4 @@
+import '../../../core/widgets/app_back_button.dart';
 import 'package:flutter/material.dart';
 import '../view_models/session_view_model.dart';
 
@@ -6,7 +7,10 @@ class VolunteerAccessScreen extends StatelessWidget {
   final SessionViewModel viewModel;
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: const Text('Área do voluntário')),
+    appBar: AppBar(
+      leading: const AppBackButton(),
+      title: const Text('Área do voluntário'),
+    ),
     body: ListView(
       padding: const EdgeInsets.all(24),
       children: [

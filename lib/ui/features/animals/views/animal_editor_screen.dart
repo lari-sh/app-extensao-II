@@ -1,3 +1,4 @@
+import '../../../core/widgets/app_back_button.dart';
 import '../../medications/view_models/medication_editor_view_model.dart';
 import '../../medications/views/medication_editor_panel.dart';
 import '../view_models/dashboard_view_model.dart';
@@ -78,6 +79,7 @@ class AnimalEditorScreen extends StatelessWidget {
       return ScaffoldMessenger(
         child: Scaffold(
           appBar: AppBar(
+            leading: const AppBackButton(),
             title: Text(
               draft.id == null ? 'Cadastrar animal' : 'Editar animal',
             ),

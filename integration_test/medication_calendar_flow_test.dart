@@ -201,7 +201,7 @@ void main() {
         );
         expect(confirmed['animal']['is_published'], false);
 
-        await tester.binding.handlePopRoute();
+        await tester.tap(find.byTooltip('Voltar'));
         await tester.pumpAndSettle();
         await tester.tap(find.text('Calendário'));
         await tester.pumpAndSettle();
@@ -292,6 +292,9 @@ void main() {
         await tester.pumpAndSettle();
         await tester.tap(find.text('Kanban'));
         await tester.pumpAndSettle();
+        await tester.tap(find.byTooltip('Voltar'));
+        await tester.pumpAndSettle();
+        expect(find.text('Área do voluntário'), findsOneWidget);
         expect(tester.takeException(), isNull);
       } finally {
         await second.auth.signOut(scope: SignOutScope.local);

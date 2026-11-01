@@ -97,3 +97,7 @@ MVP funcional: US1 + US2 para cadastrar e consultar a agenda; US1 isolada já en
 Após cada contexto aprovado, atualizar evidências e fazer commit/push na developer no padrão tipo(escopo): imperativo [003-FR/CR real]. Não acumular contextos nem marcar tarefas por mera existência de código.
 
 Total: 50 tarefas. Distribuição: transversal: 16, US1: 10, US2: 8, US3: 8, US4: 8.
+
+## Ajuste adicional autorizado — navegação visível
+
+- [x] T051 Adicionar Voltar onde ausente no login, painel de manejo e telas internas, sem remover Fechar existente; preservar guards/reautenticação, refletir a adição no protótipo e validar Widgets/Android. Solicitação expressa do usuário em 2026-11-01; item independente das fases restantes. [003-FR-014, 003-CR-002, 003-CR-003]

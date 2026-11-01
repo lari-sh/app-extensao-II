@@ -1,3 +1,4 @@
+import '../../../core/widgets/app_back_button.dart';
 import '../../medications/views/medication_calendar_panel.dart';
 import '../../medications/view_models/medication_calendar_view_model.dart';
 import 'package:flutter/material.dart';
@@ -72,6 +73,8 @@ class _DashboardScreenState extends State<DashboardScreen>
               padding: const EdgeInsets.fromLTRB(20, 12, 20, 14),
               child: Row(
                 children: [
+                  const AppBackButton(),
+                  const SizedBox(width: 4),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

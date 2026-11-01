@@ -50,3 +50,10 @@ Flutter tests não foram executados: esta alteração modifica apenas o protóti
 A responsável aprovou a composição do calendário, o formulário e os detalhes
 antes da implementação. Não houve aprovação por silêncio. Manter esta referência
 na conferência visual do app, sem ampliar o escopo da autorização.
+
+## Adição autorizada em 2026-11-01
+
+Usuário: “adicione o botão voltar onde for necessário”. Autorizada ação visível
+Voltar no login e no painel, e explícita nas telas internas com AppBar. Preservar
+logo centralizado e ações Fechar já existentes. Protótipo screen-4/5/7 atualizado;
+cadastro screen-6 já tem Fechar. Isso não autoriza outras mudanças de layout.

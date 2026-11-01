@@ -117,4 +117,33 @@ void main() {
       expect(tester.takeException(), isNull);
     },
   );
+  testWidgets(
+    'login return uses cancellation during reauthentication and keeps logo centered',
+    (tester) async {
+      final repo = FakeAuthRepository();
+      addTearDown(repo.dispose);
+      final vm = LoginViewModel(repo);
+      addTearDown(vm.dispose);
+      var cancelled = 0;
+      await tester.pumpWidget(
+        MaterialApp(
+          home: LoginScreen(
+            viewModel: vm,
+            navigateOnSuccess: false,
+            onCancel: () {
+              cancelled++;
+            },
+          ),
+        ),
+      );
+      await tester.tap(find.byTooltip('Voltar'));
+      await tester.pumpAndSettle();
+      expect(cancelled, 1);
+      expect(find.byKey(const ValueKey('loginShelterLogo')), findsOneWidget);
+      expect(
+        tester.getCenter(find.byKey(const ValueKey('loginShelterLogo'))).dx,
+        tester.view.physicalSize.width / tester.view.devicePixelRatio / 2,
+      );
+    },
+  );
 }

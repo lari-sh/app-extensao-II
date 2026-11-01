@@ -121,3 +121,8 @@ Só declarar entregue com geração determinística, formato, análise, flutter_
 pgTAP, HTTP concorrente, jornada Android e run CI/artifact confirmados. Execução
 Windows não valida iOS. Mudanças posteriores de layout exigem nova autorização.
 Nesta fase, não instalar pacote, criar tabelas ou alterar o app/emulador.
+
+Ajuste autorizado em 2026-11-01: ação Voltar visível, por componente compartilhado
+de apresentação usando maybePop (respeita guards), no login/painel/telas internas.
+Reautenticação chama o cancelamento já previsto, não contorna a sessão. T051 adicional
+ao escopo original de 50 tarefas; nenhuma regra nova na skill de constituição.
