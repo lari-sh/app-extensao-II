@@ -30,3 +30,16 @@ restritiva, unicidade de aplicação ativa e contador transacional inicial.
 O schema público de animals não recebeu informações de medicação. As revisões
 possuem referência deferida e IDs próprios, separados dos clinical_records legados.
 Nenhuma migração de produção realizada; RPCs e jornada Android do calendário pendentes.
+
+
+## Contratos, DTOs e Service
+
+Contratos abstratos de Repository/Service, fakes controlados e relógio de teste
+preparados. DTOs validam identificadores, versões, modos, datas civis/UTC, autoria,
+páginas, limites e imutabilidade, descartando campos clínicos não relacionados.
+Service encapsula SDK e usa RPCs estreitos; autor/hora real não são enviados pelo app.
+Testes novos executados primeiro em vermelho; sete testes de DTO/Service passaram.
+Suíte completa: 192 testes Flutter aprovados, flutter analyze sem problemas.
+Erros SQL, AuthException, timeout e rede continuam tipados/sanitizados por Result.
+As chamadas foram verificadas com HTTP controlado: as RPCs reais do calendário
+continuam na próxima etapa; não confundir essa aprovação com integração funcional.

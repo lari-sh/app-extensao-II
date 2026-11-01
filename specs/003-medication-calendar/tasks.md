@@ -8,7 +8,7 @@ C001–C007 de scope.md são resumos históricos; esta é a lista executável e 
 
 - [x] T001 Apresentar e registrar aprovação explícita da composição do calendário, editor de recorrência e detalhes em specs/003-medication-calendar/design-approval.md; comparar screen-5/screen-6 do protótipo e preservar topo/abas/cores. Bloqueia somente as Views novas. [003-FR-014]
 - [x] T002 Conferir estrutura e fronteiras em test/architecture/layer_boundaries_test.dart e lib/app/public_dependencies.dart; usar dependências existentes sem alterar pubspec.yaml; registrar baseline em specs/003-medication-calendar/validation.md. [003-CR-001, 003-CR-004]
-- [ ] T003 Preparar fixtures/fakes locais e relógio injetável em test/support/fakes/fake_medications_repository.dart e test/support/fakes/fake_medications_service.dart, sem dados privados persistidos ou credenciais compiladas. [003-CR-002, 003-CR-003]
+- [x] T003 Preparar fixtures/fakes locais e relógio injetável em test/support/fakes/fake_medications_repository.dart e test/support/fakes/fake_medications_service.dart, sem dados privados persistidos ou credenciais compiladas. [003-CR-002, 003-CR-003]
 
 ## Fase 2 — fundação e segurança
 
@@ -16,9 +16,9 @@ C001–C007 de scope.md são resumos históricos; esta é a lista executável e 
 - [x] T005 [P] Escrever testes de autorização/schema em supabase/tests/database/medication_foundation.test.sql: anon, não equipe, sessão ausente/expirada/revogada, RLS, DML direto negado, eventos/ledger privados, tratamento com FK RESTRICT e animal publicado sem acesso público. [003-FR-006, 003-FR-005]
 - [x] T006 Criar modelos Freezed/validadores em lib/domain/models/medication_treatment.dart, medication_schedule.dart, medication_application.dart e medication_agenda.dart; estados e versões integer >=1, modos exclusivos, datas/limites de T004 e domínio sem SDK/UI; gerar arquivos imutáveis. [003-FR-012, 003-CR-001]
 - [x] T007 Criar migration aditiva supabase/migrations/202610310011_medication_foundation.sql com tratamentos/revisões/aplicações/eventos, display_name opcional “1–120 caracteres após trim” em staff_members, FKs deferidas para a revisão vigente, índices únicos (tratamento/revisão/instante e parcial pending/completed), RLS, ledger privado e contador agenda_version bigint >=0 transacional; sem mudar migrations antigas/write_operations legado. [003-FR-005, 003-FR-006, 003-FR-011]
-- [ ] T008 Definir MedicationsRepository Future<Result<T>> em lib/domain/repositories/medications_repository.dart e contrato Service em lib/data/services/medications_service.dart, incluindo leitura, gravação, conclusão, interrupção, correção, histórico e recibo, conforme contracts/rpc.md. [003-CR-001, 003-FR-011]
-- [ ] T009 Escrever testes DTO/Result em test/data/models/medication_dto_test.dart e test/data/services/supabase_medications_service_test.dart: tipos/enum/data malformados, versões, respostas legadas inválidas, SQL/SDK/timeout sanitizados, nenhum ator/hora real no payload. [003-CR-001, 003-CR-002, 003-FR-008]
-- [ ] T010 Implementar DTOs e esqueleto Supabase Service em lib/data/models/medication_dto.dart e lib/data/services/supabase_medications_service.dart, reutilizando serviceResult e validando campos/limites das respostas; SDK somente nesse Service/composição. [003-CR-001]
+- [x] T008 Definir MedicationsRepository Future<Result<T>> em lib/domain/repositories/medications_repository.dart e contrato Service em lib/data/services/medications_service.dart, incluindo leitura, gravação, conclusão, interrupção, correção, histórico e recibo, conforme contracts/rpc.md. [003-CR-001, 003-FR-011]
+- [x] T009 Escrever testes DTO/Result em test/data/models/medication_dto_test.dart e test/data/services/supabase_medications_service_test.dart: tipos/enum/data malformados, versões, respostas legadas inválidas, SQL/SDK/timeout sanitizados, nenhum ator/hora real no payload. [003-CR-001, 003-CR-002, 003-FR-008]
+- [x] T010 Implementar DTOs e esqueleto Supabase Service em lib/data/models/medication_dto.dart e lib/data/services/supabase_medications_service.dart, reutilizando serviceResult e validando campos/limites das respostas; SDK somente nesse Service/composição. [003-CR-001]
 
 ## Fase 3 — US1: cadastrar e gerar aplicações (P1)
 
