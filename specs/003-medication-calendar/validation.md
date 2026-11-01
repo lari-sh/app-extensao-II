@@ -341,3 +341,17 @@ Dois testes de regressão novos e 13 anteriores do Editor VM PASS (15 no conjunt
 análise final sem problemas. Jornada Android completa ainda precisa ser repetida
 com a correção. A janela local do emulador falhou em OpenGL; AVD recuperado sem
 janela para execução de testes. Não declarar teste manual com janela como aprovado.
+
+## CI — falta de disco identificada e configuração ajustada
+
+Execução [41273043658](https://github.com/lari-sh/app-extensao-II/actions/runs/41273043658),
+SHA 221d486: Flutter e backend PASS; Android falhou sem gerar logs recuperáveis.
+Anotação pública do check confirmou System.IO.IOException: No space left on device
+no runner, durante preparação do emulador. Deliver foi ignorado; sem artifact validado.
+
+Workflow passa a liberar apenas SDKs preinstalados não usados no runner Ubuntu
+descartável (com guards github-hosted/Linux) e limita o disco do AVD a 2048M.
+Adicionada jornada HTTP de medicações ao backend e jornada Android ao script;
+cleanup remove primeiro as fixtures de medicação e sempre encerra o controlador.
+Sintaxe Bash e parse YAML/entradas conferidos localmente. Execução remota com essas
+mudanças ainda pendente; T046 não concluída somente pela edição do YAML.
