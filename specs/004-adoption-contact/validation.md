@@ -54,3 +54,17 @@ Jornada de contato adicionada ao script Android da CI; bash -n PASS. A execuçã
 remota e artifact dessa revisão ainda precisam de confirmação; T006 continua
 aberta por esse gate. Não há alteração SQL, portanto pgTAP não foi repetido.
 README atualizado; link público, fallback web e App Links continuam pendentes.
+
+
+## CI de US1 confirmada — T006
+
+Em 2026-11-01, execução [41284530212](https://github.com/lari-sh/app-extensao-II/actions/runs/41284530212),
+SHA f3facb8bf364854c845f6d47b91a4a540e2b932a, developer: Flutter, backend,
+Android e deliver concluídos com success. Confirmado artifact
+[abrigo-dos-anjos-android-debug](https://github.com/lari-sh/app-extensao-II/actions/runs/41284530212/artifacts/13075460909),
+ID 13075460909, 76.793.343 bytes, não expirado na conferência, expira em
+2026-11-08 07:45:00 UTC. Digest sha256:
+`a8ee26a180e5ee0b84720b0780e3a52dbc99493913b07a6ed8f9b787765b8890`.
+T006 concluída com gates e artifact remotos, além de 270 testes Flutter e Android
+local já registrados. APK normal local reinstalado e iniciado após integração.
+Não equivale a publicação em lojas nem à entrega de link público da ficha.
