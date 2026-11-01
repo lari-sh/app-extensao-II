@@ -52,9 +52,11 @@ class AnimalDetailViewModel extends ChangeNotifier {
   String get favoriteTooltip => state.isFavorite
       ? 'Remover ${state.title} dos favoritos'
       : 'Favoritar ${state.title}';
-  String get contactHint => state.canAdopt
-      ? 'Copia uma mensagem. Nenhum pedido é enviado.'
-      : 'Este animal não está disponível para adoção no momento.';
+  String get contactHint =>
+      state.message ??
+      (state.canAdopt
+          ? 'Copia uma mensagem. Nenhum pedido é enviado.'
+          : 'Este animal não está disponível para adoção no momento.');
   PublicAnimal? _animal;
   int _generation = 0;
   bool _disposed = false;
@@ -121,6 +123,13 @@ class AnimalDetailViewModel extends ChangeNotifier {
               state.copyWith(
                 isFavorite: value.contains(id),
                 favoritesReady: true,
+              ),
+            );
+          } else {
+            _publish(
+              state.copyWith(
+                message:
+                    'Não foi possível carregar os favoritos. Abra a ficha novamente para tentar.',
               ),
             );
           }
@@ -210,13 +219,15 @@ class AnimalDetailViewModel extends ChangeNotifier {
           _publish(state.copyWith(message: failureMessage(failure)));
       }
     } catch (_) {
-      if (!_disposed && generation == _generation)
+      if (!_disposed && generation == _generation) {
         _publish(
           state.copyWith(message: 'Não foi possível atualizar os favoritos.'),
         );
+      }
     } finally {
-      if (!_disposed && generation == _generation)
+      if (!_disposed && generation == _generation) {
         _publish(state.copyWith(changingFavorite: false));
+      }
     }
   }
 

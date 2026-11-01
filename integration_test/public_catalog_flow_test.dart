@@ -62,14 +62,9 @@ void main() {
         'Animal de teste 01',
       );
       await tester.pumpAndSettle(const Duration(milliseconds: 200));
-      expect(find.text('1 animais encontrados'), findsOneWidget);
-      await reveal(tester, find.byTooltip('Favoritar Animal de teste 01'));
-      await tester.tap(find.byTooltip('Favoritar Animal de teste 01'));
+      FocusManager.instance.primaryFocus?.unfocus();
       await tester.pumpAndSettle();
-      expect(
-        await preferences.getStringList('favorites_v1'),
-        contains('00000000-0000-4000-8000-000000000001'),
-      );
+      expect(find.text('1 animais encontrados'), findsOneWidget);
       await tester.tap(
         find.descendant(
           of: find.byType(Card),
@@ -78,10 +73,20 @@ void main() {
       );
       await tester.pumpAndSettle(const Duration(milliseconds: 200));
       expect(
-        find.byWidgetPredicate(
-          (widget) => widget is Image && widget.image is MemoryImage,
+        find.descendant(
+          of: find.byKey(const ValueKey('publicAnimalSheet')),
+          matching: find.byWidgetPredicate(
+            (widget) => widget is Image && widget.image is MemoryImage,
+          ),
         ),
         findsOneWidget,
+      );
+      await reveal(tester, find.byTooltip('Favoritar Animal de teste 01'));
+      await tester.tap(find.byTooltip('Favoritar Animal de teste 01'));
+      await tester.pumpAndSettle();
+      expect(
+        await preferences.getStringList('favorites_v1'),
+        contains('00000000-0000-4000-8000-000000000001'),
       );
       await reveal(tester, find.text('Entrar em contato para adoção'));
       await tester.tap(find.text('Entrar em contato para adoção'));
@@ -102,6 +107,8 @@ void main() {
       await tester.pumpWidget(const SizedBox.shrink());
       await tester.pumpAndSettle();
       await tester.pumpWidget(createPublicApplication(client));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Quero Adotar (Visitante)'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Favoritos'));
       await tester.pumpAndSettle(const Duration(milliseconds: 200));

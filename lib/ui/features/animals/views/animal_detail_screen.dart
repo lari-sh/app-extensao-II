@@ -254,7 +254,8 @@ class AnimalDetailScreen extends StatelessWidget {
                                         ),
                                       ),
                                     ],
-                                    if (viewModel.state.message != null)
+                                    if (!viewModel.state.hasAnimal &&
+                                        viewModel.state.message != null)
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
                                           vertical: 12,

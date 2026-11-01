@@ -827,3 +827,16 @@ em falha e ignora resposta após fechar. Sem SDK ou persistência dentro da View
 8 testes direcionados PASS, incluindo favorito confirmado aparecendo na lista e
 remoção segura. O controle compensa a ausência de ação de adicionar favoritos no
 protótipo original, com autorização explícita da responsável.
+
+### Ficha pública — confirmação no Android
+
+172 Flutter PASS com cobertura; análise sem problemas. visitor_detail_flow_test.dart
+PASS no Android (10 s além do build): visitante sem login busca animal real, abre
+ficha com foto autorizada, favorita, copia mensagem sem envio, fecha e confirma o
+animal em Favoritos. Dados internos não são exibidos. Feedback da cópia fica no
+rodapé visível, no lugar da indicação inicial; falha de favoritos é sanitizada.
+
+Primeira tentativa nativa falhou apenas no harness (texto da busca igual ao nome do
+cartão); seletor passou a identificar o cartão. Ajuste responsivo já autorizado e
+publicado separadamente. HTML servido em 127.0.0.1:53764 confirmado HTTP 200 com o
+coração da ficha. Jornada ampla de paginação/favoritos atualizada e será reexecutada.
