@@ -76,7 +76,8 @@ Gerar modelos pelo comando Flutter mantém o contexto correto do SDK no Puro des
 Windows. O APK debug fica em `build/app/outputs/flutter-apk/app-debug.apk`.
 Um APK sem dart-defines não conecta automaticamente a um backend. Não é uma versão
 assinada para publicação. Testes de Flutter, SQL, funções HTTP e plataforma têm
-evidências separadas; a CI será ampliada em T103. iOS depende de Mac/Xcode.
+evidências separadas; a CI executa gates Flutter, Supabase local e Android antes do artifact debug.
+Confira o resultado da execução em Actions; iOS continua dependendo de Mac/Xcode.
 
 ## Ambiente Android deste computador
 
@@ -97,3 +98,21 @@ Não reinicializar o Spec Kit nem substituir a constituição por um template.
 
 Referência visual: protótipo `abrigo-dos-anjos-figma.html`, com as cores do logo.
 O editor/canvas do protótipo não faz parte do aplicativo.
+
+
+## Entrega contínua e evidências
+
+[Execuções no GitHub Actions](https://github.com/lari-sh/app-extensao-II/actions/workflows/flutter.yml).
+Push na developer e PR para main/developer validam geração Freezed, formato,
+análise, testes Flutter, PostgreSQL/RLS, funções HTTP e jornada Android. Somente
+após os gates é publicado o artifact debug, sem assinatura para lojas. Nenhum
+segredo de produção é necessário. Variáveis públicas DEV_SUPABASE_URL (HTTPS) e
+DEV_SUPABASE_PUBLISHABLE_KEY configuram o APK; ausentes, a conexão fica indisponível.
+
+Provisionamento de contas/equipe e configuração do Vault para limpeza agendada
+ocorrem fora do cliente; instruções em [quickstart](specs/001-align-app-constitution/quickstart.md).
+A demonstração clínica local foi removida; favoritos são apenas IDs locais.
+Matriz SC-001 a SC-008 e limitações em [validation](specs/001-align-app-constitution/validation.md).
+Calendário, recuperação de senha e opção configurável de persistência de login
+continuam planejados, sem serem apresentados como funcionais. AVD atual deste
+computador: Abrigo_Anjos_Test_API37; o AVD original foi preservado.

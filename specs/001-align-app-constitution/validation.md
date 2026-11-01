@@ -731,3 +731,52 @@ assinatura release, migração remota ou deploy implícitos. Artifact retido por
 
 YAML verificado; Deno task exata da CI: 12 PASS após corrigir --allow-read para o WASM.
 T103 permanece aberta até observar o resultado do workflow no GitHub.
+
+### Gates finais, revisão e limites de plataforma
+
+T104: Freezed regenerado no Flutter 3.41.1/Dart 3.11/Puro com hashes preservados;
+format --output=none --set-exit-if-changed lib test integration_test: 173 arquivos,
+zero alterações. 164 Flutter PASS com cobertura, analyze sem problemas, 99 SQL e
+12 Deno/HTTP PASS. Comandos e escopo detalhados nas seções US6 acima. Código base
+acb7cd3, workflow a57c4c8; helpers CI não modificam o app. APK normal recompilado,
+instalado e aberto (Status ok, COLD). T105 aguarda também artifact remoto aprovado.
+
+T106 permanece pendente: host Windows, sem Mac/Xcode/dispositivo iOS disponível.
+Info.plist parseado, permissão de galeria portuguesa presente e sem câmera/microfone;
+iOS mínimo 13.0 no projeto. Isso NÃO valida build, assinatura ou seletor iOS. Executar
+build e jornada de galeria em Mac/dispositivo antes de encerrar T106.
+
+T107 — revisão dos dez princípios:
+
+| Princípio | Evidência da revisão |
+|---|---|
+| I Arquitetura Flutter | UI por feature, Data por tipo; VM/Repository/Service separados; estados Freezed |
+| II Views | Scanner em todo lib; SDK somente Services e composição; ações de tela encaminhadas ao VM |
+| III Regras/permissões | VMs testados com contratos falsos; capacidades renderizadas, servidor reautoriza |
+| IV Supabase | Imports somente Services/bootstrap/public_dependencies; nenhum SDK nos contratos de domínio |
+| V Unitários | Services/Repositories/VMs/modelos incluídos no gate Flutter com cobertura |
+| VI Widgets | Oito telas mapeadas e aprovadas; startup e controles adicionais também cobertos |
+| VII Result | Falhas externas sanitizadas; testes network/timeout/401/403 e descarte tardio |
+| VIII Dependências | Sem pacote novo; removida dependência direta de interface de preferências; lock atualizado |
+| IX Idioma | Código em inglês, textos e erros portugueses; ícones/labels e logo alinhados ao design aprovado |
+| X Commits | Incrementos por contexto em developer, tipos permitidos e IDs reais; main preservada |
+
+Varredura dos arquivos rastreados não encontrou valores locais de service_role,
+senha de fixture ou segredo de cleanup. Builds recebem somente configuração pública;
+credenciais locais de teste ficam em runtime. Sem alterações de layout nesta fase.
+
+T108 — rastreabilidade de resultados:
+
+| Critério | Evidência |
+|---|---|
+| SC-001 | Testes de catálogo/detalhe/favoritos e jornada pública; fluxo visitante inicial da jornada integrada |
+| SC-002 | pgTAP authorization/session_access e Deno auth/read/upload negativos |
+| SC-003 | Escrita transacional, jornada de editor e segunda sessão no Android |
+| SC-004 | Jornada integrada nativa: cancelamento, upload, substituição, leitura e reconciliação |
+| SC-005 | Matrizes US6 de falhas e proteção de rascunho/bytes, 164 Flutter PASS |
+| SC-006 | management_flow.py entre sessões, 99 SQL e função de foto negada após ocultação/adoção |
+| SC-007 | Oito Widget Tests principais + jornadas Android; sem comprovar iOS por Windows |
+| SC-008 | Revisão acima, checklist 19/19 preservado e pendências CI/iOS explicitamente identificadas |
+
+Sem hooks finais registrados: .specify/extensions.yml ausente. CI só será marcada
+aprovada após resultado remoto; criar YAML ou iniciar execução não satisfaz T103.
