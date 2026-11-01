@@ -811,3 +811,9 @@ O teste compacto também revelou overflow preexistente na contagem do catálogo.
 Ajuste responsivo e coração de favoritos autorizados pela responsável serão
 publicados em contextos separados. Jornada Android da ficha ainda em validação;
 primeira tentativa falhou no seletor do teste (texto de busca igual ao nome do cartão).
+
+### Ajuste responsivo autorizado — catálogo
+
+Somente a contagem de animais ganhou largura flexível para quebra de linha; botão,
+cores e posições mantidos. 2 Widget Tests PASS, incluindo 320 px sem overflow.
+Ficha anterior: 168 Flutter PASS e análise sem problemas antes deste incremento.

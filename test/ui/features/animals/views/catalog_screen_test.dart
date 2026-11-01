@@ -27,4 +27,21 @@ void main() {
     expect(find.text('Entrar em contato para adoção'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
+  testWidgets(
+    'compact catalog wraps count beside clear filters without overflow',
+    (tester) async {
+      tester.view.physicalSize = const Size(320, 568);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      final harness = PublicAppHarness();
+      await tester.pumpWidget(harness.app());
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Quero Adotar (Visitante)'));
+      await tester.pumpAndSettle();
+      expect(find.text('1 animais encontrados'), findsOneWidget);
+      expect(find.text('Limpar filtros'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    },
+  );
 }

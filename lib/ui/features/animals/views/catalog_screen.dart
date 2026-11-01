@@ -190,9 +190,11 @@ class _CatalogScreenState extends State<CatalogScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  '${widget.viewModel.state.total} animais encontrados',
-                  style: const TextStyle(fontSize: 12),
+                Expanded(
+                  child: Text(
+                    '${widget.viewModel.state.total} animais encontrados',
+                    style: const TextStyle(fontSize: 12),
+                  ),
                 ),
                 TextButton(
                   onPressed: () {
