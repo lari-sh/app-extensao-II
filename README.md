@@ -113,8 +113,8 @@ Provisionamento de contas/equipe e configuração do Vault para limpeza agendada
 ocorrem fora do cliente; instruções em [quickstart](specs/001-align-app-constitution/quickstart.md).
 A demonstração clínica local foi removida; favoritos são apenas IDs locais.
 Matriz SC-001 a SC-008 e limitações em [validation](specs/001-align-app-constitution/validation.md).
-Calendário, recuperação de senha e opção configurável de persistência de login
-continuam planejados, sem serem apresentados como funcionais. AVD atual deste
+Recuperação de senha e opção configurável de persistência de login continuam
+planejadas, com controles desabilitados. AVD atual deste
 computador: Abrigo_Anjos_Test_API37; o AVD original foi preservado.
 
 
@@ -127,9 +127,11 @@ Nenhum prontuário interno é usado para preencher esses campos. Contrato, taref
 e evidências em [perfil público](specs/002-public-animal-profile/plan.md).
 
 
-O [planejamento do calendário de medicamentos](specs/003-medication-calendar/plan.md)
-está detalhado, com [50 tarefas de implementação](specs/003-medication-calendar/tasks.md).
-Prevê horários fixos e intervalos, autoria/horário real e correções auditadas,
-alimentados pelos tratamentos estruturados da ficha. A funcionalidade ainda não
-está implementada. A composição visual nova depende de aprovação, preservando o
-protótipo; não haverá API externa de calendário nesta etapa.
+O [calendário de medicamentos](specs/003-medication-calendar/plan.md) tem
+[28 de 50 tarefas concluídas](specs/003-medication-calendar/tasks.md). A ficha salva
+tratamentos por horários fixos ou intervalos; a aba Calendário mostra o mês e a
+agenda diária privada, com horários do abrigo e paginação consistente no Supabase.
+Design aprovado preservado e jornada Android validada com backend local. Conclusão
+de aplicações com autoria/horário real, revisão/interrupção e correções auditadas
+continuam pendentes. Sem API externa de calendário. Evidências e limites em
+[validation](specs/003-medication-calendar/validation.md).

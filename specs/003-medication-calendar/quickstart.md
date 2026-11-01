@@ -56,3 +56,21 @@ backend, Android e deliver e artifact da execução. Registrar links e limitaç�
 validation.md, a ser criado na implementação. Reinstalar o APK normal após testes
 integration_test (eles removem o app de teste) e abrir para validação manual.
 Sem alterar main, sem produção/lojas; iOS permanece dependente de Mac/Xcode.
+
+## Estado executável de US1/US2
+
+Com migrations até 013 e fixtures locais preparadas, executar:
+
+```text
+python supabase/tests/fixtures/medication_flow.py
+flutter test integration_test/medication_calendar_flow_test.dart -d emulator-5554 [defines locais do Supabase]
+python supabase/tests/fixtures/medication_flow.py --cleanup
+```
+
+O teste Android recebe a senha descartável em runtime pelo controlador local
+android_auth_control.py (porta 58763); não inserir senha em código/defines. Usar
+SUPABASE_URL=http://10.0.2.2:54321 e ALLOW_LOCAL_HTTP=true somente no emulador local.
+Após reinstalar o APK normal: Acesso Voluntário / Funcionário → login de equipe →
+Animais do abrigo → Calendário. Setas navegam o mês; tocar no dia abre sua agenda.
+Hoje usa a data do abrigo; Carregar mais aplicações percorre páginas de 100.
+Conclusão/detalhes auditados são a próxima etapa; o calendário atual é de consulta.

@@ -9,7 +9,7 @@ import 'package:abrigo_dos_anjos/app/bootstrap.dart';
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   testWidgets(
-    'Android saves fixed and interval treatments from the protected animal form',
+    'Android saves treatments and browses calendar month and daily agenda',
     (tester) async {
       const url = String.fromEnvironment('SUPABASE_URL');
       expect(Uri.parse(url).host, '10.0.2.2');
@@ -200,6 +200,98 @@ void main() {
           'Nota privada da jornada de medicação',
         );
         expect(confirmed['animal']['is_published'], false);
+
+        await tester.binding.handlePopRoute();
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('Calendário'));
+        await tester.pumpAndSettle();
+        // The server civil date chooses the month; navigate by visible controls.
+        final monthResponse =
+            await second.rpc(
+                  'get_medication_calendar_month',
+                  params: {'p_month': '2026-11'},
+                )
+                as Map;
+        final today = monthResponse['shelter_today'] as String;
+        final target = DateTime(2026, 11);
+        final current = DateTime.parse('$today 00:00:00');
+        final delta =
+            (target.year - current.year) * 12 + target.month - current.month;
+        for (var step = 0; step < delta.abs(); step++) {
+          await tester.tap(
+            find.byTooltip(delta > 0 ? 'Próximo mês' : 'Mês anterior'),
+          );
+          await tester.pumpAndSettle();
+        }
+        expect(find.text('Novembro 2026'), findsOneWidget);
+        final dayOne = find.byKey(const ValueKey('medicationDay-2026-11-01'));
+        await tester.ensureVisible(dayOne);
+        await tester.tap(dayOne);
+        await tester.pumpAndSettle();
+        final ownCard = find.text(name);
+        await tester.scrollUntilVisible(
+          ownCard.first,
+          160,
+          scrollable: find
+              .descendant(
+                of: find.byKey(const ValueKey('medicationCalendarScroll')),
+                matching: find.byType(Scrollable),
+              )
+              .first,
+        );
+        expect(ownCard, findsWidgets);
+        expect(find.text('Medicação Android fixos'), findsWidgets);
+        // Change month then return and select the second day.
+        await tester.drag(
+          find.byKey(const ValueKey('medicationCalendarScroll')),
+          const Offset(0, 700),
+        );
+        await tester.pumpAndSettle();
+        await tester.tap(find.byTooltip('Próximo mês'));
+        await tester.pumpAndSettle();
+        expect(find.text('Dezembro 2026'), findsOneWidget);
+        await tester.tap(find.byTooltip('Mês anterior'));
+        await tester.pumpAndSettle();
+        final dayTwo = find.byKey(const ValueKey('medicationDay-2026-11-02'));
+        await tester.ensureVisible(dayTwo);
+        await tester.tap(dayTwo);
+        await tester.pumpAndSettle();
+        final dayPage =
+            await second.rpc(
+                  'list_medication_day',
+                  params: {'p_day': '2026-11-02', 'p_cursor': null},
+                )
+                as Map;
+        final ownApplications = (dayPage['items'] as List)
+            .cast<Map>()
+            .where((item) => item['animal_id'] == animalId)
+            .toList();
+        expect(ownApplications, hasLength(5));
+        expect(
+          ownApplications.map((item) => item['scheduled_local_time']),
+          contains('04:00'),
+        );
+        expect(find.text('Segunda, 2 nov.'), findsOneWidget);
+        await tester.scrollUntilVisible(
+          find.text(name).first,
+          160,
+          scrollable: find
+              .descendant(
+                of: find.byKey(const ValueKey('medicationCalendarScroll')),
+                matching: find.byType(Scrollable),
+              )
+              .first,
+        );
+        expect(find.text('Medicação Android intervalo'), findsWidgets);
+        await tester.drag(
+          find.byKey(const ValueKey('medicationCalendarScroll')),
+          const Offset(0, 700),
+        );
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('Lista'));
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('Kanban'));
+        await tester.pumpAndSettle();
         expect(tester.takeException(), isNull);
       } finally {
         await second.auth.signOut(scope: SignOutScope.local);

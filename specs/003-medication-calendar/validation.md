@@ -179,3 +179,19 @@ protótipo. Cinco Widget Tests de calendário/painel PASS e análise sem problem
 Captura é de renderização Flutter de teste, não evidência de Android. A primeira
 jornada nativa da US2 parou no harness ao procurar botão Voltar ausente; será
 repetida usando o comando Voltar do sistema antes de concluir T028.
+
+## US2 — jornada Android e HTTP concluídas
+
+Jornada medication_calendar_flow_test.dart aprovada no emulator-5554: login,
+tratamentos fixos/intervalo na ficha real, Voltar do sistema, aba Calendário,
+Novembro/Dezembro, dias 1/2, cartões e horário 04h da série intervalada após a
+meia-noite. Segunda sessão confirmou cinco aplicações do animal no dia 2, sem
+alterar notas/publicação. Retorno a Lista e Kanban sem exceções. 1 teste Android
+PASS (30 s), com limpeza exclusiva dos animais descartáveis ao finalizar.
+
+medication_flow.py ampliado e aprovado com duas sessões: mês, 101 aplicações
+percorridas por todas as páginas sem duplicar/omitir, civis 00h–01h40, mutação
+seguida de PT409 no cursor antigo e leitura mensal negada ao visitante.
+T028 concluída. US1/US2 somam 28/50 tarefas; US3/US4 ainda não implementadas.
+CI remota desta entrega não foi declarada aprovada; inclusão dessas jornadas na
+esteira segue em T046. Somente backend local, sem implantação em produção.

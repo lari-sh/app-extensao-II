@@ -103,7 +103,35 @@ if __name__ == '__main__':
         assert receipt == confirmations[0]
         rpc('set_animal_publication', {'p_operation_key': uuid.uuid4().hex, 'p_animal_id': animal_id, 'p_is_published': True}, sessions[0])
         request('/rest/v1/medication_treatments?select=id', expected=401)
-        print('Medication HTTP PASS: two sessions, concurrent replay, four applications, receipt and visitor denial.')
+
+        # Independent US2 journey: every page, server civil values and a changed snapshot.
+        agenda_payload = {'animal_id': animal_id, 'medication_name': 'Paginação da agenda',
+            'schedule_mode':'interval', 'starts_on':'2026-11-03','starts_time':'00:00',
+            'ends_on':'2026-11-03','ends_time':'01:40','fixed_times':[],'interval_minutes':1}
+        agenda_saved = rpc('save_medication_treatment',{'p_operation_key':uuid.uuid4().hex,'p_payload':agenda_payload},sessions[0])
+        agenda_id = agenda_saved['result']['treatment']['id']
+        month = rpc('get_medication_calendar_month',{'p_month':'2026-11'},sessions[1])
+        assert month['timezone']=='America/Sao_Paulo'
+        assert next(day['pending'] for day in month['days'] if day['day']=='2026-11-03')>=101
+        first_page = rpc('list_medication_day',{'p_day':'2026-11-03','p_cursor':None},sessions[1])
+        assert len(first_page['items'])==100 and first_page['next_cursor']
+        all_items = list(first_page['items'])
+        cursor = first_page['next_cursor']
+        while cursor:
+            following = rpc('list_medication_day',{'p_day':'2026-11-03','p_cursor':cursor},sessions[1])
+            assert following['agenda_version']==first_page['agenda_version']
+            all_items.extend(following['items'])
+            cursor = following['next_cursor']
+        owned = [item for item in all_items if item['treatment_id']==agenda_id]
+        assert len(owned)==101 and len({item['id'] for item in owned})==101
+        assert owned[0]['scheduled_local_date']=='2026-11-03' and owned[0]['scheduled_local_time']=='00:00'
+        assert owned[-1]['scheduled_local_time']=='01:40'
+        changed = dict(agenda_payload, medication_name='Mutação do snapshot',interval_minutes=100)
+        rpc('save_medication_treatment',{'p_operation_key':uuid.uuid4().hex,'p_payload':changed},sessions[0])
+        request('/rest/v1/rpc/list_medication_day',{'p_day':'2026-11-03','p_cursor':first_page['next_cursor']},sessions[1],expected=409)
+        request('/rest/v1/rpc/get_medication_calendar_month',{'p_month':'2026-11'},expected=401)
+        print('Medication HTTP PASS: two sessions, replay, full 101-item agenda, civil times, snapshot conflict and visitor denial.')
+
     finally:
         if animal_id:
             cleanup(animal_id)

@@ -1,6 +1,8 @@
 # Contrato Supabase e Repository — medicações
 
-RPCs propostas, não implementadas. Nenhum endpoint de Google/Outlook é necessário.
+Contrato alvo. Criação/listagem/recibo e leituras mês/dia/histórico implementadas
+até migration 013; edição, interrupção, conclusão e correção permanecem pendentes.
+Nenhum endpoint de Google/Outlook é necessário.
 
 ## Acesso e mensagens
 
