@@ -59,3 +59,15 @@ America/Sao_Paulo no contrato. A verificação de sessão da medicação usa rel
 real também após esperas/generação. Recibo e contador são transacionais.
 Nesta etapa save cria tratamentos e rejeita edição; revisão/interrupção pertencem
 à US4. Integração Repository/VM/tela e Android ainda pendentes.
+
+
+## Repository real
+
+MedicationsRepositoryImpl consome o Service, normaliza campos editáveis e mapeia
+os modelos imutáveis. Confirmações precisam corresponder à chave/alvo solicitados;
+respostas incompatíveis não podem virar sucesso. Validação de IDs, versões,
+períodos/cursor e motivos evita chamadas inválidas, sem mover o fuso para o cliente.
+Testes do Repository escritos antes da implementação e aprovados com Service falso:
+normalização, DTO→domínio, páginas, autoria/eventos, Result, reconciliação,
+falhas tipadas/inesperadas e recibo divergente. Suíte Flutter completa: 198 PASS;
+flutter analyze sem problemas. Android ainda não validado para o calendário.
