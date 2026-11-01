@@ -443,3 +443,8 @@ específica é gate antes de implementar o conteúdo novo da aba/recorrência.
 - [x] T111 Disponibilizar scripts/open_android_emulator.ps1 com opções de escala
   Qt e SwiftShader validadas no Windows, preservar os dados/sessão, registrar a
   verificação da imagem e documentar a reabertura no README. [CR-007]
+
+## Consolidação da versão Android para um único abrigo
+
+- [x] T112 Documentar o escopo 1.0.0+1 de testes Android em docs/releases/1.0.0-android.md, preservando controles desabilitados acordados e separando iOS, produção e expansão para outros abrigos. [CR-004, CR-007]
+- [ ] T113 Confirmar Android, deliver e artifact da execução 41349870296 no código 329ecaa e registrar evidência antes de declarar o candidato aprovado remotamente. [CR-007]
