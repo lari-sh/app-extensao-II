@@ -96,3 +96,13 @@ Flutter, backend, Android e deliver aprovados. Logs Android: 7/7 jornadas,
 incluindo o calendário com correção e nova conclusão. Artifact 13101944660
 confirmado; evidência completa e link em docs/releases/1.0.0-android.md.
 A execução 41349870296 permanece como falha histórica, sem reclassificação.
+
+## CI do ajuste de navegação — 41355629425
+
+SHA 0054c2607e7ca819a6025cbe1a356b7dcd434cf3. Flutter/backend aprovados;
+Android failure e deliver skipped. Falha ocorreu no android-emulator-runner:
+Timeout waiting for emulator to boot, com tentativas ADB e conexão recusada na
+porta 5554, antes de executar android_management.sh e as jornadas. Não houve
+artifact. O limite configurado de boot é 600 s. Causa específica não determinada;
+esta verificação não altera workflow nem relaxa timeout/asserts. T116 acompanha
+nova validação e investigação se a inicialização falhar novamente.

@@ -452,4 +452,5 @@ específica é gate antes de implementar o conteúdo novo da aba/recorrência.
 
 ## Ajuste autorizado — navegação pública
 
-- [x] T115 Posicionar Voltar à esquerda no catálogo, remover Vitrine e conferir os demais controles de retorno, preservar Fechar/guards, sincronizar protótipo e testar posição/retorno em 320 px. Analyze sem problemas e 273 testes Flutter aprovados; APK normal atualizado no emulador. CI deste contexto ainda não confirmada. [FR-001, FR-019, CR-007]
+- [x] T115 Posicionar Voltar à esquerda no catálogo, remover Vitrine e conferir os demais controles de retorno, preservar Fechar/guards, sincronizar protótipo e testar posição/retorno em 320 px. Analyze sem problemas e 273 testes Flutter aprovados; APK normal atualizado no emulador. CI 41355629425: Flutter/backend passaram; Android bloqueado no boot do emulador, sem executar jornadas; entrega ignorada. Validação remota restante em T116. [FR-001, FR-019, CR-007]
+- [ ] T116 Confirmar as sete jornadas Android e o artifact em nova CI após a falha de inicialização do emulador em 41355629425; investigar o boot caso se repita. Registrar execução/SHA e resultado real, sem considerar o timeout como aprovação ou falha funcional do aplicativo. [CR-007]

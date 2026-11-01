@@ -1060,3 +1060,27 @@ Formato e git diff --check conferidos. APK normal compilado e reinstalado via
 adb install -r, preservando dados, com abertura da Activity confirmada. Não houve
 nova jornada integration_test neste contexto de cabeçalho. CI deste novo commit
 não confirmada; o fechamento anterior continua referenciado ao SHA 1eeb97e.
+
+## Verificação remota do ajuste de navegação — T115
+
+Código verificado: `0054c2607e7ca819a6025cbe1a356b7dcd434cf3`, developer.
+Execução [41355629425](https://github.com/lari-sh/app-extensao-II/actions/runs/41355629425).
+Logs Flutter: analyze sem problemas, 273 testes aprovados. Backend: 256 testes
+pgTAP em 12 arquivos e 12 testes de funções HTTP aprovados, além dos cenários
+HTTP de manejo e medicações.
+
+Resultado final: Flutter e backend success; Android failure; deliver skipped.
+O runner compilou o APK preparatório e iniciou o backend, mas o emulador não
+concluiu o boot dentro do limite configurado de 600 s. Logs registram
+`Timeout waiting for emulator to boot` e conexão recusada na porta TCP 5554.
+O script das sete jornadas não chegou a executar: não são sete testes reprovados
+nem há aprovação Android desse SHA. A causa específica da falha de inicialização
+não foi determinada por esta verificação; não atribuir o problema ao cabeçalho.
+Nenhum artifact foi publicado (lista de artifacts vazia conferida na API).
+
+A evidência local de T115 permanece válida e a aprovação remota anterior do SHA
+1eeb97e permanece histórica, sem cobrir automaticamente este ajuste. T116 registra
+a necessidade de nova execução Android/entrega. Este contexto atualiza somente
+documentação e tarefas; não altera workflow, aplicativo ou dados, nem repete
+testes locais de código inalterado. O push documental iniciará outra CI pelo
+gatilho existente; seu resultado não é antecipado neste registro.
