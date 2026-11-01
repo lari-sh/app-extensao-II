@@ -1,5 +1,10 @@
 # Evidências de implementação
 
+Estado vigente em 2026-11-01: T109 (cartão clínico) e T110 (ponta a ponta)
+concluídas, CI e APK confirmados na execução 41293728173. Resta T106, validação
+iOS em Mac/Xcode/dispositivo. Seções anteriores preservam o histórico; o
+fechamento abaixo registra o resultado atual.
+
 Data: 2026-10-31. Branch: `developer`.
 Baseline: `52c03e2abe04a447af3617c23013da5927427616`.
 
@@ -922,3 +927,77 @@ administrativas/contato para as sete executadas localmente; bash -n PASS.
 Somente testes/script/documentação neste contexto. Galeria nativa/upload e nova
 CI/artifact ainda precisam de confirmação para T110, que permanece aberta.
 Não confundir teste com fixture de funcionário com validação iOS/produção.
+
+
+## Ponta a ponta — fotos e APK normal
+
+Jornada authorized_animal_flow_test.dart PASS em 40 s no Android local:
+visitante → acesso autorizado → animal privado → edição com rascunho → galeria
+nativa cancelada → duas seleções de PNGs sintéticos → upload confirmado → foto
+substituída → gravação → publicação → segunda sessão → logout com remoção da UI
+privada. O driver do seletor concluiu as três ações sem erros. Nenhuma foto
+pessoal ou mensagem externa foi enviada; somente backend local e fixtures.
+
+Somadas às sete jornadas anteriores, oito jornadas locais passaram. A captura
+[android-kanban-clinical.png](evidence/android-kanban-clinical.png) foi obtida do
+APK normal reinstalado, inspecionada visualmente e mostra a etiqueta clínica.
+Fixture do calendário e três fixtures de cadastro/foto removidas pelo cleanup
+restrito. App normal recompilado/instalado, aberto e autenticado no painel para
+teste manual; isso é distinto da execução automatizada. Formato: 229 arquivos,
+zero mudanças. Git diff --check sem problemas. Código de produção do Kanban já
+publicado em 2da089b; ampliação de testes/CI em a4fa1a3.
+
+A primeira CI ampliada
+[41289495230](https://github.com/lari-sh/app-extensao-II/actions/runs/41289495230)
+falhou: 4 jornadas Android passaram, duas tiveram falhas de carga/depuração e uma
+falhou na rolagem do login. Evidências e recuperação em [ci-recovery.md](ci-recovery.md).
+Roteiro de login corrigido e repetido no Android: PASS em 16 s; análise sem problemas.
+Infraestrutura ajustada em 6979346, mantendo as sete jornadas. Confirmação remota
+pendente na nova execução [41291605301](https://github.com/lari-sh/app-extensao-II/actions/runs/41291605301).
+T110 continua aberta até gates/artifact aprovados. Nenhuma validação iOS foi
+realizada no Windows.
+
+
+A execução de recuperação 41291605301 aprovou cinco jornadas, incluindo ambas as
+públicas; restaram dois roteiros com toque de login instável durante transição.
+Detalhes preservados em ci-recovery.md. Envio único explícito pelo teclado e espera
+por resultado confirmados em 3e4547a: autenticação e calendário repetidos no Android
+PASS em 1 min 23 s; três Widget Tests do login (incluindo botão) PASS; análise sem
+problemas e formato global de 229 arquivos sem alteração. Nova confirmação remota
+em andamento na [execução 41293728173](https://github.com/lari-sh/app-extensao-II/actions/runs/41293728173).
+APK normal restaurado novamente e painel autenticado após a repetição dos testes.
+
+
+## Fechamento de ponta a ponta — T110
+
+Conferência final em 2026-11-01: [execução 41293728173](https://github.com/lari-sh/app-extensao-II/actions/runs/41293728173)
+concluída com success nos quatro jobs flutter, backend, android e deliver, para
+`3e4547a752faacefb36c15b82c45725ed3246dfd`, branch developer.
+Logs conferidos: 272 testes Flutter; 256 testes SQL em 12 arquivos; 12 testes de
+funções HTTP; jornadas HTTP de manejo e medicações com concorrência/isolamento;
+7/7 jornadas Android. As falhas anteriores e suas correções continuam registradas
+em [ci-recovery.md](ci-recovery.md), sem retirar testes ou omitir resultados.
+
+Artifact [abrigo-dos-anjos-android-debug](https://github.com/lari-sh/app-extensao-II/actions/runs/41293728173/artifacts/13078203574)
+confirmado: ID 13078203574, 76.794.226 bytes, não expirado na conferência;
+expiração em 2026-11-08 às 06:57:50 (America/Sao_Paulo). Digest:
+`sha256:6c7d8c0d4768bac4e18bf3fd9779c69d4bf01d84987095f4c78647ec98b434d5`.
+Contém APK debug e validation.txt conforme workflow. Sua configuração de serviço
+usa somente as variáveis públicas DEV do repositório; não é uma publicação de loja
+ou implantação de produção. APK normal local usa configuração explícita do
+Supabase local e foi reinstalado/aberto no painel administrativo após os testes.
+A validação de fotos com seletor nativo foi local e independente, conforme seção
+anterior: oito jornadas locais no total, sete no gate Android remoto.
+
+T110 concluída. T109 já tinha unidade/Widget/Android aprovados e também foi
+confirmada nesta CI. Captura do Kanban atualizada e inspecionada, sem mudança do
+protótipo aprovado. Notas clínicas continuam administrativas; dado público não
+recebe esse campo. Hospedagem e compartilhamento da ficha permanecem cancelados.
+Revisão de tarefas: somente T106 está aberta, por depender de Mac/Xcode e
+validação iOS real. Não declarada como concluída por testes Windows/Android.
+
+Commits por contexto publicados na developer: 2da089b (cartão clínico), a4fa1a3
+(bateria ampliada), 6979346 (preparo e roteiro), 3e4547a (envio único/espera).
+Este fechamento é somente documental e conserva o código validado acima; não
+requer repetir os testes de código. Main preservada. Sem hooks de pós-execução,
+pois .specify/extensions.yml está ausente. Verificados formato e git diff --check.

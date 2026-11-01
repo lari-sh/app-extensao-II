@@ -430,7 +430,7 @@ específica é gate antes de implementar o conteúdo novo da aba/recorrência.
 
 ## Verificação ponta a ponta solicitada
 
-- [ ] T110 Executar jornadas Android públicas, autenticação, cadastro/edição,
+- [x] T110 Executar jornadas Android públicas, autenticação, cadastro/edição,
   painel clínico, calendário e contato; revisar o roteiro público para a tela
   aprovada, validar galeria/upload com fixtures sintéticas, registrar falhas e
   resultados em validation.md e confirmar CI/APK antes do fechamento na developer.

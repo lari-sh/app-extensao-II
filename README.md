@@ -153,3 +153,18 @@ cancelados e removidos das tarefas. Evidências de testes, Android e CI em
 
 As telas internas oferecem Voltar visível; programação e ficha pública mantêm
 as ações Fechar existentes. A navegação respeita verificação de sessão.
+
+
+Os cartões administrativos do Kanban exibem o resumo das observações clínicas
+cadastradas, conforme o protótipo; textos longos têm limite de linhas e tooltip.
+Quando o cadastro está vazio, o cartão informa a situação ou ausência de observações,
+sem inferir diagnóstico. Essas notas permanecem restritas ao manejo.
+As evidências da verificação ponta a ponta de público, login, cadastro, Kanban,
+medicamentos, contatos e fotos estão em
+[validation](specs/001-align-app-constitution/validation.md).
+
+
+Verificação ponta a ponta aprovada na
+[CI 41293728173](https://github.com/lari-sh/app-extensao-II/actions/runs/41293728173):
+272 testes Flutter, 256 SQL, 12 de funções HTTP e sete jornadas Android. O fluxo
+nativo de fotos também passou localmente. Resta a validação iOS em Mac/Xcode.

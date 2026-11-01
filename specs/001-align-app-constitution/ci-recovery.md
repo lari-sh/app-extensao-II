@@ -55,3 +55,15 @@ falha/restauração/revogação; calendário completo PASS em 48 s. Conjunto dos
 PASS em 1 min 23 s com compilação intermediária. O caminho do botão continua
 coberto pelo Widget Test do login. Nenhuma regra do app ou asserção de negócio
 foi removida. Próxima CI ainda precisa aprovar as sete jornadas e o artifact.
+
+
+## Terceira execução — jornadas aprovadas
+
+[41293728173](https://github.com/lari-sh/app-extensao-II/actions/runs/41293728173),
+SHA 3e4547a752faacefb36c15b82c45725ed3246dfd: Flutter, backend e Android PASS.
+O log confirma 7 testes Android aprovados: catálogo, ficha, autenticação, manejo
+clínico, cadastro, calendário e contatos. Os dois roteiros corrigidos passaram,
+sem retirar jornadas ou asserções. Contagens confirmadas nos logs: 272 testes
+Flutter, 256 testes pgTAP em 12 arquivos, 12 testes de funções HTTP e jornadas
+HTTP de manejo/medicações/concorrência aprovadas. Deliver PASS; artifact 13078203574 confirmado, com evidências de fechamento
+em validation.md. T110 concluída após a confirmação dos quatro gates.
