@@ -1,6 +1,6 @@
 # Planejamento — dados públicos do animal cadastrados pela equipe
 
-Solicitado em 2026-10-31. Status: implementação e validação local concluídas; CI remota em acompanhamento. Complementa a ficha
+Solicitado em 2026-10-31. Status: implementação, validação local e CI remota concluídas. Complementa a ficha
 pública do protótipo screen-3 e não altera os 108 itens da adequação original.
 
 ## Escopo e aceitação
@@ -45,7 +45,7 @@ O indicador legado de vacinação não é uma fonte para preencher data/tipo.
 - [x] P005 Testar ViewModels: validação, mensagens, ausência, rascunho e autorização.
 - [x] P006 Integrar campos no editor e ficha com Widget Tests e sem alterar layout sem autorização.
 - [x] P007 Validar Android, duas sessões, ocultação/adoção e ausência de exposição clínica.
-- [ ] P008 Atualizar evidências e executar CI antes de publicar cada etapa na developer.
+- [x] P008 Atualizar evidências e executar CI antes de publicar cada etapa na developer.
 - [x] P009 Definir contrato de peso, cor e registros públicos de vacinação (data/tipo),
   incluindo normalização, limites, limpeza e compatibilidade de clientes antigos.
 - [x] P010 Estender migração/RPC e testes pgTAP para peso, cor e vacinação, sem expor
@@ -76,8 +76,8 @@ Omissão preserva valores; null explícito limpa campos opcionais. A lista de va
 - Android API 37: jornada de cadastro/edição/ficha aprovada (36 s) e jornada
   visitante aprovada (10 s); confirmação em segunda sessão e leitura anônima.
 - APK debug normal reinstalado e aberto no emulador. Dados descartáveis removidos.
-- CI inclui a jornada do editor. P008 permanece pendente até confirmar a execução
-  remota; não confundir os resultados locais com a entrega do artifact.
+- CI e entrega aprovadas na [execução 41259640949](https://github.com/lari-sh/app-extensao-II/actions/runs/41259640949),
+  com jornadas do painel e editor. Artifact debug confirmado; P008 concluída.
 
 Evidências e limites em validation.md. Migrações aplicadas somente no ambiente
 local. Não foi realizada validação iOS nem implantação em produção.

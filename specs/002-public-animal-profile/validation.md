@@ -33,3 +33,14 @@ Foi corrigida uma regressão revelada pela jornada: os campos do editor retido
 precisam ser atualizados quando a verificação de acesso termina. A composição
 registra/remove o listener de acesso; o ViewModel notifica a View. Widget Test
 confirma desabilitação e reativação sem descartar o rascunho.
+
+
+## Resultado remoto confirmado
+
+[CI 41259640949](https://github.com/lari-sh/app-extensao-II/actions/runs/41259640949) concluída com sucesso para
+2a036c85126a3a5213195cb34135c00e89fefbe6. Flutter, backend, Android e deliver
+aprovados; artifact abrigo-dos-anjos-android-debug id 13065725073 disponível na
+execução (76.483.274 bytes, retenção sete dias). Todos os itens P001–P012 concluídos.
+O APK entregue usa configuração pública de desenvolvimento; se as variáveis do
+repositório estiverem ausentes, apresenta serviço não configurado. A evidência
+não significa implantação Supabase em produção nem validação iOS.

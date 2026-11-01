@@ -4,7 +4,7 @@
 **Feature ID**: `001-align-app-constitution`
 **Input**: `specs/001-align-app-constitution/spec.md`
 **Constitution**: versão 2.0.0, ratificada em 2026-10-31.
-**Status**: fundação e histórias US1–US6 implementadas e validadas localmente; CI/entrega remota em acompanhamento; validação iOS depende de Mac/Xcode.
+**Status**: fundação e histórias US1–US6 implementadas e validadas localmente; CI e artifact Android aprovados na execução 41259640949; validação iOS depende de Mac/Xcode.
 
 ## Summary
 

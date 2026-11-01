@@ -857,3 +857,27 @@ não a dados reais do abrigo. Nenhum dado de teste foi publicado em produção.
 Planejamento dos campos novos é separado das 108 tarefas originais, com oito tarefas
 futuras em specs/002-public-animal-profile/plan.md. Sem implementação de migração ou
 importação de histórico clínico para o visitante nesta etapa.
+
+
+### Aprovação remota da CI e entrega Android
+
+[Execução 41259640949](https://github.com/lari-sh/app-extensao-II/actions/runs/41259640949) concluída com success para o commit
+2a036c85126a3a5213195cb34135c00e89fefbe6. Jobs flutter, backend, android e deliver
+aprovados. Inclui geração determinística, formatação, análise, 181 testes Flutter,
+127 testes pgTAP, funções/fluxo HTTP e as jornadas Android do painel e editor.
+
+Artifact abrigo-dos-anjos-android-debug confirmado pela API do GitHub: id
+13065725073, 76.483.274 bytes, não expirado na conferência, retenção de sete dias.
+Contém o APK debug e validation.txt. T103 e T105 concluídas com esta evidência e
+as validações locais anteriores. O artifact usa apenas as variáveis públicas de
+desenvolvimento configuradas no repositório; na ausência delas, o app informa
+serviço não configurado. Não contém as credenciais descartáveis do teste.
+
+T106 permanece pendente: iOS requer Mac/Xcode e dispositivo. Não houve deploy de
+produção nem publicação em lojas. Os commits posteriores desta etapa alteram
+somente documentação/planejamento; o código funcional é o validado no run acima.
+
+O incremento público já está implementado, com 12 tarefas em
+specs/002-public-animal-profile/plan.md, substituindo o estado histórico de oito
+tarefas futuras mencionado na seção anterior. O escopo do calendário está em
+specs/003-medication-calendar/scope.md, com sete tarefas ainda pendentes.
