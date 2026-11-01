@@ -82,6 +82,8 @@ jobs:
         with:
           deno-version: '2.8.3'
       - run: flutter pub get --enforce-lockfile
+      - name: Prepare Android build before starting emulator and backend
+        run: flutter build apk --debug --no-pub --target-platform android-x64
       - run: supabase start > /tmp/supabase-start.log 2>&1
       - run: python3 .github/scripts/prepare_local_backend.py
       - run: deno task --config supabase/functions/deno.json fixtures
@@ -98,7 +100,7 @@ jobs:
           arch: x86_64
           profile: pixel_6
           disk-size: 2048M
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -memory 2048
+          emulator-options: -no-window -gpu swiftshader -feature -Vulkan -no-snapshot-load -no-snapshot-save -no-metrics -noaudio -no-boot-anim -camera-back none -memory 2048
           disable-animations: true
           script: bash .github/scripts/android_management.sh
       - if: always()

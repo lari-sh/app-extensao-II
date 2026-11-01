@@ -23,6 +23,9 @@ void main() {
     await tester.pumpWidget(await bootstrapApplication());
     await tester.pumpAndSettle();
 
+    await Supabase.instance.client.auth.signOut(scope: SignOutScope.local);
+    await tester.pumpAndSettle();
+
     Future<void> openLogin() async {
       final button = find.text('Acesso Voluntário / Funcionário').last;
       await tester.ensureVisible(button);
@@ -31,13 +34,24 @@ void main() {
     }
 
     Future<void> login(String email, String secret) async {
+      await tester.scrollUntilVisible(
+        find.byKey(const ValueKey('loginEmail')),
+        -160,
+        scrollable: find.byType(Scrollable).first,
+      );
       await tester.enterText(find.byKey(const ValueKey('loginEmail')), email);
       await tester.enterText(
         find.byKey(const ValueKey('loginPassword')),
         secret,
       );
       final button = find.widgetWithText(FilledButton, 'Entrar no painel');
-      await tester.ensureVisible(button);
+      FocusManager.instance.primaryFocus?.unfocus();
+      await tester.pumpAndSettle();
+      await tester.scrollUntilVisible(
+        button,
+        160,
+        scrollable: find.byType(Scrollable).first,
+      );
       await tester.tap(button);
       await tester.pumpAndSettle(const Duration(milliseconds: 300));
     }
