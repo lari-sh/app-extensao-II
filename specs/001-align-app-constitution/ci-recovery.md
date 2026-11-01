@@ -67,3 +67,24 @@ sem retirar jornadas ou asserções. Contagens confirmadas nos logs: 272 testes
 Flutter, 256 testes pgTAP em 12 arquivos, 12 testes de funções HTTP e jornadas
 HTTP de manejo/medicações/concorrência aprovadas. Deliver PASS; artifact 13078203574 confirmado, com evidências de fechamento
 em validation.md. T110 concluída após a confirmação dos quatro gates.
+
+## Fechamento Android — falha de rolagem no teste de correção
+
+Execução 41349870296, código 329ecaa: Flutter/backend aprovados, Android 6/7,
+com deliver ignorado devido à falha. A jornada de calendário chegou à correção
+com justificativa e falhou em medication_calendar_flow_test.dart:559:
+ensureVisible(Confirmar correção), StateError: No element.
+Não houve aprovação remota do candidato nem artifact nessa execução.
+
+O roteiro foi ajustado para scrollUntilVisible no Scrollable identificado por
+medicationApplicationScroll: a busca por um filho fora da região montada de uma
+ListView deve rolar até montá-lo antes do toque. Mantidas todas as asserções de
+estado, versão, motivo, autoria, histórico e nova conclusão. Validação Android
+local e execução remota do ajuste precisam ser confirmadas separadamente.
+
+A primeira repetição Android local passou pela correção e encontrou uma segunda
+suposição indevida do roteiro: a busca global por Realizada encontrou o cartão
+preexistente de demonstração. A asserção foi restringida ao ValueKey da aplicação
+criada pela jornada, mantendo a exigência de estado Realizada. Não apagar dados
+preexistentes para satisfazer o teste. Segunda execução completa: PASS em 48 s,
+com conclusão, correção, nova conclusão, edição e interrupção preservadas.

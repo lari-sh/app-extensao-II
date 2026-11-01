@@ -556,7 +556,18 @@ void main() {
       FocusManager.instance.primaryFocus?.unfocus();
       await tester.pumpAndSettle();
       final correctionConfirm = find.text('Confirmar correção');
-      await tester.ensureVisible(correctionConfirm);
+      // Keyboard dismissal can move this lazy ListView child outside its cache.
+      // Scroll until it is mounted before asking the tester to tap it.
+      await tester.scrollUntilVisible(
+        correctionConfirm,
+        140,
+        scrollable: find
+            .descendant(
+              of: find.byKey(const ValueKey('medicationApplicationScroll')),
+              matching: find.byType(Scrollable),
+            )
+            .first,
+      );
       await tester.pumpAndSettle();
       await tester.tap(correctionConfirm);
       await tester.pumpAndSettle();
@@ -613,7 +624,13 @@ void main() {
       );
       await tester.pumpAndSettle();
       expect(note, findsOneWidget);
-      expect(find.text('Realizada'), findsOneWidget);
+      expect(
+        find.descendant(
+          of: find.byKey(ValueKey('medicationApplication-$dueId')),
+          matching: find.text('Realizada'),
+        ),
+        findsOneWidget,
+      );
       await tester.drag(
         find.byKey(const ValueKey('medicationCalendarScroll')),
         const Offset(0, 700),
