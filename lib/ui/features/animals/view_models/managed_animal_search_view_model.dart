@@ -131,6 +131,11 @@ class ManagedAnimalSearchViewModel extends ChangeNotifier {
     }
   }
 
+  Future<void> submitQuery(String value) {
+    setQuery(value);
+    return search();
+  }
+
   Future<void> clearText() {
     setQuery('');
     return search();

@@ -59,7 +59,7 @@ class _ManagedAnimalSearchToolbarState
                   textInputAction: TextInputAction.search,
                   maxLength: 80,
                   onChanged: widget.viewModel.setQuery,
-                  onSubmitted: (_) => widget.viewModel.search(),
+                  onSubmitted: widget.viewModel.submitQuery,
                   decoration: InputDecoration(
                     hintText: 'Nome ou código do animal',
                     counterText: '',

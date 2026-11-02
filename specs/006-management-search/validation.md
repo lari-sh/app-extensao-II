@@ -115,3 +115,10 @@ ActivityManager travado no emulador. Reinício sem wipe; repetição pendente.
 CI passa a reprovar relatório ausente/vazio ou cobertura global inferior a 95%,
 sem excluir arquivos/linhas do LCOV. Gate executado localmente: 6.610/6.954 =
 95,05%, PASS. Workflow YAML validado por parser antes do commit.
+
+### Envio pelo teclado
+
+O comando de submit recebe explicitamente o texto da ação do teclado, atualiza
+o critério e cancela o debounce antes de consultar. Evita usar critério anterior
+quando a conexão de edição nativa é recriada. VM/Widgets: **13 PASS**. Jornada
+Android ainda em repetição, sem afirmar aprovação antes do resultado final.
