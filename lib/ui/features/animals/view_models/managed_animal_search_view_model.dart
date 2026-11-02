@@ -99,7 +99,8 @@ class ManagedAnimalSearchViewModel extends ChangeNotifier {
 
   void refreshAccess() {
     if (_disposed) return;
-    if (!isAuthorized() || _private != privateGeneration?.call()) {
+    if ((privateGeneration == null && !isAuthorized()) ||
+        _private != privateGeneration?.call()) {
       _private = privateGeneration?.call();
       _timer?.cancel();
       ++_request;
@@ -199,7 +200,8 @@ class ManagedAnimalSearchViewModel extends ChangeNotifier {
     }
     if (next && !canLoadMore) return;
     final request = next ? _request : ++_request;
-    final epoch = accessEpoch?.call(), generation = privateGeneration?.call();
+    var epoch = accessEpoch?.call();
+    final generation = privateGeneration?.call();
     final filter = state.filter.normalized;
     final cursor = next ? state.cursor : null;
     if (filter.validate().isNotEmpty) {
@@ -236,6 +238,10 @@ class ManagedAnimalSearchViewModel extends ChangeNotifier {
         }
         return;
       }
+      // Revalidation intentionally advances accessEpoch while retaining this owner.
+      // Capture the confirmed epoch only after that check; generation/request still
+      // reject a changed account or a newer query.
+      epoch = accessEpoch?.call();
       if (!_current(request, epoch, generation)) return;
       final result = await repository.searchManagement(filter, cursor: cursor);
       if (!_current(request, epoch, generation)) return;

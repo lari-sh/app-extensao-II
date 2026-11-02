@@ -92,3 +92,12 @@ administrador autorizados; anônimo, sem vínculo, inativo e sessão encerrada n
 (abaixo de 2 s; não representa rede externa nem produção). Fixtures removidas no
 finally, sem reset ou alteração de cadastros anteriores. Teste adicionado à CI;
 resultado remoto desse código ainda pendente.
+
+### Revalidação de sessão na composição real
+
+A revalidação avança accessEpoch e bloqueia temporariamente o acesso, mantendo
+o mesmo privateGeneration. A busca preserva critérios durante esse intervalo
+e captura a época confirmada após autorizar; troca de conta/perda real continua
+invalidando dados e respostas. Teste específico e composição: **12 PASS**.
+O teste de lifecycle agora percorre inactive/hidden/paused e o retorno válido,
+sem salto paused→resumed rejeitado pelo listener do campo de texto.

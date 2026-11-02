@@ -56,7 +56,11 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.byType(MedicationCalendarPanel), findsOneWidget);
       final reads = clinical.repository.calls.length;
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.hidden);
       tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.hidden);
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
       tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
       await tester.pumpAndSettle();
       expect(clinical.repository.calls.length, greaterThan(reads));

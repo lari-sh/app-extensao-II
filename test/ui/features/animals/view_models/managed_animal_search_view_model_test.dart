@@ -272,6 +272,38 @@ void main() {
     },
   );
   test(
+    'temporary access checking retains criteria and uses confirmed epoch',
+    () async {
+      var allowed = true, epoch = 0;
+      final r = FakeAnimalsRepository()
+        ..handler = (m, a) async =>
+            Success(ManagedAnimalPage(items: [item(1)], total: 1));
+      late ManagedAnimalSearchViewModel vm;
+      vm = ManagedAnimalSearchViewModel(
+        r,
+        FakePhotoRepository(),
+        isAuthorized: () => allowed,
+        accessEpoch: () => epoch,
+        privateGeneration: () => 0,
+        authorize: () async {
+          allowed = false;
+          epoch++;
+          vm.refreshAccess();
+          await Future<void>.delayed(Duration.zero);
+          allowed = true;
+          vm.refreshAccess();
+          return true;
+        },
+      );
+      addTearDown(vm.dispose);
+      vm.setQuery('Luna');
+      await vm.search();
+      expect(vm.state.filter.query, 'Luna');
+      expect(vm.state.items, hasLength(1));
+      expect(vm.state.loading, false);
+    },
+  );
+  test(
     'presentation derives characteristics and approved Portuguese labels',
     () {
       final vm = ManagedAnimalSearchViewModel(
