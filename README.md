@@ -260,4 +260,6 @@ animais globalmente a partir de Kanban, Lista ou Calendário, inclusive sem medi
 no dia selecionado. Limpar restaura o contexto anterior. Ver
 [design/management-search-proposal.html](design/management-search-proposal.html).
 [Planejamento e tarefas](specs/006-management-search/plan.md) revisados; DESIGN-SEARCH-001
-v2 aguarda nova aprovação antes de implementar Flutter, código de animal ou RPC.
+v2 aprovada; implementação em andamento. Códigos únicos foram adicionados ao backend
+com preservação dos dados e 356 testes SQL PASS. Busca/RPC/Flutter continuam em
+implementação; acompanhe [as evidências](specs/006-management-search/validation.md).

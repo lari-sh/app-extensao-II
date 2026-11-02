@@ -50,6 +50,7 @@ jobs:
       - run: python3 supabase/tests/fixtures/medication_flow.py
       - run: python3 supabase/tests/fixtures/team_foundation_flow.py
       - run: python3 supabase/tests/fixtures/team_invitation_flow.py
+      - run: python3 supabase/tests/fixtures/animal_code_flow.py
       - if: always()
         run: supabase stop --no-backup
   android:

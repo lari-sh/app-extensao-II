@@ -92,5 +92,5 @@ restauração de data/rolagem, código >9999/concorrência, erro/retry/dispose/r
 Widgets compactos e autorização direta. Manter a cobertura e os fluxos anteriores.
 A documentação e tarefas acompanham cada etapa validada e os commits na developer.
 Não inclui microchip, OCR/IA, pesquisa em diagnóstico/notas, múltiplos abrigos ou
-mudança do layout público. Nenhuma migration ou código Flutter nesta revisão.
+mudança do layout público. A execução foi autorizada após aprovação; progresso e evidências em validation.md.
 .specify/extensions.yml ausente: hooks before_plan/after_plan não aplicáveis.
