@@ -1,3 +1,6 @@
+import '../view_models/managed_animal_search_view_model.dart';
+import 'managed_animal_search_toolbar.dart';
+import 'managed_animal_search_panel.dart';
 import '../../../core/widgets/app_back_button.dart';
 import '../../medications/views/medication_calendar_panel.dart';
 import '../../medications/view_models/medication_calendar_view_model.dart';
@@ -11,8 +14,10 @@ class DashboardScreen extends StatefulWidget {
     required this.viewModel,
     this.onSignOut,
     this.calendarViewModel,
+    this.searchViewModel,
   });
   final DashboardViewModel viewModel;
+  final ManagedAnimalSearchViewModel? searchViewModel;
   final VoidCallback? onSignOut;
   final MedicationCalendarViewModel? calendarViewModel;
   @override
@@ -38,6 +43,7 @@ class _DashboardScreenState extends State<DashboardScreen>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
+      widget.searchViewModel?.search();
       if (viewModel.isCalendar) {
         widget.calendarViewModel?.refresh();
       } else {
@@ -57,7 +63,7 @@ class _DashboardScreenState extends State<DashboardScreen>
   };
   @override
   Widget build(BuildContext context) => ListenableBuilder(
-    listenable: viewModel,
+    listenable: Listenable.merge([viewModel, widget.searchViewModel]),
     builder: (context, _) => Scaffold(
       floatingActionButton: !viewModel.showRegistration
           ? null
@@ -104,6 +110,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                         ? null
                         : () {
                             viewModel.load();
+                            widget.searchViewModel?.search();
                             if (viewModel.isCalendar) {
                               widget.calendarViewModel?.refresh();
                             }
@@ -163,6 +170,8 @@ class _DashboardScreenState extends State<DashboardScreen>
                 ],
               ),
             ),
+            if (widget.searchViewModel != null)
+              ManagedAnimalSearchToolbar(viewModel: widget.searchViewModel!),
             if (viewModel.showTeam)
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
@@ -226,15 +235,32 @@ class _DashboardScreenState extends State<DashboardScreen>
                 ],
               ),
             Expanded(
-              child: viewModel.isCalendar
-                  ? (widget.calendarViewModel == null
-                        ? const Center(child: Text('Agenda indisponível.'))
-                        : MedicationCalendarPanel(
-                            viewModel: widget.calendarViewModel!,
-                          ))
-                  : viewModel.state.listMode
-                  ? _list(context)
-                  : _kanban(context),
+              child: Stack(
+                children: [
+                  Offstage(
+                    offstage:
+                        widget.searchViewModel?.showGlobalResults ?? false,
+                    child: IndexedStack(
+                      index: viewModel.state.mode.index,
+                      children: [
+                        _kanban(context),
+                        _list(context),
+                        widget.calendarViewModel == null
+                            ? const Center(child: Text('Agenda indisponível.'))
+                            : MedicationCalendarPanel(
+                                viewModel: widget.calendarViewModel!,
+                              ),
+                      ],
+                    ),
+                  ),
+                  if (widget.searchViewModel?.showGlobalResults ?? false)
+                    ManagedAnimalSearchPanel(
+                      viewModel: widget.searchViewModel!,
+                      onOpen: (id) => _edit(context, id),
+                      modeLabel: viewModel.modeLabel,
+                    ),
+                ],
+              ),
             ),
           ],
         ),
@@ -258,6 +284,7 @@ class _DashboardScreenState extends State<DashboardScreen>
   Future<void> _edit(BuildContext context, [String? id]) async {
     await Navigator.pushNamed(context, '/animal-editor', arguments: id);
     await viewModel.load();
+    await widget.searchViewModel?.search();
     if (viewModel.isCalendar) await widget.calendarViewModel?.refresh();
   }
 

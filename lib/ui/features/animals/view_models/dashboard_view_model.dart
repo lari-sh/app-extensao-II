@@ -107,6 +107,11 @@ class DashboardViewModel extends ChangeNotifier {
       !state.uncertain;
   bool canPublish(PublicAnimal animal) =>
       canManage && animal.status != AnimalStatus.adopted;
+  String get modeLabel => switch (state.mode) {
+    DashboardMode.kanban => 'Kanban',
+    DashboardMode.list => 'Lista',
+    DashboardMode.calendar => 'Calendário',
+  };
   String get heading => 'Olá, equipe';
   String publicationLabel(PublicAnimal animal) =>
       animal.isPublished ? 'Ocultar do catálogo' : 'Publicar no catálogo';

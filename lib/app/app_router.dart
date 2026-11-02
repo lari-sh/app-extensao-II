@@ -1,3 +1,4 @@
+import '../ui/features/animals/view_models/managed_animal_search_view_model.dart';
 import '../ui/features/auth/views/recovery_screen.dart';
 import '../ui/features/auth/views/reset_password_screen.dart';
 import '../ui/features/auth/view_models/recovery_view_model.dart';
@@ -382,6 +383,17 @@ class AppRouter {
                 );
               }
               if (settings.name == '/animal-management') {
+                late final ManagedAnimalSearchViewModel search;
+                search = ManagedAnimalSearchViewModel(
+                  animals,
+                  photos,
+                  isAuthorized: () => access.state.canAccessPrivate,
+                  accessEpoch: () => access.state.accessEpoch,
+                  privateGeneration: () => access.state.privateGeneration,
+                  authorize: authorize,
+                  onDispose: () => access.removeListener(search.refreshAccess),
+                );
+                access.addListener(search.refreshAccess);
                 MedicationCalendarViewModel? calendar;
                 if (medications != null) {
                   late final MedicationCalendarViewModel calendarModel;
@@ -414,6 +426,10 @@ class AppRouter {
                       create: (_) => listing,
                       lazy: false,
                     ),
+                    ChangeNotifierProvider<ManagedAnimalSearchViewModel>(
+                      create: (_) => search,
+                      lazy: false,
+                    ),
                     if (calendar != null)
                       ChangeNotifierProvider<MedicationCalendarViewModel>(
                         create: (_) => calendar!,
@@ -421,6 +437,7 @@ class AppRouter {
                       ),
                   ],
                   child: DashboardScreen(
+                    searchViewModel: search,
                     viewModel: listing,
                     calendarViewModel: calendar,
                     onSignOut: access.signOut,

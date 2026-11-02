@@ -70,3 +70,15 @@ privado, acesso e dispose; dados tardios são descartados e erros saneados.
 O VM não altera modo/data do dashboard. Oito testes específicos PASS cobrindo
 concorrência, perda de acesso, fotos e paginação; analyze sem problemas.
 Integração visual, Android, cobertura final e CI permanecem pendentes.
+
+## T008 — integração visual, primeira validação — 2026-11-02
+
+Campo fixo após totais, filtros em painel com aplicar/cancelar/limpar/chips,
+resultados com foto/código/características/situação e acesso à ficha. Três modos
+permanecem montados em IndexedStack/Offstage para conservar o contexto. Busca
+reconsulta ao retornar da ficha e atualizar o painel. Sem quarta aba.
+
+Seis testes Widget PASS (novos e regressão do dashboard), incluindo 320/390 px
+e texto 1,4x; analyze sem problemas. Android com preservação de data/retorno,
+medição final de cobertura e CI ainda pendentes; T008 segue aberta até concluir
+a validação de contexto e a revisão visual no Android.
