@@ -82,3 +82,13 @@ Seis testes Widget PASS (novos e regressão do dashboard), incluindo 320/390 px
 e texto 1,4x; analyze sem problemas. Android com preservação de data/retorno,
 medição final de cobertura e CI ainda pendentes; T008 segue aberta até concluir
 a validação de contexto e a revisão visual no Android.
+
+## T009 — HTTP e volume — 2026-11-02
+
+Fluxo real local PASS: nome/código fora da primeira página, cinco filtros, total,
+cursor sem duplicação e animais sem tratamento/evento na agenda. Funcionário e
+administrador autorizados; anônimo, sem vínculo, inativo e sessão encerrada negados.
+5.000 animais temporários próprios: consultas HTTP locais de 0,041 / 0,031 / 0,012 s
+(abaixo de 2 s; não representa rede externa nem produção). Fixtures removidas no
+finally, sem reset ou alteração de cadastros anteriores. Teste adicionado à CI;
+resultado remoto desse código ainda pendente.

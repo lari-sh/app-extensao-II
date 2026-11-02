@@ -11,7 +11,7 @@ após aprovação expressa de DESIGN-SEARCH-001 v2; aprovação antiga não cobr
 - [x] T006 Implementar Repository e unitários de mapeamento, filtros, cursor e falhas, sem tipos SDK na UI. Depende de T005. [006-CR-001]
 - [x] T007 Implementar VM/Freezed: debounce, submit, critérios/rascunho/cancelar, limpar texto/tudo, geração/contexto/fotos/dispose e preservação dos três modos. Unitários das regras. Depende de T006. [006-FR-003, 006-FR-005, 006-FR-006, 006-FR-009]
 - [ ] T008 Integrar toolbar fixa/painel de filtros/resultados/ficha, sem DashboardMode.search. Widget happy path/erro e testes dos três modos, retorno de data/rolagem e 320/390 px/texto ampliado. Depende de T007. [006-FR-001, 006-FR-004, 006-FR-007, 006-FR-009]
-- [ ] T009 Validar HTTP de código/filtros, acesso direto e revogação; casos além da página inicial e sem aplicação no dia. Limpar só fixtures próprias. Depende de T004. [006-FR-002, 006-FR-003, 006-FR-006, 006-FR-009]
+- [x] T009 Validar HTTP de código/filtros, acesso direto e revogação; casos além da página inicial e sem aplicação no dia. Limpar só fixtures próprias. Depende de T004. [006-FR-002, 006-FR-003, 006-FR-006, 006-FR-009]
 - [ ] T010 Criar/validar jornada Android nos três modos, homônimos/códigos, cinco filtros, ficha/retorno, dia preservado e logout, sem perder cadastros manuais. Depende de T008/T009. [006-CR-001]
 - [ ] T011 Executar gates/CI, preservar nove jornadas existentes e cobertura global >=95%; registrar evidências reais. Depende de T010. [006-CR-001]
 - [ ] T012 Atualizar documentação/tasks após cada etapa validada e realizar commits por contexto na developer. Em todas as etapas. [006-CR-001]
