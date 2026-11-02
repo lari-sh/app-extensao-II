@@ -299,3 +299,13 @@ Medição anterior a esta etapa: 93,45%, 420 testes PASS, mesma base de 6.171 li
 Correção do gate da etapa de callbacks: a primeira análise apontou somente um
 import redundante de dart:async no teste. Import removido e análise repetida;
 o aviso não afetava os testes funcionais, mas impedia considerar o gate limpo.
+
+
+## Meta de 95% — cadastro e contratos clínicos — 2026-11-02
+
+7 testes novos PASS: listagem/gravação/histórico/recibo de medicamentos pelo
+Service HTTP; flags públicas e tipo de registro clínico; leitura negada, epoch
+alterado durante leitura, exceção de carga e gravação/reconciliação incerta.
+Nova tentativa de salvar um cadastro incerto consulta o recibo antes de repetir.
+Analyze limpo. Medição intermediária anterior: **94,20% (5.813/6.171)**,
+428 testes Flutter PASS. A meta de 95% ainda não estava atingida nessa medição.
