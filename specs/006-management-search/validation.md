@@ -101,3 +101,11 @@ e captura a época confirmada após autorizar; troca de conta/perda real continu
 invalidando dados e respostas. Teste específico e composição: **12 PASS**.
 O teste de lifecycle agora percorre inactive/hidden/paused e o retorno válido,
 sem salto paused→resumed rejeitado pelo listener do campo de texto.
+
+### Regressão Flutter e controles completos
+
+Regressão completa após revalidação: **497 testes PASS**, cobertura global
+**6.610/6.954 linhas = 95,05%**. Teste Widget adicional das quatro seleções,
+submit/limpar texto, limpar filtros e cancelar: suíte específica **4 PASS**.
+Android compilou, mas a primeira tentativa foi interrompida por transporte/
+ActivityManager travado no emulador. Reinício sem wipe; repetição pendente.

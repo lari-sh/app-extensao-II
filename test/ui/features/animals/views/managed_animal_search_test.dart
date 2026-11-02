@@ -146,4 +146,72 @@ void main() {
       expect(tester.takeException(), isNull);
     },
   );
+  testWidgets(
+    'all enum filters, toolbar submit/clear and filter reset follow approved commands',
+    (tester) async {
+      final r = FakeAnimalsRepository()
+        ..handler = (m, a) async =>
+            const Success(ManagedAnimalPage(items: [], total: 0));
+      final search = ManagedAnimalSearchViewModel(
+        r,
+        FakePhotoRepository(),
+        isAuthorized: () => true,
+      );
+      final dashboard = DashboardViewModel(r, isAuthorized: () => true);
+      addTearDown(search.dispose);
+      addTearDown(dashboard.dispose);
+      await tester.pumpWidget(
+        MaterialApp(
+          home: DashboardScreen(viewModel: dashboard, searchViewModel: search),
+        ),
+      );
+      await tester.tap(find.text('Filtros'));
+      await tester.pumpAndSettle();
+      Future<void> option(String label, String value) async {
+        final field = find
+            .ancestor(
+              of: find.text(label),
+              matching: find.byWidgetPredicate(
+                (w) => w is DropdownButtonFormField,
+              ),
+            )
+            .first;
+        await tester.ensureVisible(field);
+        await tester.tap(field);
+        await tester.pumpAndSettle();
+        await tester.tap(find.text(value).last);
+        await tester.pumpAndSettle();
+      }
+
+      await option('Espécie', 'Gato');
+      await option('Sexo', 'Macho');
+      await option('Porte', 'Grande');
+      await option('Situação', 'Adotado');
+      await tester.ensureVisible(find.text('Aplicar filtros'));
+      await tester.tap(find.text('Aplicar filtros'));
+      await tester.pumpAndSettle();
+      expect(search.chips.length, 4);
+      final field = find.byKey(const ValueKey('management-search'));
+      await tester.enterText(field, 'Luna');
+      await tester.testTextInput.receiveAction(TextInputAction.search);
+      await tester.pumpAndSettle();
+      expect(search.state.filter.query, 'Luna');
+      await tester.tap(find.byTooltip('Limpar texto'));
+      await tester.pumpAndSettle();
+      expect(search.state.filter.query, isEmpty);
+      expect(search.showGlobalResults, true);
+      await tester.tap(find.text('Filtros'));
+      await tester.pumpAndSettle();
+      await tester.ensureVisible(find.text('Limpar filtros'));
+      await tester.tap(find.text('Limpar filtros'));
+      await tester.pumpAndSettle();
+      expect(search.showGlobalResults, false);
+      await tester.tap(find.text('Filtros'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byTooltip('Cancelar filtros'));
+      await tester.pumpAndSettle();
+      expect(search.chips, isEmpty);
+      expect(tester.takeException(), isNull);
+    },
+  );
 }
