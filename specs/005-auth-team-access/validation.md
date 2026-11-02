@@ -215,3 +215,13 @@ recuperação manual sem upload automático, troca de animal durante recuperaç�
 estados terminais do job, retry explícito com a mesma chave e reconciliação com
 falha de acesso/transporte. Analyze sem problemas. Código de produção preservado.
 Percentual global será medido na suíte completa após medicamentos e navegação.
+
+
+## Ampliação global — etapa medicamentos — 2026-11-02
+
+12 novos testes de MedicationEditorViewModel PASS: horários fixos/intervalos,
+remoção e ajuste de horários, datas, validações de período e duplicata, busca de
+tratamento em paginação, proteção contra cursor sem avanço, retomada após falha
+de listagem, confirmação de operação divergente e reconciliação com erro.
+Negação de acesso antes de salvar mantém o rascunho e não envia a escrita.
+Analyze sem problemas. Medição global final ainda pendente nesta etapa.
