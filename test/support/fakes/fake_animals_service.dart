@@ -21,6 +21,11 @@ class FakeAnimalsService extends FakeBehavior implements AnimalsService {
     String? cursor,
   }) => invoke<ManagedAnimalsPageDto>('listManagement', [status, cursor]);
   @override
+  Future<Result<ManagedAnimalsPageDto>> searchManagement({
+    required Map<String, String> filters,
+    String? cursor,
+  }) => invoke<ManagedAnimalsPageDto>('searchManagement', [filters, cursor]);
+  @override
   Future<Result<ManagedAnimalDto>> getManagement(String id) =>
       invoke<ManagedAnimalDto>('getManagement', [id]);
   @override

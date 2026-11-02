@@ -12,6 +12,10 @@ abstract interface class AnimalsService {
     String? status,
     String? cursor,
   });
+  Future<Result<ManagedAnimalsPageDto>> searchManagement({
+    required Map<String, String> filters,
+    String? cursor,
+  });
   Future<Result<ManagedAnimalDto>> getManagement(String id);
   Future<Result<Map<String, int>>> getStatusCounts();
   Future<Result<ManagedAnimalDto>> saveAnimal(

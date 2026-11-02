@@ -51,3 +51,13 @@ filtros, cor nula/parcial, %, _, barra/apóstrofo, fora da primeira página, pá
 final cheia, entrada/cursor inválidos, visitante, sem vínculo, inativo e sessão
 revogada cobertos. Validação HTTP e performance constam de T009, ainda pendente.
 Não foram aplicadas alterações no app Flutter nesta etapa.
+
+## T005/T006 — contrato Flutter e Repository — 2026-11-02
+
+Filtro imutável com cinco critérios, Service/RPC/cursor validado e Repository
+com Result e código obrigatório na busca. Replays antigos continuam legíveis sem
+reescrever auditoria nem fabricar código. Nenhum pacote novo.
+
+11 testes específicos PASS; flutter analyze sem problemas; regressão completa
+**485 testes PASS** com cobertura coletada. Android e CI deste contexto ainda
+não validados. Interface de busca permanece pendente em T007/T008.

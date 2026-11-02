@@ -1,10 +1,17 @@
 import '../../utils/civil_date.dart';
+import '../../utils/animal_code.dart';
 
 final class AnimalDto {
   AnimalDto(Map<String, Object?> values) : values = Map.unmodifiable(values);
   final Map<String, Object?> values;
   factory AnimalDto.fromJson(Map<String, dynamic> json) {
     final values = <String, Object?>{};
+    final code = json['animal_code'];
+    if (code != null && (code is! String || !isAnimalCode(code))) {
+      throw const FormatException('Invalid animal code');
+    }
+    // Immutable pre-migration operation replays may omit the newly added field.
+    if (json.containsKey('animal_code')) values['animal_code'] = code;
     for (final key in [
       'id',
       'name',

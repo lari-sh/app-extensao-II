@@ -1,4 +1,6 @@
 import '../../utils/app_failure.dart';
+import '../../utils/animal_code.dart';
+import '../../domain/models/managed_animal_search_filter.dart';
 import '../../utils/civil_date.dart';
 import '../../domain/models/clinical_record.dart';
 import '../models/animal_dto.dart';
@@ -21,6 +23,7 @@ class AnimalsRepositoryImpl implements AnimalsRepository {
     return PublicAnimal(
       id: data['id'] as String,
       name: data['name'] as String,
+      animalCode: data['animal_code'] as String?,
       species: AnimalSpecies.values.byName(data['species'] as String),
       sex: AnimalSex.values.byName(data['sex'] as String),
       size: AnimalSize.values.byName(data['size'] as String),
@@ -117,6 +120,41 @@ class AnimalsRepositoryImpl implements AnimalsRepository {
       cursor: page.cursor,
     ),
   );
+  @override
+  Future<Result<ManagedAnimalPage>> searchManagement(
+    ManagedAnimalSearchFilter filter, {
+    String? cursor,
+  }) async {
+    if (filter.validate().isNotEmpty || (cursor?.length ?? 0) > 2048) {
+      return Failure(AppFailure(FailureCode.validation));
+    }
+    final clean = filter.normalized;
+    return mapRepositoryResult(
+      () => service.searchManagement(
+        filters: {
+          'query': clean.query,
+          'color': clean.color,
+          if (clean.species != null) 'species': clean.species!.name,
+          if (clean.sex != null) 'sex': clean.sex!.name,
+          if (clean.size != null) 'size': clean.size!.name,
+          if (clean.status != null) 'status': clean.status!.name,
+        },
+        cursor: cursor,
+      ),
+      (page) {
+        final items = page.items.map(_managed).toList(growable: false);
+        if (items.any((item) => !isAnimalCode(item.animal.animalCode))) {
+          throw const FormatException('Missing search identity');
+        }
+        return ManagedAnimalPage(
+          items: items,
+          total: page.total,
+          cursor: page.cursor,
+        );
+      },
+    );
+  }
+
   @override
   Future<Result<ManagedAnimal>> getManagement(String id) async {
     if (!isAnimalId(id)) return Failure(AppFailure(FailureCode.notFound));

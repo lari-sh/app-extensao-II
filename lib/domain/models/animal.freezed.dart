@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PublicAnimal {
 
- String get id; String get name; AnimalSpecies get species; AnimalSex get sex; AnimalSize get size; String get approximateAge; String get publicDescription; AnimalStatus get status; bool get isPublished; bool get isVaccinated; bool get isNeutered; String? get lastDewormedOn; String? get temperament; double? get weightKg; String? get color; List<PublicVaccination> get vaccinations; String? get primaryPhotoId;
+ String get id; String get name; String? get animalCode; AnimalSpecies get species; AnimalSex get sex; AnimalSize get size; String get approximateAge; String get publicDescription; AnimalStatus get status; bool get isPublished; bool get isVaccinated; bool get isNeutered; String? get lastDewormedOn; String? get temperament; double? get weightKg; String? get color; List<PublicVaccination> get vaccinations; String? get primaryPhotoId;
 /// Create a copy of PublicAnimal
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $PublicAnimalCopyWith<PublicAnimal> get copyWith => _$PublicAnimalCopyWithImpl<P
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PublicAnimal&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.species, species) || other.species == species)&&(identical(other.sex, sex) || other.sex == sex)&&(identical(other.size, size) || other.size == size)&&(identical(other.approximateAge, approximateAge) || other.approximateAge == approximateAge)&&(identical(other.publicDescription, publicDescription) || other.publicDescription == publicDescription)&&(identical(other.status, status) || other.status == status)&&(identical(other.isPublished, isPublished) || other.isPublished == isPublished)&&(identical(other.isVaccinated, isVaccinated) || other.isVaccinated == isVaccinated)&&(identical(other.isNeutered, isNeutered) || other.isNeutered == isNeutered)&&(identical(other.lastDewormedOn, lastDewormedOn) || other.lastDewormedOn == lastDewormedOn)&&(identical(other.temperament, temperament) || other.temperament == temperament)&&(identical(other.weightKg, weightKg) || other.weightKg == weightKg)&&(identical(other.color, color) || other.color == color)&&const DeepCollectionEquality().equals(other.vaccinations, vaccinations)&&(identical(other.primaryPhotoId, primaryPhotoId) || other.primaryPhotoId == primaryPhotoId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PublicAnimal&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.animalCode, animalCode) || other.animalCode == animalCode)&&(identical(other.species, species) || other.species == species)&&(identical(other.sex, sex) || other.sex == sex)&&(identical(other.size, size) || other.size == size)&&(identical(other.approximateAge, approximateAge) || other.approximateAge == approximateAge)&&(identical(other.publicDescription, publicDescription) || other.publicDescription == publicDescription)&&(identical(other.status, status) || other.status == status)&&(identical(other.isPublished, isPublished) || other.isPublished == isPublished)&&(identical(other.isVaccinated, isVaccinated) || other.isVaccinated == isVaccinated)&&(identical(other.isNeutered, isNeutered) || other.isNeutered == isNeutered)&&(identical(other.lastDewormedOn, lastDewormedOn) || other.lastDewormedOn == lastDewormedOn)&&(identical(other.temperament, temperament) || other.temperament == temperament)&&(identical(other.weightKg, weightKg) || other.weightKg == weightKg)&&(identical(other.color, color) || other.color == color)&&const DeepCollectionEquality().equals(other.vaccinations, vaccinations)&&(identical(other.primaryPhotoId, primaryPhotoId) || other.primaryPhotoId == primaryPhotoId));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,name,species,sex,size,approximateAge,publicDescription,status,isPublished,isVaccinated,isNeutered,lastDewormedOn,temperament,weightKg,color,const DeepCollectionEquality().hash(vaccinations),primaryPhotoId);
+int get hashCode => Object.hash(runtimeType,id,name,animalCode,species,sex,size,approximateAge,publicDescription,status,isPublished,isVaccinated,isNeutered,lastDewormedOn,temperament,weightKg,color,const DeepCollectionEquality().hash(vaccinations),primaryPhotoId);
 
 @override
 String toString() {
-  return 'PublicAnimal(id: $id, name: $name, species: $species, sex: $sex, size: $size, approximateAge: $approximateAge, publicDescription: $publicDescription, status: $status, isPublished: $isPublished, isVaccinated: $isVaccinated, isNeutered: $isNeutered, lastDewormedOn: $lastDewormedOn, temperament: $temperament, weightKg: $weightKg, color: $color, vaccinations: $vaccinations, primaryPhotoId: $primaryPhotoId)';
+  return 'PublicAnimal(id: $id, name: $name, animalCode: $animalCode, species: $species, sex: $sex, size: $size, approximateAge: $approximateAge, publicDescription: $publicDescription, status: $status, isPublished: $isPublished, isVaccinated: $isVaccinated, isNeutered: $isNeutered, lastDewormedOn: $lastDewormedOn, temperament: $temperament, weightKg: $weightKg, color: $color, vaccinations: $vaccinations, primaryPhotoId: $primaryPhotoId)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $PublicAnimalCopyWith<$Res>  {
   factory $PublicAnimalCopyWith(PublicAnimal value, $Res Function(PublicAnimal) _then) = _$PublicAnimalCopyWithImpl;
 @useResult
 $Res call({
- String id, String name, AnimalSpecies species, AnimalSex sex, AnimalSize size, String approximateAge, String publicDescription, AnimalStatus status, bool isPublished, bool isVaccinated, bool isNeutered, String? lastDewormedOn, String? temperament, double? weightKg, String? color, List<PublicVaccination> vaccinations, String? primaryPhotoId
+ String id, String name, String? animalCode, AnimalSpecies species, AnimalSex sex, AnimalSize size, String approximateAge, String publicDescription, AnimalStatus status, bool isPublished, bool isVaccinated, bool isNeutered, String? lastDewormedOn, String? temperament, double? weightKg, String? color, List<PublicVaccination> vaccinations, String? primaryPhotoId
 });
 
 
@@ -62,11 +62,12 @@ class _$PublicAnimalCopyWithImpl<$Res>
 
 /// Create a copy of PublicAnimal
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? species = null,Object? sex = null,Object? size = null,Object? approximateAge = null,Object? publicDescription = null,Object? status = null,Object? isPublished = null,Object? isVaccinated = null,Object? isNeutered = null,Object? lastDewormedOn = freezed,Object? temperament = freezed,Object? weightKg = freezed,Object? color = freezed,Object? vaccinations = null,Object? primaryPhotoId = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? animalCode = freezed,Object? species = null,Object? sex = null,Object? size = null,Object? approximateAge = null,Object? publicDescription = null,Object? status = null,Object? isPublished = null,Object? isVaccinated = null,Object? isNeutered = null,Object? lastDewormedOn = freezed,Object? temperament = freezed,Object? weightKg = freezed,Object? color = freezed,Object? vaccinations = null,Object? primaryPhotoId = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,species: null == species ? _self.species : species // ignore: cast_nullable_to_non_nullable
+as String,animalCode: freezed == animalCode ? _self.animalCode : animalCode // ignore: cast_nullable_to_non_nullable
+as String?,species: null == species ? _self.species : species // ignore: cast_nullable_to_non_nullable
 as AnimalSpecies,sex: null == sex ? _self.sex : sex // ignore: cast_nullable_to_non_nullable
 as AnimalSex,size: null == size ? _self.size : size // ignore: cast_nullable_to_non_nullable
 as AnimalSize,approximateAge: null == approximateAge ? _self.approximateAge : approximateAge // ignore: cast_nullable_to_non_nullable
@@ -166,10 +167,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name,  AnimalSpecies species,  AnimalSex sex,  AnimalSize size,  String approximateAge,  String publicDescription,  AnimalStatus status,  bool isPublished,  bool isVaccinated,  bool isNeutered,  String? lastDewormedOn,  String? temperament,  double? weightKg,  String? color,  List<PublicVaccination> vaccinations,  String? primaryPhotoId)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name,  String? animalCode,  AnimalSpecies species,  AnimalSex sex,  AnimalSize size,  String approximateAge,  String publicDescription,  AnimalStatus status,  bool isPublished,  bool isVaccinated,  bool isNeutered,  String? lastDewormedOn,  String? temperament,  double? weightKg,  String? color,  List<PublicVaccination> vaccinations,  String? primaryPhotoId)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PublicAnimal() when $default != null:
-return $default(_that.id,_that.name,_that.species,_that.sex,_that.size,_that.approximateAge,_that.publicDescription,_that.status,_that.isPublished,_that.isVaccinated,_that.isNeutered,_that.lastDewormedOn,_that.temperament,_that.weightKg,_that.color,_that.vaccinations,_that.primaryPhotoId);case _:
+return $default(_that.id,_that.name,_that.animalCode,_that.species,_that.sex,_that.size,_that.approximateAge,_that.publicDescription,_that.status,_that.isPublished,_that.isVaccinated,_that.isNeutered,_that.lastDewormedOn,_that.temperament,_that.weightKg,_that.color,_that.vaccinations,_that.primaryPhotoId);case _:
   return orElse();
 
 }
@@ -187,10 +188,10 @@ return $default(_that.id,_that.name,_that.species,_that.sex,_that.size,_that.app
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name,  AnimalSpecies species,  AnimalSex sex,  AnimalSize size,  String approximateAge,  String publicDescription,  AnimalStatus status,  bool isPublished,  bool isVaccinated,  bool isNeutered,  String? lastDewormedOn,  String? temperament,  double? weightKg,  String? color,  List<PublicVaccination> vaccinations,  String? primaryPhotoId)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name,  String? animalCode,  AnimalSpecies species,  AnimalSex sex,  AnimalSize size,  String approximateAge,  String publicDescription,  AnimalStatus status,  bool isPublished,  bool isVaccinated,  bool isNeutered,  String? lastDewormedOn,  String? temperament,  double? weightKg,  String? color,  List<PublicVaccination> vaccinations,  String? primaryPhotoId)  $default,) {final _that = this;
 switch (_that) {
 case _PublicAnimal():
-return $default(_that.id,_that.name,_that.species,_that.sex,_that.size,_that.approximateAge,_that.publicDescription,_that.status,_that.isPublished,_that.isVaccinated,_that.isNeutered,_that.lastDewormedOn,_that.temperament,_that.weightKg,_that.color,_that.vaccinations,_that.primaryPhotoId);case _:
+return $default(_that.id,_that.name,_that.animalCode,_that.species,_that.sex,_that.size,_that.approximateAge,_that.publicDescription,_that.status,_that.isPublished,_that.isVaccinated,_that.isNeutered,_that.lastDewormedOn,_that.temperament,_that.weightKg,_that.color,_that.vaccinations,_that.primaryPhotoId);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -207,10 +208,10 @@ return $default(_that.id,_that.name,_that.species,_that.sex,_that.size,_that.app
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name,  AnimalSpecies species,  AnimalSex sex,  AnimalSize size,  String approximateAge,  String publicDescription,  AnimalStatus status,  bool isPublished,  bool isVaccinated,  bool isNeutered,  String? lastDewormedOn,  String? temperament,  double? weightKg,  String? color,  List<PublicVaccination> vaccinations,  String? primaryPhotoId)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name,  String? animalCode,  AnimalSpecies species,  AnimalSex sex,  AnimalSize size,  String approximateAge,  String publicDescription,  AnimalStatus status,  bool isPublished,  bool isVaccinated,  bool isNeutered,  String? lastDewormedOn,  String? temperament,  double? weightKg,  String? color,  List<PublicVaccination> vaccinations,  String? primaryPhotoId)?  $default,) {final _that = this;
 switch (_that) {
 case _PublicAnimal() when $default != null:
-return $default(_that.id,_that.name,_that.species,_that.sex,_that.size,_that.approximateAge,_that.publicDescription,_that.status,_that.isPublished,_that.isVaccinated,_that.isNeutered,_that.lastDewormedOn,_that.temperament,_that.weightKg,_that.color,_that.vaccinations,_that.primaryPhotoId);case _:
+return $default(_that.id,_that.name,_that.animalCode,_that.species,_that.sex,_that.size,_that.approximateAge,_that.publicDescription,_that.status,_that.isPublished,_that.isVaccinated,_that.isNeutered,_that.lastDewormedOn,_that.temperament,_that.weightKg,_that.color,_that.vaccinations,_that.primaryPhotoId);case _:
   return null;
 
 }
@@ -222,11 +223,12 @@ return $default(_that.id,_that.name,_that.species,_that.sex,_that.size,_that.app
 
 
 class _PublicAnimal implements PublicAnimal {
-  const _PublicAnimal({required this.id, required this.name, required this.species, required this.sex, required this.size, required this.approximateAge, this.publicDescription = '', this.status = AnimalStatus.available, this.isPublished = false, this.isVaccinated = false, this.isNeutered = false, this.lastDewormedOn, this.temperament, this.weightKg, this.color, final  List<PublicVaccination> vaccinations = const [], this.primaryPhotoId}): _vaccinations = vaccinations;
+  const _PublicAnimal({required this.id, required this.name, this.animalCode, required this.species, required this.sex, required this.size, required this.approximateAge, this.publicDescription = '', this.status = AnimalStatus.available, this.isPublished = false, this.isVaccinated = false, this.isNeutered = false, this.lastDewormedOn, this.temperament, this.weightKg, this.color, final  List<PublicVaccination> vaccinations = const [], this.primaryPhotoId}): _vaccinations = vaccinations;
   
 
 @override final  String id;
 @override final  String name;
+@override final  String? animalCode;
 @override final  AnimalSpecies species;
 @override final  AnimalSex sex;
 @override final  AnimalSize size;
@@ -259,16 +261,16 @@ _$PublicAnimalCopyWith<_PublicAnimal> get copyWith => __$PublicAnimalCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PublicAnimal&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.species, species) || other.species == species)&&(identical(other.sex, sex) || other.sex == sex)&&(identical(other.size, size) || other.size == size)&&(identical(other.approximateAge, approximateAge) || other.approximateAge == approximateAge)&&(identical(other.publicDescription, publicDescription) || other.publicDescription == publicDescription)&&(identical(other.status, status) || other.status == status)&&(identical(other.isPublished, isPublished) || other.isPublished == isPublished)&&(identical(other.isVaccinated, isVaccinated) || other.isVaccinated == isVaccinated)&&(identical(other.isNeutered, isNeutered) || other.isNeutered == isNeutered)&&(identical(other.lastDewormedOn, lastDewormedOn) || other.lastDewormedOn == lastDewormedOn)&&(identical(other.temperament, temperament) || other.temperament == temperament)&&(identical(other.weightKg, weightKg) || other.weightKg == weightKg)&&(identical(other.color, color) || other.color == color)&&const DeepCollectionEquality().equals(other._vaccinations, _vaccinations)&&(identical(other.primaryPhotoId, primaryPhotoId) || other.primaryPhotoId == primaryPhotoId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PublicAnimal&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.animalCode, animalCode) || other.animalCode == animalCode)&&(identical(other.species, species) || other.species == species)&&(identical(other.sex, sex) || other.sex == sex)&&(identical(other.size, size) || other.size == size)&&(identical(other.approximateAge, approximateAge) || other.approximateAge == approximateAge)&&(identical(other.publicDescription, publicDescription) || other.publicDescription == publicDescription)&&(identical(other.status, status) || other.status == status)&&(identical(other.isPublished, isPublished) || other.isPublished == isPublished)&&(identical(other.isVaccinated, isVaccinated) || other.isVaccinated == isVaccinated)&&(identical(other.isNeutered, isNeutered) || other.isNeutered == isNeutered)&&(identical(other.lastDewormedOn, lastDewormedOn) || other.lastDewormedOn == lastDewormedOn)&&(identical(other.temperament, temperament) || other.temperament == temperament)&&(identical(other.weightKg, weightKg) || other.weightKg == weightKg)&&(identical(other.color, color) || other.color == color)&&const DeepCollectionEquality().equals(other._vaccinations, _vaccinations)&&(identical(other.primaryPhotoId, primaryPhotoId) || other.primaryPhotoId == primaryPhotoId));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,name,species,sex,size,approximateAge,publicDescription,status,isPublished,isVaccinated,isNeutered,lastDewormedOn,temperament,weightKg,color,const DeepCollectionEquality().hash(_vaccinations),primaryPhotoId);
+int get hashCode => Object.hash(runtimeType,id,name,animalCode,species,sex,size,approximateAge,publicDescription,status,isPublished,isVaccinated,isNeutered,lastDewormedOn,temperament,weightKg,color,const DeepCollectionEquality().hash(_vaccinations),primaryPhotoId);
 
 @override
 String toString() {
-  return 'PublicAnimal(id: $id, name: $name, species: $species, sex: $sex, size: $size, approximateAge: $approximateAge, publicDescription: $publicDescription, status: $status, isPublished: $isPublished, isVaccinated: $isVaccinated, isNeutered: $isNeutered, lastDewormedOn: $lastDewormedOn, temperament: $temperament, weightKg: $weightKg, color: $color, vaccinations: $vaccinations, primaryPhotoId: $primaryPhotoId)';
+  return 'PublicAnimal(id: $id, name: $name, animalCode: $animalCode, species: $species, sex: $sex, size: $size, approximateAge: $approximateAge, publicDescription: $publicDescription, status: $status, isPublished: $isPublished, isVaccinated: $isVaccinated, isNeutered: $isNeutered, lastDewormedOn: $lastDewormedOn, temperament: $temperament, weightKg: $weightKg, color: $color, vaccinations: $vaccinations, primaryPhotoId: $primaryPhotoId)';
 }
 
 
@@ -279,7 +281,7 @@ abstract mixin class _$PublicAnimalCopyWith<$Res> implements $PublicAnimalCopyWi
   factory _$PublicAnimalCopyWith(_PublicAnimal value, $Res Function(_PublicAnimal) _then) = __$PublicAnimalCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String name, AnimalSpecies species, AnimalSex sex, AnimalSize size, String approximateAge, String publicDescription, AnimalStatus status, bool isPublished, bool isVaccinated, bool isNeutered, String? lastDewormedOn, String? temperament, double? weightKg, String? color, List<PublicVaccination> vaccinations, String? primaryPhotoId
+ String id, String name, String? animalCode, AnimalSpecies species, AnimalSex sex, AnimalSize size, String approximateAge, String publicDescription, AnimalStatus status, bool isPublished, bool isVaccinated, bool isNeutered, String? lastDewormedOn, String? temperament, double? weightKg, String? color, List<PublicVaccination> vaccinations, String? primaryPhotoId
 });
 
 
@@ -296,11 +298,12 @@ class __$PublicAnimalCopyWithImpl<$Res>
 
 /// Create a copy of PublicAnimal
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? species = null,Object? sex = null,Object? size = null,Object? approximateAge = null,Object? publicDescription = null,Object? status = null,Object? isPublished = null,Object? isVaccinated = null,Object? isNeutered = null,Object? lastDewormedOn = freezed,Object? temperament = freezed,Object? weightKg = freezed,Object? color = freezed,Object? vaccinations = null,Object? primaryPhotoId = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? animalCode = freezed,Object? species = null,Object? sex = null,Object? size = null,Object? approximateAge = null,Object? publicDescription = null,Object? status = null,Object? isPublished = null,Object? isVaccinated = null,Object? isNeutered = null,Object? lastDewormedOn = freezed,Object? temperament = freezed,Object? weightKg = freezed,Object? color = freezed,Object? vaccinations = null,Object? primaryPhotoId = freezed,}) {
   return _then(_PublicAnimal(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,species: null == species ? _self.species : species // ignore: cast_nullable_to_non_nullable
+as String,animalCode: freezed == animalCode ? _self.animalCode : animalCode // ignore: cast_nullable_to_non_nullable
+as String?,species: null == species ? _self.species : species // ignore: cast_nullable_to_non_nullable
 as AnimalSpecies,sex: null == sex ? _self.sex : sex // ignore: cast_nullable_to_non_nullable
 as AnimalSex,size: null == size ? _self.size : size // ignore: cast_nullable_to_non_nullable
 as AnimalSize,approximateAge: null == approximateAge ? _self.approximateAge : approximateAge // ignore: cast_nullable_to_non_nullable

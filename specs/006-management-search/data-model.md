@@ -36,3 +36,12 @@ A visibilidade global é calculada no VM a partir dos critérios/estado, não em
 
 Cursor: par nome/UUID, validado no servidor; mudar qualquer critério reinicia-o.
 Não contém SQL nem limita a consulta à visualização anterior.
+
+
+### Compatibilidade de operações antigas
+
+Resultados imutáveis de write_operations anteriores à migration não contêm
+animal_code. O domínio aceita código ausente somente para permitir esses replays
+legados, sem reescrever auditoria nem inventar identificadores. Quando presente,
+o código deve ser canônico; a nova busca exige código válido em todos os itens.
+Os registros atuais do servidor foram integralmente preenchidos pelo backfill.

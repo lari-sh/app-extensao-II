@@ -94,3 +94,12 @@ A documentação e tarefas acompanham cada etapa validada e os commits na develo
 Não inclui microchip, OCR/IA, pesquisa em diagnóstico/notas, múltiplos abrigos ou
 mudança do layout público. A execução foi autorizada após aprovação; progresso e evidências em validation.md.
 .specify/extensions.yml ausente: hooks before_plan/after_plan não aplicáveis.
+
+
+### Compatibilidade de operações antigas
+
+Resultados imutáveis de write_operations anteriores à migration não contêm
+animal_code. O domínio aceita código ausente somente para permitir esses replays
+legados, sem reescrever auditoria nem inventar identificadores. Quando presente,
+o código deve ser canônico; a nova busca exige código válido em todos os itens.
+Os registros atuais do servidor foram integralmente preenchidos pelo backfill.

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import '../../utils/app_failure.dart';
+import '../../utils/animal_code.dart';
 import 'service_result.dart';
 import '../../utils/result.dart';
 import '../models/animal_dto.dart';
@@ -122,6 +123,93 @@ class SupabaseAnimalsService implements AnimalsService {
       cursor: data['cursor'] == null
           ? null
           : base64Url.encode(utf8.encode(jsonEncode(data['cursor']))),
+    );
+  });
+  bool _validSearchCursor(Object? value) =>
+      value is List &&
+      value.length == 2 &&
+      value[0] is String &&
+      (value[0] as String).runes.length <= 80 &&
+      value[1] is String &&
+      RegExp(
+        r'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$',
+      ).hasMatch(value[1] as String);
+  @override
+  Future<Result<ManagedAnimalsPageDto>> searchManagement({
+    required Map<String, String> filters,
+    String? cursor,
+  }) => serviceResult(() async {
+    const allowed = {'query', 'species', 'sex', 'color', 'size', 'status'};
+    const enums = {
+      'species': ['dog', 'cat'],
+      'sex': ['female', 'male'],
+      'size': ['small', 'medium', 'large'],
+      'status': ['available', 'treatment', 'quarantine', 'adopted'],
+    };
+    if (filters.keys.any((key) => !allowed.contains(key)) ||
+        [
+          'query',
+          'color',
+        ].any((key) => (filters[key]?.trim().runes.length ?? 0) > 80) ||
+        enums.entries.any(
+          (entry) =>
+              filters[entry.key] != null &&
+              !entry.value.contains(filters[entry.key]),
+        )) {
+      throw const ServiceFailure(FailureCode.validation);
+    }
+    Object? after;
+    if (cursor != null) {
+      if (cursor.length > 2048) {
+        throw const ServiceFailure(FailureCode.validation);
+      }
+      after = jsonDecode(
+        utf8.decode(base64Url.decode(base64Url.normalize(cursor))),
+      );
+      if (!_validSearchCursor(after)) {
+        throw const ServiceFailure(FailureCode.validation);
+      }
+    }
+    final params = <String, Object?>{'p_cursor': after};
+    for (final key in allowed) {
+      final value = filters[key]?.trim();
+      params['p_$key'] = value == null || value.isEmpty ? null : value;
+    }
+    final raw = await client.rpc('search_managed_animals', params: params);
+    if (raw is! Map ||
+        raw['items'] is! List ||
+        raw['total'] is! int ||
+        (raw['total'] as int) < 0) {
+      throw const FormatException('Invalid search page');
+    }
+    final rows = raw['items'] as List;
+    if (rows.length > 25 ||
+        (raw['total'] as int) < rows.length ||
+        (raw['cursor'] != null && !_validSearchCursor(raw['cursor']))) {
+      throw const FormatException('Invalid search pagination');
+    }
+    final items = rows
+        .map((row) {
+          if (row is! Map) throw const FormatException('Invalid search row');
+          final item = ManagedAnimalDto.fromJson(
+            Map<String, dynamic>.from(row),
+          );
+          if (!isAnimalCode(item.animal.values['animal_code'] as String?)) {
+            throw const FormatException('Missing search identity');
+          }
+          return item;
+        })
+        .toList(growable: false);
+    if (items.map((item) => item.animal.values['id']).toSet().length !=
+        items.length) {
+      throw const FormatException('Duplicate search identity');
+    }
+    return ManagedAnimalsPageDto(
+      items: items,
+      total: raw['total'] as int,
+      cursor: raw['cursor'] == null
+          ? null
+          : base64Url.encode(utf8.encode(jsonEncode(raw['cursor']))),
     );
   });
   @override

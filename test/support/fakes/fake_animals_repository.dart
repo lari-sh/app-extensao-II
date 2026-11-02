@@ -1,4 +1,5 @@
 import 'fake_behavior.dart';
+import 'package:abrigo_dos_anjos/domain/models/managed_animal_search_filter.dart';
 import 'package:abrigo_dos_anjos/domain/repositories/animals_repository.dart';
 import 'package:abrigo_dos_anjos/utils/result.dart';
 import 'package:abrigo_dos_anjos/domain/models/animal.dart';
@@ -20,6 +21,11 @@ class FakeAnimalsRepository extends FakeBehavior implements AnimalsRepository {
     AnimalStatus? status,
     String? cursor,
   }) => invoke<ManagedAnimalPage>('listManagement', [status, cursor]);
+  @override
+  Future<Result<ManagedAnimalPage>> searchManagement(
+    ManagedAnimalSearchFilter filter, {
+    String? cursor,
+  }) => invoke<ManagedAnimalPage>('searchManagement', [filter, cursor]);
   @override
   Future<Result<ManagedAnimal>> getManagement(String id) =>
       invoke<ManagedAnimal>('getManagement', [id]);

@@ -40,3 +40,12 @@ foto/nome/código/características/situação/publicação/Abrir ficha. Vazio, l
 erro/retry e mais. Limpar tudo restaura modo/data/coluna/rolagem; limpar só texto
 mantém filtros. Critérios não são resetados ao trocar o modo. Retorno à esquerda.
 Protótipo simula dados em memória, sem comprovar backfill, RPC ou autorização reais.
+
+
+### Compatibilidade de operações antigas
+
+Resultados imutáveis de write_operations anteriores à migration não contêm
+animal_code. O domínio aceita código ausente somente para permitir esses replays
+legados, sem reescrever auditoria nem inventar identificadores. Quando presente,
+o código deve ser canônico; a nova busca exige código válido em todos os itens.
+Os registros atuais do servidor foram integralmente preenchidos pelo backfill.

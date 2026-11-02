@@ -15,6 +15,7 @@ abstract class PublicAnimal with _$PublicAnimal {
   const factory PublicAnimal({
     required String id,
     required String name,
+    String? animalCode,
     required AnimalSpecies species,
     required AnimalSex sex,
     required AnimalSize size,
