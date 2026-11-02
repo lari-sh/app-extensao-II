@@ -192,3 +192,17 @@ Verificação ponta a ponta aprovada na
 [CI 41293728173](https://github.com/lari-sh/app-extensao-II/actions/runs/41293728173):
 272 testes Flutter, 256 SQL, 12 de funções HTTP e sete jornadas Android. O fluxo
 nativo de fotos também passou localmente. Resta a validação iOS em Mac/Xcode.
+
+
+### Equipe por convite (desenvolvimento)
+
+Administradores verificados acessam **Equipe** no painel para convidar pessoas
+como funcionário ou administrador, gerenciar convites e alterar/desativar acessos.
+Cada destinatário define sua própria senha pelo e-mail e confirma o convite antes
+de entrar. Funcionário continua com manejo de animais e medicações, sem gestão
+de equipe. O primeiro administrador segue provisionamento técnico; não existe
+cadastro público de administrador. A implantação real exige SMTP configurado.
+
+Fluxo Android de convite/aceite com e-mail local integrado aos testes; roteiro e
+resultados em `specs/005-auth-team-access/quickstart.md` e `validation.md`.
+Permanecer logado e recuperação de senha continuam tarefas separadas da feature.

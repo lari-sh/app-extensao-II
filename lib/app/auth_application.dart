@@ -1,3 +1,4 @@
+import '../ui/features/auth/view_models/auth_callback_view_model.dart';
 import 'package:flutter/material.dart';
 import '../ui/features/auth/view_models/session_view_model.dart';
 import 'abrigo_app.dart';
@@ -32,7 +33,9 @@ class AuthApplication extends StatefulWidget {
     super.key,
     required this.session,
     required this.router,
+    this.callbacks,
   });
+  final AuthCallbackViewModel? callbacks;
   final SessionViewModel session;
   final AppRouter router;
   @override
@@ -49,7 +52,23 @@ class _AuthApplicationState extends State<AuthApplication>
     super.initState();
     _generation = widget.session.state.privateGeneration;
     widget.session.addListener(_changed);
+    widget.callbacks?.addListener(_callback);
+    WidgetsBinding.instance.addPostFrameCallback((_) => _callback());
     WidgetsBinding.instance.addObserver(this);
+  }
+
+  void _callback() {
+    final route = widget.callbacks?.takeRoute();
+    if (route == null) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _navigator.currentState?.pushNamedAndRemoveUntil(
+          route,
+          (r) => r.isFirst,
+        );
+      }
+    });
+    WidgetsBinding.instance.ensureVisualUpdate();
   }
 
   void _changed() {
@@ -67,6 +86,8 @@ class _AuthApplicationState extends State<AuthApplication>
           in _observer.routes
               .where(
                 (route) => const {
+                  '/team',
+                  '/team-invite',
                   '/volunteer',
                   '/animal-editor',
                   '/animal-management',
@@ -90,6 +111,7 @@ class _AuthApplicationState extends State<AuthApplication>
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     widget.session.removeListener(_changed);
+    widget.callbacks?.removeListener(_callback);
     super.dispose();
   }
 

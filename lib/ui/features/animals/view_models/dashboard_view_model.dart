@@ -35,9 +35,12 @@ class DashboardViewModel extends ChangeNotifier {
     required this.isAuthorized,
     this.authorize,
     this.onCalendarSelected,
+    this.canManageTeam,
     this.accessEpoch,
     Future<void> Function(Duration)? delay,
   }) : delay = delay ?? Future<void>.delayed;
+  final bool Function()? canManageTeam;
+  bool get showTeam => canManage && canManageTeam?.call() == true;
   final AnimalsRepository repository;
   final Future<void> Function()? onCalendarSelected;
   bool get isCalendar => state.mode == DashboardMode.calendar;

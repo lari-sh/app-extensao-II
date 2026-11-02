@@ -1,3 +1,7 @@
+import '../data/services/supabase_auth_callback_service.dart';
+import '../ui/features/auth/view_models/auth_callback_view_model.dart';
+import '../data/services/supabase_team_service.dart';
+import '../data/repositories/team_repository_impl.dart';
 import '../data/repositories/adoption_contact_repository_impl.dart';
 import '../data/services/url_launcher_link_service.dart';
 import '../domain/repositories/medications_repository.dart';
@@ -38,6 +42,7 @@ import 'app_router.dart';
 import 'app_dependencies.dart';
 
 Widget createPublicApplication(SupabaseClient client) {
+  final callbacks = AuthCallbackViewModel(SupabaseAuthCallbackService.instance);
   final authService = SupabaseAuthService(client);
   final auth = AuthRepositoryImpl(authService);
   final session = SessionViewModel(auth);
@@ -79,9 +84,14 @@ Widget createPublicApplication(SupabaseClient client) {
     adoption: adoption,
     medications: medications,
     contacts: AdoptionContactRepositoryImpl(UrlLauncherLinkService()),
+    team: TeamRepositoryImpl(SupabaseTeamService(client)),
   );
   return const AppDependencies().provide(
     registrations: [
+      ChangeNotifierProvider<AuthCallbackViewModel>(
+        create: (_) => callbacks,
+        lazy: false,
+      ),
       Provider<AuthService>.value(value: authService),
       Provider<AuthRepository>.value(value: auth),
       ChangeNotifierProvider<SessionViewModel>(
@@ -104,6 +114,10 @@ Widget createPublicApplication(SupabaseClient client) {
       Provider<PhotoRepository>.value(value: photos),
       Provider<AdoptionMessageRepository>.value(value: adoption),
     ],
-    child: AuthApplication(session: session, router: router),
+    child: AuthApplication(
+      session: session,
+      router: router,
+      callbacks: callbacks,
+    ),
   );
 }

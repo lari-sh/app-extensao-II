@@ -163,6 +163,18 @@ class _DashboardScreenState extends State<DashboardScreen>
                 ],
               ),
             ),
+            if (viewModel.showTeam)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: () => Navigator.pushNamed(context, '/team'),
+                    icon: const Icon(Icons.group_outlined),
+                    label: const Text('Equipe'),
+                  ),
+                ),
+              ),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
               child: Row(

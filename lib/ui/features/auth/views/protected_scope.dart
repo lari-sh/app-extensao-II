@@ -1,3 +1,4 @@
+import '../../../core/widgets/app_back_button.dart';
 import 'package:flutter/material.dart';
 import '../view_models/session_view_model.dart';
 import '../view_models/login_view_model.dart';
@@ -10,7 +11,9 @@ class ProtectedScope extends StatefulWidget {
     required this.session,
     required this.login,
     required this.privateBuilder,
+    this.requireTeamAdministrator = false,
   });
+  final bool requireTeamAdministrator;
   final SessionViewModel session;
   final LoginViewModel login;
   final Widget Function() privateBuilder;
@@ -30,7 +33,9 @@ class _ProtectedScopeState extends State<ProtectedScope> {
     if (!state.canAccessPrivate && !state.retainPrivate) {
       _privateContent = null;
     }
-    if (state.canAccessPrivate && _privateContent == null) {
+    if (state.canAccessPrivate &&
+        (!widget.requireTeamAdministrator || state.canManageTeam) &&
+        _privateContent == null) {
       _privateContent = KeyedSubtree(
         key: ValueKey(_generation),
         child: widget.privateBuilder(),
@@ -73,6 +78,22 @@ class _ProtectedScopeState extends State<ProtectedScope> {
     child: Stack(
       fit: StackFit.expand,
       children: [
+        if (widget.requireTeamAdministrator &&
+            widget.session.state.canAccessPrivate &&
+            !widget.session.state.canManageTeam)
+          Scaffold(
+            appBar: AppBar(
+              leading: const AppBackButton(),
+              title: const Text('Equipe'),
+            ),
+            body: const SafeArea(
+              child: Center(
+                child: Text(
+                  'Somente administradores podem gerenciar a equipe.',
+                ),
+              ),
+            ),
+          ),
         if (_privateContent != null)
           Offstage(
             offstage: widget.session.state.hidePrivate,

@@ -1,3 +1,9 @@
+import '../domain/repositories/team_repository.dart';
+import '../ui/features/team/view_models/team_view_model.dart';
+import '../ui/features/team/view_models/accept_invitation_view_model.dart';
+import '../ui/features/team/views/team_screen.dart';
+import '../ui/features/team/views/invite_member_screen.dart';
+import '../ui/features/team/views/accept_invitation_screen.dart';
 import '../domain/repositories/adoption_contact_repository.dart';
 import '../ui/features/adoption/view_models/adoption_contact_view_model.dart';
 import '../ui/features/adoption/views/adoption_contact_screen.dart';
@@ -49,7 +55,9 @@ class AppRouter {
     this.recovery,
     this.medications,
     this.contacts,
+    this.team,
   });
+  final TeamRepository? team;
   final AdoptionContactRepository? contacts;
   final MedicationsRepository? medications;
   final PhotoRecoveryViewModel? recovery;
@@ -76,6 +84,23 @@ class AppRouter {
       case '/':
         final vm = HomeViewModel();
         return _page(settings, vm, HomeScreen(viewModel: vm, session: session));
+      case '/accept-invitation':
+        if (team == null || auth == null) {
+          return MaterialPageRoute(
+            builder: (_) => const Scaffold(
+              body: Center(child: Text('Convite indisponível.')),
+            ),
+          );
+        }
+        final accepting = AcceptInvitationViewModel(team!, auth!);
+        accepting.load();
+        return _page(
+          settings,
+          accepting,
+          AcceptInvitationScreen(viewModel: accepting),
+        );
+      case '/team':
+      case '/team-invite':
       case '/login':
       case '/volunteer':
       case '/animal-editor':
@@ -110,6 +135,8 @@ class AppRouter {
           ProtectedScope(
             session: access,
             login: vm,
+            requireTeamAdministrator:
+                settings.name == '/team' || settings.name == '/team-invite',
             privateBuilder: () {
               Future<bool>? accessCheck;
               Future<bool> authorize() {
@@ -117,6 +144,49 @@ class AppRouter {
                   await access.revalidate();
                   return access.state.canAccessPrivate;
                 })().whenComplete(() => accessCheck = null);
+              }
+
+              if (settings.name == '/team' || settings.name == '/team-invite') {
+                if (team == null) {
+                  return const Scaffold(
+                    body: Center(child: Text('Equipe indisponível.')),
+                  );
+                }
+                String contextKey() =>
+                    '${access.state.userId}:${access.state.privateGeneration}';
+                Future<bool> authorizeTeam() async {
+                  await access.revalidate();
+                  return access.state.canManageTeam;
+                }
+
+                if (settings.name == '/team-invite') {
+                  final invite = InviteMemberViewModel(
+                    team!,
+                    canManage: () => access.state.canManageTeam,
+                    authorize: authorizeTeam,
+                    contextKey: contextKey,
+                  );
+                  return ChangeNotifierProvider(
+                    create: (_) => invite,
+                    lazy: false,
+                    child: InviteMemberScreen(viewModel: invite),
+                  );
+                }
+                final listing = TeamViewModel(
+                  team!,
+                  canManage: () => access.state.canManageTeam,
+                  authorize: authorizeTeam,
+                  contextKey: contextKey,
+                  currentUserId: () => access.state.userId,
+                );
+                WidgetsBinding.instance.addPostFrameCallback(
+                  (_) => listing.load(),
+                );
+                return ChangeNotifierProvider(
+                  create: (_) => listing,
+                  lazy: false,
+                  child: TeamScreen(viewModel: listing),
+                );
               }
 
               MedicationEditorViewModel createMedicationEditor() {
@@ -313,6 +383,7 @@ class AppRouter {
                   accessEpoch: () => access.state.accessEpoch,
                   authorize: authorize,
                   onCalendarSelected: calendar?.initialize,
+                  canManageTeam: () => access.state.canManageTeam,
                 );
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   listing.load();

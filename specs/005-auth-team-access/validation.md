@@ -95,25 +95,79 @@ esta etapa implementa o contrato e as regras que essas funcionalidades usarão.
 Android e CI remota do novo código ainda não confirmados nesta etapa.
 
 
-## Backend de convites e aceite � 2026-11-02
+## Backend de convites e aceite — 2026-11-02
 
 Migration 202611010017 aplicada sem reset e sem promover contas existentes.
-Envio/reenvio usa Function com identidade verificada, reserva dur�vel, gera��o,
-cooldown, quota e reconcilia��o sem segundo envio autom�tico em timeout.
-Cancelamento/aceite s�o transacionais, com recibo idempotente e auditoria.
-O aceite exige senha definida ap�s confirma��o; a credencial aleat�ria criada
-pelo pr�prio Auth na verifica��o n�o concede acesso. A refer�ncia fica privada.
+Envio/reenvio usa Function com identidade verificada, reserva durável, geração,
+cooldown, quota e reconciliação sem segundo envio automático em timeout.
+Cancelamento/aceite são transacionais, com recibo idempotente e auditoria.
+O aceite exige senha definida após confirmação; a credencial aleatória criada
+pelo próprio Auth na verificação não concede acesso. A referência fica privada.
 
-Regress�o SQL: 14 arquivos, 337 testes PASS. Handler: 7 testes Deno PASS.
-Jornada HTTP real local PASS: e-mail Mailpit, callback, senha m�nima, aceite/replay,
-funcion�rio sem gest�o, role forjada, reenvio/link antigo, cancelamento e corrida
-aceite/cancelamento. Somente fixtures pr�prias @example.test; limpeza por prefixo
-�nico, preservando os dados do usu�rio. Nova jornada adicionada ao job backend.
+Regressão SQL: 14 arquivos, 337 testes PASS. Handler: 7 testes Deno PASS.
+Jornada HTTP real local PASS: e-mail Mailpit, callback, senha mínima, aceite/replay,
+funcionário sem gestão, role forjada, reenvio/link antigo, cancelamento e corrida
+aceite/cancelamento. Somente fixtures próprias @example.test; limpeza por prefixo
+único, preservando os dados do usuário. Nova jornada adicionada ao job backend.
 Telas Flutter, Android e CI remota desta etapa ainda pendentes.
 
-## T009 � camada de dados Flutter
+## T009 — camada de dados Flutter
 
 Modelos Freezed, contrato TeamRepository e Service Supabase isolado implementados.
-10 novos testes de Service/Repository PASS: pagina��o, imutabilidade, perfil
-desconhecido, resposta inv�lida, identidade normalizada, versionamento e erros
-seguros em portugu�s. Analyze sem problemas. Interface e Android pendentes.
+10 novos testes de Service/Repository PASS: paginação, imutabilidade, perfil
+desconhecido, resposta inválida, identidade normalizada, versionamento e erros
+seguros em português. Analyze sem problemas. Interface e Android pendentes.
+
+
+## Telas de equipe e aceite — 2026-11-02
+
+Equipe (ativos/convites/inativos), formulário de convite, alteração de perfil,
+desativação/reativação e aceite implementados no Flutter com ViewModels e estados
+Freezed. Entrada Equipe somente para administrador. A guarda protege também rota
+direta e descarta o conteúdo ao trocar de perfil. Voltar permanece à esquerda.
+Reenvio/cancelamento usam versão e recibos; envio incerto bloqueia nova submissão
+até reconciliação com a mesma chave. Aceite define senha e encerra sessão antes
+do login normal. Callback permite somente scheme/host/path próprios de convite;
+URI e credenciais não atravessam o Service. Recovery continua etapa separada.
+
+Android real PASS (20 s após instalar): login administrador, equipe, convite pela
+interface, e-mail Mailpit, intent VIEW genuíno, definição de senha, aceite, login
+funcionário, manejo e rota direta de equipe negada. Conta/convite com prefixo único
+@example.test, sem alterar usuários/animais existentes. Emulador teve system_server
+zumbi e erro Broken pipe na instalação inicial; foi reaberto sem apagar dados e
+a jornada completa passou. Links iOS configurados, execução iOS ainda pendente.
+Nova jornada adicionada à CI preservando as sete anteriores. CI 41382654913 do
+commit d92b340 falhou em formato, antes do backend; formato corrigido nesta etapa.
+CI remota das telas e link com processo encerrado ainda a confirmar.
+
+
+## Medição solicitada — 2026-11-02
+
+`flutter test --no-pub --coverage`: 298 testes PASS, 54 s.
+LCOV: 5.295/6.143 linhas instrumentadas (86,20%), em 89 arquivos de produção;
+arquivos gerados excluídos (não constavam no LCOV desta execução).
+Recorte equipe/convites/callbacks: 501/680 linhas (73,68%), 11 arquivos.
+SQL, Deno e Android são evidências adicionais, sem compor esse percentual.
+Medição intermediária antes dos últimos ajustes visuais e dois novos casos de
+texto ampliado/reconciliação de senha; será repetida no fechamento desta etapa.
+
+
+## Fechamento da etapa de convites — 2026-11-02
+
+Após os ajustes finais, `flutter test --no-pub --coverage`: **300 testes PASS**,
+44 s; **86.39%** (5331/6171 linhas), 89 arquivos.
+Equipe/convites/callbacks: **75.85%** (537/708), 11 arquivos.
+Métrica de linhas LCOV de produção instrumentada, sem código gerado; não é
+cobertura de branches nem percentual de jornadas ponta a ponta. As jornadas
+Android e os testes SQL/Deno não entram no cálculo. Ainda existem caminhos de
+erro/reconciliação sem teste de linhas.
+
+Texto ampliado 1,8x em 320 px nas três telas PASS. Resposta perdida na definição
+de senha reconciliada com prova do servidor, sem nova escrita de senha: PASS.
+Análise sem problemas e formato: 252 arquivos, nenhuma mudança necessária.
+Android repetido com layout final: convite/intent/aceite/login funcionário/rota
+restrita PASS, 18 s após instalação. Repetição usa novo destinatário único,
+sem depender de conta já aceita em execução anterior.
+
+Checkbox de persistência, recuperação de senha, cold-start ampliado e iOS seguem
+pendentes nas tarefas próprias. CI remota da nova interface ainda não confirmada.

@@ -1,3 +1,4 @@
+import '../data/services/supabase_auth_callback_service.dart';
 import 'public_dependencies.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +17,12 @@ Future<Result<SupabaseClient>> initializeBackend(AppConfig config) async {
     await Supabase.initialize(
       url: config.url.toString(),
       publishableKey: config.publishableKey,
+      authOptions: FlutterAuthClientOptions(
+        detectSessionInUriPredicate:
+            SupabaseAuthCallbackService.instance.capture,
+      ),
     );
+    SupabaseAuthCallbackService.instance.start(Supabase.instance.client);
     return Success(Supabase.instance.client);
   } catch (_) {
     return Failure(AppFailure(FailureCode.configuration));

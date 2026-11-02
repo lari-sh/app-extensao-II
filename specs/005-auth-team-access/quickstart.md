@@ -54,3 +54,14 @@ procedimento de operação/produção.
    equipe/recuperação. Registrar execução/SHA/artifact reais em validation.md.
 8. iOS requer Mac/Xcode e aparelho/galeria/links próprios; registrar pendência
    externa quando indisponível. SMTP produtivo validado separadamente.
+
+
+### Jornada Android de equipe
+
+Inicie `python supabase/tests/fixtures/android_team_control.py` com o Supabase local
+ativo e `.env.local` de fixtures. O controlador escuta somente 127.0.0.1:58764,
+cria administradores exclusivos de teste e lê somente e-mail local Mailpit.
+Execute `integration_test/team_access_flow_test.dart` no emulador com a mesma
+configuração pública local das demais jornadas. Não imprima `/credentials`.
+Ao terminar, POST `/cleanup` remove somente o prefixo exclusivo desta execução.
+A CI prepara e limpa o controlador automaticamente junto das sete jornadas antigas.
