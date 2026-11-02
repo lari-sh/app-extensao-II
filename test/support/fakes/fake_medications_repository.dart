@@ -34,11 +34,7 @@ class FakeMedicationsRepository extends FakeBehavior
     String day, {
     String? cursor,
     ManagedAnimalSearchFilter? filter,
-  }) => invoke<MedicationDayPage>('loadDay', [
-    day,
-    cursor,
-    ?filter,
-  ]);
+  }) => invoke<MedicationDayPage>('loadDay', [day, cursor, ?filter]);
   @override
   Future<Result<MedicationHistoryPage>> loadApplicationHistory(
     String applicationId, {

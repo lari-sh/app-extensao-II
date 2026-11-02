@@ -215,3 +215,10 @@ sessão/dia/versão e critérios. Endpoint original preservado para agenda sem b
 12 SQL e 26 Flutter específicos/regressão PASS. Sem reset de dados. VM preserva
 o filtro entre dias e limpar restaura a agenda da mesma data. Integração visual
 e ampliação dos testes ainda pendentes.
+
+### CI 41546000590 — correção de formato
+
+O commit 847c70e falhou no gate dart format: três arquivos de Service/fakes
+haviam sido alterados por dart fix após a formatação. Backend/Android não
+executaram. Arquivos formatados novamente, com verificação sem alterações;
+correção de estilo separada da integração visual em andamento.

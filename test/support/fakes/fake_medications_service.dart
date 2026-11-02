@@ -35,11 +35,7 @@ class FakeMedicationsService extends FakeBehavior
     String day, {
     String? cursor,
     Map<String, String>? filter,
-  }) => invoke<MedicationDto>('loadDay', [
-    day,
-    cursor,
-    ?filter,
-  ]);
+  }) => invoke<MedicationDto>('loadDay', [day, cursor, ?filter]);
   @override
   Future<Result<MedicationDto>> loadApplicationHistory(
     String applicationId, {

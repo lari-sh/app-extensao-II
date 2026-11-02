@@ -73,11 +73,7 @@ final class SupabaseMedicationsService implements MedicationsService {
       MedicationResponseType.day,
       await client.rpc(
         filter == null ? 'list_medication_day' : 'search_medication_day',
-        params: {
-          'p_day': day,
-          'p_cursor': cursor,
-          'p_filter': ?filter,
-        },
+        params: {'p_day': day, 'p_cursor': cursor, 'p_filter': ?filter},
       ),
     ),
   );

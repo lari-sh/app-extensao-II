@@ -317,8 +317,9 @@ void main() {
       var animal = fixtureAnimal(1);
       final repo = FakeAnimalsRepository()
         ..handler = (method, args) async {
-          if (method == 'getManagement')
+          if (method == 'getManagement') {
             return Success(ManagedAnimal(animal: animal));
+          }
           animal = animal.copyWith(status: args[1] as AnimalStatus);
           return Success(animal);
         };
