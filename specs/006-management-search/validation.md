@@ -61,3 +61,12 @@ reescrever auditoria nem fabricar código. Nenhum pacote novo.
 11 testes específicos PASS; flutter analyze sem problemas; regressão completa
 **485 testes PASS** com cobertura coletada. Android e CI deste contexto ainda
 não validados. Interface de busca permanece pendente em T007/T008.
+
+## T007 — ViewModel da busca — 2026-11-02
+
+Estado Freezed, debounce 300 ms/submit imediato, cinco filtros com rascunho,
+aplicar/cancelar/limpar e chips. Paginação e fotos respeitam geração, contexto
+privado, acesso e dispose; dados tardios são descartados e erros saneados.
+O VM não altera modo/data do dashboard. Oito testes específicos PASS cobrindo
+concorrência, perda de acesso, fotos e paginação; analyze sem problemas.
+Integração visual, Android, cobertura final e CI permanecem pendentes.
