@@ -385,3 +385,15 @@ completa dos 441 testes, sem publicar percentual LCOV próprio nos logs.
 O APK normal também foi reinstalado/aberto no emulador local após o teste focado.
 Esta seção encerra a revisão da CI das alterações de código acima; não marca como
 concluídos persistência de sessão, recuperação de senha ou validação iOS pendentes.
+
+
+## T017 — armazenamento de sessão — 2026-11-02
+
+Adaptador LocalStorage serializado, separado do armazenamento PKCE do SDK.
+9 testes PASS: escolha marcada/desmarcada, restauração após recriação, limpeza de
+legado, erro de preferência/gravação, login antigo invalidado por logout/nova
+escolha e refresh concorrente. Teste com o armazenamento PKCE real do SDK e
+preferências em memória confirma que limpar a sessão preserva o verificador.
+Sessão só é confirmada como persistente após escrita durável; falha retorna
+Result e mantém o adaptador fechado. Analyze sem problemas. Integração de UI e
+validação Android continuam pendentes nas tarefas T018/T019.

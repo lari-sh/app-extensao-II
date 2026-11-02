@@ -33,7 +33,7 @@ contracts/team-access.md. Proposta não equivale a implementação nem aprovaç�
 
 ## US3 — Permanecer logado
 
-- [ ] T017 [US3] Testar adaptador SessionStorageService: marcado/desmarcado, falha de escrita, restauração, cleanup, concorrência e preservação do verificador PKCE sem salvar senha. [005-FR-010]
+- [x] T017 [US3] Testar adaptador SessionStorageService: marcado/desmarcado, falha de escrita, restauração, cleanup, concorrência e preservação do verificador PKCE sem salvar senha. [005-FR-010]
 - [ ] T018 [US3] Implementar adaptador LocalStorage e preferência nos Services, mediar por AuthRepository, injetar no bootstrap e propagar escolha via LoginViewModel; unitários de Repository/VM. [005-FR-010, 005-CR-001]
 - [ ] T019 [US3] Habilitar checkbox existente preservando layout e testar Widget, login, logout e opções durante busy; validar kill/relaunch Android nos dois modos e revogação de equipe. [005-FR-010, 005-FR-013]
 
