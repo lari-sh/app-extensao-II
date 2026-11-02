@@ -294,3 +294,8 @@ liberar manejo. Painel real integra calendário, atualização ao retomar o app 
 entrada Equipe; editor novo/existente integra medicações e descarta conteúdo
 quando backend/evento concordam com a revogação. Analyze sem problemas.
 Medição anterior a esta etapa: 93,45%, 420 testes PASS, mesma base de 6.171 linhas.
+
+
+Correção do gate da etapa de callbacks: a primeira análise apontou somente um
+import redundante de dart:async no teste. Import removido e análise repetida;
+o aviso não afetava os testes funcionais, mas impedia considerar o gate limpo.
