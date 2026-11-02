@@ -52,3 +52,25 @@ A aprovação do usuário ainda é necessária e não foi presumida.
 Equipe, Convidar pessoa, Aceitar convite, Recuperar acesso e Nova senha. T003
 concluída; novas Views liberadas após backend/contratos/testes necessários.
 A aprovação não equivale a validação de implementação ou envio de e-mails.
+
+## T004/T005 — fundação de autorização
+
+Testes escritos antes da migration: execução inicial falhou pela ausência de role.
+Migration 202611010016 aplicada atomicamente apenas ao banco local existente, sem
+reset/downgrade/remoção de cadastros, e registrada no histórico local pelo CLI.
+37 casos pgTAP novos aprovados: empregado/visitante negados, metadados não elevam
+perfil, bootstrap restrito e pendente, versionamento/replay, auditoria única,
+último administrador protegido e perda de capacidade com sessão ainda válida.
+
+team_foundation_flow.py provou concorrência real: dois administradores aguardam
+no mesmo lock; um altera o outro; o segundo perde a autorização ao adquirir lock
+após o primeiro commit. Uma alteração, um administrador e um evento permanecem.
+Fixtures removidas pelo harness, sem tocar em animais/medicações do usuário.
+Nova jornada de fundação acrescentada ao job backend da CI.
+
+Regressão local de banco: 13 arquivos, 293 testes PASS após isolar fixtures antigas
+de medicação que presumiam banco vazio. Essa correção foi commitada separadamente.
+PostgreSQL ainda não concedeu papel administrador a nenhuma conta existente.
+T005 entrega estrutura e reserva técnica; envio/aceite de e-mail ainda pendentes.
+T006/Flutter, convites, telas, persistência e recuperação ainda não implementados.
+CI remota desta nova fundação não confirmada nesta etapa.

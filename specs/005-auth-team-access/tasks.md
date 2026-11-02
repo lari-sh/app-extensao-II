@@ -11,8 +11,8 @@ contracts/team-access.md. Proposta não equivale a implementação nem aprovaç�
 
 ## Fundação de autorização
 
-- [ ] T004 Escrever supabase/tests/database/team_access.test.sql: visitante/funcionário negados, backfill employee, bootstrap restrito, último admin e concorrência/versionamento. [005-FR-001, 005-FR-002, 005-FR-007]
-- [ ] T005 Implementar migration seguinte com roles, convites, operações, auditoria, RLS e access_context; escrever roteiro técnico de bootstrap em quickstart.md, sem endpoint público. [005-FR-001, 005-FR-002, 005-FR-008]
+- [x] T004 Escrever supabase/tests/database/team_access.test.sql: visitante/funcionário negados, backfill employee, bootstrap restrito, último admin e concorrência/versionamento. 37 casos e corrida real em team_foundation_flow.py aprovados localmente. [005-FR-001, 005-FR-002, 005-FR-007]
+- [x] T005 Implementar migration seguinte com roles, convites, operações, auditoria, RLS e access_context; escrever roteiro técnico de bootstrap em quickstart.md, sem endpoint público. Migration 202611010016 aplicada localmente sem reset; bootstrap reserva convite, não envia e-mail nem ativa vínculo antes das etapas de aceite. [005-FR-001, 005-FR-002, 005-FR-008]
 - [ ] T006 Atualizar lib/domain/models/session_access.dart, Services/Repository de auth e SessionViewModel; testar perda de capacidade após rebaixamento/revogação em test/data/ e test/ui/features/auth/. [005-FR-001, 005-FR-008]
 
 ## US1 — equipe e convites

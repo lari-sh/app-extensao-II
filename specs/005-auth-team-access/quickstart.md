@@ -2,6 +2,35 @@
 
 Estado atual: apenas planejamento e protótipo; os passos abaixo ainda não passaram.
 
+## Fundação implementada — bootstrap técnico
+
+Migration 202611010016 acrescenta perfis sem promover membros existentes; todos
+continuam employee. O primeiro administrador não é criado automaticamente e a
+reserva sozinha não concede manejo. Esta fundação ainda não envia convites.
+
+Após implementar envio/aceite (T008/T014), o operador deve usar ambiente confiável:
+
+1. Criar usuário Auth não confirmado com Admin API, sem compartilhar senha.
+2. Por conexão SQL privilegiada, chamar
+   `private.bootstrap_team_administrator(user_id, email, display_name)` com o ID
+   retornado pelo Auth e e-mail idêntico. A função não é um endpoint público e
+   anon/authenticated não têm EXECUTE. Reserva única, prazo de 1 hora, auditoria.
+3. Enviar convite Auth para esse usuário ainda não confirmado. A pessoa define
+   sua senha pelo fluxo de aceite antes de ativar o vínculo reservado.
+4. Se o envio falhar ou expirar, reconciliar/reemitir pela operação técnica
+   prevista na etapa de envio, mantendo o mesmo destinatário e nova geração.
+   Nunca promover alguém via user_metadata nem remover o ledger de bootstrap
+   para tentar novamente. Não aplicar este roteiro incompleto em produção.
+
+Para validar somente a fundação local, sem reset ou usuários reais:
+`supabase test db` e `python supabase/tests/fixtures/team_foundation_flow.py`.
+O harness exige ALLOW_LOCAL_FIXTURES=true/URL local, usa contas próprias e remove
+apenas suas fixtures. A desativação temporária do trigger na limpeza ocorre
+dentro de lock exclusivo e transação, reabilitada antes do commit; não é um
+procedimento de operação/produção.
+
+## Jornadas restantes
+
 1. Ambiente local separado ou fixtures dedicadas, preservando cadastros manuais.
    Provisionar dois administradores, um funcionário e um destinatário novo.
    Nunca aplicar bootstrap/migration diretamente em produção sem etapa própria.
