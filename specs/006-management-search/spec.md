@@ -72,3 +72,18 @@ Limpar tudo restaura o modo/data/rolagem anteriores; não redefine a agenda.
 9. Abrir/fechar filtros sem aplicar não muda a busca; erro preserva os critérios.
 10. Campo fica na mesma posição ao rolar e trocar modos; visitante e acesso direto
     indevido continuam negados. As nove jornadas Android existentes são preservadas.
+
+
+## Revisão v3 — decisão vigente da responsável (2026-11-02)
+
+Substitui a apresentação v2 em lista global. O campo continua fixo e a consulta
+continua abrangendo o cadastro completo antes da paginação. A apresentação
+respeita o modo: Kanban conserva as colunas e filtra cartões; Lista filtra seus
+itens; Calendário conserva mês/data e exibe somente as medicações daquele dia
+dos animais correspondentes. Não mover para outra data. Um animal sem medicação
+no dia produz agenda vazia, nunca uma lista de fichas. Limpar restaura o contexto.
+
+A alteração visual foi solicitada expressamente pela responsável e a restrição
+às medicações do dia foi confirmada em resposta. Não é necessário reconfirmar
+essa mesma alteração. Protótipo management-search-proposal.html atualizado para
+v3; as evidências anteriores v2 permanecem como histórico, não como UX vigente.

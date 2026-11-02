@@ -23,6 +23,8 @@ A responsável substituiu a lista global temporária pelo resultado dentro do mo
 selecionado. No Calendário, manter a data e mostrar somente as medicações do dia.
 
 - [ ] T013 Corrigir carregamento/permissões do manejo clínico na ficha durante revalidação concorrente; testes VM/Widget e Android. [006-FR-006, 006-CR-001]
-- [ ] T014 Atualizar design, especificação/plano/contratos para busca dentro de Kanban/Lista/Calendário e medicações somente do dia. [006-FR-009]
+- [x] T014 Atualizar design, especificação/plano/contratos para busca dentro de Kanban/Lista/Calendário e medicações somente do dia. [006-FR-009]
 - [ ] T015 Implementar filtros do modo no servidor e na apresentação, sem limitar aos itens carregados; testes obrigatórios. [006-FR-009, 006-CR-001]
 - [ ] T016 Validar revisão no Android/CI, cobertura >=95%, documentação e commits por contexto na developer. [006-CR-001]
+
+- [ ] T017 Ampliar cobertura de regras/permissões/modos/fotos e medir cobertura real; não excluir código para elevar números. [006-CR-001]

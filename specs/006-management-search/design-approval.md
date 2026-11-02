@@ -42,3 +42,18 @@ sem afirmar sincronização com o arquivo remoto do projeto externo.
 
 URL local da revisão: http://127.0.0.1:58800/management-search-proposal.html?revision=search-global-v2
 Servidor temporário restrito a localhost; HTML versionado permanece no repositório.
+
+
+## Revisão v3 — decisão vigente da responsável (2026-11-02)
+
+Substitui a apresentação v2 em lista global. O campo continua fixo e a consulta
+continua abrangendo o cadastro completo antes da paginação. A apresentação
+respeita o modo: Kanban conserva as colunas e filtra cartões; Lista filtra seus
+itens; Calendário conserva mês/data e exibe somente as medicações daquele dia
+dos animais correspondentes. Não mover para outra data. Um animal sem medicação
+no dia produz agenda vazia, nunca uma lista de fichas. Limpar restaura o contexto.
+
+A alteração visual foi solicitada expressamente pela responsável e a restrição
+às medicações do dia foi confirmada em resposta. Não é necessário reconfirmar
+essa mesma alteração. Protótipo management-search-proposal.html atualizado para
+v3; as evidências anteriores v2 permanecem como histórico, não como UX vigente.
