@@ -122,3 +122,11 @@ O comando de submit recebe explicitamente o texto da ação do teclado, atualiza
 o critério e cancela o debounce antes de consultar. Evita usar critério anterior
 quando a conexão de edição nativa é recriada. VM/Widgets: **13 PASS**. Jornada
 Android ainda em repetição, sem afirmar aprovação antes do resultado final.
+
+### Controles após carregar calendário
+
+A jornada avançou por homônimos, código e cinco filtros e identificou a toolbar
+ainda desabilitada após a revalidação iniciada pelo calendário. refreshAccess
+agora notifica mudanças de capacidade mesmo quando a geração privada não mudou,
+conservando os critérios. Testes VM/Widget: **13 PASS**, incluindo notificações
+durante e depois da confirmação de acesso. Android em repetição.

@@ -105,6 +105,10 @@ class ManagedAnimalSearchViewModel extends ChangeNotifier {
       _timer?.cancel();
       ++_request;
       _publish(const ManagedAnimalSearchState());
+    } else {
+      // Access checks can temporarily disable the fixed toolbar without changing
+      // its criteria. Repaint capabilities when that check finishes as well.
+      notifyListeners();
     }
   }
 

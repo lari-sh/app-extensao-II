@@ -296,8 +296,11 @@ void main() {
         },
       );
       addTearDown(vm.dispose);
+      var notifications = 0;
+      vm.addListener(() => notifications++);
       vm.setQuery('Luna');
       await vm.search();
+      expect(notifications, greaterThanOrEqualTo(5));
       expect(vm.state.filter.query, 'Luna');
       expect(vm.state.items, hasLength(1));
       expect(vm.state.loading, false);
