@@ -309,3 +309,30 @@ alterado durante leitura, exceção de carga e gravação/reconciliação incert
 Nova tentativa de salvar um cadastro incerto consulta o recibo antes de repetir.
 Analyze limpo. Medição intermediária anterior: **94,20% (5.813/6.171)**,
 428 testes Flutter PASS. A meta de 95% ainda não estava atingida nessa medição.
+
+
+## Meta de 95% — sessão e fechamento — 2026-11-02
+
+6 testes novos PASS de SessionViewModel: exceção ao restaurar/revalidar,
+assinatura inválida, erro no stream, ticket de login obsoleto e falha ao sair.
+Todos verificam bloqueio das capacidades privadas e mensagens sem erro bruto.
+
+`flutter analyze --no-pub`: sem problemas. Formato conferido.
+`flutter test --no-pub --coverage`: **441 testes PASS**, cerca de 1 minuto.
+Resultado global: **95,09% (5.868/6.171 linhas instrumentadas)**, 89 arquivos.
+Base anterior: 90,63% (5.593/6.171), mesmos arquivos e denominador.
+Ganho: **275 linhas cobertas, +4,46 pontos percentuais e 54 testes novos**.
+Equipe/convites/callbacks: **98,45% (697/708)**.
+
+A meta foi atingida sem excluir arquivos adicionais, remover testes ou alterar
+código de produção. A única dependência declarada foi o adaptador oficial de
+preferências para teste, já transitivo, com justificativa no plano. O percentual
+é de linhas Flutter instrumentadas, não de branches, segurança absoluta ou
+jornadas ponta a ponta. Código gerado não compõe esta métrica.
+
+Etapas validadas e enviadas separadamente: fluxo público e823f08; composição
+1fe2dbf; fluxos clínicos 5a1adb0; callbacks/navegação b4d475c (aviso de estilo
+corrigido em 9ac04df); cadastro/contratos 9b023d5; sessão no commit desta seção.
+A última CI consultada (41392409043, SHA 9b023d511091618cdd91366a356112ac24175d2d)
+estava em andamento. A CI remota do fechamento ainda precisa concluir.
+SQL/Deno/Android não foram repetidos nesta ampliação de testes Flutter.

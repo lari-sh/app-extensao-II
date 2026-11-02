@@ -75,3 +75,11 @@ existência de arquivo. 26 tarefas; aprovação visual DESIGN-TEAM-001 recebida 
   Cobertura 90,63% (5.593/6.171 linhas), sem mudança de produção ou exclusões.
   Etapas de fotos, medicamentos e rotas commitadas separadamente na developer;
   resultados por arquivo em validation.md. [005-CR-002, 005-CR-003]
+
+
+- [x] T029 Atingir 95% de cobertura global com testes de comportamentos relevantes,
+  preservando escopo/denominador e commits por contexto. Meta validada:
+  **95,09% (5.868/6.171)**, 89 arquivos; **441 testes PASS**, 54 novos.
+  Catálogo/favoritos, composição, programação/aplicação de medicações,
+  navegação/callbacks, cadastro e falhas de sessão cobertos. Analyze/formato
+  aprovados; CI remota do fechamento ainda pendente. [005-CR-002, 005-CR-003]
