@@ -225,3 +225,33 @@ tratamento em paginação, proteção contra cursor sem avanço, retomada após 
 de listagem, confirmação de operação divergente e reconciliação com erro.
 Negação de acesso antes de salvar mantém o rascunho e não envia a escrita.
 Analyze sem problemas. Medição global final ainda pendente nesta etapa.
+
+
+## Ampliação global — navegação, permissões e medição final — 2026-11-02
+
+13 novos Widget Tests do AppRouter PASS: configuração ausente, rotas privadas,
+funcionário impedido de consultar equipe, administrador abrindo equipe/convite,
+argumentos/serviços de medicação ausentes e rota desconhecida. São rotas reais,
+com Services/Repositories substituídos somente pelas dependências controladas de teste.
+
+Fechamento das três etapas: **40 testes novos** (15 fotos, 12 medicamentos,
+13 navegação/permissões). `flutter analyze --no-pub`: sem problemas.
+`flutter test --no-pub --coverage`: **387 testes PASS**, 57 segundos.
+Formato conferido e nenhuma alteração de produção nesta ampliação.
+
+**Cobertura global: 88,66% → 90,63% (+1,97 pontos percentuais)**.
+Linhas cobertas: **5.471 → 5.593**, mesma base de **6.171 linhas/89 arquivos**.
+Nenhuma exclusão adicional, redução do denominador ou remoção de teste.
+Equipe/convites permanece em 95,62% (677/708 linhas).
+
+| Arquivo priorizado | Antes | Depois | Linhas cobertas |
+| --- | ---: | ---: | ---: |
+| photo_upload_view_model.dart | 75.14% | 96.69% | 175/181 |
+| medication_editor_view_model.dart | 84.94% | 99.22% | 382/385 |
+| app_router.dart | 74.24% | 86.46% | 198/229 |
+
+Métrica de linhas instrumentadas de produção em coverage/lcov.info, sem código
+gerado; não representa branches nem percentual de jornadas ponta a ponta.
+SQL/Deno/Android não foram repetidos para alterações apenas em testes Flutter.
+As etapas de fotos e medicamentos foram enviadas separadamente nos commits
+8388be8 e e8c880d. A CI remota do novo fechamento ainda precisa concluir.

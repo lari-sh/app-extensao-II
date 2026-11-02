@@ -68,3 +68,10 @@ existência de arquivo. 26 tarefas; aprovação visual DESIGN-TEAM-001 recebida 
   confirmações de ações em Widgets. 47 casos novos; 347 testes Flutter PASS.
   Cobertura global 88,66% e equipe/convites 95,62%, usando a mesma base LCOV
   anterior. Analyze e formato aprovados; evidências em validation.md. [005-CR-002]
+
+
+- [x] T028 Superar 90% global priorizando fotos, medicamentos, navegação e permissões.
+  40 novos testes; 387 testes Flutter PASS, analyze/formato aprovados.
+  Cobertura 90,63% (5.593/6.171 linhas), sem mudança de produção ou exclusões.
+  Etapas de fotos, medicamentos e rotas commitadas separadamente na developer;
+  resultados por arquivo em validation.md. [005-CR-002, 005-CR-003]
