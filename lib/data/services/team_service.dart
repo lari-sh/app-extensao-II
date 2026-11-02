@@ -1,7 +1,7 @@
 import '../../utils/result.dart';
 
 abstract interface class TeamService {
-  Future<Result<Map<String, Object?>?>> rpc(
+  Future<Result<Map<String, Object?>?>> request(
     String name,
     Map<String, Object?> parameters,
   );

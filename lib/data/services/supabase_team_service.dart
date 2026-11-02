@@ -53,7 +53,7 @@ final class SupabaseTeamService implements TeamService {
   }
 
   @override
-  Future<Result<Map<String, Object?>?>> rpc(
+  Future<Result<Map<String, Object?>?>> request(
     String name,
     Map<String, Object?> parameters,
   ) => _safe(() async {

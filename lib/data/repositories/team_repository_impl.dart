@@ -9,7 +9,7 @@ final class TeamRepositoryImpl implements TeamRepository {
   TeamRepositoryImpl(this.service);
   final TeamService service;
   Map<String, Object?> _object(Object? value) =>
-      Map<String, Object?>.from(value as Map);
+      (value as Map).cast<String, Object?>();
   String _text(Map<String, Object?> data, String key) {
     final value = data[key];
     if (value is! String || value.isEmpty) {
@@ -92,11 +92,11 @@ final class TeamRepositoryImpl implements TeamRepository {
   Future<Result<TeamReceipt>> _rpc(
     String name,
     Map<String, Object?> parameters,
-  ) => mapRepositoryResult(() => service.rpc(name, parameters), _receipt);
+  ) => mapRepositoryResult(() => service.request(name, parameters), _receipt);
   @override
   Future<Result<TeamPage>> members({required bool active, String? cursor}) =>
       mapRepositoryResult(
-        () => service.rpc('list_team_members', {
+        () => service.request('list_team_members', {
           'p_status': active ? 'active' : 'inactive',
           'p_cursor': cursor,
         }),
@@ -114,12 +114,14 @@ final class TeamRepositoryImpl implements TeamRepository {
       );
   @override
   Future<Result<TeamPage>> invitations({String? cursor}) => mapRepositoryResult(
-    () => service.rpc('list_team_invitations', {
+    () => service.request('list_team_invitations', {
       'p_status': 'pending',
       'p_cursor': cursor,
     }),
     (d) {
-      if (d == null || d['items'] is! List || (d['items'] as List).length > 50) {
+      if (d == null ||
+          d['items'] is! List ||
+          (d['items'] as List).length > 50) {
         throw const FormatException('Invalid page');
       }
       return TeamPage(
@@ -180,7 +182,7 @@ final class TeamRepositoryImpl implements TeamRepository {
       mapRepositoryResult(() => service.reconcile(key), _receipt);
   @override
   Future<Result<TeamInvitation?>> ownInvitation() => mapRepositoryResult(
-    () => service.rpc('get_my_invitation', {}),
+    () => service.request('get_my_invitation', {}),
     (d) => d == null ? null : _invitation(d),
   );
   @override

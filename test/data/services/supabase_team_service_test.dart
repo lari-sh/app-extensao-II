@@ -27,7 +27,7 @@ void main() {
     addTearDown(client.dispose);
     final result = await SupabaseTeamService(
       client,
-    ).rpc('list_team_members', {});
+    ).request('list_team_members', {});
     expect(result, isA<Failure<Map<String, Object?>?>>());
     final failure = (result as Failure<Map<String, Object?>?>).failure;
     expect(failure.fieldErrors['team'], contains('já possui'));
@@ -48,7 +48,7 @@ void main() {
     );
     addTearDown(client.dispose);
     expect(
-      await SupabaseTeamService(client).rpc('list_team_members', {}),
+      await SupabaseTeamService(client).request('list_team_members', {}),
       isA<Failure<Map<String, Object?>?>>(),
     );
   });
