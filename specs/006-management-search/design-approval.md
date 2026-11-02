@@ -7,8 +7,8 @@
   nomes repetidos; aceitou nome ou código e espécie/sexo/cor/porte/situação.
 - Em 2026-11-02 solicitou explicitamente substituir a aba por campo fixo após os
   totais, com resultado independente de Kanban, Lista ou Calendário, para nova aprovação.
-- **Estado atual: aguardando aprovação expressa desta revisão concreta v2.**
-  O pedido de atualização não é registrado como aprovação de um desenho ainda não visto.
+- **Estado atual: revisão v2 aprovada expressamente pela responsável em 2026-11-02.**
+  Resposta registrada: “Aprovar revisão v2”. Autorizada a implementação conforme o plano, com os testes obrigatórios.
 
 ## Proposta vigente
 
@@ -36,7 +36,7 @@ Sem requisições a Supabase/Auth/Functions. Isto valida o protótipo, não cód
 Capturas atuais substituem as da v1 em design/previews/search/:
 results.png (duas Lunas no contexto Calendário), code.png, filters.png,
 pinned-calendar.png (data restaurada), empty.png, error.png e overview.png.
-T001 concluída para esta revisão; T002 aguarda a aprovação explícita da responsável.
+T001 e T002 concluídas; execução das tarefas de implementação autorizada.
 MCP do design continua com Transport closed. Usada cópia versionada e prévia local,
 sem afirmar sincronização com o arquivo remoto do projeto externo.
 

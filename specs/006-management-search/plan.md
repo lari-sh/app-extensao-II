@@ -1,9 +1,9 @@
 # Plano técnico — busca global administrativa v2
 
 **Branch:** developer, por instrução da responsável. **Data:** 2026-11-02.
-**Spec:** [spec.md](spec.md). **Gate:** aprovar DESIGN-SEARCH-001 v2 antes de Flutter/SQL.
+**Spec:** [spec.md](spec.md). **Gate visual:** DESIGN-SEARCH-001 v2 aprovada em 2026-11-02.
 A aprovação da v1 foi registrada, mas o novo pedido substitui a quarta aba por campo
-fixo/global e acrescenta código e cinco filtros; a revisão concreta ainda precisa de aprovação.
+fixo/global e acrescenta código e cinco filtros; a revisão concreta foi aprovada expressamente pela responsável.
 
 ## Resumo e experiência
 
