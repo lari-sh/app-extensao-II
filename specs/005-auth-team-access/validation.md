@@ -206,3 +206,12 @@ Relatório local em coverage/lcov.info. Métrica de linhas, não de branches ou
 percentual de jornadas ponta a ponta. Nenhuma exclusão adicional de arquivos
 foi aplicada à comparação. SQL/Deno/Android não foram repetidos nesta etapa de
 testes Flutter; a CI remota do novo commit ainda precisa concluir.
+
+
+## Ampliação global — etapa fotos — 2026-11-02
+
+15 novos testes de PhotoUploadViewModel PASS: permissão/validação/erro nativo,
+recuperação manual sem upload automático, troca de animal durante recuperação,
+estados terminais do job, retry explícito com a mesma chave e reconciliação com
+falha de acesso/transporte. Analyze sem problemas. Código de produção preservado.
+Percentual global será medido na suíte completa após medicamentos e navegação.
