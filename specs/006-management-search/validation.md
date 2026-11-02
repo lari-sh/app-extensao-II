@@ -159,3 +159,39 @@ duplicar/alterar animais. Ajustados os cartões para fundo branco e chips de
 código/situação do protótipo; cadastro flutuante oculto enquanto há resultados
 globais, evitando sobreposição. Oito Widgets (busca/dashboard) PASS, incluindo
 texto ampliado/320 px e preservação de contexto; analyze sem problemas.
+
+## Validação remota do código final — d2c826e
+
+[CI 41536304106](https://github.com/lari-sh/app-extensao-II/actions/runs/41536304106),
+commit d2c826ea10fd61ca2a5adbca42863149c3e75686 na developer.
+Flutter PASS: análise, geração determinística, formato, 499 testes e gate
+**6.636/6.968 linhas = 95,24%**, sem exclusões adicionais.
+Backend PASS: 392 SQL/16 arquivos, 19 Deno e fluxos HTTP existentes/novos.
+Concorrência de código/replay/renomeação/forja PASS. Busca HTTP com 5.000 registros:
+0,043 / 0,013 / 0,012 s, com filtros/páginas/permissões/sessão revogada PASS.
+Android PASS: dez jornadas, incluindo management_search_flow_test.dart,
+no emulador Linux/API 35 da CI. Entrega do APK PASS.
+
+APK normal local recompilado/instalado após o ajuste visual e aberto autenticado
+no manejo com busca por Luna; conferidos foto, código A0067, cartão branco,
+chips, posição fixa e ausência de sobreposição pelo botão de cadastro.
+
+## Fechamento — 2026-11-02
+
+**T001–T012 concluídas.** A CI 41536304106 terminou com sucesso para d2c826e:
+Flutter, backend, Android e entrega aprovados. Dez jornadas Android confirmadas
+nos logs, mantendo as nove anteriores e acrescentando a busca global.
+
+[APK debug validado](https://github.com/lari-sh/app-extensao-II/actions/runs/41536304106/artifacts/13186182175):
+artefato 13186182175, 77.006.811 bytes, não expirado na conferência; retenção até
+2026-11-09 22:49:58 UTC. A entrega usa somente configuração pública de desenvolvimento.
+O APK normal local foi recompilado/instalado e deixado no painel com a busca por Luna.
+
+Resumo: 499 testes Flutter, 95,24% de linhas (6.636/6.968), 392 SQL, 19 Deno,
+HTTP de concorrência/permissões/volume e dez jornadas Android PASS. Dados manuais
+preservados; fixtures próprias removidas. iOS e ambiente produtivo não fazem parte
+desta validação Android. Nenhuma dependência adicionada.
+
+Este registro e o commit posterior de fechamento alteram somente Markdown;
+as evidências executáveis referem-se exatamente ao código d2c826e acima.
+.specify/extensions.yml permanece ausente: nenhum hook after_implement aplicável.

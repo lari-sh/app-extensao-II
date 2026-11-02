@@ -35,12 +35,12 @@ medição. Busca textual não remove acentos nesta versão.
 - PASS: plano exige unitários de regras, Widget happy path/erro, SQL/HTTP e Android,
   cobertura global >=95% sem exclusões artificiais, nove jornadas anteriores preservadas.
 - PASS: sem dependência nova; códigos gerados pelo servidor, não pelo celular.
-- GATE: pedido atual exige revisão visual antes da implementação. Protótipo separado
-  mostra campo fixo e filtros. Alterar desenho não autoriza aplicar migration agora.
+- PASS: DESIGN-SEARCH-001 v2 aprovada expressamente; migrations e integração
+  autorizadas e implementadas. Resultados dos gates registrados em validation.md.
 - Rechecagem pós-design: paleta/tipografia/cabeçalho/totais/retorno à esquerda e os
   três modos preservados como referência; testes de 320/390 px e texto ampliado previstos.
 
-## Alterações previstas após aprovação
+## Implementação da revisão aprovada
 
 1. Migration aditiva de animal_code em animals: sequência bigint de servidor,
    prefixo A, largura mínima quatro expansível, unicidade/NOT NULL e imutabilidade.

@@ -261,7 +261,11 @@ medicação no dia. Limpar restaura modo, rolagem e data; a ficha pode ser abert
 o retorno atualiza os resultados sem perder critérios. Códigos são gerados pelo
 servidor, imutáveis e crescem após A9999. UUIDs, fotos e históricos preservados.
 
-DESIGN-SEARCH-001 v2 implementado; jornada Android local e testes de contexto
-aprovados. CI final com dez jornadas e gate de cobertura >=95% em validação.
+DESIGN-SEARCH-001 v2 concluído: 12 tarefas, testes de contexto e Android local
+aprovados. [CI 41536304106](https://github.com/lari-sh/app-extensao-II/actions/runs/41536304106)
+verde para d2c826e: **499 testes Flutter, 95,24% de cobertura de linhas, 392 SQL,
+19 Deno e dez jornadas Android**. Gate >=95% obrigatório. APK normal atualizado
+no emulador; [artefato debug](https://github.com/lari-sh/app-extensao-II/actions/runs/41536304106/artifacts/13186182175)
+disponível durante a retenção da CI.
 [Plano/tarefas](specs/006-management-search/plan.md) e
 [evidências](specs/006-management-search/validation.md).

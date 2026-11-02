@@ -1,4 +1,4 @@
-# Validar a proposta e, depois, a implementação
+# Roteiro de validação — busca global
 
 ## Revisão visual v2
 
@@ -17,7 +17,7 @@ ativa sem sair do Calendário. Prévia local temporária, HTML versionado no rep
 6. Conferir vazio/loading/erro-retry na lateral e imagens a 320/390 px.
 7. Registrar aprovação expressa desta revisão em design-approval.md antes de Flutter/SQL.
 
-## Depois da aprovação (execução futura)
+## Validação da implementação
 
 - Ambiente separado ou fixtures exclusivas; nunca resetar cadastros manuais.
 - Validar backfill/imutabilidade/concorrência de código e crescimento >9999, sem
@@ -33,3 +33,19 @@ ativa sem sair do Calendário. Prévia local temporária, HTML versionado no rep
 - Geração/formato/analyze/test/SQL/HTTP/Android/CI; registrar SHA/run/artifact reais.
 
 iOS requer Mac/Xcode. Nenhuma dependência nova. Ver plano, contrato e tasks para detalhes.
+
+
+## Testar no app Android
+
+1. Entrar com uma conta de equipe ativa e abrir **Animais do abrigo**.
+2. Usar o campo fixo por nome (ex.: Luna) ou código mostrado no resultado.
+3. Abrir **Filtros**, selecionar critérios e aplicar; cancelar preserva a consulta.
+4. Trocar entre Kanban, Lista e Calendário durante a busca. Limpar busca restaura
+   o conteúdo anterior; limpar somente texto mantém filtros ativos.
+5. Abrir ficha, voltar e conferir que critérios e dados atualizados permanecem.
+
+Gates: `flutter analyze --no-pub`, `flutter test --no-pub --coverage` e
+`python .github/scripts/check_coverage.py`. Backend local:
+`supabase test db` e `python supabase/tests/fixtures/management_search_flow.py`.
+A CI prepara fixtures isoladas para as dez jornadas; nunca execute reset/setup
+sobre o ambiente manual para reproduzi-las. Evidências e limites em validation.md.

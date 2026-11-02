@@ -6,9 +6,9 @@
 - **Resultado global temporário.** Busca não filtra somente o que está montado no
   Kanban/lista/agenda. A área central mostra uma lista global e mantém o modo marcado;
   limpar restaura seus VMs, data, coluna e rolagem. O servidor não recebe o modo/data.
-- **Código legível automático.** O schema consultado contém UUID e não contém
-  animal_code. Planejar coluna+sequência/constraint/guarda de imutabilidade em
-  migration futura. Não apresentar códigos do protótipo como já gerados no banco.
+- **Código legível automático.** No levantamento inicial, o schema continha UUID e ainda não tinha
+  animal_code. A coluna/sequência/constraint/guarda de imutabilidade planejadas
+  foram implementadas após a aprovação. Não apresentar códigos do protótipo como já gerados no banco.
   UUID continua PK; código não muda com nome/situação/publicação, aceita lacunas
   e se expande além de 9999. Backfill protegido preserva todos os dados existentes.
 - **Cinco filtros.** Espécie, sexo, porte e situação já têm enum/schema no app.
@@ -27,5 +27,5 @@
 
 Código consultado: schema animals, DashboardMode atual (três valores),
 SupabaseAnimalsService.listManagement, Domain/Repository e migração de campos públicos.
-A questão técnica do identificador foi resolvida no plano; o gate pendente é a
-aprovação da proposta visual v2, não falta de informação para elaborar o plano.
+A questão técnica do identificador foi resolvida no plano. A aprovação visual v2
+foi obtida antes da implementação; o estado de execução está em tasks.md.

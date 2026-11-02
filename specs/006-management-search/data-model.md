@@ -1,13 +1,13 @@
-# Modelo planejado — nome/código e busca global
+# Modelo de dados — nome/código e busca global
 
 ## Animal e código
 
 Animal mantém UUID como identidade relacional. Novo animalCode string única e
 imutável, gerada apenas no servidor: A0001…A9999→A10000, sem truncamento/reciclagem.
-A0000 não é gerado. Sequence bigint permite lacunas. Migração futura preenche
+A0000 não é gerado. Sequence bigint permite lacunas. A migration aplicada preencheu
 legados deterministicamente por UUID e preserva relações, fotos e históricos.
 O payload de criação/edição do app não recebe código editável; Domain/DTO passam
-as projeções de leitura somente após o backfill. Código ausente não é inventado.
+as projeções de leitura após o backfill aplicado. Código ausente não é inventado.
 
 ## Critérios e estado
 

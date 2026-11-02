@@ -1,11 +1,11 @@
-# Contratos planejados — busca global v2
+# Contratos — busca global v2
 
 ## Código
 
 Coluna animal_code gerada no servidor, unique/not null após backfill e imutável.
 Prefixo A + sequência com mínimo quatro dígitos, expansível após 9999. Código não
 é editável nos payloads do app e não concede permissão. UUID/relacionamentos atuais
-permanecem. Migration e código de execução só serão escritos após aprovação visual.
+permanecem. Migration e código implementados após aprovação visual v2; evidências em validation.md.
 
 ## RPC e domínio
 

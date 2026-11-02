@@ -4,7 +4,7 @@ Data: 2026-11-02. Branch: developer. Revisão de escopo v2.
 Pedido vigente: campo fixado após o quadro de totais, sem aba/botão para acessar
 busca; nome ou código e filtros de espécie, sexo, cor, porte e situação. A busca
 retorna animais independentemente de o funcionário estar no Kanban, Lista ou Calendário.
-**Estado: revisão v2 aprovada em 2026-11-02; implementação autorizada conforme plano/tarefas.**
+**Estado: revisão v2 implementada e validada em 2026-11-02; 12 tarefas concluídas. Evidências em validation.md.**
 
 ## Experiência e decisões
 
