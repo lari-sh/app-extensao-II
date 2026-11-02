@@ -1,3 +1,4 @@
+import 'package:abrigo_dos_anjos/domain/models/managed_animal_search_filter.dart';
 import 'fake_behavior.dart';
 import 'package:abrigo_dos_anjos/utils/result.dart';
 import 'package:abrigo_dos_anjos/domain/models/medication_treatment.dart';
@@ -29,8 +30,15 @@ class FakeMedicationsRepository extends FakeBehavior
   Future<Result<MedicationMonth>> loadMonth(String month) =>
       invoke<MedicationMonth>('loadMonth', [month]);
   @override
-  Future<Result<MedicationDayPage>> loadDay(String day, {String? cursor}) =>
-      invoke<MedicationDayPage>('loadDay', [day, cursor]);
+  Future<Result<MedicationDayPage>> loadDay(
+    String day, {
+    String? cursor,
+    ManagedAnimalSearchFilter? filter,
+  }) => invoke<MedicationDayPage>('loadDay', [
+    day,
+    cursor,
+    ?filter,
+  ]);
   @override
   Future<Result<MedicationHistoryPage>> loadApplicationHistory(
     String applicationId, {

@@ -64,16 +64,23 @@ final class SupabaseMedicationsService implements MedicationsService {
     ),
   );
   @override
-  Future<Result<MedicationDto>> loadDay(String day, {String? cursor}) =>
-      serviceResult(
-        () async => MedicationDto.parse(
-          MedicationResponseType.day,
-          await client.rpc(
-            'list_medication_day',
-            params: {'p_day': day, 'p_cursor': cursor},
-          ),
-        ),
-      );
+  Future<Result<MedicationDto>> loadDay(
+    String day, {
+    String? cursor,
+    Map<String, String>? filter,
+  }) => serviceResult(
+    () async => MedicationDto.parse(
+      MedicationResponseType.day,
+      await client.rpc(
+        filter == null ? 'list_medication_day' : 'search_medication_day',
+        params: {
+          'p_day': day,
+          'p_cursor': cursor,
+          'p_filter': ?filter,
+        },
+      ),
+    ),
+  );
   @override
   Future<Result<MedicationDto>> loadApplicationHistory(
     String applicationId, {

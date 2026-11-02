@@ -1,3 +1,4 @@
+import '../../../../domain/models/managed_animal_search_filter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../../domain/models/medication_agenda.dart';
@@ -52,6 +53,17 @@ class MedicationCalendarViewModel extends ChangeNotifier {
   final DateTime Function() _now;
   static bool _allowed() => true;
   static int _zero() => 0;
+  ManagedAnimalSearchFilter? _filter;
+  Future<void> setAnimalFilter(ManagedAnimalSearchFilter? value) async {
+    final normalized = value?.normalized;
+    final next = normalized?.hasCriteria == true ? normalized : null;
+    if (_filter == next || _disposed) return;
+    _filter = next;
+    _dayRequest++;
+    if (state.selectedDay.isNotEmpty) await selectDay(state.selectedDay);
+  }
+
+  bool get isAnimalFiltered => _filter != null;
   bool _disposed = false;
   int _generation = 0, _monthRequest = 0, _dayRequest = 0;
   MedicationCalendarState _state = const MedicationCalendarState();
@@ -157,6 +169,7 @@ class MedicationCalendarViewModel extends ChangeNotifier {
     if (_disposed) return;
     if (_generation != _privateGeneration()) {
       _generation = _privateGeneration();
+      _filter = null;
       _monthRequest++;
       _dayRequest++;
       _state = const MedicationCalendarState();
@@ -333,7 +346,11 @@ class MedicationCalendarViewModel extends ChangeNotifier {
     try {
       if (!await _check()) return;
       final epoch = _accessEpoch();
-      final result = await repository.loadDay(day, cursor: cursor);
+      final result = await repository.loadDay(
+        day,
+        cursor: cursor,
+        filter: _filter,
+      );
       if (!_current(request, false, epoch)) return;
       if (result case Success<MedicationDayPage>(:final value)) {
         if (cursor != null && state.agendaVersion != value.agendaVersion) {

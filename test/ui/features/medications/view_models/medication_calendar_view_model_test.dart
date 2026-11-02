@@ -1,3 +1,4 @@
+import 'package:abrigo_dos_anjos/domain/models/managed_animal_search_filter.dart';
 import 'dart:async';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:abrigo_dos_anjos/domain/models/medication_agenda.dart';
@@ -313,6 +314,36 @@ void main() {
       await vm.applicationReturned();
       expect(vm.state.items.single.actorLabel, 'Equipe');
       expect(vm.state.agendaVersion, 2);
+    },
+  );
+  test(
+    'animal filter keeps selected day, persists across days and clearing restores full agenda',
+    () async {
+      final repo = FakeMedicationsRepository()
+        ..handler = (method, args) async => method == 'loadMonth'
+            ? Success(month(args.first as String))
+            : Success(page(args.first as String));
+      final vm = MedicationCalendarViewModel(
+        repo,
+        now: () => DateTime.utc(2026, 11, 1),
+      );
+      addTearDown(vm.dispose);
+      await vm.initialize();
+      await vm.selectDay('2026-11-03');
+      const filter = ManagedAnimalSearchFilter(query: 'A0001');
+      await vm.setAnimalFilter(filter);
+      expect(vm.state.selectedDay, '2026-11-03');
+      expect(vm.isAnimalFiltered, true);
+      expect(repo.calls.last.arguments, ['2026-11-03', null, filter]);
+      final before = repo.calls.length;
+      await vm.setAnimalFilter(filter);
+      expect(repo.calls.length, before);
+      await vm.selectDay('2026-11-04');
+      expect(repo.calls.last.arguments, ['2026-11-04', null, filter]);
+      await vm.setAnimalFilter(null);
+      expect(vm.isAnimalFiltered, false);
+      expect(vm.state.selectedDay, '2026-11-04');
+      expect(repo.calls.last.arguments, ['2026-11-04', null]);
     },
   );
 }

@@ -1,3 +1,4 @@
+import '../models/managed_animal_search_filter.dart';
 import '../../utils/result.dart';
 import '../models/medication_treatment.dart';
 import '../models/medication_application.dart';
@@ -17,7 +18,11 @@ abstract interface class MedicationsRepository {
     String operationKey,
   );
   Future<Result<MedicationMonth>> loadMonth(String month);
-  Future<Result<MedicationDayPage>> loadDay(String day, {String? cursor});
+  Future<Result<MedicationDayPage>> loadDay(
+    String day, {
+    String? cursor,
+    ManagedAnimalSearchFilter? filter,
+  });
   Future<Result<MedicationHistoryPage>> loadApplicationHistory(
     String applicationId, {
     String? cursor,

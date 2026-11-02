@@ -206,3 +206,12 @@ Manejo: _authorize agora aguarda a verificação disponível mesmo quando o aces
 local está temporariamente suspenso durante o carregamento de medicações/foto;
 a permissão continua obrigatória após a confirmação e no servidor. Teste de
 reprodução e regressão VM/composição: **16 PASS**. Android ainda pendente.
+
+### Calendário contextual — camada de dados
+
+RPC aditiva search_medication_day aplica os seis critérios aos animais antes da
+paginação das aplicações, mantendo o dia civil do abrigo. Cursor vinculado à
+sessão/dia/versão e critérios. Endpoint original preservado para agenda sem busca.
+12 SQL e 26 Flutter específicos/regressão PASS. Sem reset de dados. VM preserva
+o filtro entre dias e limpar restaura a agenda da mesma data. Integração visual
+e ampliação dos testes ainda pendentes.

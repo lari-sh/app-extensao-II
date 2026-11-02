@@ -17,7 +17,11 @@ abstract interface class MedicationsService {
     String operationKey,
   );
   Future<Result<MedicationDto>> loadMonth(String month);
-  Future<Result<MedicationDto>> loadDay(String day, {String? cursor});
+  Future<Result<MedicationDto>> loadDay(
+    String day, {
+    String? cursor,
+    Map<String, String>? filter,
+  });
   Future<Result<MedicationDto>> loadApplicationHistory(
     String applicationId, {
     String? cursor,

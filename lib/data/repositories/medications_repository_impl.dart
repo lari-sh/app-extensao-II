@@ -1,3 +1,4 @@
+import '../../domain/models/managed_animal_search_filter.dart';
 import 'dart:convert';
 import '../../domain/models/medication_agenda.dart';
 import '../../domain/models/medication_application.dart';
@@ -228,23 +229,40 @@ class MedicationsRepositoryImpl implements MedicationsRepository {
   Future<Result<MedicationDayPage>> loadDay(
     String day, {
     String? cursor,
+    ManagedAnimalSearchFilter? filter,
   }) async {
-    if (!MedicationSchedule.validDate(day) || !_cursor(cursor)) {
+    if (!MedicationSchedule.validDate(day) ||
+        !_cursor(cursor) ||
+        (filter?.validate().isNotEmpty ?? false)) {
       return _invalid();
     }
-    return mapRepositoryResult(() => service.loadDay(day, cursor: cursor), (
-      dto,
-    ) {
-      final d = dto.values;
-      if (d['day'] != day) throw const FormatException('Day mismatch');
-      return MedicationDayPage(
-        day: day,
-        serverNow: _instant(d['server_now']),
-        agendaVersion: d['agenda_version'] as int,
-        items: (d['items'] as List).map(_application).toList(),
-        cursor: d['next_cursor'] as String?,
-      );
-    });
+    return mapRepositoryResult(
+      () => service.loadDay(
+        day,
+        cursor: cursor,
+        filter: filter == null
+            ? null
+            : {
+                'query': filter.normalized.query,
+                'color': filter.normalized.color,
+                if (filter.species != null) 'species': filter.species!.name,
+                if (filter.sex != null) 'sex': filter.sex!.name,
+                if (filter.size != null) 'size': filter.size!.name,
+                if (filter.status != null) 'status': filter.status!.name,
+              },
+      ),
+      (dto) {
+        final d = dto.values;
+        if (d['day'] != day) throw const FormatException('Day mismatch');
+        return MedicationDayPage(
+          day: day,
+          serverNow: _instant(d['server_now']),
+          agendaVersion: d['agenda_version'] as int,
+          items: (d['items'] as List).map(_application).toList(),
+          cursor: d['next_cursor'] as String?,
+        );
+      },
+    );
   }
 
   @override
