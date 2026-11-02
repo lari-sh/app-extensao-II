@@ -46,9 +46,9 @@ contracts/team-access.md. Proposta não equivale a implementação nem aprovaç�
 ## Entrega e evidências
 
 - [x] T023 Criar integration_test/team_access_flow_test.dart e password_recovery_flow_test.dart (e scripts/validate_android_auth_process.py para force-stop real); administrador/funcionário, convite/aceite/revogação, persistência e recuperação ponta a ponta, preservando fixtures do usuário. [005-CR-002]
-- [ ] T024 Executar formato/geração/analyze/test, SQL/HTTP e Android; integrar novas jornadas à CI sem remover as sete existentes; confirmar artifact/run/SHA em validation.md. [005-CR-002, 005-CR-003]
+- [x] T024 Executar formato/geração/analyze/test, SQL/HTTP e Android; integrar novas jornadas à CI sem remover as sete existentes; confirmar artifact/run/SHA em validation.md. [005-CR-002, 005-CR-003]
 - [ ] T025 Validar links e sessão iOS em Mac/Xcode ou registrar dependência externa explicitamente, sem declarar sucesso por Windows. [005-FR-012]
-- [ ] T026 Atualizar README.md, quickstart.md, validation.md e tasks.md após cada etapa validada; commits por contexto na developer e revisão de segredos/erros/dados públicos. [005-CR-003]
+- [x] T026 Atualizar README.md, quickstart.md, validation.md e tasks.md após cada etapa validada; commits por contexto na developer e revisão de segredos/erros/dados públicos. [005-CR-003]
 
 ## Dependências
 
@@ -90,3 +90,10 @@ existência de arquivo. 26 tarefas; aprovação visual DESIGN-TEAM-001 recebida 
   **62d40f4**: Flutter/backend/Android/deliver PASS; 441 Flutter, 337 SQL,
   19 Deno e 8 jornadas Android aprovados. Artefato 13119744573.
   Correção e documentação em commits separados na developer. [005-CR-002, 005-CR-003]
+
+
+Fechamento Android 2026-11-02: T024/T026 concluídas; CI 41408259965 aprovada para
+ff5db07498b952ec24acc9725076b331fbcb5eab, artifact 13125706659. T025 continua
+aberta para validação efetiva em Mac/Xcode: Windows não executa os testes iOS.
+Configuração/validação de SMTP produtivo permanece pré-requisito de implantação,
+sem alegação de envio de e-mail externo a partir dos testes locais.

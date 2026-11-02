@@ -461,3 +461,35 @@ conta sem vínculo, revogação e logout PASS. Somado ao force-stop nos dois mod
 fecha T019; equipe, recuperação e persistência possuem jornadas registradas em T023.
 A CI eafdf33 passou Flutter/backend, mas um novo commit visual será validado em
 execução própria. Não reutilizar a aprovação antiga como aprovação do novo SHA.
+
+
+## Fechamento Android da feature 005 — CI final — 2026-11-02
+
+[Run 41408259965](https://github.com/lari-sh/app-extensao-II/actions/runs/41408259965)
+**PASS nos quatro jobs** para o SHA
+`ff5db07498b952ec24acc9725076b331fbcb5eab` da developer:
+
+- Flutter: geração determinística, formato, analyze e suíte completa com cobertura PASS.
+  Medição local do mesmo código: 474 testes, 6181/6505 linhas, **95,02%**.
+- Backend: 337 testes SQL/14 arquivos, 19 Deno e jornadas HTTP de manejo,
+  medicamentos, concorrência de equipe e convite/aceite PASS.
+- Android: **9 jornadas PASS**, preservando as oito anteriores. Logs confirmam
+  autenticação/restauração/revogação/logout, convite real local e recuperação
+  PKCE com troca de senha, retorno ao login e replay recusado.
+- Entrega: APK debug e manifesto de validação publicados. Artifact
+  [13125706659](https://github.com/lari-sh/app-extensao-II/actions/runs/41408259965/artifacts/13125706659),
+  `abrigo-dos-anjos-android-debug`, 76.952.164 bytes, não expirado na consulta;
+  retenção até **2026-11-09 08:10:58 UTC**. Artefato de testes, sem publicação em loja.
+
+A execução intermediária 41403286476 falhou apenas em formato de teste, corrigido.
+A 41406522760 foi cancelada pelo novo commit visual, conforme concurrency do
+workflow. A aprovação final acima corresponde ao código visual corrigido.
+O APK normal também foi recompilado/reinstalado no emulator-5554 e sua tela de
+recuperação comparada à imagem aprovada, com rótulo externo e hint visível.
+Fixtures exclusivas foram limpas; dados manuais foram preservados.
+
+T024 e T026 concluídas nesta entrega Android. **T025 permanece pendente**:
+validar links, sessão e recuperação em Mac/Xcode/aparelho iOS. SMTP/redirects de
+produção exigem configuração e validação no ambiente real; e-mails destes testes
+foram exclusivamente locais no Mailpit. Este registro é de código validado no SHA
+acima; o commit posterior de documentação não altera o APK ou a medição.

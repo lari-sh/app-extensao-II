@@ -29,7 +29,7 @@ apenas suas fixtures. A desativação temporária do trigger na limpeza ocorre
 dentro de lock exclusivo e transação, reabilitada antes do commit; não é um
 procedimento de operação/produção.
 
-## Jornadas restantes
+## Roteiro de validação (estado atualizado em validation.md)
 
 1. Ambiente local separado ou fixtures dedicadas, preservando cadastros manuais.
    Provisionar dois administradores, um funcionário e um destinatário novo.
@@ -87,3 +87,9 @@ execute `python scripts/validate_android_auth_process.py`. O script verifica a
 opção desmarcada, marcada, e o callback após force-stop. Não imprime credenciais.
 Finalize com POST `/cleanup` no controlador. O teste completo usa a senha inicial;
 reinicie o controlador entre rodadas para gerar uma nova conta isolada.
+
+
+Fechamento Android: CI 41408259965 / SHA ff5db07 PASS nos quatro jobs, incluindo
+nove jornadas Android e artifact 13125706659. Consulte validation.md para contagens,
+retenção e evidências. T025/iOS permanece pendente em Mac/Xcode. SMTP produtivo é
+um pré-requisito de implantação separado dos testes locais de e-mail.

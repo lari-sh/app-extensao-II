@@ -223,3 +223,20 @@ ajustado para aguardar e exibir o feedback da nova tentativa antes de verificá-
 [APK Android de debug](https://github.com/lari-sh/app-extensao-II/actions/runs/41395580798/artifacts/13119744573)
 disponível pelo prazo de retenção da CI. Evidências e limites da validação em
 [validation.md](specs/005-auth-team-access/validation.md).
+
+
+### Acesso da equipe — validação Android em 2026-11-02
+
+Permanecer logado e Esqueci a senha implementados com DESIGN-TEAM-001 preservado.
+A [CI 41408259965](https://github.com/lari-sh/app-extensao-II/actions/runs/41408259965)
+aprovou Flutter, backend, nove jornadas Android e entrega para `ff5db07`.
+Suíte local: **474 testes e 95,02% de cobertura de linhas**. Recuperação por PKCE
+validada com app aberto/encerrado; senha anterior recusada, nova aceita, replay
+bloqueado e login normal obrigatório. Persistência marcada/desmarcada confirmada
+com force-stop/relaunch, além de revogação e logout.
+
+[APK debug validado](https://github.com/lari-sh/app-extensao-II/actions/runs/41408259965/artifacts/13125706659)
+(disponível até 2026-11-09 08:10:58 UTC). APK normal atualizado no emulador local.
+[Registro completo](specs/005-auth-team-access/validation.md). Neste plano, resta
+validação iOS em Mac/Xcode (T025). E-mail real depende de SMTP/redirects produtivos;
+os testes de e-mail usam exclusivamente Mailpit local.
