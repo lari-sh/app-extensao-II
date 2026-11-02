@@ -114,6 +114,27 @@ class AuthRepositoryImpl implements AuthRepository {
     ),
   );
   @override
+  Future<Result<Unit>> requestPasswordReset(String email) =>
+      mapRepositoryResult(
+        () => service.requestPasswordReset(email),
+        (value) => value,
+      );
+  @override
+  Future<Result<bool>> canResetPassword() =>
+      mapRepositoryResult(service.canResetPassword, (value) => value);
+  @override
+  Future<Result<Unit>> updateRecoveredPassword(String password) {
+    ++_epoch;
+    _locallySignedOut = true;
+    return _enqueue(
+      () => mapRepositoryResult(
+        () => service.updateRecoveredPassword(password),
+        (value) => value,
+      ),
+    );
+  }
+
+  @override
   Future<Result<Unit>> signOut() {
     ++_epoch;
     _locallySignedOut = true;

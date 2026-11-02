@@ -138,21 +138,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ],
                 ),
-                const Tooltip(
-                  message: 'Recuperação de senha indisponível nesta versão.',
-                  child: TextButton(
-                    onPressed: null,
-                    child: Text(
-                      'Esqueci a senha',
-                      style: TextStyle(fontSize: 12),
-                    ),
+                TextButton(
+                  onPressed: widget.viewModel.state.busy
+                      ? null
+                      : () => Navigator.pushNamed(context, '/recovery'),
+                  child: const Text(
+                    'Esqueci a senha',
+                    style: TextStyle(fontSize: 12),
                   ),
                 ),
               ],
-            ),
-            const Text(
-              'Recuperação de senha indisponível nesta versão.',
-              style: TextStyle(fontSize: 11, color: Color(0xFF795C52)),
             ),
             const SizedBox(height: 18),
             if (widget.viewModel.state.busy) const LinearProgressIndicator(),

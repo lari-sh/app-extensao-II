@@ -19,5 +19,14 @@ class FakeAuthService extends FakeBehavior implements AuthService {
   @override
   Stream<Result<SessionDto>> watchAccess() => events.stream;
   @override
+  Future<Result<Unit>> requestPasswordReset(String email) =>
+      invoke<Unit>('requestPasswordReset', [email]);
+  @override
+  Future<Result<bool>> canResetPassword() =>
+      invoke<bool>('canResetPassword', []);
+  @override
+  Future<Result<Unit>> updateRecoveredPassword(String password) =>
+      invoke<Unit>('updateRecoveredPassword', [password]);
+  @override
   Future<Result<Unit>> signOut() => invoke<Unit>('signOut', []);
 }

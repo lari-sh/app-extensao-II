@@ -408,3 +408,18 @@ do SDK. Checkbox preserva posição e bloqueia alterações durante envio.
 Analyze PASS; regressão completa: 456 testes PASS, incluindo escolha nos dois modos,
 erro de armazenamento antes/depois do Auth, validação e busy do ViewModel.
 T019 permanece aberta até kill/relaunch e revogação no Android. Recuperação pendente.
+
+
+## T020/T021 — recuperação de acesso — 2026-11-02
+
+Services/Repository implementam solicitação neutra para conta ausente/limite do
+provedor, verificação de sessão de recuperação do SDK e atualização de senha.
+Uma sessão comum não pode usar a operação. Recuperação bloqueia manejo, mantém
+PKCE separado e encerra a sessão temporária após salvar; exige login normal.
+Telas Recuperar acesso/Definir nova senha e confirmação seguem DESIGN-TEAM-001,
+com logo, paleta, retorno à esquerda e botão do login habilitado na posição atual.
+ViewModels validam e-mail, mínimo de 12 caracteres, confirmação, busy e dispose.
+Nenhuma senha é guardada no estado. Callback Android /recovery registrado.
+Analyze PASS; regressão com cobertura: 470 testes PASS. Inclui teste compacto
+320 px, resposta neutra, erros de provedor, rejeição de sessão comum e repetição.
+Validação com e-mail/PKCE real no Android segue em T022; não declarada concluída aqui.

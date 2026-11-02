@@ -10,6 +10,17 @@ final class SupabaseAuthCallbackService implements AuthCallbackSource {
   StreamSubscription<AuthState>? _subscription;
   Timer? _fallback;
   SupabaseClient? _client;
+  bool recoveryActive = false;
+  String? _recoveryToken;
+  bool isVerifiedRecovery(SupabaseClient client) =>
+      recoveryActive &&
+      _recoveryToken != null &&
+      client.auth.currentSession?.accessToken == _recoveryToken;
+  void finishRecovery() {
+    recoveryActive = false;
+    _recoveryToken = null;
+  }
+
   bool capture(Uri uri) {
     if (uri.scheme != 'br.org.abrigodosanjos.app' ||
         uri.host != 'auth' ||
@@ -19,9 +30,14 @@ final class SupabaseAuthCallbackService implements AuthCallbackSource {
     }
     final kind = switch (uri.path) {
       '/invite' => AuthCallbackKind.invitation,
+      '/recovery' => AuthCallbackKind.recovery,
       _ => null,
     };
     if (kind == null) return false;
+    if (kind == AuthCallbackKind.recovery) {
+      recoveryActive = true;
+      _recoveryToken = null;
+    }
     _pending = kind;
     _fallback?.cancel();
     // Invalid links can fail before emitting an Auth event. They still open a
@@ -36,6 +52,15 @@ final class SupabaseAuthCallbackService implements AuthCallbackSource {
     _subscription?.cancel();
     _subscription = client.auth.onAuthStateChange.listen(
       (state) {
+        if (state.event == AuthChangeEvent.passwordRecovery) {
+          recoveryActive = true;
+          _recoveryToken = state.session?.accessToken;
+        } else if (state.event == AuthChangeEvent.signedOut) {
+          _recoveryToken = null;
+        } else if (state.event == AuthChangeEvent.tokenRefreshed &&
+            _recoveryToken != null) {
+          _recoveryToken = state.session?.accessToken;
+        }
         if (_pending != null &&
             const [
               AuthChangeEvent.signedIn,

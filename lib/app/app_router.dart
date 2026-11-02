@@ -1,3 +1,6 @@
+import '../ui/features/auth/views/recovery_screen.dart';
+import '../ui/features/auth/views/reset_password_screen.dart';
+import '../ui/features/auth/view_models/recovery_view_model.dart';
 import '../domain/repositories/team_repository.dart';
 import '../ui/features/team/view_models/team_view_model.dart';
 import '../ui/features/team/view_models/accept_invitation_view_model.dart';
@@ -84,6 +87,23 @@ class AppRouter {
       case '/':
         final vm = HomeViewModel();
         return _page(settings, vm, HomeScreen(viewModel: vm, session: session));
+      case '/recovery':
+      case '/reset-password':
+        if (auth == null) {
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (_) => const Scaffold(
+              body: Center(child: Text('Serviço de acesso indisponível.')),
+            ),
+          );
+        }
+        if (settings.name == '/recovery') {
+          final vm = RecoveryViewModel(auth!);
+          return _page(settings, vm, RecoveryScreen(viewModel: vm));
+        }
+        final reset = ResetPasswordViewModel(auth!);
+        reset.load();
+        return _page(settings, reset, ResetPasswordScreen(viewModel: reset));
       case '/accept-invitation':
         if (team == null || auth == null) {
           return MaterialPageRoute(

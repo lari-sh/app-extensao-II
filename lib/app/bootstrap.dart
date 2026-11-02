@@ -17,14 +17,21 @@ Future<Result<SupabaseClient>> initializeBackend(
   AppConfig config, {
   SessionStorageService? storage,
 }) async {
+  final sessionStorage = storage ?? SessionStorageService.forUrl(config.url);
   try {
     await Supabase.initialize(
       url: config.url.toString(),
       publishableKey: config.publishableKey,
       authOptions: FlutterAuthClientOptions(
-        localStorage: storage ?? SessionStorageService.forUrl(config.url),
-        detectSessionInUriPredicate:
-            SupabaseAuthCallbackService.instance.capture,
+        localStorage: sessionStorage,
+        detectSessionInUriPredicate: (uri) {
+          final accepted = SupabaseAuthCallbackService.instance.capture(uri);
+          if (accepted && uri.path == '/recovery') {
+            // Close the synchronous write gate before the SDK exchanges PKCE.
+            (storage ?? sessionStorage).prepareSignIn(false);
+          }
+          return accepted;
+        },
       ),
     );
     SupabaseAuthCallbackService.instance.start(Supabase.instance.client);

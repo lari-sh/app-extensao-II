@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'session_storage_service.dart';
+import 'supabase_auth_callback_service.dart';
 import 'dart:async';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../utils/app_failure.dart';
@@ -13,7 +14,10 @@ class SupabaseAuthService implements AuthService {
     this.client, {
     Stream<AuthState>? events,
     this.persistence,
-  }) : events = events ?? client.auth.onAuthStateChange;
+    SupabaseAuthCallbackService? callbacks,
+  }) : callbacks = callbacks ?? SupabaseAuthCallbackService.instance,
+       events = events ?? client.auth.onAuthStateChange;
+  final SupabaseAuthCallbackService callbacks;
   final SessionPersistenceService? persistence;
   final SupabaseClient client;
   final Stream<AuthState> events;
@@ -50,6 +54,7 @@ class SupabaseAuthService implements AuthService {
           client.auth.currentSession?.user.id != response.user!.id) {
         throw const ServiceFailure(FailureCode.unauthenticated);
       }
+      callbacks.finishRecovery();
       final verified = await _verifyCurrent();
       if (persistenceTicket != null) {
         final session = client.auth.currentSession;
@@ -75,6 +80,7 @@ class SupabaseAuthService implements AuthService {
   }
 
   Future<SessionDto> _verifyCurrent() async {
+    if (callbacks.recoveryActive) return const SessionDto();
     final session = client.auth.currentSession;
     if (session == null) return const SessionDto();
     final expired = _expiredSession();
@@ -140,6 +146,50 @@ class SupabaseAuthService implements AuthService {
         }
         return currentAccess();
       });
+  @override
+  Future<Result<Unit>> requestPasswordReset(String email) =>
+      serviceResult(() async {
+        try {
+          await client.auth.resetPasswordForEmail(
+            email,
+            redirectTo: 'br.org.abrigodosanjos.app://auth/recovery',
+          );
+        } on AuthException catch (error) {
+          // Identical result for unknown accounts and provider throttling. No
+          // account-existence signal or provider message crosses the boundary.
+          if (error.statusCode != '429' &&
+              error.code != 'user_not_found' &&
+              error.code != 'over_email_send_rate_limit') {
+            rethrow;
+          }
+        }
+        return Unit.value;
+      });
+  @override
+  Future<Result<bool>> canResetPassword() => serviceResult(() async {
+    if (!callbacks.isVerifiedRecovery(client)) return false;
+    final session = client.auth.currentSession;
+    final user = await client.auth.getUser();
+    return callbacks.isVerifiedRecovery(client) &&
+        user.user?.id == session?.user.id;
+  });
+  @override
+  Future<Result<Unit>> updateRecoveredPassword(
+    String password,
+  ) => serviceResult(() async {
+    if (password.length < 12) {
+      throw const ServiceFailure(FailureCode.validation);
+    }
+    final ready = await canResetPassword();
+    if (ready is! Success<bool> || !ready.value) {
+      throw const ServiceFailure(FailureCode.unauthenticated);
+    }
+    await client.auth.updateUser(UserAttributes(password: password));
+    // Recovery never grants management access, including after a successful save.
+    await client.auth.signOut(scope: SignOutScope.global);
+    callbacks.finishRecovery();
+    return Unit.value;
+  });
   @override
   Future<Result<Unit>> signOut() => serviceResult(() async {
     // This SDK removes its local session before attempting remote revocation.

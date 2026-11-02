@@ -8,7 +8,7 @@ import '../../../../support/fakes/fake_auth_repository.dart';
 
 void main() {
   testWidgets(
-    'compact login scrolls to visitor entry and disabled options never authenticate',
+    'compact login scrolls to visitor entry and remember choice does not authenticate',
     (tester) async {
       tester.view.physicalSize = const Size(320, 568);
       tester.view.devicePixelRatio = 1;
@@ -41,7 +41,14 @@ void main() {
         alignment: 0.5,
       );
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Esqueci a senha'));
+      expect(
+        tester
+            .widget<TextButton>(
+              find.widgetWithText(TextButton, 'Esqueci a senha'),
+            )
+            .onPressed,
+        isNotNull,
+      );
       await tester.tap(find.byType(Checkbox));
       await tester.pumpAndSettle();
       expect(repo.calls, isEmpty);
@@ -100,14 +107,17 @@ void main() {
       expect(tester.getCenter(logo).dx, closeTo(400, 1));
       expect(find.text('E-mail institucional'), findsOneWidget);
       expect(find.text('Permanecer logado'), findsOneWidget);
-      expect(tester.widget<Checkbox>(find.byType(Checkbox)).onChanged, isNotNull);
+      expect(
+        tester.widget<Checkbox>(find.byType(Checkbox)).onChanged,
+        isNotNull,
+      );
       expect(
         tester
             .widget<TextButton>(
               find.widgetWithText(TextButton, 'Esqueci a senha'),
             )
             .onPressed,
-        isNull,
+        isNotNull,
       );
       await tester.ensureVisible(find.text('Entrar no painel'));
       await tester.tap(find.text('Entrar no painel'));
