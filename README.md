@@ -250,3 +250,11 @@ abrigo. As fixtures técnicas foram ocultadas do visitante e preservadas para te
 sem apagar cadastros ou históricos. Fontes, licença, execução, limites e evidências
 em [supabase/demo/README.md](supabase/demo/README.md). Este perfil não vai para
 produção nem é aplicado automaticamente pela CI.
+
+
+### Próxima melhoria: busca administrativa
+
+Proposta de aba Busca no painel, por nome com filtros de situação/espécie e acesso
+à ficha, em [design/management-search-proposal.html](design/management-search-proposal.html).
+[Planejamento e tarefas](specs/006-management-search/plan.md) preparados; desenho
+DESIGN-SEARCH-001 aguarda aprovação antes da implementação Flutter/Supabase.

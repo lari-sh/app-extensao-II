@@ -35,3 +35,14 @@ cancelamento e aceite. Nenhum e-mail ou conta é criado. Dados somente em memór
 Capturas em previews/team/. Planejamento e 26 tarefas em
 ../specs/005-auth-team-access/. Aprovação visual pendente em design-approval.md;
 a existência deste protótipo não autoriza implementar as novas telas no Flutter.
+
+
+## Busca administrativa — DESIGN-SEARCH-001
+
+[management-search-proposal.html](management-search-proposal.html): proposta com
+quarta aba Busca, nome, situação/espécie, total, cartões e abertura do cadastro
+existente. Fotos/dados ilustrativos; interações somente em memória, sem backend.
+Estados de resultado/vazio/loading/erro na lateral. Use ?preview=search para
+conferir apenas a tela mobile. Capturas em previews/search/; QA 320/390/1440 px PASS.
+Planejamento e tarefas em ../specs/006-management-search/. Aprovação visual ainda
+pendente: nenhuma implementação Flutter/RPC da busca nesta entrega.
