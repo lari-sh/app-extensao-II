@@ -221,11 +221,12 @@ void main() {
     (tester) async {
       final r = FakeAnimalsRepository()
         ..handler = (m, a) async {
-          if (m == 'getStatusCounts')
+          if (m == 'getStatusCounts') {
             return const Success<Map<AnimalStatus, int>>({
               AnimalStatus.available: 30,
             });
-          if (m == 'searchManagement')
+          }
+          if (m == 'searchManagement') {
             return Success(
               ManagedAnimalPage(
                 items: [
@@ -236,6 +237,7 @@ void main() {
                 total: 1,
               ),
             );
+          }
           return Success(
             ManagedAnimalPage(
               items: List.generate(

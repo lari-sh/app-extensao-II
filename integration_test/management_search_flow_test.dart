@@ -67,8 +67,9 @@ void main() {
           await tester.pumpAndSettle();
           if (i >= 5 &&
               !vm.state.loading &&
-              vm.state.filter.query == text.trim())
+              vm.state.filter.query == text.trim()) {
             break;
+          }
         }
         expect(vm.state.filter.query, text.trim());
         expect(vm.state.loading, false);

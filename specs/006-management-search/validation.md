@@ -143,3 +143,11 @@ Suíte Widget específica **5 PASS**, incluindo posição fixa em 320/390 px/tex
 ampliado, filtros/erro/retry e restauração explícita da rolagem da Lista e dia
 2026-11-03 após busca/ficha. Esta é a décima jornada da CI, mantendo as nove
 anteriores. Resultado remoto e APK normal atualizado ainda pendentes em T011.
+
+### Gates finais locais e primeira CI integrada
+
+**499 testes Flutter PASS; 6.626/6.958 linhas = 95,23%**. Regressão SQL: 392/16
+arquivos PASS. Formato de 298 arquivos sem alterações; shell Android e YAML PASS.
+APK normal compilado/instalado/aberto no emulador. CI 41534388871/e6fd1a5 parou
+em três lints de chaves nos testes novos, antes do backend/Android. Corrigidos
+sem alterar comportamento; analyze local sem problemas. Nova CI pendente.
