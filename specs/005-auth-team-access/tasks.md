@@ -17,8 +17,8 @@ contracts/team-access.md. Proposta não equivale a implementação nem aprovaç�
 
 ## US1 — equipe e convites
 
-- [ ] T007 [US1] Escrever testes Deno/HTTP e SQL de envio/reenvio/cancelamento: identidade forjada, role editável, expiração, conta existente, timeout, duplicata e revogação durante envio. [005-FR-003, 005-FR-005, 005-FR-009, 005-FR-014]
-- [ ] T008 [US1] Implementar supabase/functions/team-invitation e RPCs de listagem/recibos/cancelamento/alteração; estados duráveis, limites e reconciliação sem expor Admin API no app. [005-FR-003, 005-FR-004, 005-FR-009]
+- [x] T007 [US1] Escrever testes Deno/HTTP e SQL de envio/reenvio/cancelamento: identidade forjada, role editável, expiração, conta existente, timeout, duplicata e revogação durante envio. [005-FR-003, 005-FR-005, 005-FR-009, 005-FR-014]
+- [x] T008 [US1] Implementar supabase/functions/team-invitation e RPCs de listagem/recibos/cancelamento/alteração; estados duráveis, limites e reconciliação sem expor Admin API no app. [005-FR-003, 005-FR-004, 005-FR-009]
 - [ ] T009 [US1] Criar modelos Freezed e TeamRepository abstrato; Service/Repository em lib/data/ com unitários em test/data/{services,repositories}/; cobrir erros tipados e paginação. [005-CR-001, 005-CR-002]
 - [ ] T010 [US1] Implementar TeamViewModel e InviteMemberViewModel, testes de validação/permissão/busy/dispose/conflito/estado incerto em test/ui/features/team/view_models/. [005-FR-003, 005-FR-004, 005-FR-009]
 - [ ] T011 [US1] Após T003, implementar TeamScreen, InviteMemberScreen e confirmação de alteração/desativação em lib/ui/features/team/views/; Widget happy path por tela, 320 px e texto ampliado, Voltar à esquerda. [005-FR-004, 005-FR-007, 005-FR-013]
@@ -26,8 +26,8 @@ contracts/team-access.md. Proposta não equivale a implementação nem aprovaç�
 
 ## US2 — aceite
 
-- [ ] T013 [US2] Escrever testes SQL/HTTP de get_my_invitation e aceite: prazo, geração, identidade, senha definida, replay e races com cancelamento/role alterado. [005-FR-005, 005-FR-006, 005-FR-009]
-- [ ] T014 [US2] Implementar aceite e auditoria atômicos, vincular destinatário confirmado e proteger role/active no servidor; impedir booleano cliente como prova de senha. [005-FR-006, 005-FR-008]
+- [x] T013 [US2] Escrever testes SQL/HTTP de get_my_invitation e aceite: prazo, geração, identidade, senha definida, replay e races com cancelamento/role alterado. [005-FR-005, 005-FR-006, 005-FR-009]
+- [x] T014 [US2] Implementar aceite e auditoria atômicos, vincular destinatário confirmado e proteger role/active no servidor; impedir booleano cliente como prova de senha. [005-FR-006, 005-FR-008]
 - [ ] T015 [US2] Implementar Service/Repository/AcceptInvitationViewModel e unitários; diferenciar Auth callback de convite e recuperação, sem supor PKCE para inviteUserByEmail. [005-FR-006, 005-FR-012]
 - [ ] T016 [US2] Após T003, implementar AcceptInvitationScreen/estados inválidos, Widget happy path/expirado e links Android/iOS/templates/config local; registrar SMTP real como implantação separada. [005-FR-006, 005-FR-012, 005-FR-013]
 

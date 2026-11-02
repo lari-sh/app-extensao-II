@@ -93,3 +93,20 @@ conferidos. Banco permanece na regressÃ£o 293/293 aprovada da etapa anterior.
 Ainda sem TeamScreen, envio de e-mail, checkbox habilitado ou recuperaÃ§Ã£o integrada;
 esta etapa implementa o contrato e as regras que essas funcionalidades usarÃ£o.
 Android e CI remota do novo cÃ³digo ainda nÃ£o confirmados nesta etapa.
+
+
+## Backend de convites e aceite — 2026-11-02
+
+Migration 202611010017 aplicada sem reset e sem promover contas existentes.
+Envio/reenvio usa Function com identidade verificada, reserva durável, geração,
+cooldown, quota e reconciliação sem segundo envio automático em timeout.
+Cancelamento/aceite são transacionais, com recibo idempotente e auditoria.
+O aceite exige senha definida após confirmação; a credencial aleatória criada
+pelo próprio Auth na verificação não concede acesso. A referência fica privada.
+
+Regressão SQL: 14 arquivos, 337 testes PASS. Handler: 7 testes Deno PASS.
+Jornada HTTP real local PASS: e-mail Mailpit, callback, senha mínima, aceite/replay,
+funcionário sem gestão, role forjada, reenvio/link antigo, cancelamento e corrida
+aceite/cancelamento. Somente fixtures próprias @example.test; limpeza por prefixo
+único, preservando os dados do usuário. Nova jornada adicionada ao job backend.
+Telas Flutter, Android e CI remota desta etapa ainda pendentes.
