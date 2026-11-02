@@ -7,3 +7,10 @@ T002 concluída. Branch developer, prerequisites PASS; sem checklists ou hooks d
 extensão. Skill speckit-implement e arquitetura Flutter serão seguidas. Backend,
 Flutter, Android e CI serão registrados separadamente após validação efetiva.
 Nenhuma tarefa de implementação é marcada apenas por geração de arquivos.
+
+
+## Acompanhamento na skill — 2026-11-02
+
+Por solicitação, speckit-implement aponta para tasks.md da feature 006 e exige
+atualização de estado/evidências após cada contexto validado. Sem duplicar a lista
+na skill nem inserir tarefas na constituição. Frontmatter e links validados.
