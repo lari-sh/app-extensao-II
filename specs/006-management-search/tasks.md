@@ -6,7 +6,7 @@ após aprovação expressa de DESIGN-SEARCH-001 v2; aprovação antiga não cobr
 - [x] T001 Atualizar proposta com campo fixo, três modos, nome/código, cinco filtros e homônimos; QA 320/390/1440 px, estados e preservação do contexto. [006-FR-001, 006-FR-007, 006-FR-009]
 - [x] T002 Obter aprovação expressa da revisão visual v2 e registrar em design-approval.md. Depende de T001. [006-FR-007]
 - [x] T003 Criar migration de código automático único/imutável, backfill protegido e testes pgTAP de legados, concorrência, lacunas e >9999; preservar UUID/fotos/históricos. Depende de T002. [006-FR-008]
-- [ ] T004 Criar RPC aditiva com query/código e cinco filtros, total/cursor; testes SQL de literais, nomes repetidos, autorização e independência de modo/data/evento. Depende de T003. [006-FR-002, 006-FR-003, 006-FR-006, 006-FR-009]
+- [x] T004 Criar RPC aditiva com query/código e cinco filtros, total/cursor; testes SQL de literais, nomes repetidos, autorização e independência de modo/data/evento. Depende de T003. [006-FR-002, 006-FR-003, 006-FR-006, 006-FR-009]
 - [ ] T005 Atualizar Domain/DTO/Service com código e filtro imutável; contrato Repository e testes de serialização, validação e erros saneados. Depende de T004. [006-CR-001, 006-FR-008]
 - [ ] T006 Implementar Repository e unitários de mapeamento, filtros, cursor e falhas, sem tipos SDK na UI. Depende de T005. [006-CR-001]
 - [ ] T007 Implementar VM/Freezed: debounce, submit, critérios/rascunho/cancelar, limpar texto/tudo, geração/contexto/fotos/dispose e preservação dos três modos. Unitários das regras. Depende de T006. [006-FR-003, 006-FR-005, 006-FR-006, 006-FR-009]

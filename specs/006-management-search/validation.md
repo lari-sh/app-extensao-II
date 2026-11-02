@@ -35,3 +35,19 @@ impressa. Teste HTTP incluído no job backend da CI; resultado remoto ainda pend
 
 T004 (RPC de busca) e integração Flutter permanecem pendentes. Código ainda não é
 exibido na UI do app; o backfill não representa conclusão da busca.
+
+
+## T004 — RPC global de busca — 2026-11-02
+
+Migration 202611020019 aditiva, sem mudar list_managed_animals/RLS. A RPC só permite
+sessão/vínculo ativos, busca nome/código e os cinco filtros em todos os animais,
+com total anterior à paginação, página de 25 e cursor apenas se existir próxima.
+Parâmetros não incluem modo/dia/coluna. Código é igualdade normalizada, nome/cor
+parciais literais; não pesquisa notas clínicas. Sem SQL dinâmico.
+
+Red confirmou função ausente antes da implementação. Depois, **36 testes da busca
+PASS**; regressão completa **392 SQL/16 arquivos PASS**. Homônimos, código, cinco
+filtros, cor nula/parcial, %, _, barra/apóstrofo, fora da primeira página, página
+final cheia, entrada/cursor inválidos, visitante, sem vínculo, inativo e sessão
+revogada cobertos. Validação HTTP e performance constam de T009, ainda pendente.
+Não foram aplicadas alterações no app Flutter nesta etapa.
