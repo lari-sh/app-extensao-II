@@ -24,9 +24,9 @@ select is((select count(*)::int from public.medication_applications),0,'non staf
 reset role;
 select set_config('request.jwt.claims','{"sub":"57000000-0000-4000-8000-000000000001","session_id":"67000000-0000-4000-8000-000000000001","role":"authenticated"}',true);
 set local role authenticated;
-select is((select count(*)::int from public.medication_treatments),1,'current staff can read treatment');
-select is((select count(*)::int from public.medication_treatment_revisions),1,'current staff can read revision');
-select is((select count(*)::int from public.medication_applications),1,'current staff can read application');
+select is((select count(*)::int from public.medication_treatments where id='87000000-0000-4000-8000-000000000001'),1,'current staff can read treatment');
+select is((select count(*)::int from public.medication_treatment_revisions where treatment_id='87000000-0000-4000-8000-000000000001'),1,'current staff can read revision');
+select is((select count(*)::int from public.medication_applications where id='97000000-0000-4000-8000-000000000001'),1,'current staff can read application');
 select throws_ok($$select * from public.medication_application_events$$,'42501',null,'audit available only by narrow RPC');
 select throws_ok($$select * from private.medication_operations$$,'42501',null,'receipts are not directly readable');
 select throws_ok($$update public.medication_treatments set status='stopped'$$,'42501',null,'direct writes denied');

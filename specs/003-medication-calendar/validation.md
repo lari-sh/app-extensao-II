@@ -474,3 +474,14 @@ asserções de conclusão, correção, autoria e histórico preservadas.
 Artifact 13101944660 publicado; digest, validade, link e limitações registrados
 em [fechamento Android](../../docs/releases/1.0.0-android.md). A execução aprovada
 confirma o gate remoto que estava pendente na seção T052. iOS/produção separados.
+
+## Isolamento dos testes SQL com dados locais existentes
+
+Durante a implementação de acesso da equipe, a regressão encontrou pressupostos
+antigos de banco vazio: contagens globais no teste de fundação e agenda fixa em
+novembro/2026 colidiam com dados manuais. Leituras autorizadas agora conferem os
+IDs das próprias fixtures. A agenda usa novembro/dezembro de 2096, com guarda que
+recusa intervalo ocupado sem apagar registros. Mesmas 32 asserções de paginação,
+fuso, cursores, histórico e revogação preservadas. Nenhuma query do app alterada.
+Regressão local completa, incluindo a fundação nova de equipe: 13 arquivos e
+293 testes aprovados. Evidência remota deste ajuste ainda não confirmada.
