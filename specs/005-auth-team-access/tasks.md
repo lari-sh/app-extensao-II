@@ -7,7 +7,7 @@ contracts/team-access.md. Proposta não equivale a implementação nem aprovaç�
 
 - [x] T001 Registrar spec.md, plan.md, research.md, data-model.md, contracts/team-access.md e quickstart.md conforme decisão do primeiro administrador provisionado e equipe por convite. [005-FR-001, 005-FR-002, 005-CR-001]
 - [x] T002 Preparar design/team-access-proposal.html com equipe, convite, aceite, recuperação e nova senha; validar interações/responsividade e registrar design-approval.md como pendente. Proposta DESIGN-TEAM-001 conferida em 320/390/1440 px, com dados simulados e preservação das telas anteriores. [005-FR-013]
-- [ ] T003 Obter aprovação explícita do usuário para novas telas e entrada Equipe antes de codificar UI; registrar em design-approval.md. [005-FR-013, 005-CR-003]
+- [x] T003 Obter aprovação explícita do usuário para novas telas e entrada Equipe antes de codificar UI; registrar em design-approval.md. [005-FR-013, 005-CR-003]
 
 ## Fundação de autorização
 
@@ -58,4 +58,4 @@ T017–T019 podem avançar independentemente dos convites, preservando a base au
 T020–T022 reutilizam callbacks/storage e distinguem recuperação de convite.
 T023/T024 após jornadas; T025 é gate de iOS separado; T026 em cada entrega.
 Testes precedem implementação de suas regras. Nenhuma tarefa marcada por mera
-existência de arquivo. 26 tarefas; aprovação visual permanece pendente.
+existência de arquivo. 26 tarefas; aprovação visual DESIGN-TEAM-001 recebida em 2026-11-01.

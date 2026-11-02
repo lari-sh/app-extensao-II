@@ -45,3 +45,10 @@ Rastreabilidade conferida: 17 IDs de requisitos presentes nas tarefas, 26 IDs
 arquivo lib/, pubspec, migration ou Function implementado nesta entrega.
 Flutter/backend/Android não repetidos, pois o escopo é planejamento/protótipo.
 A aprovação do usuário ainda é necessária e não foi presumida.
+
+## Aprovação recebida
+
+2026-11-01: usuário respondeu Aprovar o design ao cartão DESIGN-TEAM-001 para
+Equipe, Convidar pessoa, Aceitar convite, Recuperar acesso e Nova senha. T003
+concluída; novas Views liberadas após backend/contratos/testes necessários.
+A aprovação não equivale a validação de implementação ou envio de e-mails.
