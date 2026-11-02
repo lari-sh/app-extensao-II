@@ -130,3 +130,16 @@ ainda desabilitada após a revalidação iniciada pelo calendário. refreshAcces
 agora notifica mudanças de capacidade mesmo quando a geração privada não mudou,
 conservando os critérios. Testes VM/Widget: **13 PASS**, incluindo notificações
 durante e depois da confirmação de acesso. Android em repetição.
+
+## T008/T010 — contexto preservado e Android — 2026-11-02
+
+Jornada Android real PASS, emulator-5554/API 37: login de funcionário isolado,
+dois homônimos com códigos distintos, nome/código normalizado, cinco filtros,
+três modos, busca no calendário sem tratamento, ficha/retorno preservando busca,
+dia anterior preservado ao limpar e logout. Teste termina sem escrever medicação
+ou editar animal. Controller cria apenas dois animais próprios e limpa no fim.
+
+Suíte Widget específica **5 PASS**, incluindo posição fixa em 320/390 px/texto
+ampliado, filtros/erro/retry e restauração explícita da rolagem da Lista e dia
+2026-11-03 após busca/ficha. Esta é a décima jornada da CI, mantendo as nove
+anteriores. Resultado remoto e APK normal atualizado ainda pendentes em T011.

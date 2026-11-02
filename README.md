@@ -252,14 +252,16 @@ em [supabase/demo/README.md](supabase/demo/README.md). Este perfil não vai para
 produção nem é aplicado automaticamente pela CI.
 
 
-### Próxima melhoria: busca administrativa
+### Busca administrativa global
 
-Proposta revisada: campo fixo após os totais, por nome ou código automático único,
-com filtros de espécie, sexo, cor, porte e situação; sem nova aba. A busca retorna
-animais globalmente a partir de Kanban, Lista ou Calendário, inclusive sem medicação
-no dia selecionado. Limpar restaura o contexto anterior. Ver
-[design/management-search-proposal.html](design/management-search-proposal.html).
-[Planejamento e tarefas](specs/006-management-search/plan.md) revisados; DESIGN-SEARCH-001
-v2 aprovada; implementação em andamento. Códigos únicos foram adicionados ao backend
-com preservação dos dados e 356 testes SQL PASS. Busca/RPC/Flutter continuam em
-implementação; acompanhe [as evidências](specs/006-management-search/validation.md).
+Campo fixo após os totais, por nome ou código automático único, com filtros de
+espécie, sexo, cor, porte e situação; sem nova aba. Retorna todos os animais
+autorizados, independentemente do Kanban, Lista ou Calendário e da existência de
+medicação no dia. Limpar restaura modo, rolagem e data; a ficha pode ser aberta e
+o retorno atualiza os resultados sem perder critérios. Códigos são gerados pelo
+servidor, imutáveis e crescem após A9999. UUIDs, fotos e históricos preservados.
+
+DESIGN-SEARCH-001 v2 implementado; jornada Android local e testes de contexto
+aprovados. CI final com dez jornadas e gate de cobertura >=95% em validação.
+[Plano/tarefas](specs/006-management-search/plan.md) e
+[evidências](specs/006-management-search/validation.md).

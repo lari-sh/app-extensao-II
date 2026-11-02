@@ -1,3 +1,5 @@
+import 'package:abrigo_dos_anjos/ui/features/medications/view_models/medication_calendar_view_model.dart';
+import '../../../../support/fakes/fake_medication_completion_scenario.dart';
 import 'package:abrigo_dos_anjos/ui/features/animals/views/managed_animal_search_panel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -211,6 +213,106 @@ void main() {
       await tester.tap(find.byTooltip('Cancelar filtros'));
       await tester.pumpAndSettle();
       expect(search.chips, isEmpty);
+      expect(tester.takeException(), isNull);
+    },
+  );
+  testWidgets(
+    'clearing restores list scroll and selected calendar day; editor return refreshes search',
+    (tester) async {
+      final r = FakeAnimalsRepository()
+        ..handler = (m, a) async {
+          if (m == 'getStatusCounts')
+            return const Success<Map<AnimalStatus, int>>({
+              AnimalStatus.available: 30,
+            });
+          if (m == 'searchManagement')
+            return Success(
+              ManagedAnimalPage(
+                items: [
+                  ManagedAnimal(
+                    animal: fixtureAnimal(1).copyWith(animalCode: 'A0001'),
+                  ),
+                ],
+                total: 1,
+              ),
+            );
+          return Success(
+            ManagedAnimalPage(
+              items: List.generate(
+                30,
+                (i) => ManagedAnimal(animal: fixtureAnimal(i + 1)),
+              ),
+              total: 30,
+            ),
+          );
+        };
+      final search = ManagedAnimalSearchViewModel(
+        r,
+        FakePhotoRepository(),
+        isAuthorized: () => true,
+      );
+      final calendar = MedicationCalendarViewModel(
+        FakeMedicationCompletionScenario().repository,
+        now: () => DateTime.utc(2026, 11, 1),
+      );
+      final dashboard = DashboardViewModel(
+        r,
+        isAuthorized: () => true,
+        onCalendarSelected: calendar.initialize,
+      );
+      addTearDown(search.dispose);
+      addTearDown(dashboard.dispose);
+      addTearDown(calendar.dispose);
+      await dashboard.load();
+      dashboard.setListMode(true);
+      await tester.pumpWidget(
+        MaterialApp(
+          routes: {
+            '/animal-editor': (context) => Scaffold(
+              body: TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Voltar da ficha'),
+              ),
+            ),
+          },
+          home: DashboardScreen(
+            viewModel: dashboard,
+            searchViewModel: search,
+            calendarViewModel: calendar,
+          ),
+        ),
+      );
+      final scrolling = find.descendant(
+        of: find.byType(ListView),
+        matching: find.byType(Scrollable),
+      );
+      await tester.drag(find.byType(ListView), const Offset(0, -600));
+      await tester.pumpAndSettle();
+      final position = tester.state<ScrollableState>(scrolling).position.pixels;
+      expect(position, greaterThan(0));
+      await search.submitQuery('Luna');
+      await tester.pumpAndSettle();
+      search.clearAll();
+      await tester.pumpAndSettle();
+      expect(
+        tester.state<ScrollableState>(scrolling).position.pixels,
+        position,
+      );
+      await tester.tap(find.text('Calendário'));
+      await tester.pumpAndSettle();
+      await calendar.selectDay('2026-11-03');
+      await tester.pumpAndSettle();
+      await search.submitQuery('A0001');
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Abrir ficha ›'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Voltar da ficha'));
+      await tester.pumpAndSettle();
+      expect(search.state.filter.query, 'A0001');
+      expect(search.state.items, hasLength(1));
+      search.clearAll();
+      await tester.pumpAndSettle();
+      expect(calendar.state.selectedDay, '2026-11-03');
       expect(tester.takeException(), isNull);
     },
   );
