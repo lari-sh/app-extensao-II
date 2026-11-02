@@ -83,6 +83,7 @@ dependencies:
 
 
 dev_dependencies:
+  shared_preferences_platform_interface: 2.4.2
   freezed: 3.2.5
   build_runner: 2.10.5
   integration_test:

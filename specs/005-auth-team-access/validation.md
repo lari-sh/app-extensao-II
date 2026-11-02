@@ -263,3 +263,13 @@ As etapas de fotos e medicamentos foram enviadas separadamente nos commits
 inesperadas, fotos, filtros inválidos/limpeza, bloqueio de escrita duplicada e
 revalidação de disponibilidade antes de copiar interesse de adoção. Analyze sem
 problemas. Código de produção preservado; medição global ao fechar as etapas.
+
+
+## Meta de 95% — composição e inicialização — 2026-11-02
+
+3 Widget Tests PASS: composição produtiva registra os contratos e inicia como
+visitante sem consultar/escrever dados remotos; configuração ausente exibe
+aviso; SDK inicializa com adaptadores de preferências locais de teste. Cliente
+SDK criado/descartado em runAsync para manter seu worker fora do FakeAsync.
+Armazenamento oficial em memória, sem ler preferências reais; dependência de
+teste já transitiva documentada no plano. Analyze sem problemas.

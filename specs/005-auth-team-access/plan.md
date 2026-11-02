@@ -110,3 +110,12 @@ existente. Falha no armazenamento não concede login persistente silencioso.
 
 Checagem arquitetural conforme; gate de implementação visual ainda fechado.
 Nenhum arquivo em lib/, migrations, Functions ou pubspec será alterado nesta fase.
+
+
+### Dependência de teste para a meta de 95% (2026-11-02)
+
+Adicionar `shared_preferences_platform_interface: 2.4.2` somente em dev_dependencies.
+A versão já integra o lockfile como dependência transitiva de shared_preferences.
+Justificativa: usar o armazenamento oficial em memória para testar a composição
+real da aplicação e o ciclo de sessão/favoritos sem acessar preferências do
+computador. Não muda o armazenamento produtivo nem adiciona pacote ao app.
