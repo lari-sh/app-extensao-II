@@ -171,3 +171,9 @@ sem depender de conta já aceita em execução anterior.
 
 Checkbox de persistência, recuperação de senha, cold-start ampliado e iOS seguem
 pendentes nas tarefas próprias. CI remota da nova interface ainda não confirmada.
+
+
+APK normal de desenvolvimento recompilado, instalado e aberto no emulator-5554
+após o teste de integração. Fixtures de equipe removidas por prefixo exclusivo.
+CI da interface: run 41387157608, SHA 0cd6b84b9011c3a2f178c81705dfbfda2fb6ac53,
+em andamento na última consulta; ainda não equivale a entrega remota aprovada.
