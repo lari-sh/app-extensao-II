@@ -240,3 +240,13 @@ com force-stop/relaunch, além de revogação e logout.
 [Registro completo](specs/005-auth-team-access/validation.md). Neste plano, resta
 validação iOS em Mac/Xcode (T025). E-mail real depende de SMTP/redirects produtivos;
 os testes de e-mail usam exclusivamente Mailpit local.
+
+
+### Dados de apresentação local
+
+Catálogo do emulador preparado com oito **exemplos fictícios** e fotos ilustrativas:
+Amora, Bento, Luna, Thor, Mel, Nina, Simba e Theo. Não representam animais reais do
+abrigo. As fixtures técnicas foram ocultadas do visitante e preservadas para testes,
+sem apagar cadastros ou históricos. Fontes, licença, execução, limites e evidências
+em [supabase/demo/README.md](supabase/demo/README.md). Este perfil não vai para
+produção nem é aplicado automaticamente pela CI.

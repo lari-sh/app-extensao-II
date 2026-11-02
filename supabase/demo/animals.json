@@ -1,0 +1,287 @@
+{
+  "requirement": "DEMO-FR-001",
+  "purpose": "Apresentação local: animais fictícios com fotos ilustrativas, conforme autorização da responsável em 2026-11-02. Não são fichas reais do abrigo.",
+  "license_url": "https://unsplash.com/license",
+  "animals": [
+    {
+      "slug": "amora",
+      "payload": {
+        "name": "Amora",
+        "species": "dog",
+        "sex": "female",
+        "size": "medium",
+        "approximate_age": "2 anos",
+        "weight_kg": 12.4,
+        "color": "Branco, caramelo e preto",
+        "temperament": "Carinhosa e brincalhona",
+        "public_description": "Amora adora passeios tranquilos e brincadeiras com bolinha. Procura uma família que possa oferecer carinho e uma rotina de atividades.",
+        "is_vaccinated": true,
+        "is_neutered": true,
+        "last_dewormed_on": "2026-10-15",
+        "vaccinations": [
+          {
+            "applied_on": "2026-09-10",
+            "vaccine_type": "V8"
+          },
+          {
+            "applied_on": "2026-09-24",
+            "vaccine_type": "Antirrábica"
+          }
+        ],
+        "clinical_notes": "Exemplo de apresentação autorizado. Dados fictícios; não usar como orientação veterinária.",
+        "care_records": []
+      },
+      "photo": {
+        "slug": "amora",
+        "source_url": "https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=1000&q=85&fm=jpg",
+        "sha256": "e7c3993f8015c25b2808aa40e096686e2d5b9987650371bbbe5381800fa4bf06",
+        "bytes": 83573
+      }
+    },
+    {
+      "slug": "bento",
+      "payload": {
+        "name": "Bento",
+        "species": "dog",
+        "sex": "male",
+        "size": "large",
+        "approximate_age": "3 anos",
+        "weight_kg": 28.5,
+        "color": "Dourado",
+        "temperament": "Sociável e companheiro",
+        "public_description": "Bento gosta de companhia e de explorar novos lugares durante os passeios. É um companheiro para quem deseja compartilhar a rotina com um amigo de quatro patas.",
+        "is_vaccinated": true,
+        "is_neutered": true,
+        "last_dewormed_on": "2026-10-15",
+        "vaccinations": [
+          {
+            "applied_on": "2026-09-10",
+            "vaccine_type": "V8"
+          },
+          {
+            "applied_on": "2026-09-24",
+            "vaccine_type": "Antirrábica"
+          }
+        ],
+        "clinical_notes": "Exemplo de apresentação autorizado. Dados fictícios; não usar como orientação veterinária.",
+        "care_records": []
+      },
+      "photo": {
+        "slug": "bento",
+        "source_url": "https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=1000&q=85&fm=jpg",
+        "sha256": "51bffa1ade43295a429c34174fefb371e829b3cd07aded97b26315ea068d7801",
+        "bytes": 245211
+      }
+    },
+    {
+      "slug": "luna",
+      "payload": {
+        "name": "Luna",
+        "species": "dog",
+        "sex": "female",
+        "size": "medium",
+        "approximate_age": "1 ano e 8 meses",
+        "weight_kg": 18.6,
+        "color": "Branco e marrom",
+        "temperament": "Ativa e curiosa",
+        "public_description": "Luna é cheia de energia e gosta de aprender brincadeiras novas. Combina com uma família que tenha tempo para passeios e atividades diárias.",
+        "is_vaccinated": true,
+        "is_neutered": true,
+        "last_dewormed_on": "2026-10-15",
+        "vaccinations": [
+          {
+            "applied_on": "2026-09-10",
+            "vaccine_type": "V8"
+          },
+          {
+            "applied_on": "2026-09-24",
+            "vaccine_type": "Antirrábica"
+          }
+        ],
+        "clinical_notes": "Exemplo de apresentação autorizado. Dados fictícios; não usar como orientação veterinária.",
+        "care_records": []
+      },
+      "photo": {
+        "slug": "luna",
+        "source_url": "https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=1000&q=85&fm=jpg",
+        "sha256": "534bab3a7d32187ead8acbc6fd7a246044d22c72865dcc9d0a3e2fe8137dc134",
+        "bytes": 81302
+      }
+    },
+    {
+      "slug": "thor",
+      "payload": {
+        "name": "Thor",
+        "species": "dog",
+        "sex": "male",
+        "size": "small",
+        "approximate_age": "5 anos",
+        "weight_kg": 8.2,
+        "color": "Preto",
+        "temperament": "Tranquilo e afetuoso",
+        "public_description": "Thor prefere uma rotina tranquila e gosta de ficar por perto das pessoas. Procura um lar acolhedor, com atenção e momentos de descanso.",
+        "is_vaccinated": true,
+        "is_neutered": true,
+        "last_dewormed_on": "2026-10-15",
+        "vaccinations": [
+          {
+            "applied_on": "2026-09-10",
+            "vaccine_type": "V8"
+          },
+          {
+            "applied_on": "2026-09-24",
+            "vaccine_type": "Antirrábica"
+          }
+        ],
+        "clinical_notes": "Exemplo de apresentação autorizado. Dados fictícios; não usar como orientação veterinária.",
+        "care_records": []
+      },
+      "photo": {
+        "slug": "thor",
+        "source_url": "https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=1000&q=85&fm=jpg",
+        "sha256": "0d6c879a0126e646502787de84131fe779a928b256f86bf8e4ca00247256ed81",
+        "bytes": 188825
+      }
+    },
+    {
+      "slug": "mel",
+      "payload": {
+        "name": "Mel",
+        "species": "cat",
+        "sex": "female",
+        "size": "small",
+        "approximate_age": "2 anos",
+        "weight_kg": 4.1,
+        "color": "Branco e preto",
+        "temperament": "Afetuosa e observadora",
+        "public_description": "Mel gosta de observar o movimento pela janela e descansar em lugares aconchegantes. Procura um lar seguro, com janelas teladas e espaço para brincar.",
+        "is_vaccinated": true,
+        "is_neutered": true,
+        "last_dewormed_on": "2026-10-15",
+        "vaccinations": [
+          {
+            "applied_on": "2026-09-10",
+            "vaccine_type": "V4"
+          },
+          {
+            "applied_on": "2026-09-24",
+            "vaccine_type": "Antirrábica"
+          }
+        ],
+        "clinical_notes": "Exemplo de apresentação autorizado. Dados fictícios; não usar como orientação veterinária.",
+        "care_records": []
+      },
+      "photo": {
+        "slug": "mel",
+        "source_url": "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=1000&q=85&fm=jpg",
+        "sha256": "970f29842cea3f99c1e6119405932c144b4e43e4298dd39365f7f98bbc4c8f17",
+        "bytes": 74374
+      }
+    },
+    {
+      "slug": "nina",
+      "payload": {
+        "name": "Nina",
+        "species": "cat",
+        "sex": "female",
+        "size": "small",
+        "approximate_age": "3 anos",
+        "weight_kg": 4.6,
+        "color": "Laranja rajado",
+        "temperament": "Curiosa e brincalhona",
+        "public_description": "Nina adora brinquedos de varinha e lugares altos para observar a casa. Procura uma família paciente que respeite seu tempo de adaptação.",
+        "is_vaccinated": true,
+        "is_neutered": true,
+        "last_dewormed_on": "2026-10-15",
+        "vaccinations": [
+          {
+            "applied_on": "2026-09-10",
+            "vaccine_type": "V4"
+          },
+          {
+            "applied_on": "2026-09-24",
+            "vaccine_type": "Antirrábica"
+          }
+        ],
+        "clinical_notes": "Exemplo de apresentação autorizado. Dados fictícios; não usar como orientação veterinária.",
+        "care_records": []
+      },
+      "photo": {
+        "slug": "nina",
+        "source_url": "https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=1000&q=85&fm=jpg",
+        "sha256": "b2488e47a93e775b6048095d56d762e55074c94ddace8e62699a7ed0c9b51353",
+        "bytes": 263025
+      }
+    },
+    {
+      "slug": "simba",
+      "payload": {
+        "name": "Simba",
+        "species": "cat",
+        "sex": "male",
+        "size": "small",
+        "approximate_age": "1 ano",
+        "weight_kg": 5.2,
+        "color": "Rajado",
+        "temperament": "Sociável e ativo",
+        "public_description": "Simba gosta de explorar e participar da rotina da casa. Procura um lar com proteção nas janelas, arranhadores e companhia para brincar.",
+        "is_vaccinated": true,
+        "is_neutered": true,
+        "last_dewormed_on": "2026-10-15",
+        "vaccinations": [
+          {
+            "applied_on": "2026-09-10",
+            "vaccine_type": "V4"
+          },
+          {
+            "applied_on": "2026-09-24",
+            "vaccine_type": "Antirrábica"
+          }
+        ],
+        "clinical_notes": "Exemplo de apresentação autorizado. Dados fictícios; não usar como orientação veterinária.",
+        "care_records": []
+      },
+      "photo": {
+        "slug": "simba",
+        "source_url": "https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=1000&q=85&fm=jpg",
+        "sha256": "f4db7d2330c54bdfa822e9c7f8a8ada290fbe448fd35a0f62a565b8b9ffa9bad",
+        "bytes": 129267
+      }
+    },
+    {
+      "slug": "theo",
+      "payload": {
+        "name": "Theo",
+        "species": "cat",
+        "sex": "male",
+        "size": "small",
+        "approximate_age": "1 ano e 6 meses",
+        "weight_kg": 4.8,
+        "color": "Laranja e branco",
+        "temperament": "Calmo e carinhoso",
+        "public_description": "Theo gosta de sonecas ao sol e carinho quando se sente à vontade. Procura um lar acolhedor e seguro para aproveitar uma vida tranquila.",
+        "is_vaccinated": true,
+        "is_neutered": true,
+        "last_dewormed_on": "2026-10-15",
+        "vaccinations": [
+          {
+            "applied_on": "2026-09-10",
+            "vaccine_type": "V4"
+          },
+          {
+            "applied_on": "2026-09-24",
+            "vaccine_type": "Antirrábica"
+          }
+        ],
+        "clinical_notes": "Exemplo de apresentação autorizado. Dados fictícios; não usar como orientação veterinária.",
+        "care_records": []
+      },
+      "photo": {
+        "slug": "theo",
+        "source_url": "https://images.unsplash.com/photo-1511044568932-338cba0ad803?auto=format&fit=crop&w=1000&q=85&fm=jpg",
+        "sha256": "5f45388dce90488094c68081b10a11a904c07c5b00a0186fe13e7d8394bdd144",
+        "bytes": 153065
+      }
+    }
+  ]
+}
