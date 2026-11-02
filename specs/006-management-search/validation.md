@@ -151,3 +151,11 @@ arquivos PASS. Formato de 298 arquivos sem alterações; shell Android e YAML PA
 APK normal compilado/instalado/aberto no emulador. CI 41534388871/e6fd1a5 parou
 em três lints de chaves nos testes novos, antes do backend/Android. Corrigidos
 sem alterar comportamento; analyze local sem problemas. Nova CI pendente.
+
+### Conferência visual no APK normal
+
+Busca nativa por Luna exibiu foto, código A0067 e dados do cadastro local sem
+duplicar/alterar animais. Ajustados os cartões para fundo branco e chips de
+código/situação do protótipo; cadastro flutuante oculto enquanto há resultados
+globais, evitando sobreposição. Oito Widgets (busca/dashboard) PASS, incluindo
+texto ampliado/320 px e preservação de contexto; analyze sem problemas.

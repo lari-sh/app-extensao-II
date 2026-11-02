@@ -65,7 +65,10 @@ class _DashboardScreenState extends State<DashboardScreen>
   Widget build(BuildContext context) => ListenableBuilder(
     listenable: Listenable.merge([viewModel, widget.searchViewModel]),
     builder: (context, _) => Scaffold(
-      floatingActionButton: !viewModel.showRegistration
+      floatingActionButton:
+          !viewModel.showRegistrationFor(
+            widget.searchViewModel?.showGlobalResults ?? false,
+          )
           ? null
           : FloatingActionButton(
               tooltip: 'Cadastrar animal',

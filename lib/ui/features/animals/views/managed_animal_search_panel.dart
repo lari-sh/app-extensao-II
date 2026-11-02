@@ -74,6 +74,8 @@ class ManagedAnimalSearchPanel extends StatelessWidget {
           ),
         for (final item in viewModel.state.items)
           Card(
+            color: Colors.white,
+            surfaceTintColor: Colors.white,
             margin: const EdgeInsets.only(bottom: 10),
             elevation: 0,
             shape: RoundedRectangleBorder(
@@ -113,34 +115,57 @@ class ManagedAnimalSearchPanel extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Wrap(
-                              alignment: WrapAlignment.spaceBetween,
-                              spacing: 8,
-                              children: [
-                                Text(
-                                  item.animal.name,
-                                  style: const TextStyle(
-                                    fontSize: 21,
-                                    fontFamily: 'serif',
-                                    fontWeight: FontWeight.bold,
+                            SizedBox(
+                              width: double.infinity,
+                              child: Wrap(
+                                alignment: WrapAlignment.spaceBetween,
+                                spacing: 8,
+                                children: [
+                                  Text(
+                                    item.animal.name,
+                                    style: const TextStyle(
+                                      fontSize: 21,
+                                      fontFamily: 'serif',
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  '#${item.animal.animalCode}',
-                                  style: const TextStyle(fontSize: 10),
-                                ),
-                              ],
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 5,
+                                      vertical: 2,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFF6EAE5),
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    child: Text(
+                                      '#${item.animal.animalCode}',
+                                      style: const TextStyle(fontSize: 10),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                             Text(
                               viewModel.subtitle(item.animal),
                               style: const TextStyle(fontSize: 10),
                             ),
                             const SizedBox(height: 8),
-                            Text(
-                              viewModel.statusLabel(item.animal),
-                              style: const TextStyle(
-                                fontSize: 11,
-                                color: Color(0xFFC51D2A),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 6,
+                                vertical: 3,
+                              ),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFF6EAE5),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Text(
+                                viewModel.statusLabel(item.animal),
+                                style: const TextStyle(
+                                  fontSize: 11,
+                                  color: Color(0xFFC51D2A),
+                                ),
                               ),
                             ),
                             Text(

@@ -69,6 +69,7 @@ void main() {
         ),
       );
       expect(find.text('#A0001'), findsOneWidget);
+      expect(find.byType(FloatingActionButton), findsNothing);
       await tester.scrollUntilVisible(
         find.text('#A0002'),
         100,
