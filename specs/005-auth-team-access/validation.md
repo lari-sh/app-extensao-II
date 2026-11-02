@@ -356,3 +356,32 @@ revogação e logout foram preservadas. Nenhuma alteração de layout ou autoriz
 
 Jornada corrigida PASS no emulator-5554 (14 s após instalação); analyze limpo.
 Nova CI completa será conferida antes de concluir esta revisão.
+
+
+## CI aprovada após correção — 2026-11-02
+
+Execução: [41395580798](https://github.com/lari-sh/app-extensao-II/actions/runs/41395580798).
+Commit de código validado: **62d40f40ad5e22e671e56b3fc72a5e2a62b16fe9**, branch developer.
+Status consultado: **completed / success**, quatro jobs aprovados.
+
+| Job | Resultado conferido |
+| --- | --- |
+| flutter | Geração determinística, formato, analyze e **441 testes PASS** |
+| backend | **337 testes SQL**, **19 testes Deno**, fluxos HTTP e concorrência PASS |
+| android | **8 jornadas PASS**, incluindo login/conta sem vínculo/restauração/revogação e convites |
+| deliver | APK debug compilado e artefato publicado |
+
+As oito jornadas conferidas nos logs são catálogo público, ficha do visitante,
+autenticação, painel de manejo, cadastro/edição, calendário de medicamentos,
+contatos de adoção e convite/aceite da equipe. O cenário de autenticação que
+falhou no run anterior passou mantendo as asserções de segurança.
+
+Artefato: [abrigo-dos-anjos-android-debug · 13119744573](https://github.com/lari-sh/app-extensao-II/actions/runs/41395580798/artifacts/13119744573),
+76.916.598 bytes, não expirado na consulta, retenção até 2026-11-09 06:08:31 UTC.
+O workflow inclui APK debug e validation.txt com SHA/run. Não é publicação em loja.
+
+A medição local registrada continua **95,09%** de linhas; a CI confirmou execução
+completa dos 441 testes, sem publicar percentual LCOV próprio nos logs.
+O APK normal também foi reinstalado/aberto no emulador local após o teste focado.
+Esta seção encerra a revisão da CI das alterações de código acima; não marca como
+concluídos persistência de sessão, recuperação de senha ou validação iOS pendentes.

@@ -83,3 +83,10 @@ existência de arquivo. 26 tarefas; aprovação visual DESIGN-TEAM-001 recebida 
   Catálogo/favoritos, composição, programação/aplicação de medicações,
   navegação/callbacks, cadastro e falhas de sessão cobertos. Analyze/formato
   aprovados; CI remota do fechamento ainda pendente. [005-CR-002, 005-CR-003]
+
+
+- [x] T030 Conferir a CI após a meta de cobertura, corrigir a jornada de login
+  Android e documentar execução/commit/artefato. Run **41395580798**, commit
+  **62d40f4**: Flutter/backend/Android/deliver PASS; 441 Flutter, 337 SQL,
+  19 Deno e 8 jornadas Android aprovados. Artefato 13119744573.
+  Correção e documentação em commits separados na developer. [005-CR-002, 005-CR-003]

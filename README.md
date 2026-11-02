@@ -206,3 +206,15 @@ cadastro público de administrador. A implantação real exige SMTP configurado.
 Fluxo Android de convite/aceite com e-mail local integrado aos testes; roteiro e
 resultados em `specs/005-auth-team-access/quickstart.md` e `validation.md`.
 Permanecer logado e recuperação de senha continuam tarefas separadas da feature.
+
+
+### CI conferida em 2026-11-02
+
+A [execução 41395580798](https://github.com/lari-sh/app-extensao-II/actions/runs/41395580798)
+aprovou Flutter, backend, Android e entrega para o commit `62d40f4` da developer:
+441 testes Flutter, 337 SQL, 19 Deno e 8 jornadas Android. O teste de login foi
+ajustado para aguardar e exibir o feedback da nova tentativa antes de verificá-lo.
+
+[APK Android de debug](https://github.com/lari-sh/app-extensao-II/actions/runs/41395580798/artifacts/13119744573)
+disponível pelo prazo de retenção da CI. Evidências e limites da validação em
+[validation.md](specs/005-auth-team-access/validation.md).
