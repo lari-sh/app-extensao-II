@@ -48,13 +48,17 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Result<SessionAccess>> signIn(String email, String password) {
+  Future<Result<SessionAccess>> signIn(
+    String email,
+    String password, {
+    bool remember = true,
+  }) {
     final epoch = ++_epoch;
     _locallySignedOut = false;
     return _enqueue(() async {
       if (epoch != _epoch) return Failure(AppFailure(FailureCode.cancelled));
       final result = await mapRepositoryResult(
-        () => service.signIn(email, password),
+        () => service.signIn(email, password, remember: remember),
         _map,
       );
       if (epoch != _epoch) return Failure(AppFailure(FailureCode.cancelled));

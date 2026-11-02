@@ -1,3 +1,4 @@
+import '../data/services/session_storage_service.dart';
 import '../data/services/supabase_auth_callback_service.dart';
 import '../ui/features/auth/view_models/auth_callback_view_model.dart';
 import '../data/services/supabase_team_service.dart';
@@ -41,9 +42,12 @@ import '../domain/repositories/adoption_message_repository.dart';
 import 'app_router.dart';
 import 'app_dependencies.dart';
 
-Widget createPublicApplication(SupabaseClient client) {
+Widget createPublicApplication(
+  SupabaseClient client, {
+  SessionPersistenceService? persistence,
+}) {
   final callbacks = AuthCallbackViewModel(SupabaseAuthCallbackService.instance);
-  final authService = SupabaseAuthService(client);
+  final authService = SupabaseAuthService(client, persistence: persistence);
   final auth = AuthRepositoryImpl(authService);
   final session = SessionViewModel(auth);
   final sessionReady = session.start();

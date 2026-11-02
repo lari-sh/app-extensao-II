@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$LoginState implements DiagnosticableTreeMixin {
 
- bool get busy; bool get signedIn; Map<String, String> get fieldErrors; String? get message;
+ bool get remember; bool get busy; bool get signedIn; Map<String, String> get fieldErrors; String? get message;
 /// Create a copy of LoginState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,21 +26,21 @@ $LoginStateCopyWith<LoginState> get copyWith => _$LoginStateCopyWithImpl<LoginSt
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'LoginState'))
-    ..add(DiagnosticsProperty('busy', busy))..add(DiagnosticsProperty('signedIn', signedIn))..add(DiagnosticsProperty('fieldErrors', fieldErrors))..add(DiagnosticsProperty('message', message));
+    ..add(DiagnosticsProperty('remember', remember))..add(DiagnosticsProperty('busy', busy))..add(DiagnosticsProperty('signedIn', signedIn))..add(DiagnosticsProperty('fieldErrors', fieldErrors))..add(DiagnosticsProperty('message', message));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginState&&(identical(other.busy, busy) || other.busy == busy)&&(identical(other.signedIn, signedIn) || other.signedIn == signedIn)&&const DeepCollectionEquality().equals(other.fieldErrors, fieldErrors)&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginState&&(identical(other.remember, remember) || other.remember == remember)&&(identical(other.busy, busy) || other.busy == busy)&&(identical(other.signedIn, signedIn) || other.signedIn == signedIn)&&const DeepCollectionEquality().equals(other.fieldErrors, fieldErrors)&&(identical(other.message, message) || other.message == message));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,busy,signedIn,const DeepCollectionEquality().hash(fieldErrors),message);
+int get hashCode => Object.hash(runtimeType,remember,busy,signedIn,const DeepCollectionEquality().hash(fieldErrors),message);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'LoginState(busy: $busy, signedIn: $signedIn, fieldErrors: $fieldErrors, message: $message)';
+  return 'LoginState(remember: $remember, busy: $busy, signedIn: $signedIn, fieldErrors: $fieldErrors, message: $message)';
 }
 
 
@@ -51,7 +51,7 @@ abstract mixin class $LoginStateCopyWith<$Res>  {
   factory $LoginStateCopyWith(LoginState value, $Res Function(LoginState) _then) = _$LoginStateCopyWithImpl;
 @useResult
 $Res call({
- bool busy, bool signedIn, Map<String, String> fieldErrors, String? message
+ bool remember, bool busy, bool signedIn, Map<String, String> fieldErrors, String? message
 });
 
 
@@ -68,9 +68,10 @@ class _$LoginStateCopyWithImpl<$Res>
 
 /// Create a copy of LoginState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? busy = null,Object? signedIn = null,Object? fieldErrors = null,Object? message = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? remember = null,Object? busy = null,Object? signedIn = null,Object? fieldErrors = null,Object? message = freezed,}) {
   return _then(_self.copyWith(
-busy: null == busy ? _self.busy : busy // ignore: cast_nullable_to_non_nullable
+remember: null == remember ? _self.remember : remember // ignore: cast_nullable_to_non_nullable
+as bool,busy: null == busy ? _self.busy : busy // ignore: cast_nullable_to_non_nullable
 as bool,signedIn: null == signedIn ? _self.signedIn : signedIn // ignore: cast_nullable_to_non_nullable
 as bool,fieldErrors: null == fieldErrors ? _self.fieldErrors : fieldErrors // ignore: cast_nullable_to_non_nullable
 as Map<String, String>,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
@@ -159,10 +160,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool busy,  bool signedIn,  Map<String, String> fieldErrors,  String? message)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool remember,  bool busy,  bool signedIn,  Map<String, String> fieldErrors,  String? message)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _LoginState() when $default != null:
-return $default(_that.busy,_that.signedIn,_that.fieldErrors,_that.message);case _:
+return $default(_that.remember,_that.busy,_that.signedIn,_that.fieldErrors,_that.message);case _:
   return orElse();
 
 }
@@ -180,10 +181,10 @@ return $default(_that.busy,_that.signedIn,_that.fieldErrors,_that.message);case 
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool busy,  bool signedIn,  Map<String, String> fieldErrors,  String? message)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool remember,  bool busy,  bool signedIn,  Map<String, String> fieldErrors,  String? message)  $default,) {final _that = this;
 switch (_that) {
 case _LoginState():
-return $default(_that.busy,_that.signedIn,_that.fieldErrors,_that.message);case _:
+return $default(_that.remember,_that.busy,_that.signedIn,_that.fieldErrors,_that.message);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -200,10 +201,10 @@ return $default(_that.busy,_that.signedIn,_that.fieldErrors,_that.message);case 
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool busy,  bool signedIn,  Map<String, String> fieldErrors,  String? message)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool remember,  bool busy,  bool signedIn,  Map<String, String> fieldErrors,  String? message)?  $default,) {final _that = this;
 switch (_that) {
 case _LoginState() when $default != null:
-return $default(_that.busy,_that.signedIn,_that.fieldErrors,_that.message);case _:
+return $default(_that.remember,_that.busy,_that.signedIn,_that.fieldErrors,_that.message);case _:
   return null;
 
 }
@@ -215,9 +216,10 @@ return $default(_that.busy,_that.signedIn,_that.fieldErrors,_that.message);case 
 
 
 class _LoginState with DiagnosticableTreeMixin implements LoginState {
-  const _LoginState({this.busy = false, this.signedIn = false, final  Map<String, String> fieldErrors = const {}, this.message}): _fieldErrors = fieldErrors;
+  const _LoginState({this.remember = true, this.busy = false, this.signedIn = false, final  Map<String, String> fieldErrors = const {}, this.message}): _fieldErrors = fieldErrors;
   
 
+@override@JsonKey() final  bool remember;
 @override@JsonKey() final  bool busy;
 @override@JsonKey() final  bool signedIn;
  final  Map<String, String> _fieldErrors;
@@ -240,21 +242,21 @@ _$LoginStateCopyWith<_LoginState> get copyWith => __$LoginStateCopyWithImpl<_Log
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'LoginState'))
-    ..add(DiagnosticsProperty('busy', busy))..add(DiagnosticsProperty('signedIn', signedIn))..add(DiagnosticsProperty('fieldErrors', fieldErrors))..add(DiagnosticsProperty('message', message));
+    ..add(DiagnosticsProperty('remember', remember))..add(DiagnosticsProperty('busy', busy))..add(DiagnosticsProperty('signedIn', signedIn))..add(DiagnosticsProperty('fieldErrors', fieldErrors))..add(DiagnosticsProperty('message', message));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoginState&&(identical(other.busy, busy) || other.busy == busy)&&(identical(other.signedIn, signedIn) || other.signedIn == signedIn)&&const DeepCollectionEquality().equals(other._fieldErrors, _fieldErrors)&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoginState&&(identical(other.remember, remember) || other.remember == remember)&&(identical(other.busy, busy) || other.busy == busy)&&(identical(other.signedIn, signedIn) || other.signedIn == signedIn)&&const DeepCollectionEquality().equals(other._fieldErrors, _fieldErrors)&&(identical(other.message, message) || other.message == message));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,busy,signedIn,const DeepCollectionEquality().hash(_fieldErrors),message);
+int get hashCode => Object.hash(runtimeType,remember,busy,signedIn,const DeepCollectionEquality().hash(_fieldErrors),message);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'LoginState(busy: $busy, signedIn: $signedIn, fieldErrors: $fieldErrors, message: $message)';
+  return 'LoginState(remember: $remember, busy: $busy, signedIn: $signedIn, fieldErrors: $fieldErrors, message: $message)';
 }
 
 
@@ -265,7 +267,7 @@ abstract mixin class _$LoginStateCopyWith<$Res> implements $LoginStateCopyWith<$
   factory _$LoginStateCopyWith(_LoginState value, $Res Function(_LoginState) _then) = __$LoginStateCopyWithImpl;
 @override @useResult
 $Res call({
- bool busy, bool signedIn, Map<String, String> fieldErrors, String? message
+ bool remember, bool busy, bool signedIn, Map<String, String> fieldErrors, String? message
 });
 
 
@@ -282,9 +284,10 @@ class __$LoginStateCopyWithImpl<$Res>
 
 /// Create a copy of LoginState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? busy = null,Object? signedIn = null,Object? fieldErrors = null,Object? message = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? remember = null,Object? busy = null,Object? signedIn = null,Object? fieldErrors = null,Object? message = freezed,}) {
   return _then(_LoginState(
-busy: null == busy ? _self.busy : busy // ignore: cast_nullable_to_non_nullable
+remember: null == remember ? _self.remember : remember // ignore: cast_nullable_to_non_nullable
+as bool,busy: null == busy ? _self.busy : busy // ignore: cast_nullable_to_non_nullable
 as bool,signedIn: null == signedIn ? _self.signedIn : signedIn // ignore: cast_nullable_to_non_nullable
 as bool,fieldErrors: null == fieldErrors ? _self._fieldErrors : fieldErrors // ignore: cast_nullable_to_non_nullable
 as Map<String, String>,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable

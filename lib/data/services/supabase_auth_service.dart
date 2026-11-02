@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'session_storage_service.dart';
 import 'dart:async';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../utils/app_failure.dart';
@@ -7,8 +9,12 @@ import 'auth_service.dart';
 import 'service_result.dart';
 
 class SupabaseAuthService implements AuthService {
-  SupabaseAuthService(this.client, {Stream<AuthState>? events})
-    : events = events ?? client.auth.onAuthStateChange;
+  SupabaseAuthService(
+    this.client, {
+    Stream<AuthState>? events,
+    this.persistence,
+  }) : events = events ?? client.auth.onAuthStateChange;
+  final SessionPersistenceService? persistence;
   final SupabaseClient client;
   final Stream<AuthState> events;
   SessionDto? _expiredSession() {
@@ -22,8 +28,20 @@ class SupabaseAuthService implements AuthService {
   }
 
   @override
-  Future<Result<SessionDto>> signIn(String email, String password) async {
-    return serviceResult(() async {
+  Future<Result<SessionDto>> signIn(
+    String email,
+    String password, {
+    bool remember = true,
+  }) async {
+    int? persistenceTicket;
+    if (persistence != null) {
+      final prepared = await persistence!.prepareSignIn(remember);
+      if (prepared case Failure<int>(:final failure)) return Failure(failure);
+      persistenceTicket = (prepared as Success<int>).value;
+    } else if (!remember) {
+      return Failure(AppFailure(FailureCode.configuration));
+    }
+    final result = await serviceResult(() async {
       final response = await client.auth.signInWithPassword(
         email: email,
         password: password,
@@ -32,8 +50,28 @@ class SupabaseAuthService implements AuthService {
           client.auth.currentSession?.user.id != response.user!.id) {
         throw const ServiceFailure(FailureCode.unauthenticated);
       }
-      return _verifyCurrent();
+      final verified = await _verifyCurrent();
+      if (persistenceTicket != null) {
+        final session = client.auth.currentSession;
+        if (session == null) {
+          throw const ServiceFailure(FailureCode.unauthenticated);
+        }
+        final confirmed = await persistence!.confirmSignIn(
+          persistenceTicket,
+          jsonEncode(session.toJson()),
+        );
+        if (confirmed case Failure<Unit>(:final failure)) {
+          throw ServiceFailure(failure.code);
+        }
+      }
+      return verified;
     });
+    if (result is Failure<SessionDto>) {
+      try {
+        await client.auth.signOut(scope: SignOutScope.local);
+      } catch (_) {}
+    }
+    return result;
   }
 
   Future<SessionDto> _verifyCurrent() async {

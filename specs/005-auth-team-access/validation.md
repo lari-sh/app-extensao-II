@@ -397,3 +397,14 @@ preferências em memória confirma que limpar a sessão preserva o verificador.
 Sessão só é confirmada como persistente após escrita durável; falha retorna
 Result e mantém o adaptador fechado. Analyze sem problemas. Integração de UI e
 validação Android continuam pendentes nas tarefas T018/T019.
+
+
+## T018 — integração da escolha de sessão — 2026-11-02
+
+Bootstrap injeta o mesmo adaptador no SDK e AuthService. Repository e LoginViewModel
+propagam a escolha sem armazenar senha; a confirmação durável ocorre após verificar
+a identidade e o acesso. Falhas de armazenamento impedem sucesso e limpam a sessão
+do SDK. Checkbox preserva posição e bloqueia alterações durante envio.
+Analyze PASS; regressão completa: 456 testes PASS, incluindo escolha nos dois modos,
+erro de armazenamento antes/depois do Auth, validação e busy do ViewModel.
+T019 permanece aberta até kill/relaunch e revogação no Android. Recuperação pendente.

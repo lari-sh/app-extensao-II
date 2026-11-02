@@ -1,3 +1,4 @@
+import '../../../../utils/app_failure.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../../domain/repositories/auth_repository.dart';
@@ -8,6 +9,7 @@ part 'login_view_model.freezed.dart';
 @freezed
 abstract class LoginState with _$LoginState {
   const factory LoginState({
+    @Default(true) bool remember,
     @Default(false) bool busy,
     @Default(false) bool signedIn,
     @Default({}) Map<String, String> fieldErrors,
@@ -42,6 +44,12 @@ class LoginViewModel extends ChangeNotifier {
     }
   }
 
+  void setRemember(bool? value) {
+    if (!_disposed && !state.busy && value != null) {
+      _publish(state.copyWith(remember: value));
+    }
+  }
+
   Future<void> submit(String email, String password) async {
     if (_disposed || state.busy) return;
     final errors = <String, String>{};
@@ -51,28 +59,42 @@ class LoginViewModel extends ChangeNotifier {
     }
     if (password.isEmpty) errors['password'] = 'Informe sua senha.';
     if (errors.isNotEmpty) {
-      _publish(LoginState(fieldErrors: errors));
+      _publish(
+        state.copyWith(fieldErrors: errors, signedIn: false, message: null),
+      );
       return;
     }
     final ticket = beginAttempt == null ? 0 : beginAttempt!();
     if (ticket == null) return;
     _attempt = ticket;
     final generation = ++_generation;
-    _publish(const LoginState(busy: true));
+    _publish(
+      state.copyWith(
+        busy: true,
+        signedIn: false,
+        fieldErrors: const {},
+        message: null,
+      ),
+    );
     try {
-      final result = await repository.signIn(trimmed, password);
+      final result = await repository.signIn(
+        trimmed,
+        password,
+        remember: state.remember,
+      );
       if (_disposed ||
           generation != _generation ||
           (isAttemptCurrent != null && !isAttemptCurrent!(ticket))) {
         return;
       }
       switch (result) {
-        case Failure<SessionAccess>():
+        case Failure<SessionAccess>(:final failure):
           onFailure?.call(ticket);
           _publish(
             state.copyWith(
-              message:
-                  'Não foi possível entrar. Confira suas credenciais e tente novamente.',
+              message: failure.code == FailureCode.configuration
+                  ? 'Não foi possível preparar o acesso neste dispositivo. Tente novamente.'
+                  : 'Não foi possível entrar. Confira suas credenciais e tente novamente.',
             ),
           );
         case Success<SessionAccess>(:final value):

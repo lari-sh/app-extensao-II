@@ -8,8 +8,11 @@ class FakeAuthService extends FakeBehavior implements AuthService {
   final events = StreamController<Result<SessionDto>>.broadcast();
   Future<void> dispose() => events.close();
   @override
-  Future<Result<SessionDto>> signIn(String email, String password) =>
-      invoke<SessionDto>('signIn', [email, password]);
+  Future<Result<SessionDto>> signIn(
+    String email,
+    String password, {
+    bool remember = true,
+  }) => invoke<SessionDto>('signIn', [email, password, remember]);
   @override
   Future<Result<SessionDto>> currentAccess() =>
       invoke<SessionDto>('currentAccess', []);

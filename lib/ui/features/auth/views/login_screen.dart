@@ -123,15 +123,20 @@ class _LoginScreenState extends State<LoginScreen> {
               crossAxisAlignment: WrapCrossAlignment.center,
               spacing: 12,
               children: [
-                const Tooltip(
-                  message: 'Opção indisponível nesta versão.',
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Checkbox(value: true, onChanged: null),
-                      Text('Permanecer logado', style: TextStyle(fontSize: 12)),
-                    ],
-                  ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Checkbox(
+                      value: widget.viewModel.state.remember,
+                      onChanged: widget.viewModel.state.busy
+                          ? null
+                          : widget.viewModel.setRemember,
+                    ),
+                    const Text(
+                      'Permanecer logado',
+                      style: TextStyle(fontSize: 12),
+                    ),
+                  ],
                 ),
                 const Tooltip(
                   message: 'Recuperação de senha indisponível nesta versão.',
@@ -146,7 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ],
             ),
             const Text(
-              'Opções indisponíveis nesta versão.',
+              'Recuperação de senha indisponível nesta versão.',
               style: TextStyle(fontSize: 11, color: Color(0xFF795C52)),
             ),
             const SizedBox(height: 18),

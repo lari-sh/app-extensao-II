@@ -45,7 +45,7 @@ void main() {
       await tester.tap(find.byType(Checkbox));
       await tester.pumpAndSettle();
       expect(repo.calls, isEmpty);
-      expect(tester.widget<Checkbox>(find.byType(Checkbox)).value, isTrue);
+      expect(tester.widget<Checkbox>(find.byType(Checkbox)).value, isFalse);
       await tester.scrollUntilVisible(
         find.text('Conhecer os animais disponíveis'),
         150,
@@ -100,7 +100,7 @@ void main() {
       expect(tester.getCenter(logo).dx, closeTo(400, 1));
       expect(find.text('E-mail institucional'), findsOneWidget);
       expect(find.text('Permanecer logado'), findsOneWidget);
-      expect(tester.widget<Checkbox>(find.byType(Checkbox)).onChanged, isNull);
+      expect(tester.widget<Checkbox>(find.byType(Checkbox)).onChanged, isNotNull);
       expect(
         tester
             .widget<TextButton>(

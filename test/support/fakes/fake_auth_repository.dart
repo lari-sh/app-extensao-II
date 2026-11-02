@@ -14,8 +14,11 @@ class FakeAuthRepository extends FakeBehavior implements AuthRepository {
   Future<Result<SessionAccess>> currentAccess() =>
       invoke<SessionAccess>('currentAccess', []);
   @override
-  Future<Result<SessionAccess>> signIn(String email, String password) =>
-      invoke<SessionAccess>('signIn', [email, password]);
+  Future<Result<SessionAccess>> signIn(
+    String email,
+    String password, {
+    bool remember = true,
+  }) => invoke<SessionAccess>('signIn', [email, password, remember]);
   @override
   Stream<Result<SessionAccess>> watchAccess() => events.stream;
   @override
