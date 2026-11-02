@@ -177,3 +177,32 @@ APK normal de desenvolvimento recompilado, instalado e aberto no emulator-5554
 após o teste de integração. Fixtures de equipe removidas por prefixo exclusivo.
 CI da interface: run 41387157608, SHA 0cd6b84b9011c3a2f178c81705dfbfda2fb6ac53,
 em andamento na última consulta; ainda não equivale a entrega remota aprovada.
+
+
+## T027 — aumento de cobertura — 2026-11-02
+
+Solicitação: ampliar a cobertura de testes. Acrescentados 47 testes, com fakes de
+Repository controlados por resultado/Completer, sem alteração do código de produção.
+
+- ViewModels: paginação e filtros, autorização perdida durante requisição,
+  respostas tardias após troca de identidade/dispose, conflito de versão,
+  bloqueio de duplicatas durante busy/resultado incerto e reconciliação usando
+  a chave original. Aceite verifica prova de senha, impede uso de prova de outro
+  convite e preserva a senha salva ao repetir somente a confirmação.
+- Services/Repositories: métodos e payloads HTTP, erros traduzidos sem dados
+  internos, senha isolada no SDK, versionamento, ausência de identidade/perfil
+  fornecidos pelo cliente no aceite e rejeição de dados malformados.
+- Widgets: confirmação/desistência de alteração de perfil/desativação,
+  restauração, cancelamento/reenvio de convite, reconciliação, paginação e
+  atualização da listagem após retorno do formulário.
+
+Validação: `flutter analyze --no-pub` sem problemas; formato aprovado;
+`flutter test --no-pub --coverage`: **347 testes PASS**, 54 s.
+Mesma base de 89 arquivos/6.171 linhas instrumentadas de produção:
+**5.331 → 5.471 linhas cobertas; 86,39% → 88,66% (+2,27 pontos percentuais)**.
+Equipe/convites/callbacks, mesmos 11 arquivos/708 linhas:
+**537 → 677 linhas cobertas; 75,85% → 95,62% (+19,77 pontos percentuais)**.
+Relatório local em coverage/lcov.info. Métrica de linhas, não de branches ou
+percentual de jornadas ponta a ponta. Nenhuma exclusão adicional de arquivos
+foi aplicada à comparação. SQL/Deno/Android não foram repetidos nesta etapa de
+testes Flutter; a CI remota do novo commit ainda precisa concluir.

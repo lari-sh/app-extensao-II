@@ -59,3 +59,12 @@ T020–T022 reutilizam callbacks/storage e distinguem recuperação de convite.
 T023/T024 após jornadas; T025 é gate de iOS separado; T026 em cada entrega.
 Testes precedem implementação de suas regras. Nenhuma tarefa marcada por mera
 existência de arquivo. 26 tarefas; aprovação visual DESIGN-TEAM-001 recebida em 2026-11-01.
+
+
+## Reforço de cobertura solicitado em 2026-11-02
+
+- [x] T027 Acrescentar testes unitários de paginação, concorrência, perda de acesso,
+  conflito, reconciliação e aceite; testes de contratos Service/Repository e
+  confirmações de ações em Widgets. 47 casos novos; 347 testes Flutter PASS.
+  Cobertura global 88,66% e equipe/convites 95,62%, usando a mesma base LCOV
+  anterior. Analyze e formato aprovados; evidências em validation.md. [005-CR-002]

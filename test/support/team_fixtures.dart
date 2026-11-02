@@ -1,3 +1,5 @@
+import 'package:abrigo_dos_anjos/domain/models/team_access.dart';
+import 'package:abrigo_dos_anjos/domain/models/session_access.dart';
 import 'package:abrigo_dos_anjos/data/services/team_service.dart';
 import 'package:abrigo_dos_anjos/utils/result.dart';
 import 'package:abrigo_dos_anjos/utils/app_failure.dart';
@@ -52,3 +54,23 @@ Map<String, Object?> invitationJson() => {
   'delivery_state': 'sent',
   'retry_after': 0,
 };
+
+const member = TeamMember(
+  id: 'other',
+  name: 'Pessoa',
+  email: 'p@example.test',
+  role: StaffRole.employee,
+  active: true,
+  version: 3,
+);
+TeamInvitation invitation() => TeamInvitation(
+  id: 'invite',
+  name: 'Pessoa',
+  email: 'p@example.test',
+  role: StaffRole.employee,
+  status: 'pending',
+  generation: 1,
+  version: 2,
+  expiresAt: DateTime.utc(2026, 11, 3),
+  deliveryState: 'sent',
+);
