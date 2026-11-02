@@ -336,3 +336,23 @@ corrigido em 9ac04df); cadastro/contratos 9b023d5; sessão no commit desta seç�
 A última CI consultada (41392409043, SHA 9b023d511091618cdd91366a356112ac24175d2d)
 estava em andamento. A CI remota do fechamento ainda precisa concluir.
 SQL/Deno/Android não foram repetidos nesta ampliação de testes Flutter.
+
+
+## Revisão da CI — falha Android e correção — 2026-11-02
+
+Run 41392651726, SHA 463aa6003fbfeaf3df9de42782e0bb553b10c723:
+Flutter PASS (441 testes, geração/formato/analyze); backend PASS (337 pgTAP,
+19 Deno e fluxos HTTP). Android: 7 das 8 jornadas passaram; authentication_flow
+falhou ao localizar a mensagem visível de conta sem autorização. Delivery foi
+bloqueado pela falha Android; esta execução não aprovou a entrega.
+
+A consulta local direta confirmou sessão válida de fixture-nonstaff e
+is_staff_active=false/can_manage_team=false. O teste original passou localmente,
+indicando dependência de timing/viewport da CI. O helper podia aceitar um estado
+anterior e consultar o texto antes de pintá-lo ou trazê-lo à área visível.
+Ajuste: exigir estado distinto do anterior, aguardar o frame terminal e rolar
+até o feedback. As asserções de senha errada, negação de acesso, restauração,
+revogação e logout foram preservadas. Nenhuma alteração de layout ou autorização.
+
+Jornada corrigida PASS no emulator-5554 (14 s após instalação); analyze limpo.
+Nova CI completa será conferida antes de concluir esta revisão.

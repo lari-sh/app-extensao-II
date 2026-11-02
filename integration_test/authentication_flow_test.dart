@@ -45,6 +45,10 @@ void main() {
         find.byKey(const ValueKey('loginPassword')),
         secret,
       );
+      final previousState = tester
+          .widget<LoginScreen>(find.byType(LoginScreen))
+          .viewModel
+          .state;
       // Submit through the actual keyboard action once. Android IME/viewport
       // transitions can otherwise navigate before a later tap on the old route.
       await tester.testTextInput.receiveAction(TextInputAction.done);
@@ -54,9 +58,21 @@ void main() {
         final login = find.byType(LoginScreen);
         if (login.evaluate().length == 1) {
           final state = tester.widget<LoginScreen>(login).viewModel.state;
-          if (!state.busy &&
+          if (!identical(state, previousState) &&
+              !state.busy &&
               !state.signedIn &&
               (state.message != null || state.fieldErrors.isNotEmpty)) {
+            // A network completion can notify after pumpAndSettle's last frame.
+            // Paint the terminal state before the caller asserts visible feedback.
+            await tester.pumpAndSettle();
+            if (state.message != null) {
+              await tester.scrollUntilVisible(
+                find.text(state.message!),
+                160,
+                scrollable: find.byType(Scrollable).first,
+              );
+              await tester.pumpAndSettle();
+            }
             return;
           }
         }
