@@ -255,3 +255,11 @@ gerado; não representa branches nem percentual de jornadas ponta a ponta.
 SQL/Deno/Android não foram repetidos para alterações apenas em testes Flutter.
 As etapas de fotos e medicamentos foram enviadas separadamente nos commits
 8388be8 e e8c880d. A CI remota do novo fechamento ainda precisa concluir.
+
+
+## Meta de 95% — fluxo público — 2026-11-02
+
+13 novos testes PASS de catálogo, favoritos e ficha pública: falhas tipadas e
+inesperadas, fotos, filtros inválidos/limpeza, bloqueio de escrita duplicada e
+revalidação de disponibilidade antes de copiar interesse de adoção. Analyze sem
+problemas. Código de produção preservado; medição global ao fechar as etapas.
