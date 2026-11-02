@@ -195,3 +195,14 @@ desta validação Android. Nenhuma dependência adicionada.
 Este registro e o commit posterior de fechamento alteram somente Markdown;
 as evidências executáveis referem-se exatamente ao código d2c826e acima.
 .specify/extensions.yml permanece ausente: nenhum hook after_implement aplicável.
+
+## Revisão v3 — manejo e busca no modo atual
+
+Pedido substitui a apresentação global em Lista: manter Kanban e Calendário;
+no Calendário usar somente as medicações do dia selecionado, conforme resposta
+expressa da responsável. T013–T016 adicionadas antes de prosseguir.
+
+Manejo: _authorize agora aguarda a verificação disponível mesmo quando o acesso
+local está temporariamente suspenso durante o carregamento de medicações/foto;
+a permissão continua obrigatória após a confirmação e no servidor. Teste de
+reprodução e regressão VM/composição: **16 PASS**. Android ainda pendente.

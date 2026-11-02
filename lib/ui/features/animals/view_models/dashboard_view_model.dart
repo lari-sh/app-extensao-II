@@ -149,7 +149,7 @@ class DashboardViewModel extends ChangeNotifier {
       revision == _revision &&
       epoch == accessEpoch?.call();
   Future<bool> _authorize() async {
-    if (_disposed || !isAuthorized()) {
+    if (_disposed || (!isAuthorized() && authorize == null)) {
       _clear();
       return false;
     }

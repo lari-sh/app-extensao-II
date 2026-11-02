@@ -15,3 +15,14 @@ aprovada expressamente antes da implementação. Evidências reais em validation
 - [x] T010 Criar/validar jornada Android nos três modos, homônimos/códigos, cinco filtros, ficha/retorno, dia preservado e logout, sem perder cadastros manuais. Depende de T008/T009. [006-CR-001]
 - [x] T011 Executar gates/CI, preservar nove jornadas existentes e cobertura global >=95%; registrar evidências reais. Depende de T010. [006-CR-001]
 - [x] T012 Atualizar documentação/tasks após cada etapa validada e realizar commits por contexto na developer. Em todas as etapas. [006-CR-001]
+
+
+## Revisão v3 solicitada em 2026-11-02
+
+A responsável substituiu a lista global temporária pelo resultado dentro do modo
+selecionado. No Calendário, manter a data e mostrar somente as medicações do dia.
+
+- [ ] T013 Corrigir carregamento/permissões do manejo clínico na ficha durante revalidação concorrente; testes VM/Widget e Android. [006-FR-006, 006-CR-001]
+- [ ] T014 Atualizar design, especificação/plano/contratos para busca dentro de Kanban/Lista/Calendário e medicações somente do dia. [006-FR-009]
+- [ ] T015 Implementar filtros do modo no servidor e na apresentação, sem limitar aos itens carregados; testes obrigatórios. [006-FR-009, 006-CR-001]
+- [ ] T016 Validar revisão no Android/CI, cobertura >=95%, documentação e commits por contexto na developer. [006-CR-001]

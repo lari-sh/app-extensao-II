@@ -311,6 +311,33 @@ void main() {
     },
   );
   test(
+    'focused management joins in-progress access verification before changing status',
+    () async {
+      var allowed = false;
+      var animal = fixtureAnimal(1);
+      final repo = FakeAnimalsRepository()
+        ..handler = (method, args) async {
+          if (method == 'getManagement')
+            return Success(ManagedAnimal(animal: animal));
+          animal = animal.copyWith(status: args[1] as AnimalStatus);
+          return Success(animal);
+        };
+      final vm = DashboardViewModel(
+        repo,
+        isAuthorized: () => allowed,
+        authorize: () async {
+          allowed = true;
+          return true;
+        },
+      );
+      addTearDown(vm.dispose);
+      await vm.loadFocused(fixtureId(1));
+      expect(vm.canManageFocused, true);
+      await vm.setFocusedStatus(AnimalStatus.treatment);
+      expect(vm.focusedStatus, AnimalStatus.treatment);
+    },
+  );
+  test(
     'calendar mode triggers loading outside build and registration returns with list',
     () async {
       var calls = 0;
