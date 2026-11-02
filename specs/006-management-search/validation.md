@@ -109,3 +109,9 @@ Regressão completa após revalidação: **497 testes PASS**, cobertura global
 submit/limpar texto, limpar filtros e cancelar: suíte específica **4 PASS**.
 Android compilou, mas a primeira tentativa foi interrompida por transporte/
 ActivityManager travado no emulador. Reinício sem wipe; repetição pendente.
+
+### Gate de cobertura
+
+CI passa a reprovar relatório ausente/vazio ou cobertura global inferior a 95%,
+sem excluir arquivos/linhas do LCOV. Gate executado localmente: 6.610/6.954 =
+95,05%, PASS. Workflow YAML validado por parser antes do commit.
