@@ -15,7 +15,9 @@ e pendências de produção/iOS. A expansão para outros abrigos fica para depoi
 Planejamento da próxima entrega: [acesso e convites da equipe](specs/005-auth-team-access/spec.md),
 com primeiro administrador provisionado e convites pelo app. Inclui os controles
 Permanecer logado/Esqueci a senha ainda pendentes; não são funcionalidades já
-entregues. Novas telas dependem da aprovação do protótipo.
+entregues. Protótipo DESIGN-TEAM-001 aprovado; fundação de perfis implementada,
+com convites e novas telas ainda em integração. Verifique as tarefas para o estado
+real de cada etapa.
 
 - Início, catálogo com filtros combinados e paginação, detalhes, favoritos e sobre.
 - Dados públicos do Supabase; somente animais publicados e não adotados.

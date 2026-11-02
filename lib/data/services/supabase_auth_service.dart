@@ -54,9 +54,19 @@ class SupabaseAuthService implements AuthService {
         data['is_session_current'] != true) {
       return const SessionDto();
     }
+    final staffRole = switch (data['staff_role']) {
+      'administrator' => 'administrator',
+      'employee' => 'employee',
+      _ => null,
+    };
     return SessionDto(
       userId: verified.user!.id,
       isStaffActive: data['is_staff_active'] == true,
+      staffRole: data['is_staff_active'] == true ? staffRole : null,
+      canManageTeam:
+          data['is_staff_active'] == true &&
+          staffRole == 'administrator' &&
+          data['can_manage_team'] == true,
     );
   }
 

@@ -11,6 +11,65 @@ import 'package:abrigo_dos_anjos/utils/app_failure.dart';
 import '../../support/auth_fixtures.dart';
 
 void main() {
+  test(
+    'team permission is read from verified access context, never user metadata',
+    () async {
+      var serverRole = 'administrator';
+      var allowed = true;
+      final client = SupabaseClient(
+        'https://example.test',
+        'public',
+        authOptions: const AuthClientOptions(autoRefreshToken: false),
+        httpClient: MockClient((request) async {
+          final body = request.url.path.endsWith('/token')
+              ? authSessionJson()
+              : request.url.path.endsWith('/user')
+              ? authUserJson()
+              : {
+                  'user_id': authUserId,
+                  'is_session_current': true,
+                  'is_staff_active': true,
+                  'staff_role': serverRole,
+                  'can_manage_team': allowed,
+                };
+          return http.Response(
+            jsonEncode(body),
+            200,
+            request: request,
+            headers: {'content-type': 'application/json'},
+          );
+        }),
+      );
+      addTearDown(client.dispose);
+      final service = SupabaseAuthService(client);
+      final initial =
+          (await service.signIn('fixture@example.test', 'fake')
+                  as Success<SessionDto>)
+              .value;
+      expect(initial.staffRole, 'administrator');
+      expect(initial.canManageTeam, isTrue);
+      allowed = false;
+      expect(
+        (await service.currentAccess() as Success<SessionDto>)
+            .value
+            .canManageTeam,
+        isFalse,
+      );
+      serverRole = 'employee';
+      allowed = true;
+      expect(
+        (await service.currentAccess() as Success<SessionDto>)
+            .value
+            .canManageTeam,
+        isFalse,
+      );
+      serverRole = 'owner';
+      final unknown =
+          (await service.currentAccess() as Success<SessionDto>).value;
+      expect(unknown.canManageTeam, isFalse);
+      expect(unknown.staffRole, isNull);
+    },
+  );
   TestWidgetsFlutterBinding.ensureInitialized();
   for (final staff in [true, false]) {
     test('SDK verifies user and current session before staff=$staff', () async {

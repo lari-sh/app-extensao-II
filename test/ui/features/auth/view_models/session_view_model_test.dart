@@ -12,6 +12,51 @@ Future<void> settleEvents() async {
 }
 
 void main() {
+  test(
+    'team scope is hidden while checking and discarded on demotion',
+    () async {
+      const admin = SessionAccess(
+        level: AccessLevel.authorized,
+        userId: 'staff',
+        role: StaffRole.administrator,
+      );
+      final repo = FakeAuthRepository();
+      addTearDown(repo.dispose);
+      repo.handler = (_, _) async => const Success(admin);
+      final vm = SessionViewModel(repo);
+      addTearDown(vm.dispose);
+      await vm.start();
+      expect(vm.state.canManageTeam, isTrue);
+      final generation = vm.state.privateGeneration;
+      final pending = Completer<Result<SessionAccess>>();
+      repo.handler = (_, _) => pending.future;
+      final checking = vm.revalidate();
+      expect(vm.state.canManageTeam, isFalse);
+      pending.complete(Success(admin.copyWith(role: StaffRole.employee)));
+      await checking;
+      expect(vm.state.canManageTeam, isFalse);
+      expect(vm.state.canAccessPrivate, isTrue);
+      expect(vm.state.staffRole, StaffRole.employee);
+      expect(vm.state.privateGeneration, generation + 1);
+      repo.events.add(const Success(admin));
+      await settleEvents();
+      expect(vm.state.canManageTeam, isTrue);
+      repo.events.add(
+        Success(
+          admin.copyWith(
+            interruption: AccessInterruption.recoverableExpiration,
+          ),
+        ),
+      );
+      await settleEvents();
+      expect(vm.state.canManageTeam, isFalse);
+      expect(vm.state.retainPrivate, isTrue);
+      repo.events.add(const Success(SessionAccess()));
+      await settleEvents();
+      expect(vm.state.canManageTeam, isFalse);
+      expect(vm.state.staffRole, isNull);
+    },
+  );
   test('restore is fail closed until remote verification completes', () async {
     final delayed = Completer<Object?>();
     final repo = FakeAuthRepository()..handler = (_, args) => delayed.future;

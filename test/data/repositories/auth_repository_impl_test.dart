@@ -9,6 +9,74 @@ import '../../support/fakes/fake_auth_service.dart';
 
 void main() {
   test(
+    'team capability requires matching server role and explicit permission',
+    () async {
+      final service = FakeAuthService();
+      addTearDown(service.dispose);
+      final repo = AuthRepositoryImpl(service);
+      for (final entry in [
+        (
+          const SessionDto(
+            userId: 'u',
+            isStaffActive: true,
+            staffRole: 'administrator',
+            canManageTeam: true,
+          ),
+          true,
+        ),
+        (
+          const SessionDto(
+            userId: 'u',
+            isStaffActive: true,
+            staffRole: 'administrator',
+          ),
+          false,
+        ),
+        (
+          const SessionDto(
+            userId: 'u',
+            isStaffActive: true,
+            staffRole: 'employee',
+            canManageTeam: true,
+          ),
+          false,
+        ),
+        (
+          const SessionDto(
+            userId: 'u',
+            isStaffActive: true,
+            staffRole: 'owner',
+            canManageTeam: true,
+          ),
+          false,
+        ),
+        (
+          const SessionDto(
+            userId: 'u',
+            staffRole: 'administrator',
+            canManageTeam: true,
+          ),
+          false,
+        ),
+        (
+          const SessionDto(
+            userId: 'u',
+            isStaffActive: true,
+            staffRole: 'administrator',
+            canManageTeam: true,
+            recoverableExpiration: true,
+          ),
+          false,
+        ),
+      ]) {
+        service.handler = (_, _) async => Success(entry.$1);
+        final access =
+            (await repo.restoreAccess() as Success<SessionAccess>).value;
+        expect(access.canManageTeam, entry.$2);
+      }
+    },
+  );
+  test(
     'repository maps visitor, nonstaff, staff and recoverable expiration',
     () async {
       final service = FakeAuthService();

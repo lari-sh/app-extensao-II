@@ -16,6 +16,13 @@ class AuthRepositoryImpl implements AuthRepository {
   AppFailure? _remoteLogoutFailure;
   SessionAccess _map(SessionDto dto) => SessionAccess(
     userId: dto.userId,
+    role: !dto.isStaffActive || dto.recoverableExpiration
+        ? null
+        : switch (dto.staffRole) {
+            'administrator' when dto.canManageTeam => StaffRole.administrator,
+            'employee' => StaffRole.employee,
+            _ => null,
+          },
     level: dto.userId == null
         ? AccessLevel.visitor
         : dto.isStaffActive && !dto.recoverableExpiration

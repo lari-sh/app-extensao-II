@@ -74,3 +74,22 @@ PostgreSQL ainda não concedeu papel administrador a nenhuma conta existente.
 T005 entrega estrutura e reserva técnica; envio/aceite de e-mail ainda pendentes.
 T006/Flutter, convites, telas, persistência e recuperação ainda não implementados.
 CI remota desta nova fundação não confirmada nesta etapa.
+
+## T006 — capacidade administrativa no Flutter
+
+SessionAccess/SessionState imutáveis passaram a expor perfil e canManageTeam.
+SupabaseAuthService lê somente o access_context verificado; AuthRepository exige
+perfil administrator e capacidade explícita concordantes, com membro ativo e
+sessão não expirada. Campos ausentes, desconhecidos ou contraditórios não concedem
+gestão de equipe. Nenhuma decisão de perfil adicionada a Widgets.
+
+Durante restauração/revalidação/login, a capacidade fica bloqueada. Rebaixamento
+mantém manejo de funcionário, mas troca a geração privada para descartar contexto
+administrativo anterior. Expiração/saída revogam a capacidade e escondem o perfil.
+Novos casos de domínio, Service HTTP mockado, Repository e SessionViewModel escritos
+antes do código; teste inicial falhou por StaffRole ausente. Geração Freezed
+executada; 277 testes Flutter PASS e analyze sem problemas (35,6 s), formato e diff
+conferidos. Banco permanece na regressão 293/293 aprovada da etapa anterior.
+Ainda sem TeamScreen, envio de e-mail, checkbox habilitado ou recuperação integrada;
+esta etapa implementa o contrato e as regras que essas funcionalidades usarão.
+Android e CI remota do novo código ainda não confirmados nesta etapa.

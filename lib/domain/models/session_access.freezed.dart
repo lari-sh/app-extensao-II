@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SessionAccess {
 
- AccessLevel get level; String? get userId; AccessInterruption get interruption;
+ AccessLevel get level; String? get userId; StaffRole? get role; AccessInterruption get interruption;
 /// Create a copy of SessionAccess
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $SessionAccessCopyWith<SessionAccess> get copyWith => _$SessionAccessCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SessionAccess&&(identical(other.level, level) || other.level == level)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.interruption, interruption) || other.interruption == interruption));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SessionAccess&&(identical(other.level, level) || other.level == level)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.role, role) || other.role == role)&&(identical(other.interruption, interruption) || other.interruption == interruption));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,level,userId,interruption);
+int get hashCode => Object.hash(runtimeType,level,userId,role,interruption);
 
 @override
 String toString() {
-  return 'SessionAccess(level: $level, userId: $userId, interruption: $interruption)';
+  return 'SessionAccess(level: $level, userId: $userId, role: $role, interruption: $interruption)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $SessionAccessCopyWith<$Res>  {
   factory $SessionAccessCopyWith(SessionAccess value, $Res Function(SessionAccess) _then) = _$SessionAccessCopyWithImpl;
 @useResult
 $Res call({
- AccessLevel level, String? userId, AccessInterruption interruption
+ AccessLevel level, String? userId, StaffRole? role, AccessInterruption interruption
 });
 
 
@@ -62,11 +62,12 @@ class _$SessionAccessCopyWithImpl<$Res>
 
 /// Create a copy of SessionAccess
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? level = null,Object? userId = freezed,Object? interruption = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? level = null,Object? userId = freezed,Object? role = freezed,Object? interruption = null,}) {
   return _then(_self.copyWith(
 level: null == level ? _self.level : level // ignore: cast_nullable_to_non_nullable
 as AccessLevel,userId: freezed == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
-as String?,interruption: null == interruption ? _self.interruption : interruption // ignore: cast_nullable_to_non_nullable
+as String?,role: freezed == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
+as StaffRole?,interruption: null == interruption ? _self.interruption : interruption // ignore: cast_nullable_to_non_nullable
 as AccessInterruption,
   ));
 }
@@ -152,10 +153,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( AccessLevel level,  String? userId,  AccessInterruption interruption)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( AccessLevel level,  String? userId,  StaffRole? role,  AccessInterruption interruption)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SessionAccess() when $default != null:
-return $default(_that.level,_that.userId,_that.interruption);case _:
+return $default(_that.level,_that.userId,_that.role,_that.interruption);case _:
   return orElse();
 
 }
@@ -173,10 +174,10 @@ return $default(_that.level,_that.userId,_that.interruption);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( AccessLevel level,  String? userId,  AccessInterruption interruption)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( AccessLevel level,  String? userId,  StaffRole? role,  AccessInterruption interruption)  $default,) {final _that = this;
 switch (_that) {
 case _SessionAccess():
-return $default(_that.level,_that.userId,_that.interruption);case _:
+return $default(_that.level,_that.userId,_that.role,_that.interruption);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -193,10 +194,10 @@ return $default(_that.level,_that.userId,_that.interruption);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( AccessLevel level,  String? userId,  AccessInterruption interruption)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( AccessLevel level,  String? userId,  StaffRole? role,  AccessInterruption interruption)?  $default,) {final _that = this;
 switch (_that) {
 case _SessionAccess() when $default != null:
-return $default(_that.level,_that.userId,_that.interruption);case _:
+return $default(_that.level,_that.userId,_that.role,_that.interruption);case _:
   return null;
 
 }
@@ -208,11 +209,12 @@ return $default(_that.level,_that.userId,_that.interruption);case _:
 
 
 class _SessionAccess extends SessionAccess {
-  const _SessionAccess({this.level = AccessLevel.visitor, this.userId, this.interruption = AccessInterruption.definitiveLoss}): super._();
+  const _SessionAccess({this.level = AccessLevel.visitor, this.userId, this.role, this.interruption = AccessInterruption.definitiveLoss}): super._();
   
 
 @override@JsonKey() final  AccessLevel level;
 @override final  String? userId;
+@override final  StaffRole? role;
 @override@JsonKey() final  AccessInterruption interruption;
 
 /// Create a copy of SessionAccess
@@ -225,16 +227,16 @@ _$SessionAccessCopyWith<_SessionAccess> get copyWith => __$SessionAccessCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SessionAccess&&(identical(other.level, level) || other.level == level)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.interruption, interruption) || other.interruption == interruption));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SessionAccess&&(identical(other.level, level) || other.level == level)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.role, role) || other.role == role)&&(identical(other.interruption, interruption) || other.interruption == interruption));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,level,userId,interruption);
+int get hashCode => Object.hash(runtimeType,level,userId,role,interruption);
 
 @override
 String toString() {
-  return 'SessionAccess(level: $level, userId: $userId, interruption: $interruption)';
+  return 'SessionAccess(level: $level, userId: $userId, role: $role, interruption: $interruption)';
 }
 
 
@@ -245,7 +247,7 @@ abstract mixin class _$SessionAccessCopyWith<$Res> implements $SessionAccessCopy
   factory _$SessionAccessCopyWith(_SessionAccess value, $Res Function(_SessionAccess) _then) = __$SessionAccessCopyWithImpl;
 @override @useResult
 $Res call({
- AccessLevel level, String? userId, AccessInterruption interruption
+ AccessLevel level, String? userId, StaffRole? role, AccessInterruption interruption
 });
 
 
@@ -262,11 +264,12 @@ class __$SessionAccessCopyWithImpl<$Res>
 
 /// Create a copy of SessionAccess
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? level = null,Object? userId = freezed,Object? interruption = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? level = null,Object? userId = freezed,Object? role = freezed,Object? interruption = null,}) {
   return _then(_SessionAccess(
 level: null == level ? _self.level : level // ignore: cast_nullable_to_non_nullable
 as AccessLevel,userId: freezed == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
-as String?,interruption: null == interruption ? _self.interruption : interruption // ignore: cast_nullable_to_non_nullable
+as String?,role: freezed == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
+as StaffRole?,interruption: null == interruption ? _self.interruption : interruption // ignore: cast_nullable_to_non_nullable
 as AccessInterruption,
   ));
 }

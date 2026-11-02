@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SessionState implements DiagnosticableTreeMixin {
 
- SessionPhase get phase; String? get userId; bool get canAccessPrivate; bool get hidePrivate; bool get retainPrivate; bool get requiresReauthentication; bool get signingOut; int get privateGeneration; int get accessEpoch; String? get message;
+ SessionPhase get phase; String? get userId; bool get canAccessPrivate; bool get canManageTeam; StaffRole? get staffRole; bool get hidePrivate; bool get retainPrivate; bool get requiresReauthentication; bool get signingOut; int get privateGeneration; int get accessEpoch; String? get message;
 /// Create a copy of SessionState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,21 +26,21 @@ $SessionStateCopyWith<SessionState> get copyWith => _$SessionStateCopyWithImpl<S
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'SessionState'))
-    ..add(DiagnosticsProperty('phase', phase))..add(DiagnosticsProperty('userId', userId))..add(DiagnosticsProperty('canAccessPrivate', canAccessPrivate))..add(DiagnosticsProperty('hidePrivate', hidePrivate))..add(DiagnosticsProperty('retainPrivate', retainPrivate))..add(DiagnosticsProperty('requiresReauthentication', requiresReauthentication))..add(DiagnosticsProperty('signingOut', signingOut))..add(DiagnosticsProperty('privateGeneration', privateGeneration))..add(DiagnosticsProperty('accessEpoch', accessEpoch))..add(DiagnosticsProperty('message', message));
+    ..add(DiagnosticsProperty('phase', phase))..add(DiagnosticsProperty('userId', userId))..add(DiagnosticsProperty('canAccessPrivate', canAccessPrivate))..add(DiagnosticsProperty('canManageTeam', canManageTeam))..add(DiagnosticsProperty('staffRole', staffRole))..add(DiagnosticsProperty('hidePrivate', hidePrivate))..add(DiagnosticsProperty('retainPrivate', retainPrivate))..add(DiagnosticsProperty('requiresReauthentication', requiresReauthentication))..add(DiagnosticsProperty('signingOut', signingOut))..add(DiagnosticsProperty('privateGeneration', privateGeneration))..add(DiagnosticsProperty('accessEpoch', accessEpoch))..add(DiagnosticsProperty('message', message));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SessionState&&(identical(other.phase, phase) || other.phase == phase)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.canAccessPrivate, canAccessPrivate) || other.canAccessPrivate == canAccessPrivate)&&(identical(other.hidePrivate, hidePrivate) || other.hidePrivate == hidePrivate)&&(identical(other.retainPrivate, retainPrivate) || other.retainPrivate == retainPrivate)&&(identical(other.requiresReauthentication, requiresReauthentication) || other.requiresReauthentication == requiresReauthentication)&&(identical(other.signingOut, signingOut) || other.signingOut == signingOut)&&(identical(other.privateGeneration, privateGeneration) || other.privateGeneration == privateGeneration)&&(identical(other.accessEpoch, accessEpoch) || other.accessEpoch == accessEpoch)&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SessionState&&(identical(other.phase, phase) || other.phase == phase)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.canAccessPrivate, canAccessPrivate) || other.canAccessPrivate == canAccessPrivate)&&(identical(other.canManageTeam, canManageTeam) || other.canManageTeam == canManageTeam)&&(identical(other.staffRole, staffRole) || other.staffRole == staffRole)&&(identical(other.hidePrivate, hidePrivate) || other.hidePrivate == hidePrivate)&&(identical(other.retainPrivate, retainPrivate) || other.retainPrivate == retainPrivate)&&(identical(other.requiresReauthentication, requiresReauthentication) || other.requiresReauthentication == requiresReauthentication)&&(identical(other.signingOut, signingOut) || other.signingOut == signingOut)&&(identical(other.privateGeneration, privateGeneration) || other.privateGeneration == privateGeneration)&&(identical(other.accessEpoch, accessEpoch) || other.accessEpoch == accessEpoch)&&(identical(other.message, message) || other.message == message));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,phase,userId,canAccessPrivate,hidePrivate,retainPrivate,requiresReauthentication,signingOut,privateGeneration,accessEpoch,message);
+int get hashCode => Object.hash(runtimeType,phase,userId,canAccessPrivate,canManageTeam,staffRole,hidePrivate,retainPrivate,requiresReauthentication,signingOut,privateGeneration,accessEpoch,message);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'SessionState(phase: $phase, userId: $userId, canAccessPrivate: $canAccessPrivate, hidePrivate: $hidePrivate, retainPrivate: $retainPrivate, requiresReauthentication: $requiresReauthentication, signingOut: $signingOut, privateGeneration: $privateGeneration, accessEpoch: $accessEpoch, message: $message)';
+  return 'SessionState(phase: $phase, userId: $userId, canAccessPrivate: $canAccessPrivate, canManageTeam: $canManageTeam, staffRole: $staffRole, hidePrivate: $hidePrivate, retainPrivate: $retainPrivate, requiresReauthentication: $requiresReauthentication, signingOut: $signingOut, privateGeneration: $privateGeneration, accessEpoch: $accessEpoch, message: $message)';
 }
 
 
@@ -51,7 +51,7 @@ abstract mixin class $SessionStateCopyWith<$Res>  {
   factory $SessionStateCopyWith(SessionState value, $Res Function(SessionState) _then) = _$SessionStateCopyWithImpl;
 @useResult
 $Res call({
- SessionPhase phase, String? userId, bool canAccessPrivate, bool hidePrivate, bool retainPrivate, bool requiresReauthentication, bool signingOut, int privateGeneration, int accessEpoch, String? message
+ SessionPhase phase, String? userId, bool canAccessPrivate, bool canManageTeam, StaffRole? staffRole, bool hidePrivate, bool retainPrivate, bool requiresReauthentication, bool signingOut, int privateGeneration, int accessEpoch, String? message
 });
 
 
@@ -68,12 +68,14 @@ class _$SessionStateCopyWithImpl<$Res>
 
 /// Create a copy of SessionState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? phase = null,Object? userId = freezed,Object? canAccessPrivate = null,Object? hidePrivate = null,Object? retainPrivate = null,Object? requiresReauthentication = null,Object? signingOut = null,Object? privateGeneration = null,Object? accessEpoch = null,Object? message = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? phase = null,Object? userId = freezed,Object? canAccessPrivate = null,Object? canManageTeam = null,Object? staffRole = freezed,Object? hidePrivate = null,Object? retainPrivate = null,Object? requiresReauthentication = null,Object? signingOut = null,Object? privateGeneration = null,Object? accessEpoch = null,Object? message = freezed,}) {
   return _then(_self.copyWith(
 phase: null == phase ? _self.phase : phase // ignore: cast_nullable_to_non_nullable
 as SessionPhase,userId: freezed == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
 as String?,canAccessPrivate: null == canAccessPrivate ? _self.canAccessPrivate : canAccessPrivate // ignore: cast_nullable_to_non_nullable
-as bool,hidePrivate: null == hidePrivate ? _self.hidePrivate : hidePrivate // ignore: cast_nullable_to_non_nullable
+as bool,canManageTeam: null == canManageTeam ? _self.canManageTeam : canManageTeam // ignore: cast_nullable_to_non_nullable
+as bool,staffRole: freezed == staffRole ? _self.staffRole : staffRole // ignore: cast_nullable_to_non_nullable
+as StaffRole?,hidePrivate: null == hidePrivate ? _self.hidePrivate : hidePrivate // ignore: cast_nullable_to_non_nullable
 as bool,retainPrivate: null == retainPrivate ? _self.retainPrivate : retainPrivate // ignore: cast_nullable_to_non_nullable
 as bool,requiresReauthentication: null == requiresReauthentication ? _self.requiresReauthentication : requiresReauthentication // ignore: cast_nullable_to_non_nullable
 as bool,signingOut: null == signingOut ? _self.signingOut : signingOut // ignore: cast_nullable_to_non_nullable
@@ -165,10 +167,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( SessionPhase phase,  String? userId,  bool canAccessPrivate,  bool hidePrivate,  bool retainPrivate,  bool requiresReauthentication,  bool signingOut,  int privateGeneration,  int accessEpoch,  String? message)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( SessionPhase phase,  String? userId,  bool canAccessPrivate,  bool canManageTeam,  StaffRole? staffRole,  bool hidePrivate,  bool retainPrivate,  bool requiresReauthentication,  bool signingOut,  int privateGeneration,  int accessEpoch,  String? message)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SessionState() when $default != null:
-return $default(_that.phase,_that.userId,_that.canAccessPrivate,_that.hidePrivate,_that.retainPrivate,_that.requiresReauthentication,_that.signingOut,_that.privateGeneration,_that.accessEpoch,_that.message);case _:
+return $default(_that.phase,_that.userId,_that.canAccessPrivate,_that.canManageTeam,_that.staffRole,_that.hidePrivate,_that.retainPrivate,_that.requiresReauthentication,_that.signingOut,_that.privateGeneration,_that.accessEpoch,_that.message);case _:
   return orElse();
 
 }
@@ -186,10 +188,10 @@ return $default(_that.phase,_that.userId,_that.canAccessPrivate,_that.hidePrivat
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( SessionPhase phase,  String? userId,  bool canAccessPrivate,  bool hidePrivate,  bool retainPrivate,  bool requiresReauthentication,  bool signingOut,  int privateGeneration,  int accessEpoch,  String? message)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( SessionPhase phase,  String? userId,  bool canAccessPrivate,  bool canManageTeam,  StaffRole? staffRole,  bool hidePrivate,  bool retainPrivate,  bool requiresReauthentication,  bool signingOut,  int privateGeneration,  int accessEpoch,  String? message)  $default,) {final _that = this;
 switch (_that) {
 case _SessionState():
-return $default(_that.phase,_that.userId,_that.canAccessPrivate,_that.hidePrivate,_that.retainPrivate,_that.requiresReauthentication,_that.signingOut,_that.privateGeneration,_that.accessEpoch,_that.message);case _:
+return $default(_that.phase,_that.userId,_that.canAccessPrivate,_that.canManageTeam,_that.staffRole,_that.hidePrivate,_that.retainPrivate,_that.requiresReauthentication,_that.signingOut,_that.privateGeneration,_that.accessEpoch,_that.message);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -206,10 +208,10 @@ return $default(_that.phase,_that.userId,_that.canAccessPrivate,_that.hidePrivat
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( SessionPhase phase,  String? userId,  bool canAccessPrivate,  bool hidePrivate,  bool retainPrivate,  bool requiresReauthentication,  bool signingOut,  int privateGeneration,  int accessEpoch,  String? message)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( SessionPhase phase,  String? userId,  bool canAccessPrivate,  bool canManageTeam,  StaffRole? staffRole,  bool hidePrivate,  bool retainPrivate,  bool requiresReauthentication,  bool signingOut,  int privateGeneration,  int accessEpoch,  String? message)?  $default,) {final _that = this;
 switch (_that) {
 case _SessionState() when $default != null:
-return $default(_that.phase,_that.userId,_that.canAccessPrivate,_that.hidePrivate,_that.retainPrivate,_that.requiresReauthentication,_that.signingOut,_that.privateGeneration,_that.accessEpoch,_that.message);case _:
+return $default(_that.phase,_that.userId,_that.canAccessPrivate,_that.canManageTeam,_that.staffRole,_that.hidePrivate,_that.retainPrivate,_that.requiresReauthentication,_that.signingOut,_that.privateGeneration,_that.accessEpoch,_that.message);case _:
   return null;
 
 }
@@ -221,12 +223,14 @@ return $default(_that.phase,_that.userId,_that.canAccessPrivate,_that.hidePrivat
 
 
 class _SessionState with DiagnosticableTreeMixin implements SessionState {
-  const _SessionState({this.phase = SessionPhase.checking, this.userId, this.canAccessPrivate = false, this.hidePrivate = true, this.retainPrivate = false, this.requiresReauthentication = false, this.signingOut = false, this.privateGeneration = 0, this.accessEpoch = 0, this.message});
+  const _SessionState({this.phase = SessionPhase.checking, this.userId, this.canAccessPrivate = false, this.canManageTeam = false, this.staffRole, this.hidePrivate = true, this.retainPrivate = false, this.requiresReauthentication = false, this.signingOut = false, this.privateGeneration = 0, this.accessEpoch = 0, this.message});
   
 
 @override@JsonKey() final  SessionPhase phase;
 @override final  String? userId;
 @override@JsonKey() final  bool canAccessPrivate;
+@override@JsonKey() final  bool canManageTeam;
+@override final  StaffRole? staffRole;
 @override@JsonKey() final  bool hidePrivate;
 @override@JsonKey() final  bool retainPrivate;
 @override@JsonKey() final  bool requiresReauthentication;
@@ -246,21 +250,21 @@ _$SessionStateCopyWith<_SessionState> get copyWith => __$SessionStateCopyWithImp
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'SessionState'))
-    ..add(DiagnosticsProperty('phase', phase))..add(DiagnosticsProperty('userId', userId))..add(DiagnosticsProperty('canAccessPrivate', canAccessPrivate))..add(DiagnosticsProperty('hidePrivate', hidePrivate))..add(DiagnosticsProperty('retainPrivate', retainPrivate))..add(DiagnosticsProperty('requiresReauthentication', requiresReauthentication))..add(DiagnosticsProperty('signingOut', signingOut))..add(DiagnosticsProperty('privateGeneration', privateGeneration))..add(DiagnosticsProperty('accessEpoch', accessEpoch))..add(DiagnosticsProperty('message', message));
+    ..add(DiagnosticsProperty('phase', phase))..add(DiagnosticsProperty('userId', userId))..add(DiagnosticsProperty('canAccessPrivate', canAccessPrivate))..add(DiagnosticsProperty('canManageTeam', canManageTeam))..add(DiagnosticsProperty('staffRole', staffRole))..add(DiagnosticsProperty('hidePrivate', hidePrivate))..add(DiagnosticsProperty('retainPrivate', retainPrivate))..add(DiagnosticsProperty('requiresReauthentication', requiresReauthentication))..add(DiagnosticsProperty('signingOut', signingOut))..add(DiagnosticsProperty('privateGeneration', privateGeneration))..add(DiagnosticsProperty('accessEpoch', accessEpoch))..add(DiagnosticsProperty('message', message));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SessionState&&(identical(other.phase, phase) || other.phase == phase)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.canAccessPrivate, canAccessPrivate) || other.canAccessPrivate == canAccessPrivate)&&(identical(other.hidePrivate, hidePrivate) || other.hidePrivate == hidePrivate)&&(identical(other.retainPrivate, retainPrivate) || other.retainPrivate == retainPrivate)&&(identical(other.requiresReauthentication, requiresReauthentication) || other.requiresReauthentication == requiresReauthentication)&&(identical(other.signingOut, signingOut) || other.signingOut == signingOut)&&(identical(other.privateGeneration, privateGeneration) || other.privateGeneration == privateGeneration)&&(identical(other.accessEpoch, accessEpoch) || other.accessEpoch == accessEpoch)&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SessionState&&(identical(other.phase, phase) || other.phase == phase)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.canAccessPrivate, canAccessPrivate) || other.canAccessPrivate == canAccessPrivate)&&(identical(other.canManageTeam, canManageTeam) || other.canManageTeam == canManageTeam)&&(identical(other.staffRole, staffRole) || other.staffRole == staffRole)&&(identical(other.hidePrivate, hidePrivate) || other.hidePrivate == hidePrivate)&&(identical(other.retainPrivate, retainPrivate) || other.retainPrivate == retainPrivate)&&(identical(other.requiresReauthentication, requiresReauthentication) || other.requiresReauthentication == requiresReauthentication)&&(identical(other.signingOut, signingOut) || other.signingOut == signingOut)&&(identical(other.privateGeneration, privateGeneration) || other.privateGeneration == privateGeneration)&&(identical(other.accessEpoch, accessEpoch) || other.accessEpoch == accessEpoch)&&(identical(other.message, message) || other.message == message));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,phase,userId,canAccessPrivate,hidePrivate,retainPrivate,requiresReauthentication,signingOut,privateGeneration,accessEpoch,message);
+int get hashCode => Object.hash(runtimeType,phase,userId,canAccessPrivate,canManageTeam,staffRole,hidePrivate,retainPrivate,requiresReauthentication,signingOut,privateGeneration,accessEpoch,message);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'SessionState(phase: $phase, userId: $userId, canAccessPrivate: $canAccessPrivate, hidePrivate: $hidePrivate, retainPrivate: $retainPrivate, requiresReauthentication: $requiresReauthentication, signingOut: $signingOut, privateGeneration: $privateGeneration, accessEpoch: $accessEpoch, message: $message)';
+  return 'SessionState(phase: $phase, userId: $userId, canAccessPrivate: $canAccessPrivate, canManageTeam: $canManageTeam, staffRole: $staffRole, hidePrivate: $hidePrivate, retainPrivate: $retainPrivate, requiresReauthentication: $requiresReauthentication, signingOut: $signingOut, privateGeneration: $privateGeneration, accessEpoch: $accessEpoch, message: $message)';
 }
 
 
@@ -271,7 +275,7 @@ abstract mixin class _$SessionStateCopyWith<$Res> implements $SessionStateCopyWi
   factory _$SessionStateCopyWith(_SessionState value, $Res Function(_SessionState) _then) = __$SessionStateCopyWithImpl;
 @override @useResult
 $Res call({
- SessionPhase phase, String? userId, bool canAccessPrivate, bool hidePrivate, bool retainPrivate, bool requiresReauthentication, bool signingOut, int privateGeneration, int accessEpoch, String? message
+ SessionPhase phase, String? userId, bool canAccessPrivate, bool canManageTeam, StaffRole? staffRole, bool hidePrivate, bool retainPrivate, bool requiresReauthentication, bool signingOut, int privateGeneration, int accessEpoch, String? message
 });
 
 
@@ -288,12 +292,14 @@ class __$SessionStateCopyWithImpl<$Res>
 
 /// Create a copy of SessionState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? phase = null,Object? userId = freezed,Object? canAccessPrivate = null,Object? hidePrivate = null,Object? retainPrivate = null,Object? requiresReauthentication = null,Object? signingOut = null,Object? privateGeneration = null,Object? accessEpoch = null,Object? message = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? phase = null,Object? userId = freezed,Object? canAccessPrivate = null,Object? canManageTeam = null,Object? staffRole = freezed,Object? hidePrivate = null,Object? retainPrivate = null,Object? requiresReauthentication = null,Object? signingOut = null,Object? privateGeneration = null,Object? accessEpoch = null,Object? message = freezed,}) {
   return _then(_SessionState(
 phase: null == phase ? _self.phase : phase // ignore: cast_nullable_to_non_nullable
 as SessionPhase,userId: freezed == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
 as String?,canAccessPrivate: null == canAccessPrivate ? _self.canAccessPrivate : canAccessPrivate // ignore: cast_nullable_to_non_nullable
-as bool,hidePrivate: null == hidePrivate ? _self.hidePrivate : hidePrivate // ignore: cast_nullable_to_non_nullable
+as bool,canManageTeam: null == canManageTeam ? _self.canManageTeam : canManageTeam // ignore: cast_nullable_to_non_nullable
+as bool,staffRole: freezed == staffRole ? _self.staffRole : staffRole // ignore: cast_nullable_to_non_nullable
+as StaffRole?,hidePrivate: null == hidePrivate ? _self.hidePrivate : hidePrivate // ignore: cast_nullable_to_non_nullable
 as bool,retainPrivate: null == retainPrivate ? _self.retainPrivate : retainPrivate // ignore: cast_nullable_to_non_nullable
 as bool,requiresReauthentication: null == requiresReauthentication ? _self.requiresReauthentication : requiresReauthentication // ignore: cast_nullable_to_non_nullable
 as bool,signingOut: null == signingOut ? _self.signingOut : signingOut // ignore: cast_nullable_to_non_nullable

@@ -21,6 +21,8 @@ abstract class SessionState with _$SessionState {
     @Default(SessionPhase.checking) SessionPhase phase,
     String? userId,
     @Default(false) bool canAccessPrivate,
+    @Default(false) bool canManageTeam,
+    StaffRole? staffRole,
     @Default(true) bool hidePrivate,
     @Default(false) bool retainPrivate,
     @Default(false) bool requiresReauthentication,
@@ -40,6 +42,7 @@ class SessionViewModel extends ChangeNotifier {
   bool _disposed = false, _started = false, _signIn = false, _signedOut = false;
   int _revision = 0;
   String? _privateUser;
+  StaffRole? _privateRole;
   void _publish(SessionState value) {
     if (!_disposed) {
       _state = value;
@@ -55,6 +58,7 @@ class SessionViewModel extends ChangeNotifier {
   }) {
     final hadPrivate = _privateUser != null || state.retainPrivate;
     _privateUser = null;
+    _privateRole = null;
     _publish(
       SessionState(
         phase: phase,
@@ -85,6 +89,8 @@ class SessionViewModel extends ChangeNotifier {
         state.copyWith(
           phase: SessionPhase.visitor,
           canAccessPrivate: false,
+          canManageTeam: false,
+          staffRole: null,
           hidePrivate: true,
           retainPrivate: true,
           requiresReauthentication: true,
@@ -95,13 +101,18 @@ class SessionViewModel extends ChangeNotifier {
       return;
     }
     if (access.isAuthorized) {
-      final changed = _privateUser != null && _privateUser != access.userId;
+      final changed =
+          _privateUser != null &&
+          (_privateUser != access.userId || _privateRole != access.role);
       _privateUser = access.userId;
+      _privateRole = access.role;
       _publish(
         SessionState(
           phase: SessionPhase.authorized,
           userId: access.userId,
           canAccessPrivate: true,
+          canManageTeam: access.canManageTeam,
+          staffRole: access.role,
           hidePrivate: false,
           retainPrivate: true,
           privateGeneration: state.privateGeneration + (changed ? 1 : 0),
@@ -155,6 +166,8 @@ class SessionViewModel extends ChangeNotifier {
       state.copyWith(
         phase: SessionPhase.checking,
         canAccessPrivate: false,
+        canManageTeam: false,
+        staffRole: null,
         hidePrivate: true,
         retainPrivate: _privateUser != null,
         accessEpoch: state.accessEpoch + 1,
@@ -180,6 +193,8 @@ class SessionViewModel extends ChangeNotifier {
     _publish(
       state.copyWith(
         canAccessPrivate: false,
+        canManageTeam: false,
+        staffRole: null,
         hidePrivate: true,
         accessEpoch: state.accessEpoch + 1,
       ),
