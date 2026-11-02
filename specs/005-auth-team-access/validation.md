@@ -273,3 +273,13 @@ aviso; SDK inicializa com adaptadores de preferências locais de teste. Cliente
 SDK criado/descartado em runAsync para manter seu worker fora do FakeAsync.
 Armazenamento oficial em memória, sem ler preferências reais; dependência de
 teste já transitiva documentada no plano. Analyze sem problemas.
+
+
+## Meta de 95% — programação e segurança clínica — 2026-11-02
+
+17 testes novos PASS: seletores de início/término, edição/remoção de horários,
+unidades do intervalo, reconciliação pelo rodapé e recarga após falha. Detalhes
+clínicos testam revisão/intervalo, erro de leitura, cursor cíclico, exceção de
+histórico, confirmação divergente e falhas ao reconciliar aplicação. Não há
+confirmação otimista de medicação quando o recibo não corresponde à operação.
+Analyze sem problemas; produção preservada nesta etapa.
