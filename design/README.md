@@ -37,12 +37,18 @@ Capturas em previews/team/. Planejamento e 26 tarefas em
 a existência deste protótipo não autoriza implementar as novas telas no Flutter.
 
 
-## Busca administrativa — DESIGN-SEARCH-001
+## Busca global administrativa — DESIGN-SEARCH-001 v2
 
-[management-search-proposal.html](management-search-proposal.html): proposta com
-quarta aba Busca, nome, situação/espécie, total, cartões e abertura do cadastro
-existente. Fotos/dados ilustrativos; interações somente em memória, sem backend.
-Estados de resultado/vazio/loading/erro na lateral. Use ?preview=search para
-conferir apenas a tela mobile. Capturas em previews/search/; QA 320/390/1440 px PASS.
-Planejamento e tarefas em ../specs/006-management-search/. Aprovação visual ainda
-pendente: nenhuma implementação Flutter/RPC da busca nesta entrega.
+[management-search-proposal.html](management-search-proposal.html): campo fixo após
+os totais, sem quarta aba ou botão de entrada na busca. Nome ou código automático
+único; painel com espécie, sexo, cor, porte e situação. Resultados globais enquanto
+houver critérios, inclusive em Calendário sem evento do animal; limpar restaura
+modo, dia e rolagem. As três visualizações existentes continuam disponíveis.
+
+Nomes repetidos são demonstrados por duas Lunas com códigos diferentes. Os códigos,
+dados e fotos são ilustrativos, sem backend e sem implementação no app/banco.
+Use ?preview=search&mode=calendar&q=Luna para ver só a tela mobile nesse cenário.
+Estados na lateral; capturas em previews/search/, QA v2 320/390/1440 px PASS.
+A v1 teve aprovação visual com pedido de ajustes; **esta revisão ainda aguarda
+aprovação**. Spec/plano/modelo/contratos/guia/tarefas revisados em
+../specs/006-management-search/. Não implementar Flutter/SQL antes do novo aceite.

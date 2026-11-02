@@ -254,7 +254,10 @@ produção nem é aplicado automaticamente pela CI.
 
 ### Próxima melhoria: busca administrativa
 
-Proposta de aba Busca no painel, por nome com filtros de situação/espécie e acesso
-à ficha, em [design/management-search-proposal.html](design/management-search-proposal.html).
-[Planejamento e tarefas](specs/006-management-search/plan.md) preparados; desenho
-DESIGN-SEARCH-001 aguarda aprovação antes da implementação Flutter/Supabase.
+Proposta revisada: campo fixo após os totais, por nome ou código automático único,
+com filtros de espécie, sexo, cor, porte e situação; sem nova aba. A busca retorna
+animais globalmente a partir de Kanban, Lista ou Calendário, inclusive sem medicação
+no dia selecionado. Limpar restaura o contexto anterior. Ver
+[design/management-search-proposal.html](design/management-search-proposal.html).
+[Planejamento e tarefas](specs/006-management-search/plan.md) revisados; DESIGN-SEARCH-001
+v2 aguarda nova aprovação antes de implementar Flutter, código de animal ou RPC.
