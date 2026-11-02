@@ -1,3 +1,4 @@
+import 'recovery_form_field.dart';
 import 'package:flutter/material.dart';
 import '../../team/views/team_components.dart';
 import '../view_models/recovery_view_model.dart';
@@ -77,47 +78,46 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               ),
             ),
             const SizedBox(height: 20),
-            Text(
-              state.completed
-                  ? 'Senha atualizada'
-                  : 'Escolha uma nova senha para sua conta.',
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontFamily: 'serif',
-                fontSize: 28,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+            state.completed
+                ? const Text(
+                    'Senha atualizada',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'serif',
+                      fontSize: 28,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  )
+                : const Text(
+                    'Escolha uma nova senha para voltar a acessar sua conta.',
+                    style: TextStyle(fontSize: 12, height: 1.8),
+                  ),
             const SizedBox(height: 24),
             if (state.loading || state.busy) const LinearProgressIndicator(),
             if (state.available && !state.completed) ...[
-              TextField(
+              RecoveryFormField(
                 controller: _password,
+                label: 'Nova senha',
+                hint: 'Crie uma senha',
+                fieldKey: const ValueKey('resetPassword'),
+                obscure: true,
                 enabled: !state.busy,
-                obscureText: true,
-                autocorrect: false,
-                enableSuggestions: false,
-                decoration: InputDecoration(
-                  labelText: 'Nova senha',
-                  helperText: 'Use pelo menos 12 caracteres.',
-                  errorText: state.errors['password'],
-                ),
+                helper: 'Use pelo menos 12 caracteres.',
+                error: state.errors['password'],
               ),
               const SizedBox(height: 20),
-              TextField(
+              RecoveryFormField(
                 controller: _confirmation,
+                label: 'Confirmar nova senha',
+                hint: 'Repita a nova senha',
+                fieldKey: const ValueKey('resetConfirmation'),
+                obscure: true,
                 enabled: !state.busy,
-                obscureText: true,
-                autocorrect: false,
-                enableSuggestions: false,
-                decoration: InputDecoration(
-                  labelText: 'Confirmar nova senha',
-                  errorText: state.errors['confirmation'],
-                ),
+                error: state.errors['confirmation'],
               ),
               const TeamCallout(
                 child: Text(
-                  'Depois de salvar, faça login novamente com sua nova senha.',
+                  'Depois de salvar, entre novamente no aplicativo com sua nova senha.',
                 ),
               ),
             ],

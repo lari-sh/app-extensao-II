@@ -1,3 +1,4 @@
+import 'recovery_form_field.dart';
 import 'package:flutter/material.dart';
 import '../../team/views/team_components.dart';
 import '../view_models/recovery_view_model.dart';
@@ -71,20 +72,18 @@ class _RecoveryScreenState extends State<RecoveryScreen> {
               state.completed
                   ? 'Se houver uma conta para esse e-mail, você receberá as orientações para redefinir a senha. Confira também a pasta de spam.'
                   : 'Informe o e-mail usado na sua conta. Enviaremos as orientações para definir uma nova senha.',
-              textAlign: TextAlign.center,
+              textAlign: TextAlign.start,
+              style: const TextStyle(fontSize: 12, height: 1.8),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 20),
             if (!state.completed)
-              TextField(
+              RecoveryFormField(
                 controller: _email,
+                label: 'E-mail da conta',
+                hint: 'nome@exemplo.com',
+                fieldKey: const ValueKey('recoveryEmail'),
+                error: state.errors['email'],
                 enabled: !state.busy,
-                keyboardType: TextInputType.emailAddress,
-                autocorrect: false,
-                decoration: InputDecoration(
-                  labelText: 'E-mail da conta',
-                  hintText: 'nome@exemplo.com',
-                  errorText: state.errors['email'],
-                ),
               ),
             if (!state.completed)
               const TeamCallout(

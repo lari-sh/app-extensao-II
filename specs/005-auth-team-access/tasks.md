@@ -35,7 +35,7 @@ contracts/team-access.md. Proposta não equivale a implementação nem aprovaç�
 
 - [x] T017 [US3] Testar adaptador SessionStorageService: marcado/desmarcado, falha de escrita, restauração, cleanup, concorrência e preservação do verificador PKCE sem salvar senha. [005-FR-010]
 - [x] T018 [US3] Implementar adaptador LocalStorage e preferência nos Services, mediar por AuthRepository, injetar no bootstrap e propagar escolha via LoginViewModel; unitários de Repository/VM. [005-FR-010, 005-CR-001]
-- [ ] T019 [US3] Habilitar checkbox existente preservando layout e testar Widget, login, logout e opções durante busy; validar kill/relaunch Android nos dois modos e revogação de equipe. [005-FR-010, 005-FR-013]
+- [x] T019 [US3] Habilitar checkbox existente preservando layout e testar Widget, login, logout e opções durante busy; validar kill/relaunch Android nos dois modos e revogação de equipe. [005-FR-010, 005-FR-013]
 
 ## US4 — Esqueci a senha
 
@@ -45,7 +45,7 @@ contracts/team-access.md. Proposta não equivale a implementação nem aprovaç�
 
 ## Entrega e evidências
 
-- [ ] T023 Criar integration_test/team_access_flow_test.dart e auth_recovery_flow_test.dart; administrador/funcionário, convite/aceite/revogação, persistência e recuperação ponta a ponta, preservando fixtures do usuário. [005-CR-002]
+- [x] T023 Criar integration_test/team_access_flow_test.dart e password_recovery_flow_test.dart (e scripts/validate_android_auth_process.py para force-stop real); administrador/funcionário, convite/aceite/revogação, persistência e recuperação ponta a ponta, preservando fixtures do usuário. [005-CR-002]
 - [ ] T024 Executar formato/geração/analyze/test, SQL/HTTP e Android; integrar novas jornadas à CI sem remover as sete existentes; confirmar artifact/run/SHA em validation.md. [005-CR-002, 005-CR-003]
 - [ ] T025 Validar links e sessão iOS em Mac/Xcode ou registrar dependência externa explicitamente, sem declarar sucesso por Windows. [005-FR-012]
 - [ ] T026 Atualizar README.md, quickstart.md, validation.md e tasks.md após cada etapa validada; commits por contexto na developer e revisão de segredos/erros/dados públicos. [005-CR-003]

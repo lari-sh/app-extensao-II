@@ -21,6 +21,11 @@ void main() {
       addTearDown(vm.dispose);
       await tester.pumpWidget(MaterialApp(home: RecoveryScreen(viewModel: vm)));
       await tester.scrollUntilVisible(find.byType(TextField), 120);
+      expect(
+        tester.widget<TextField>(find.byType(TextField)).decoration!.labelText,
+        isNull,
+      );
+      expect(find.text('nome@exemplo.com'), findsOneWidget);
       await tester.enterText(find.byType(TextField), 'p@example.test');
       await tester.tap(find.text('Enviar orientações'));
       await tester.pumpAndSettle();

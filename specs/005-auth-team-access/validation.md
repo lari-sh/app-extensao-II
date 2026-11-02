@@ -446,3 +446,18 @@ rotas públicas e indisponibilidade da configuração. A CI agora inclui a nona
 jornada Android e seu controlador/limpeza; resultado remoto ainda pendente.
 A regressão Android de revogação/logout está sendo repetida antes de fechar T019.
 iOS e SMTP produtivo continuam validações externas, sem alegação de conclusão.
+
+
+## Ajuste ao protótipo e conclusão T019/T023 — 2026-11-02
+
+Comparação visual com design/previews/team/recovery.png e password.png identificou
+rótulos flutuantes e instrução de nova senha ampliada. Corrigidos para os rótulos
+externos, hints, bordas claras e tipografia/alinhamento já aprovados, sem mudar a
+composição. Campo compartilhado RecoveryFormField contém somente apresentação.
+Nova regressão: 474 testes PASS; analyze PASS; **6181/6505 = 95,02%** de linhas.
+Jornada Android real de recuperação repetida com a interface corrigida: PASS.
+O teste authentication_flow também foi repetido: login, restauração SDK/nativa,
+conta sem vínculo, revogação e logout PASS. Somado ao force-stop nos dois modos,
+fecha T019; equipe, recuperação e persistência possuem jornadas registradas em T023.
+A CI eafdf33 passou Flutter/backend, mas um novo commit visual será validado em
+execução própria. Não reutilizar a aprovação antiga como aprovação do novo SHA.

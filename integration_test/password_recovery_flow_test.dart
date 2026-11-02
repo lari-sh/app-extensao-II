@@ -65,11 +65,11 @@ void main() {
       expect(find.text('Salvar nova senha'), findsOneWidget);
       expect(find.text('Kanban'), findsNothing);
       await tester.enterText(
-        find.widgetWithText(TextField, 'Nova senha'),
+        find.byKey(const ValueKey('resetPassword')),
         password,
       );
       await tester.enterText(
-        find.widgetWithText(TextField, 'Confirmar nova senha'),
+        find.byKey(const ValueKey('resetConfirmation')),
         password,
       );
       await tester.testTextInput.receiveAction(TextInputAction.done);
