@@ -19,7 +19,7 @@ contracts/team-access.md. Proposta não equivale a implementação nem aprovaç�
 
 - [x] T007 [US1] Escrever testes Deno/HTTP e SQL de envio/reenvio/cancelamento: identidade forjada, role editável, expiração, conta existente, timeout, duplicata e revogação durante envio. [005-FR-003, 005-FR-005, 005-FR-009, 005-FR-014]
 - [x] T008 [US1] Implementar supabase/functions/team-invitation e RPCs de listagem/recibos/cancelamento/alteração; estados duráveis, limites e reconciliação sem expor Admin API no app. [005-FR-003, 005-FR-004, 005-FR-009]
-- [ ] T009 [US1] Criar modelos Freezed e TeamRepository abstrato; Service/Repository em lib/data/ com unitários em test/data/{services,repositories}/; cobrir erros tipados e paginação. [005-CR-001, 005-CR-002]
+- [x] T009 [US1] Criar modelos Freezed e TeamRepository abstrato; Service/Repository em lib/data/ com unitários em test/data/{services,repositories}/; cobrir erros tipados e paginação. [005-CR-001, 005-CR-002]
 - [ ] T010 [US1] Implementar TeamViewModel e InviteMemberViewModel, testes de validação/permissão/busy/dispose/conflito/estado incerto em test/ui/features/team/view_models/. [005-FR-003, 005-FR-004, 005-FR-009]
 - [ ] T011 [US1] Após T003, implementar TeamScreen, InviteMemberScreen e confirmação de alteração/desativação em lib/ui/features/team/views/; Widget happy path por tela, 320 px e texto ampliado, Voltar à esquerda. [005-FR-004, 005-FR-007, 005-FR-013]
 - [ ] T012 [US1] Após T003, integrar entrada Equipe no dashboard e rotas/composição em lib/app/; teste de rota e negação para funcionário também por URL/rota direta. [005-FR-001, 005-FR-013]

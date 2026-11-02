@@ -110,3 +110,10 @@ funcionário sem gestão, role forjada, reenvio/link antigo, cancelamento e corrid
 aceite/cancelamento. Somente fixtures próprias @example.test; limpeza por prefixo
 único, preservando os dados do usuário. Nova jornada adicionada ao job backend.
 Telas Flutter, Android e CI remota desta etapa ainda pendentes.
+
+## T009 — camada de dados Flutter
+
+Modelos Freezed, contrato TeamRepository e Service Supabase isolado implementados.
+10 novos testes de Service/Repository PASS: paginação, imutabilidade, perfil
+desconhecido, resposta inválida, identidade normalizada, versionamento e erros
+seguros em português. Analyze sem problemas. Interface e Android pendentes.
