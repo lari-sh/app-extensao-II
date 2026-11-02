@@ -65,3 +65,25 @@ Execute `integration_test/team_access_flow_test.dart` no emulador com a mesma
 configuração pública local das demais jornadas. Não imprima `/credentials`.
 Ao terminar, POST `/cleanup` remove somente o prefixo exclusivo desta execução.
 A CI prepara e limpa o controlador automaticamente junto das sete jornadas antigas.
+
+
+### Jornada Android de recuperação
+
+Com Supabase local ativo, inicie
+`python supabase/tests/fixtures/android_recovery_control.py`. O controlador local
+127.0.0.1:58765 cria somente um funcionário de prefixo exclusivo `fixture-team-*`,
+lê Mailpit e despacha o callback genuíno por Android VIEW. Nunca imprima o retorno
+de `/credentials`, URL completa, tokens ou senhas. Execute
+`integration_test/password_recovery_flow_test.dart` com a configuração pública
+local usual. O teste solicita pelo formulário, recebe código PKCE, salva nova
+senha, confirma sessão encerrada, faz login normal e rejeita replay do callback.
+POST `/cleanup` remove somente as fixtures desta execução. CI prepara/limpa esse
+controlador e mantém as oito jornadas anteriores, totalizando nove.
+
+
+Para testar encerramento real, instale o APK normal local (não o runner de
+integration_test), inicie o controlador de recuperação com uma fixture nova e
+execute `python scripts/validate_android_auth_process.py`. O script verifica a
+opção desmarcada, marcada, e o callback após force-stop. Não imprime credenciais.
+Finalize com POST `/cleanup` no controlador. O teste completo usa a senha inicial;
+reinicie o controlador entre rodadas para gerar uma nova conta isolada.

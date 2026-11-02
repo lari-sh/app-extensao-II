@@ -59,8 +59,8 @@ Aceite associa auth.uid verificado ao destinatário vinculado à reserva do conv
 ignora role/user_id sugeridos pelo cliente. Transação bloqueia geração/convite,
 confere prazo, revogação e senha definida, ativa membro e registra evento uma vez.
 Para contas novas criadas pelo convite, a prova de senha é consultada no servidor
-em auth.users (hash não vazio, nunca retornado ao cliente), não um booleano vindo
-da tela. A query privilegiada é restrita ao usuário reservado para aquele convite.
+pela mudança da impressão da senha após a confirmação do convite em auth.users
+(nunca retornada ao cliente), não por hash apenas não vazio nem booleano da tela. A query privilegiada é restrita ao usuário reservado para aquele convite.
 Se a senha foi salva e o aceite falhou, o vínculo segue pendente e a operação
 pode ser retomada; não exigir troca de senha repetida para ativar o mesmo convite.
 Novos convites não ativam staff_members antes desta transação. Reenvio/revogação

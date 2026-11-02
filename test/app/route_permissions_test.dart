@@ -20,13 +20,15 @@ void main() {
   }) async {
     final data = PublicAppHarness();
     final auth = FakeAuthRepository()
-      ..handler = (_, _) async => Success(
-        SessionAccess(
-          level: AccessLevel.authorized,
-          userId: 'admin',
-          role: role,
-        ),
-      );
+      ..handler = (method, _) async => method == 'canResetPassword'
+          ? const Success(false)
+          : Success(
+              SessionAccess(
+                level: AccessLevel.authorized,
+                userId: 'admin',
+                role: role,
+              ),
+            );
     addTearDown(auth.dispose);
     final session = SessionViewModel(auth);
     addTearDown(session.dispose);
@@ -58,7 +60,13 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  for (final path in ['/team', '/animal-management', '/medication-editor']) {
+  for (final path in [
+    '/team',
+    '/animal-management',
+    '/medication-editor',
+    '/recovery',
+    '/reset-password',
+  ]) {
     testWidgets('$path without auth configuration fails closed', (
       tester,
     ) async {
@@ -66,6 +74,26 @@ void main() {
       expect(find.text('Serviço de acesso indisponível.'), findsOneWidget);
       expect(tester.takeException(), isNull);
     });
+  }
+  for (final path in ['/recovery', '/reset-password']) {
+    testWidgets(
+      'public auth route $path opens approved screen without private content',
+      (tester) async {
+        await open(tester, path, configureAuth: true);
+        expect(
+          find.text(
+            path == '/recovery' ? 'Recuperar acesso' : 'Definir nova senha',
+          ),
+          findsOneWidget,
+        );
+        expect(find.text('Kanban'), findsNothing);
+        if (path == '/reset-password') {
+          expect(find.text('Solicitar novo link'), findsOneWidget);
+          expect(find.byType(TextField), findsNothing);
+        }
+        expect(tester.takeException(), isNull);
+      },
+    );
   }
   for (final path in ['/team', '/team-invite']) {
     testWidgets('employee direct $path cannot query team data', (tester) async {

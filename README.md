@@ -12,12 +12,13 @@ e pendências de produção/iOS. A expansão para outros abrigos fica para depoi
 
 ## Estado implementado
 
-Planejamento da próxima entrega: [acesso e convites da equipe](specs/005-auth-team-access/spec.md),
-com primeiro administrador provisionado e convites pelo app. Inclui os controles
-Permanecer logado/Esqueci a senha ainda pendentes; não são funcionalidades já
-entregues. Protótipo DESIGN-TEAM-001 aprovado; fundação de perfis implementada,
-com convites e novas telas ainda em integração. Verifique as tarefas para o estado
-real de cada etapa.
+A entrega de [acesso e convites da equipe](specs/005-auth-team-access/spec.md)
+inclui perfis, convites e telas DESIGN-TEAM-001 aprovadas. O login oferece
+**Permanecer logado** e **Esqueci a senha**, com persistência opcional de sessão
+(sem salvar a senha), recuperação por e-mail e retorno ao login após a troca.
+Consulte [as tarefas](specs/005-auth-team-access/tasks.md) e
+[as evidências](specs/005-auth-team-access/validation.md) para distinguir testes
+locais, validação Android e aprovação da CI de cada etapa.
 
 - Início, catálogo com filtros combinados e paginação, detalhes, favoritos e sobre.
 - Dados públicos do Supabase; somente animais publicados e não adotados.
@@ -205,7 +206,11 @@ cadastro público de administrador. A implantação real exige SMTP configurado.
 
 Fluxo Android de convite/aceite com e-mail local integrado aos testes; roteiro e
 resultados em `specs/005-auth-team-access/quickstart.md` e `validation.md`.
-Permanecer logado e recuperação de senha continuam tarefas separadas da feature.
+Com **Permanecer logado** desmarcado, a sessão fica somente em memória. Marcado,
+a sessão é restaurada e o vínculo da equipe é revalidado no servidor. **Esqueci a
+senha** abre as telas aprovadas; o e-mail não revela se a conta existe. O link
+Android usa PKCE e, após salvar a senha, exige login novamente. E-mails reais
+exigem configurar e validar SMTP/redirects no ambiente de destino.
 
 
 ### CI conferida em 2026-11-02

@@ -423,3 +423,26 @@ Nenhuma senha é guardada no estado. Callback Android /recovery registrado.
 Analyze PASS; regressão com cobertura: 470 testes PASS. Inclui teste compacto
 320 px, resposta neutra, erros de provedor, rejeição de sessão comum e repetição.
 Validação com e-mail/PKCE real no Android segue em T022; não declarada concluída aqui.
+
+
+## T022 — recuperação e processo real Android — 2026-11-02
+
+Jornada `password_recovery_flow_test.dart` PASS no emulator-5554/API37: formulário,
+Mailpit local, Android VIEW real com código PKCE, nova senha, sessão encerrada,
+login normal e replay recusado sem formulário/manejo. Não houve e-mail externo.
+No APK normal, force-stop/relaunch confirmou sessão desmarcada não restaurada e
+marcada restaurada com revalidação. Nova solicitação seguida de force-stop e
+Android VIEW abriu troca de senha: PKCE sobrevive ao processo encerrado. Salvou e
+retornou ao login. Auth local recusou a senha anterior e aceitou a nova.
+As primeiras sondagens do UI Automator falharam transitoriamente; nova leitura
+com retry e toque no checkbox real confirmou o resultado. Não eram evidência de
+falha na persistência. Script reproduzível: scripts/validate_android_auth_process.py,
+com fixture nova e APK normal local; nunca usar conta real. Fixtures exclusivas
+foram removidas por /cleanup, preservando animais/dados manuais.
+
+Regressão final: **474 testes Flutter PASS**, analyze sem problemas;
+**6162/6486 linhas = 95,00%** (95,0046% sem arredondar). Adicionados testes de
+rotas públicas e indisponibilidade da configuração. A CI agora inclui a nona
+jornada Android e seu controlador/limpeza; resultado remoto ainda pendente.
+A regressão Android de revogação/logout está sendo repetida antes de fechar T019.
+iOS e SMTP produtivo continuam validações externas, sem alegação de conclusão.

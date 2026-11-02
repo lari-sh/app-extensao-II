@@ -146,7 +146,10 @@ void main() {
         email: 'person@example.test',
         password: 'test-only',
       );
-      await client.auth.verifyOTP(tokenHash: 'fixture-only', type: OtpType.recovery);
+      await client.auth.verifyOTP(
+        tokenHash: 'fixture-only',
+        type: OtpType.recovery,
+      );
       await Future<void>.delayed(Duration.zero);
       final service = SupabaseAuthService(client, callbacks: callbacks);
       expect(

@@ -41,7 +41,7 @@ contracts/team-access.md. Proposta não equivale a implementação nem aprovaç�
 
 - [x] T020 [US4] Implementar e testar requestPasswordReset/updateRecoveredPassword em AuthService/Repository, resposta neutra, rate limit, evento de recuperação e falhas de link/token sem logs sensíveis. [005-FR-011, 005-FR-012]
 - [x] T021 [US4] Após T003, implementar RecoveryViewModel/ResetPasswordViewModel e telas auth; unitários de validação/busy/dispose e Widget happy path/erro; botão existente habilitado com mesmo layout. [005-FR-011, 005-FR-013]
-- [ ] T022 [US4] Testar Mailpit/callback/PKCE com app aberto e encerrado, link expirado/repetido, troca efetiva de senha e retorno ao login sem manejo automático; não usar senhas de pessoas reais. [005-FR-011, 005-FR-012]
+- [x] T022 [US4] Testar Mailpit/callback/PKCE com app aberto e encerrado, link expirado/repetido, troca efetiva de senha e retorno ao login sem manejo automático; não usar senhas de pessoas reais. [005-FR-011, 005-FR-012]
 
 ## Entrega e evidências
 
