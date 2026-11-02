@@ -283,3 +283,14 @@ clínicos testam revisão/intervalo, erro de leitura, cursor cíclico, exceção
 histórico, confirmação divergente e falhas ao reconciliar aplicação. Não há
 confirmação otimista de medicação quando o recibo não corresponde à operação.
 Analyze sem problemas; produção preservada nesta etapa.
+
+
+## Meta de 95% — callbacks e navegação privada — 2026-11-02
+
+8 testes novos PASS: eventos reais do SDK com HTTP simulado, entrega única de
+convite para observador imediato/tardio, troca do cliente e cancelamento da
+assinatura. AuthApplication encaminha convite para verificação no servidor sem
+liberar manejo. Painel real integra calendário, atualização ao retomar o app e
+entrada Equipe; editor novo/existente integra medicações e descarta conteúdo
+quando backend/evento concordam com a revogação. Analyze sem problemas.
+Medição anterior a esta etapa: 93,45%, 420 testes PASS, mesma base de 6.171 linhas.
