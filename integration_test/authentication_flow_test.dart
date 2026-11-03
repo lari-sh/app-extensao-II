@@ -18,6 +18,11 @@ void main() {
     );
     final host = Uri.parse(const String.fromEnvironment('SUPABASE_URL')).host;
     final control = Uri.parse('http://$host:58763');
+    // Recover this reserved fixture if a previous interrupted run revoked it.
+    expect(
+      (await http.post(control.resolve('/restore-membership'))).statusCode,
+      204,
+    );
     final credentials = await http.get(control.resolve('/fixture-password'));
     expect(credentials.statusCode, 200);
     final password =

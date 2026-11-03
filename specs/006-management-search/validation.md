@@ -545,3 +545,8 @@ Três testes Widget novos PASS: paginação/atualização e retorno de cadastro/
 ## Aplicação de medicamentos — ampliação de cobertura (2026-11-03)
 
 Quatro testes novos PASS: carregamento e retomada do aplicativo, fechar detalhes, confirmação antes de repetir a mesma operação, histórico de cancelamento preservado após cursor repetido e revalidação explícita ao negar conclusão. UI e ViewModel reais com Repository controlado; não registra doses em animais reais nem altera o backend de apresentação. Análise estática PASS.
+
+
+### Encerramento da validação física T048 — 2026-11-03
+
+Após desbloqueio e aceite da instalação por USB, authentication_flow_test.dart PASS no celular MFZHZLA6TC49NJFI em 10 s: login inválido, conta não staff, conta autorizada, restauração, revogação e logout. O teste restabelece no início somente o vínculo da conta reservada fixture-revocable, pois uma execução interrompida pode deixá-la revogada; finally continua restaurando o vínculo. Não modifica contas/cadastros reais. As tentativas anteriores bloqueadas/falhas não foram consideradas PASS. Correção de troca de sessão permanece coberta pela regressão Widget RED/GREEN e pela suíte integral.
