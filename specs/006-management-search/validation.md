@@ -692,3 +692,18 @@ não encontrou as senhas geradas. APK em entrega-professor com mesmo hash do pac
 instalado; assinatura de avaliação conferida. Relatório detalhado em
 docs/releases/android-cloud-evaluation.md. CI #191 no a82aec7: quatro jobs PASS;
 o fechamento documental e o PR ainda terão conferência própria.
+
+## Manual Word do professor — 2026-11-03
+
+T064 PASS: manual sem credenciais, com instalação, acesso e roteiro de avaliação.
+Criado pelo runtime de documentos com python-docx e sanitização de título PASS.
+O renderizador padrão não encontrou LibreOffice e a exportação local pelo Word
+não terminou; a responsável solicitou usar Docs/Word online. Importação no Google
+Docs, leitura de retorno e exportações PDF/DOCX PASS. PDF de duas páginas Letter
+rasterizado com o Poppler do runtime; ambas as páginas inspecionadas sem cortes,
+sobreposições ou perda de texto. Conteúdo do DOCX exportado igual ao original.
+
+Manual versionado em docs/user-guide/guia_instalacao_android.docx e cópia local
+em entrega-professor, junto do APK. Cópia editável no Drive sem mudar permissões
+ou enviar mensagens. Fontes e instruções sem senha; credenciais locais temporárias
+já apagadas. CI do último commit documental ainda deve ser conferida antes de T065.
