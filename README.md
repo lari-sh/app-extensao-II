@@ -97,7 +97,10 @@ Confira o resultado da execução em Actions; iOS continua dependendo de Mac/Xco
 
 Para avaliação em outro celular sem depender do computador, seguir
 [APK com Supabase na nuvem](docs/releases/android-cloud-evaluation.md).
-O projeto remoto ainda precisa ser provisionado; o APK local não é essa entrega.
+O projeto de avaliação está provisionado; o pacote release foi validado no celular
+sem redirecionamentos para o backend local. O arquivo fica em
+`entrega-professor/abrigo-dos-anjos-avaliacao.apk`, acompanhado do manual de instalação.
+O APK e arquivos locais de configuração não são versionados.
 
 ## Ambiente Android deste computador
 

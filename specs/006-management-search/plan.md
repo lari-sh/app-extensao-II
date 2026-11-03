@@ -218,3 +218,17 @@ login, cadastro/edição e agenda em celular usando internet, com ADB reverse re
 Registrar implantação, revisão, assinatura/hash do APK e resultados em
 `docs/releases/android-cloud-evaluation.md`; manter T060–T062 abertas até execução
 real. Não alterar a CI para publicar um APK incompleto como se estivesse configurado.
+
+Decisão de provisionamento confirmada em 03/11/2026: a responsável cria e confirma
+as contas fictícias no painel Auth; o operador associa os perfis no PostgreSQL
+pela CLI autenticada, validando as identidades e registrando o evento de
+provisionamento. Não extrair service_role/secret keys para o computador. Os dados
+e fotos passam pelos endpoints existentes com login de funcionário e chave pública.
+Arquivos locais com senhas de avaliação devem ser apagados após a validação.
+
+Manual DOCX de instalação solicitado pela responsável: usar runtime de documentos,
+revisar páginas renderizadas e não incluir credenciais. A revisão pode usar Google
+Docs, conforme alternativa expressamente solicitada, preservando a entrega Word.
+Entrega Android não comprova email de recuperação/convite: registrar essa integração
+separadamente em T063, sem simular envio. Após testes e CI aprovados, abrir PR da
+developer para main para revisão, conforme solicitação; não efetuar merge automático.

@@ -1,117 +1,120 @@
 # APK Android para avaliação na nuvem
 
-Requisito: 006-FR-015. Estado em 03/11/2026: **preparação local validada;
-projeto remoto, implantação e APK conectado ainda pendentes**. A responsável
-informou que ainda não tem projeto e está acessando sua conta Supabase.
-O APK local anterior usa loopback e não serve para avaliação independente.
+Requisito 006-FR-015. Entrega de avaliação conferida em 03/11/2026, com backend
+Supabase hospedado e APK release normal instalado no celular. O computador da
+aluna não serve o backend desse pacote; internet continua necessária.
 
-## Conta e projeto de avaliação
+## Projeto implantado
 
-Entrar em https://supabase.com/dashboard com a conta da responsável e criar um
-projeto de avaliação, separado do ambiente local. Conferir organização, região e
-plano antes de criar; não contratar plano pago. Guardar a senha do banco em
-gerenciador de senhas, fora de chats, Git e configuração Flutter.
-Registrar aqui URL pública, referência do projeto e migrations aplicadas somente
-depois de realmente provisionar. Nunca registrar senha, token de gestão ou chave
-administrativa. O projeto pode conter apenas os exemplos fictícios autorizados;
-não copiar usuários, sessões, dados pessoais ou backups do ambiente local.
+- Projeto: projeto-extensao-II, organização lari-sh, plano gratuito.
+- Referência: tcdmiudchyptbgjzrotj; região us-east-1.
+- API: https://tcdmiudchyptbgjzrotj.supabase.co.
+- 21 migrations existentes aplicadas e histórico remoto conferido.
+- Functions animal-photo-read, animal-photo-upload, animal-photo-cleanup e
+  team-invitation implantadas pela CLI oficial 2.122.0.
+- Todas as tabelas públicas com RLS; bucket animal-photos privado.
+- PHOTO_CLEANUP_SECRET exclusivo configurado nas Functions, fora do aplicativo.
 
-## Implantação pendente
+Implantação feita com project-ref explícito, sem reset, seed de testes ou alteração
+no banco local. Foram usados db push --dry-run, db push, db query e functions deploy.
+A autenticação da CLI foi autorizada pela responsável. Não houve consulta com
+--reveal nem extração de service_role/secret key para o computador.
 
-Com Supabase CLI autenticado e o projeto explicitamente identificado:
+## Contas e exemplos
 
-```powershell
-npx --yes supabase@2.122.0 link --project-ref <referencia-do-projeto>
-npx --yes supabase@2.122.0 db push --dry-run
-npx --yes supabase@2.122.0 db push
-npx --yes supabase@2.122.0 migration list
-npx --yes supabase@2.122.0 functions deploy animal-photo-read --project-ref <referencia-do-projeto>
-npx --yes supabase@2.122.0 functions deploy animal-photo-upload --project-ref <referencia-do-projeto>
-npx --yes supabase@2.122.0 functions deploy animal-photo-cleanup --project-ref <referencia-do-projeto>
-npx --yes supabase@2.122.0 functions deploy team-invitation --project-ref <referencia-do-projeto>
-```
+A responsável criou e confirmou as duas contas no painel Auth. Uma operação SQL
+administrativa verificou as identidades exatas, associou administrador e funcionário
+e registrou evaluation_provisioned no histórico. Esta é a alternativa de
+provisionamento manual solicitada, sem enviar convites ou emails.
 
-Revisar as 21 migrations existentes em ordem; não usar reset, seed ou scripts de
-fixtures locais no projeto remoto. Conferir JWT/autorizações dos handlers e o
-arquivo WASM de upload incluído na implantação. Confirmar que o bucket de fotos
-continua privado. Configurar PHOTO_CLEANUP_SECRET exclusivo no servidor; não
-reaproveitar credenciais locais nem colocar o segredo em dart-defines. As Functions
-atuais utilizam variáveis SUPABASE_* de servidor, nunca enviadas ao aplicativo.
-Operações remotas permanecem pendentes até o projeto estar acessível.
+O acesso do professor usa avaliacao.funcionario@example.test. A senha deve ser
+comunicada pela responsável separadamente. O acesso de administrador não acompanha
+o pacote. O TXT e o JSON temporários com senhas foram apagados após os testes;
+nenhuma senha foi colocada no Git, no manual ou no APK.
 
-Auth: conferir políticas de cadastro e autorização, recuperação e a lista exata
-de redirect URLs `br.org.abrigodosanjos.app://auth/invite` e
-`br.org.abrigodosanjos.app://auth/recovery`. Não assumir que o email padrão
-entrega convites/recuperações a qualquer destinatário: conferir as restrições do
-provedor e configurar SMTP quando necessário. Não enviar mensagens ao professor
-automaticamente. Provisionar primeiro administrador pelo fluxo de bootstrap
-existente, depois acesso de funcionário de avaliação, com senha exclusiva e
-permissões reais. Nunca tornar todos os usuários administradores.
+Oito exemplos fictícios com fotos ilustrativas foram cadastrados pelos endpoints
+autenticados existentes: Amora, Bento, Luna, Thor, Mel, Nina, Simba e Theo. Fotos
+locais conferidas pelo SHA-256 do manifesto antes do upload; todas as oito foram
+lidas anonimamente pela Function pública, mantendo o Storage privado. Origem/licença
+em supabase/demo/animals.json. Nenhum prontuário ou usuário local foi exportado.
 
-## Configuração pública e build
+Agenda simulada de 3 a 5 de novembro de 2026: Amora e Bento em tratamento, Mel em
+quarentena; horários fixos e intervalos. Dia 03 com seis aplicações. A contagem
+inicial do manejo é 5 disponíveis, 2 em tratamento e 1 em quarentena, total 8;
+pode evoluir com as operações e o encerramento dos tratamentos.
 
-Criar `.env.cloud.json` na raiz (ignorado pelo Git). Somente estas duas entradas:
+## Verificações executadas
 
-```json
-{
-  "SUPABASE_URL": "https://<referencia-de-20-caracteres>.supabase.co",
-  "SUPABASE_PUBLISHABLE_KEY": "sb_publishable_<chave-publica-do-projeto>"
-}
-```
+- 15 verificações HTTP PASS: catálogo público, bloqueio dos dados internos,
+  medicações/equipe sem login, bloqueio de upload/convite/limpeza sem autorização,
+  sessões de funcionário e administrador, restrição de equipe do funcionário,
+  manejo de oito animais e edição de ficha sem perder foto/dados públicos.
+- Criação de oito fichas, upload e publicação com usuário funcionário PASS.
+- Agenda com seis aplicações simuladas via RPC autenticada PASS.
+- MCP oficial list_devices identificou o Xiaomi 2311DRK48G Android 15/API 35.
+- APK release instalado via ADB PASS, sem transporte ADB reverse para o backend.
+- No celular: catálogo com oito animais e fotos, ficha de Amora com vacinas no
+  formato nome/data, login de funcionário, Kanban com totais 5/2/1 e agenda PASS.
+- Aplicação simulada de Bento às 08h concluída no celular; autor Funcionário de
+  avaliação e horário real 03/11/2026 às 15h21 confirmados na interface e por RPC.
+  O banco registrou 2026-11-03T18:21:38.504225+00:00; não foi usado relógio do app.
 
-Os valores acima são placeholders, não uma configuração utilizável.
-Não adicionar senha de avaliação, service_role, sb_secret, token de gestão,
-ALLOW_LOCAL_HTTP ou Flutter Driver. A chave pública não substitui as políticas RLS.
-O helper também aceita anon JWT legado com role anon e referência do mesmo projeto.
+MCP usado para ferramentas oferecidas, testes AppConfig e análise na preparação.
+Release não expõe a árvore/Flutter Driver: interface final foi validada por ADB.
+Não afirmar que esta conferência manual exercitou todas as jornadas da CI.
+Evidências locais em .tools/cloud, sem credenciais nos arquivos de validação.
+
+## Arquivo para compartilhar
+
+Caminho local: entrega-professor/abrigo-dos-anjos-avaliacao.apk.
+
+- Versão 1.0.0+1; Android mínimo API 24/Android 7.
+- 59.896.931 bytes, aproximadamente 60 MB ou 57,1 MiB.
+- SHA-256: added5799a28cede706fc1309682d9e572b6ddf725df89a0410a7838383232f8.
+- Release pelo entry point lib/main.dart, sem Flutter Driver ou HTTP local.
+- Assinatura de avaliação Android Debug, verificada com apksigner.
+- Certificado SHA-256: 966af201b6ef1563a13d3d24c286c1a4a0d258598900f02ffde312b52fa275ad.
+
+É o mesmo arquivo instalado no celular da responsável. Assinatura de teste serve
+para avaliação por instalação manual; não é uma publicação na Play Store.
+APK, configurações públicas locais e pacote de entrega são ignorados pelo Git.
+O manual de instalação fica em docs/user-guide e é copiado para a pasta de entrega.
+
+## Reproduzir o build
+
+Criar .env.cloud.json ignorado com somente SUPABASE_URL e
+SUPABASE_PUBLISHABLE_KEY do projeto hospedado. Não incluir senhas, ALLOW_LOCAL_HTTP,
+service_role, sb_secret ou token de gestão. O helper recusa campos extras,
+URL local, chave privilegiada e anon JWT de outro projeto; o preflight confere
+as colunas públicas atuais, mas não substitui os testes de autorização.
 
 ```powershell
 python scripts/build_cloud_apk.py --config .env.cloud.json --check-only
 python scripts/build_cloud_apk.py --config .env.cloud.json --flutter <caminho-do-flutter.bat>
 ```
 
-Usar SDK Flutter 3.41.1, JDK/Android SDK configurados e dependências do lockfile
-previamente instaladas. O helper não implanta recursos nem popula banco. Confere
-HTTPS e acesso anônimo às colunas públicas atuais antes de compilar. Catálogo vazio
-pode passar nessa verificação: isso não comprova dados, fotos ou login prontos.
-Build usa `--release --target=lib/main.dart`, sem instalação automática no celular.
-O Gradle atual assina release com a chave de teste Android; essa entrega é para
-instalação manual de avaliação, não para publicação na Play Store.
+Usar Flutter 3.41.1, JDK 21, SDK Android configurado e dependências aprovadas no
+lockfile. O helper usa --pub para atualizar os registros nativos ao sair dos testes
+para release. O primeiro build com --no-pub falhou por referência residual de
+integration_test; o build normal e a regressão Python passaram depois da correção.
+Não editar registrantes gerados ou fontes do SDK manualmente.
 
-Saída após build bem-sucedido:
+## Limites conhecidos
 
-- `.tools/apk/cloud/abrigo-dos-anjos-avaliacao.apk` — arquivo a compartilhar.
-- `.tools/apk/cloud/validation.json` — hash, tamanho, URL pública e validações
-  remotas/no celular inicialmente pendentes, mesmo quando o build termina.
-- `.tools/apk/cloud/build.log` — log local.
+Convites e recuperação por email exigem configuração e validação própria do
+provedor de email e dos callbacks invite/recovery no projeto hospedado, pendentes
+em T063. Nenhum email foi enviado ao professor. Use as contas já provisionadas para
+esta avaliação. Não declarar o envio de email remoto como validado pelos testes
+locais/da CI. iOS não foi compilado nem validado neste ambiente.
 
-Nenhum desses arquivos existe como entrega concluída nesta preparação.
+O vínculo GitHub não substitui os gates. A integração foi discutida com a
+responsável; a automação não habilitou deploy automático ou plano pago. Conferir
+as opções do painel antes de ligar produção a uma branch.
 
-## Aceitação antes de enviar
+CI anterior de preparação #190 aprovada. CI #191 do código a82aec7 foi conferida
+com Flutter, backend, Android e deliver aprovados. A CI do fechamento documental
+precisa ser conferida no commit correspondente antes do PR solicitado.
 
-1. Conferir migrations, Functions, Storage privado e RLS. Anônimo não pode acessar
-   informações clínicas, equipe ou medicações nem gravar dados. Funcionário não
-   pode administrar equipe; administrador mantém suas capacidades existentes.
-2. Criar exemplos fictícios com fotos ilustrativas pelos endpoints normais;
-   conferir leitura pública das fotos e correspondência nome/imagem.
-3. Instalar APK normal e remover ADB reverse. Validar catálogo, ficha e fotos,
-   login de avaliação, busca nos modos, cadastro/edição, upload e agenda usando
-   internet no celular. O computador não pode servir nenhuma dependência do app.
-4. Conferir certificado/assinatura, revisão, tamanho e SHA-256 do arquivo final.
-   Registrar resultados reais aqui e em validation.md antes de marcar T062.
-5. Entregar APK e instruções de acesso por canais separados; não colocar senha
-   em commits, documentação pública ou dentro do APK.
-
-## Evidências desta preparação
-
-- 11 testes Python de configuração, chave privilegiada, projeto divergente,
-  transporte, resposta, redirect, falha de build e empacotamento: PASS local.
-- MCP oficial Dart/Flutter `run_tests`: 3 testes em
-  `test/utils/app_config_test.dart` PASS; `analyze_files`: No errors.
-- Teste remoto de schema/Functions/RLS: não executado; projeto inexistente.
-- APK na nuvem e validação física independente: não executados.
-- A etapa Python foi adicionada ao workflow existente; resultado remoto ainda
-  não confirmado para esta alteração.
-
-Referências oficiais: [ambientes e migrations](https://supabase.com/docs/guides/deployment/managing-environments),
-[implantação de Functions](https://supabase.com/docs/guides/functions/deploy) e
+Referências: [ambientes e migrations](https://supabase.com/docs/guides/deployment/managing-environments),
+[Functions](https://supabase.com/docs/guides/functions/deploy) e
 [chaves públicas e de servidor](https://supabase.com/docs/guides/getting-started/api-keys).

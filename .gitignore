@@ -63,3 +63,6 @@ __pycache__/
 
 # Local-only MCP driver entry; never ship diagnostic instrumentation
 /lib/main_mcp_local.dart
+
+# Local package shared manually for academic evaluation
+/entrega-professor/

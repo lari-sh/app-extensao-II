@@ -153,3 +153,6 @@ fotos ilustrativas já autorizados e acesso de funcionário específico para ava
 Preservar o design. A entrega exige catálogo/fotos, login e fluxos privados
 validados no celular sem ADB reverse ou outro transporte até o computador.
 Não considerar um APK local ou um build sem backend configurado como entrega.
+Entregar também manual DOCX de instalação e acesso para o professor, sem senhas.
+Por decisão da responsável, criar as contas manualmente no painel e associar os
+perfis pela operação administrativa confiável; não consultar chaves administrativas.

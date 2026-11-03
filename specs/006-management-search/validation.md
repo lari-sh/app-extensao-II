@@ -670,3 +670,25 @@ de teste Android verificada por apksigner. Entrada `lib/main.dart`; registrante
 gerado sem integration_test. Hash do pacote: added5799a28cede706fc1309682d9e572b6ddf725df89a0410a7838383232f8.
 Instalação no dispositivo físico via ADB PASS; validação das jornadas ainda em
 andamento. Este registro não antecipa aprovação da CI ou da validação física.
+
+## Avaliação real no Supabase hospedado — 2026-11-03
+
+T060–T062 PASS: projeto tcdmiudchyptbgjzrotj ativo, 21 migrations e quatro Functions
+implantadas, bucket privado e nenhuma tabela pública sem RLS. As duas contas foram
+criadas manualmente pela responsável; perfis associados por SQL com auditoria.
+Não foi executada a consulta --reveal bloqueada pela revisão automática e não houve
+extração de service_role/secret key. Dados e fotos enviados com login de funcionário.
+Oito exemplos, três tratamentos simulados e seis aplicações no dia 03/11.
+
+15 verificações HTTP PASS, incluindo bloqueios anônimos/funcionário, administrador,
+publicação/fotos e edição. Release instalado no Xiaomi Android 15 PASS. Sem ADB
+reverse: catálogo, ficha completa, login de funcionário, Kanban 5/2/1 total 8 e
+agenda PASS. Aplicação de Bento concluída no celular, com autor Funcionário de
+avaliação e instante 2026-11-03T18:21:38.504225+00:00 confirmados também por RPC.
+Nenhum envio de email foi executado; SMTP/callbacks ficam explicitamente em T063.
+
+TXT e JSON locais de senha apagados; busca nas fontes versionadas e no manual
+não encontrou as senhas geradas. APK em entrega-professor com mesmo hash do pacote
+instalado; assinatura de avaliação conferida. Relatório detalhado em
+docs/releases/android-cloud-evaluation.md. CI #191 no a82aec7: quatro jobs PASS;
+o fechamento documental e o PR ainda terão conferência própria.
