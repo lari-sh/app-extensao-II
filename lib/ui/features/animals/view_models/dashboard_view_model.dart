@@ -1,6 +1,7 @@
 import 'managed_animal_search_view_model.dart';
 import 'dart:async';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart' show StringCharacters;
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../../domain/models/animal.dart';
 import '../../../../domain/repositories/animals_repository.dart';
@@ -154,6 +155,15 @@ class DashboardViewModel extends ChangeNotifier {
       AnimalStatus.quarantine => 'Quarentena',
       AnimalStatus.adopted => 'Adotado',
     };
+  }
+
+  static const clinicalPreviewLimit = 80;
+  String cardClinicalPreview(ManagedAnimal animal) {
+    final summary = cardClinicalSummary(animal).replaceAll(RegExp(r'\s+'), ' ');
+    final characters = summary.characters;
+    return characters.length <= clinicalPreviewLimit
+        ? summary
+        : '${characters.take(clinicalPreviewLimit - 1)}…';
   }
 
   String get subtitle => 'Total: $total ${total == 1 ? 'animal' : 'animais'}';

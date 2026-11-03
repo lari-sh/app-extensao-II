@@ -116,3 +116,5 @@ selecionado. No Calendário, manter a data e mostrar somente as medicações do 
 - [x] T055 Substituir no vídeo os trechos com Kanban anterior pelo quadro aprovado (margens reduzidas e títulos 11 sp), preservar os demais fluxos, rever capítulos e decodificação, atualizar roteiro e remover apenas materiais temporários após validar o resultado. [DEMO-FR-001, 006-FR-013]
 
 - [ ] T056 Corrigir leitura de medicações interrompida por revalidações concorrentes ao reabrir o editor; retomar somente após acesso confirmado no mesmo contexto privado, testar negativa explícita/troca de contexto e revalidar CI Android, sem mudar o layout. [003-CR-003, 006-CR-001]
+
+- [x] T057 Padronizar altura e alinhamento dos cartões do Kanban, limitar observação visível a até 80 caracteres/3 linhas sem alterar o texto completo na ficha, respeitar texto ampliado e nomes longos; protótipo, testes, Android, vídeo e commit próprios. [006-FR-014]

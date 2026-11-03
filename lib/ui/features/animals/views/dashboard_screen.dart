@@ -391,12 +391,21 @@ class _DashboardScreenState extends State<DashboardScreen>
               ),
               child: Column(
                 children: [
-                  Text(
-                    viewModel.columnHeading(status),
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w600,
+                  SizedBox(
+                    height:
+                        MediaQuery.textScalerOf(context).scale(11) * 1.4 * 2,
+                    child: Center(
+                      child: Text(
+                        viewModel.columnHeading(status),
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 11,
+                          height: 1.4,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                     ),
                   ),
                   const Divider(color: _border, height: 12),
@@ -438,6 +447,11 @@ class _DashboardScreenState extends State<DashboardScreen>
   }) {
     final animal = item.animal;
     final clinicalSummary = viewModel.cardClinicalSummary(item);
+    final textScaler = MediaQuery.textScalerOf(context);
+    final lineHeight = textScaler.scale(10) * 1.4;
+    final nameHeight = textScaler.scale(12) * 1.4 * 2;
+    Widget slot(double height, Widget child) =>
+        SizedBox(height: compact ? height : null, child: child);
     return Card(
       margin: EdgeInsets.only(bottom: compact ? 4 : 6),
       elevation: 0,
@@ -456,88 +470,109 @@ class _DashboardScreenState extends State<DashboardScreen>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  if (!compact) ...[
-                    Container(
-                      width: 32,
-                      height: 32,
-                      decoration: BoxDecoration(
-                        color: _soft,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: const Icon(
-                        Icons.pets_outlined,
-                        size: 22,
-                        color: Color(0xFFC51D2A),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                  ],
-                  Expanded(
-                    child: Text(
-                      animal.name,
-                      style: TextStyle(
-                        fontSize: compact ? 12 : 14,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: compact ? 24 : 40,
-                    child: PopupMenuButton<String>(
-                      tooltip: 'Ações de ${animal.name}',
-                      padding: EdgeInsets.zero,
-                      iconSize: 18,
-                      enabled: viewModel.canManage,
-                      onSelected: (value) {
-                        if (value == 'edit') {
-                          _edit(context, animal.id);
-                        } else if (value == 'publication') {
-                          viewModel.togglePublication(animal);
-                        } else {
-                          viewModel.setStatus(
-                            animal.id,
-                            AnimalStatus.values.byName(value),
-                          );
-                        }
-                      },
-                      itemBuilder: (_) => [
-                        const PopupMenuItem(
-                          value: 'edit',
-                          child: Text('Editar cadastro'),
+              slot(
+                nameHeight > 48 ? nameHeight : 48,
+                Row(
+                  children: [
+                    if (!compact) ...[
+                      Container(
+                        width: 32,
+                        height: 32,
+                        decoration: BoxDecoration(
+                          color: _soft,
+                          borderRadius: BorderRadius.circular(8),
                         ),
-                        for (final status in AnimalStatus.values)
-                          PopupMenuItem(
-                            value: status.name,
-                            child: Text(
-                              'Mover para ${DashboardViewModel.labels[status]}',
-                            ),
+                        child: const Icon(
+                          Icons.pets_outlined,
+                          size: 22,
+                          color: Color(0xFFC51D2A),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                    ],
+                    Expanded(
+                      child: Text(
+                        animal.name,
+                        maxLines: compact ? 2 : null,
+                        overflow: compact ? TextOverflow.ellipsis : null,
+                        style: TextStyle(
+                          fontSize: compact ? 12 : 14,
+                          height: compact ? 1.4 : null,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: compact ? 24 : 40,
+                      child: PopupMenuButton<String>(
+                        tooltip: 'Ações de ${animal.name}',
+                        padding: EdgeInsets.zero,
+                        iconSize: 18,
+                        enabled: viewModel.canManage,
+                        onSelected: (value) {
+                          if (value == 'edit') {
+                            _edit(context, animal.id);
+                          } else if (value == 'publication') {
+                            viewModel.togglePublication(animal);
+                          } else {
+                            viewModel.setStatus(
+                              animal.id,
+                              AnimalStatus.values.byName(value),
+                            );
+                          }
+                        },
+                        itemBuilder: (_) => [
+                          const PopupMenuItem(
+                            value: 'edit',
+                            child: Text('Editar cadastro'),
                           ),
-                        PopupMenuItem(
-                          value: 'publication',
-                          enabled: viewModel.canChangePublication(animal),
-                          child: Text(viewModel.publicationLabel(animal)),
-                        ),
-                      ],
+                          for (final status in AnimalStatus.values)
+                            PopupMenuItem(
+                              value: status.name,
+                              child: Text(
+                                'Mover para ${DashboardViewModel.labels[status]}',
+                              ),
+                            ),
+                          PopupMenuItem(
+                            value: 'publication',
+                            enabled: viewModel.canChangePublication(animal),
+                            child: Text(viewModel.publicationLabel(animal)),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               if (viewModel.isSearching)
                 Text(
                   '#${animal.animalCode}',
-                  style: const TextStyle(fontSize: 10),
+                  maxLines: compact ? 1 : null,
+                  overflow: compact ? TextOverflow.ellipsis : null,
+                  style: TextStyle(fontSize: 10, height: compact ? 1.4 : null),
                 ),
-              Text(
-                viewModel.cardSubtitle(animal),
-                style: const TextStyle(fontSize: 10, color: Color(0xFF795C52)),
+              slot(
+                lineHeight * 2,
+                Text(
+                  viewModel.cardSubtitle(animal),
+                  maxLines: compact ? 2 : null,
+                  overflow: compact ? TextOverflow.ellipsis : null,
+                  style: TextStyle(
+                    fontSize: 10,
+                    height: compact ? 1.4 : null,
+                    color: const Color(0xFF795C52),
+                  ),
+                ),
               ),
               const SizedBox(height: 6),
               Tooltip(
-                message: clinicalSummary,
+                message: compact
+                    ? 'Toque no cartão para ler a observação completa.'
+                    : clinicalSummary,
                 child: Container(
                   key: ValueKey('clinicalSummary-${animal.id}'),
+                  height: compact ? lineHeight * 3 + 8 : null,
+                  width: compact ? double.infinity : null,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 6,
                     vertical: 4,
@@ -548,7 +583,9 @@ class _DashboardScreenState extends State<DashboardScreen>
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: Text(
-                    clinicalSummary,
+                    compact
+                        ? viewModel.cardClinicalPreview(item)
+                        : clinicalSummary,
                     maxLines: compact ? 3 : 2,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -560,9 +597,18 @@ class _DashboardScreenState extends State<DashboardScreen>
                 ),
               ),
               const SizedBox(height: 6),
-              Text(
-                viewModel.visibilityLabel(animal),
-                style: TextStyle(fontSize: 10, color: _colors[animal.status]),
+              slot(
+                lineHeight,
+                Text(
+                  viewModel.visibilityLabel(animal),
+                  maxLines: compact ? 1 : null,
+                  overflow: compact ? TextOverflow.ellipsis : null,
+                  style: TextStyle(
+                    fontSize: 10,
+                    height: compact ? 1.4 : null,
+                    color: _colors[animal.status],
+                  ),
+                ),
               ),
             ],
           ),

@@ -8,6 +8,47 @@ import '../../../../support/fakes/fake_animals_repository.dart';
 import '../../../../support/public_fixtures.dart';
 
 void main() {
+  test(
+    'clinical preview is bounded without changing the stored observation',
+    () {
+      final vm = DashboardViewModel(
+        FakeAnimalsRepository(),
+        isAuthorized: () => true,
+      );
+      addTearDown(vm.dispose);
+      final animal = fixtureAnimal(1);
+      for (final character in ['á', '👩🏽‍⚕️']) {
+        final exact = List.filled(80, character).join();
+        final longer = '$exact$character';
+        expect(
+          vm.cardClinicalPreview(
+            ManagedAnimal(animal: animal, clinicalNotes: exact),
+          ),
+          exact,
+        );
+        final item = ManagedAnimal(animal: animal, clinicalNotes: longer);
+        expect(
+          vm.cardClinicalPreview(item),
+          '${List.filled(79, character).join()}…',
+        );
+        expect(vm.cardClinicalSummary(item), longer);
+      }
+      expect(
+        vm.cardClinicalPreview(
+          ManagedAnimal(
+            animal: animal,
+            clinicalNotes: '  Observação\n em   duas linhas  ',
+          ),
+        ),
+        'Observação em duas linhas',
+      );
+      expect(
+        vm.cardClinicalPreview(ManagedAnimal(animal: animal)),
+        'Sem observações clínicas',
+      );
+    },
+  );
+
   test('management card uses clinical notes without inventing a diagnosis', () {
     final vm = DashboardViewModel(
       FakeAnimalsRepository(),

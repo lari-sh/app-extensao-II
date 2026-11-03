@@ -188,3 +188,7 @@ Por solicitação da responsável, o gate global passa a 99% de linhas no LCOV i
 ## Espaçamento do Kanban — 2026-11-03 (006-FR-013)
 
 Solicitação explícita autoriza reduzir os recuos do quadro e dos cartões. Manter Row com três Expanded e listas verticais, sem alterar cabeçalho, busca, modos, fontes ou controles. Remover margem externa do quadro, reduzir separação entre colunas para 2 dp, eliminar recuo horizontal das colunas e usar 4 dp internos nos cards compactos. SafeArea continua protegendo a área inferior. Validar largura útil e ações em 320/390 dp com texto 1,4×, regressões dos modos, análise e Android via MCP. Nenhum pacote novo.
+
+## Cartões uniformes (006-FR-014)
+
+ViewModel fornece prévia de até 80 caracteres visuais, normalizando espaços somente na prévia. Usar a extensão StringCharacters exportada pelo SDK Flutter para preservar acentos e emojis compostos, sem pacote adicional. A View reserva linhas para nome, idade, observação e publicação, dimensionadas pelo TextScaler, e alinha os cabeçalhos das colunas. Texto completo permanece no modelo e no editor. Testes de fronteira 80/81 caracteres, emoji composto, preservação do texto e cartões alinhados em 320/390 dp com texto 1,4×.

@@ -616,3 +616,13 @@ Execução #183 (916726e): Flutter PASS, 595 testes e 99,05%; backend PASS, 428 
 ## Revalidação concorrente de medicações — 2026-11-03
 
 CI #184 confirmou a correção do cadastro; a falha remanescente foi no painel de medicações ao reabrir o editor. Novo teste reproduziu a leitura perdida após uma verificação concorrente. A recuperação aguarda confirmação posterior de acesso no mesmo contexto; não repete gravações, não ignora negativa explícita e descarta leituras após troca de contexto. MCP: análise sem erros e suíte integral 598 PASS. Layout inalterado. CI final e jornadas físicas adicionais em acompanhamento por T054/T056.
+
+## Jornadas físicas após liberação USB — 2026-11-03
+
+Cadastro/edição e calendário concluídos no Xiaomi físico: 2 PASS em 1m56s (.tools/ci-editor-calendar-phone.log). Incluem persistência pública das vacinas na ordem nome/data e reabertura do editor de medicações corrigida. O cenário descartável de medicação foi limpo pela própria jornada; o cadastro temporário do editor foi removido pelo controlador de fixtures, sem alterar os nove exemplos de demonstração. Suíte posterior ao novo ajuste de altura dos cartões: MCP 599 PASS e análise sem erros. CI final do conjunto continua em T054.
+
+## Altura uniforme dos cards — 2026-11-03
+
+006-FR-014/T057: slots dimensionados pelo TextScaler mantêm altura e alinhamento; cabeçalhos reservam duas linhas. Prévia de até 80 caracteres visuais (incluindo reticências) e três linhas, sem cortar emojis compostos nem modificar a nota armazenada. VM/testes preservam texto completo; toque no card de Amora abriu sua nota integral no celular. Lista e Calendário preservados. MCP: análise No errors, 599 testes PASS; dois cenários Widget 320/390 dp com texto 1,4×, nomes/observações diferentes e posições/alturas iguais.
+
+Protótipos atualizados; vídeo recapturado nas seis cenas, mesma duração/capítulos e decodificação integral PASS. Conexão de depuração mantida com Flutter attach + MCP; hot reload confirmado sem instalar novamente. O Windows recebeu solicitação temporária para permanecer ativo durante o trabalho, liberada ao encerrar. Resultado remoto final em T054.

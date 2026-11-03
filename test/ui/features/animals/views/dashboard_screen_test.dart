@@ -27,7 +27,12 @@ void main() {
       ];
       final animals = [
         for (var i = 0; i < statuses.length; i++)
-          fixtureAnimal(i + 1).copyWith(status: statuses[i]),
+          fixtureAnimal(i + 1).copyWith(
+            status: statuses[i],
+            name: i == 2
+                ? 'Um nome muito longo para testar a quebra de texto no cartão'
+                : 'Luna ${i + 1}',
+          ),
       ];
       final repo = FakeAnimalsRepository()
         ..handler = (method, args) async => method == 'getStatusCounts'
@@ -36,7 +41,18 @@ void main() {
                 ManagedAnimalPage(
                   items: [
                     for (final a in animals)
-                      if (a.status == args.first) ManagedAnimal(animal: a),
+                      if (a.status == args.first)
+                        ManagedAnimal(
+                          animal: a,
+                          clinicalNotes: a.status == AnimalStatus.available
+                              ? ''
+                              : a.status == AnimalStatus.treatment
+                              ? 'Observação curta'
+                              : List.filled(
+                                  25,
+                                  'Observação completa de teste.',
+                                ).join(' '),
+                        ),
                   ],
                   total: 1,
                 ),
@@ -59,10 +75,13 @@ void main() {
       final cards = find.descendant(of: board, matching: find.byType(Card));
       expect(cards, findsNWidgets(3));
       double previousRight = 0;
+      final firstRect = tester.getRect(cards.first);
       for (final card in cards.evaluate()) {
         final rect = tester.getRect(find.byWidget(card.widget));
         // Reclaim the side gutters while preserving all three columns.
         expect(rect.width, greaterThanOrEqualTo(width / 3 - 3));
+        expect(rect.height, closeTo(firstRect.height, 0.01));
+        expect(rect.top, closeTo(firstRect.top, 0.01));
         expect(rect.left, greaterThanOrEqualTo(previousRight));
         expect(rect.right, lessThanOrEqualTo(width));
         previousRight = rect.right;

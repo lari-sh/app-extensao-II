@@ -137,3 +137,7 @@ Na ficha do visitante, apresentar cada registro de vacinação como Nome da vaci
 ## 006-FR-013 — Aproveitamento da largura do Kanban
 
 Por solicitação explícita de 2026-11-03, reduzir margens desnecessárias do quadro, das colunas e dos cartões para ampliar sua área útil. Preservar três colunas simultaneamente visíveis, sem rolagem lateral, além das ações, informações, fontes e cores existentes. Manter a área segura do sistema e os demais modos inalterados.
+
+## 006-FR-014 — Cartões uniformes e observação resumida
+
+Solicitação da responsável: todos os cartões do Kanban devem ter a mesma altura, independentemente do tamanho da observação. Reservar áreas uniformes para seus textos, mantendo o crescimento com a escala de texto do sistema. Observação visível limitada a 80 caracteres (incluindo reticências) e até três linhas conforme a largura disponível. O clique abre a ficha com o conteúdo completo, que não pode ser truncado na persistência. Não alterar os modos Lista/Calendário.

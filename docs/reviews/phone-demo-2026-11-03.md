@@ -4,11 +4,11 @@ Arquivo local: `.tools/videos/2026-11-03/abrigo-dos-anjos-demonstracao-celular.m
 Roteiro: `README.txt` na mesma pasta. Vídeo não publicado no Git.
 
 - Dispositivo físico: Xiaomi 2311DRK48G, Android 15/API 35.
-- Duração: 06:55; tamanho: 15546780 bytes.
+- Duração: 06:55; tamanho: 14971575 bytes.
 - Exportação H.264, 720×1600, 30 fps, sem áudio; captura Android de frequência variável.
-- SHA-256: `4bcd08596469c73525bf2b2ae5d2902365a126f9f41908735fff647d4162a188`.
+- SHA-256: `0ba97b65897c5d8a87d457369b593c8c9b694ee1d5f7c917101e0616c44b3be8`.
 - Decodificação integral FFmpeg PASS; quadros dos capítulos revisados.
-- Kanban recapturado após a aprovação das margens reduzidas e títulos de 11 sp; seis cenas substituídas, preservando duração e capítulos.
+- Kanban recapturado com margens reduzidas, títulos de 11 sp, altura uniforme e prévia de até 80 caracteres/3 linhas; seis cenas substituídas, preservando duração e capítulos.
 
 ## Fluxos demonstrados
 
@@ -75,3 +75,9 @@ T055: seis intervalos substituídos por capturas atuais do mesmo celular, contro
 Cenas recapturadas com os dados atuais (Aurora já disponível após as aplicações concluídas), sem alterar tratamentos ou animais. Os demais fluxos são os registros originais; a montagem demonstra funcionalidades e não representa uma tomada contínua nem uma nova execução de todas as operações. O screenrecord omite quadros finais estáticos; o último quadro nativo foi mantido durante esse intervalo real para conservar a duração.
 
 Duração mantida em 415,33 s, capítulos preservados, nova decodificação integral FFmpeg PASS e revisão visual dos seis cortes. Temporários de vídeo removidos somente após conferir o hash do arquivo final. get_runtime_errors na recaptura: No runtime errors found. APK normal reinstalado e aberto no painel administrativo.
+
+## Cartões uniformes e conexão mantida
+
+Após a nova solicitação, as mesmas seis cenas foram recapturadas com altura uniforme e observações limitadas a 80 caracteres/3 linhas. O clique no card de Amora abriu o editor e mostrou a nota completa; não houve edição ou salvamento dos dados. Capturas de conferência: .tools/mcp/uniform-cards-phone.png e uniform-note-full-phone.png. Nova montagem com duração/capítulos preservados, revisão das seis cenas e decodificação integral PASS.
+
+A versão de depuração instalada com autorização ficou conectada por flutter attach e MCP; hot_reload retornou Hot reload succeeded, sem nova instalação. Essa conexão foi mantida para reduzir os pedidos de instalação enquanto a responsável descansa. O entry point de produção permanece sem Driver.
