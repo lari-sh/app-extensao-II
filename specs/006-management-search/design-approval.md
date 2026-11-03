@@ -73,3 +73,22 @@ Fundamento: Android recomenda configurações em navegação secundária, como t
 ou menus: https://developer.android.com/design/ui/mobile/guides/patterns/settings
 https://developer.android.com/develop/ui/views/components/appbar/actions
 A escolha de menu neste painel é uma decisão de projeto, não uma imposição da API.
+
+
+## DESIGN-ADD-TOP-001 — proposta, aguardando aprovação
+
+Pedido: dar maior visibilidade ao cadastro e aproveitar a altura inferior do
+Kanban. Proposta: botão + Animal no cabeçalho, com nome acessível Adicionar animal;
+Atualizar passa ao menu ⋮, junto dos acessos/saída já aprovados. Remover o FAB e
+reduzir a reserva inferior de 90 dp do Kanban/Lista, respeitando SafeArea. Preservar
+as regras atuais de acesso e de visibilidade no calendário/busca; sem mudança
+nas larguras dos cartões ou nas regras clínicas.
+
+Prévia separada: design/management-add-animal-proposal.html?mode=kanban;
+captura: design/previews/add-animal-top-v1.png. Verificação no navegador: cabeçalho
+sem overflow em 320/390 px, botão de 92 × 48 px e colunas usando a altura restante.
+Proposta de layout apenas: não representa teste Flutter/Android nem alteração
+já aplicada ao aplicativo. T030 aguarda aprovação; T031 depende dela.
+
+Referência sobre ações no topo, sem impor esta disposição específica:
+https://developer.android.com/develop/ui/compose/quick-guides/content/display-app-bar

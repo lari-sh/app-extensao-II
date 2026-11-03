@@ -54,3 +54,9 @@ selecionado. No Calendário, manter a data e mostrar somente as medicações do 
 - [ ] T028 Validar catálogo público no Android e CI/cobertura, atualizar documentação e publicar commits por contexto na developer; deixar APK normal disponível no celular. Depende de T027. Android e APK PASS; CI remota pendente. [006-FR-010, 006-CR-001]
 
 - [x] T029 Corrigir e validar limpeza das fixtures de busca com tratamentos, respeitando FKs RESTRICT e rejeitando remoção de animais alheios. [006-CR-001]
+
+
+## Cadastro visível e altura do Kanban — proposta de 2026-11-02
+
+- [ ] T030 Preparar e revisar proposta de + Animal no cabeçalho, Atualizar no menu e remoção da reserva inferior de 90 dp do Kanban/Lista, mantendo SafeArea; validar 320/390 px e solicitar aprovação antes de mudar Flutter. [006-FR-007, 006-CR-001]
+- [ ] T031 Após aprovação de T030, reposicionar cadastro preservando regras de acesso/visibilidade, estender área útil e testar navegação, altura, toque e Android; documentar e publicar por contexto. [006-FR-006, 006-FR-007, 006-CR-001]

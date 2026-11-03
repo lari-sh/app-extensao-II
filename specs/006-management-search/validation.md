@@ -360,3 +360,12 @@ https://github.com/lari-sh/app-extensao-II/actions/runs/41556748443
 Na consulta de fechamento ainda pendente/em processamento: T024/T028 conservam
 pendência remota. Não declarar a suíte completa do GitHub aprovada com base nos
 532 testes locais ou nesta única jornada física. Nenhuma alteração na main.
+
+### Proposta de cadastro no topo — DESIGN-ADD-TOP-001
+
+Confirmado no código: FAB inferior e padding bottom 90 no Kanban e na Lista.
+Proposta isolada criada, com + Animal no cabeçalho, Atualizar no menu e extensão
+vertical das colunas. QA HTML em 320/390 px sem overflow do cabeçalho; alvo do
+botão 92 × 48 px. Sem alteração no Flutter, no APK ou nos dados. Aprovação visual
+pendente conforme a constituição; tarefas T030/T031 registradas para retomada por
+speckit-implement, sem duplicar tarefas na skill de constituição.
