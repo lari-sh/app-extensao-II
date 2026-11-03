@@ -33,8 +33,8 @@ selecionado. No Calendário, manter a data e mostrar somente as medicações do 
 ## Auditoria de dimensões solicitada em 2026-11-02
 
 - [x] T018 Inventariar dimensões das views/widgets/tema e medir Kanban/Lista/Calendário com fontes ampliadas; comparar com recomendações oficiais e documentar limitações. Ver docs/reviews/component-sizing-2026-11-02/review.md. [006-CR-001]
-- [ ] T019 Preparar revisão visual das dimensões/colunas do Kanban e áreas de toque; explicar alterações e obter aprovação antes de mudar o layout. [006-FR-007, 006-CR-001]
-- [ ] T020 Após aprovação, implementar ajustes por contexto, testar acessibilidade/responsividade por tela e validar no celular/CI. Depende de T019. [006-CR-001]
+- T019 CANCELADA em 2026-11-03: propostas de dimensões avaliadas e rejeitadas; responsável determinou manter o Kanban como estava antes. Ver docs/reviews/component-sizing-2026-11-02/rejected-proposals/README.md. [006-FR-007]
+- T020 CANCELADA pela decisão de T019: nenhuma mudança de layout do Kanban deve ser implementada. Layout Flutter anterior preservado.
 
 
 ## Busca confirmada e navegação administrativa — 2026-11-02
