@@ -48,7 +48,9 @@ selecionado. No Calendário, manter a data e mostrar somente as medicações do 
 
 ## Busca no catálogo público por nome, espécie e sexo
 
-- [ ] T025 Atualizar especificação/plano/contrato da busca pública combinada: nome, espécie, sexo e combinações como gata fêmea/gato macho/gato fêmea; manter paginação/filtros existentes e dados públicos apenas. [006-FR-010, 006-CR-001]
+- [x] T025 Atualizar especificação/plano/contrato da busca pública combinada: nome, espécie, sexo e combinações como gata fêmea/gato macho/gato fêmea; manter paginação/filtros existentes e dados públicos apenas. [006-FR-010, 006-CR-001]
 - [ ] T026 Criar testes de interpretação/VM para acentos, maiúsculas, nome + espécie + sexo, espécies/sexos isolados, limpar/repetir pesquisa, conflitos e respostas tardias. Sem SDK na UI ou dependência nova. Depende de T025. [006-FR-010, 006-CR-001]
 - [ ] T027 Implementar interpretação na camada de lógica e integrar ao campo público existente, com confirmação Buscar e filtros combinados enviados ao Repository; Widget happy path/erro e preservação do design. Depende de T026. [006-FR-010, 006-CR-001]
 - [ ] T028 Validar catálogo público no Android e CI/cobertura, atualizar documentação e publicar commits por contexto na developer; deixar APK normal disponível no celular. Depende de T027. [006-FR-010, 006-CR-001]
+
+- [x] T029 Corrigir e validar limpeza das fixtures de busca com tratamentos, respeitando FKs RESTRICT e rejeitando remoção de animais alheios. [006-CR-001]

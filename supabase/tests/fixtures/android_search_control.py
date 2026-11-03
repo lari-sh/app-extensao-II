@@ -2,13 +2,13 @@
 from http.server import BaseHTTPRequestHandler,HTTPServer
 import json,uuid,datetime
 from team_fixture_support import create_user,sql,login,rpc,cleanup,env
+from search_fixture_cleanup import cleanup_search_animals
 actor,email=create_user('android-search')
 sql(f"insert into public.staff_members(user_id,active,role,display_name) values('{actor}',true,'employee','Teste busca Android');")
 animals=[]
 def clean():
  if animals:
-  ids=','.join("'"+str(uuid.UUID(a['id']))+"'" for a in animals)
-  sql(f"delete from public.animals where id in ({ids});")
+  cleanup_search_animals(actor, [a['id'] for a in animals])
  sql(f"delete from public.write_operations where actor_id='{actor}';")
  cleanup()
 try:

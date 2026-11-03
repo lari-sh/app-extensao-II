@@ -307,3 +307,15 @@ Validação nativa/CI específica ainda pendente em T024.
 T025–T028 registram o novo pedido de busca pública por nome/espécie/sexo; ainda
 não são implementação concluída. A execução segue speckit-implement, com tasks.md
 como fonte única. Nenhuma tarefa foi copiada para a constituição.
+
+### Correção da limpeza de fixtures com medicamentos
+
+As fixtures de busca passaram a incluir tratamentos, mas a limpeza anterior
+apagava o animal diretamente. As FKs são RESTRICT, não CASCADE: a limpeza passou
+a falhar. Helper agora remove recibos/eventos/aplicações/revisões/tratamentos e
+animais próprios em transação, com guardas de ator, nome, ownership e foto.
+
+Validação real local PASS: criar animal/tratamento próprios, tentar limpar um
+animal alheio (rejeitado e preservado), limpar o próprio e conferir ausência de
+recibos/animal. Sem reset, sem alteração dos cadastros manuais. A correção fica
+separada da implementação pública. Não modifica as FKs protetoras do aplicativo.
