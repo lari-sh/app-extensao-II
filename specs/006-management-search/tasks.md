@@ -119,4 +119,4 @@ selecionado. No Calendário, manter a data e mostrar somente as medicações do 
 
 - [x] T057 Padronizar altura e alinhamento dos cartões do Kanban, limitar observação visível a até 80 caracteres/3 linhas sem alterar o texto completo na ficha, respeitar texto ampliado e nomes longos; protótipo, testes, Android, vídeo e commit próprios. [006-FR-014]
 
-- [x] T058 Isolar as dez jornadas Android em processos Flutter independentes, usar conexão VM sem DDS opcional na CI e limite por jornada, preservar erros e validar o executor com testes de sucesso/falha/offline/configuração antes da execução remota final. [006-CR-001]
+- [x] T058 Isolar as dez jornadas Android em processos Flutter independentes, preservar o DDS exigido pelo framework e impor limite por jornada, preservar erros e validar o executor com testes de sucesso/falha/offline/configuração antes da execução remota final. [006-CR-001]

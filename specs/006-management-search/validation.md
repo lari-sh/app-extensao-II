@@ -632,3 +632,7 @@ Protótipos atualizados; vídeo recapturado nas seis cenas, mesma duração/cap�
 CI #185: calendário corrigido PASS; duas falhas de carregamento (timeout de 12 min em management_dashboard e inicialização DDS em animal_editor), sem asserção funcional nessas duas jornadas. T058 mantém todas as dez jornadas, invocadas em processos independentes com --no-dds e limite de oito minutos por comando, sem retries. Qualquer erro continua bloqueando a entrega. Quatro testes de comportamento do executor e cinco testes do gate PASS; sintaxe Bash dos dois scripts conferida.
 
 LCOV integral local pelo comando oficial flutter test --no-pub --coverage, porque a ferramenta MCP atual não expõe a flag booleana compatível do Flutter: 599 PASS em 1m13s; 7034/7101 linhas = 99,06%, mínimo 99%, mesmas exclusões anteriores. Análise e testes pelo MCP também aprovados. APK normal atualizado preparado sem reinstalar em .tools/apk/abrigo-dos-anjos-current-debug.apk. Conexão de depuração no celular permanece no painel administrativo para evitar novas confirmações USB. Confirmação remota geral em T054.
+
+## Compatibilidade do framework Android — 2026-11-03
+
+#186 confirmou Flutter 599/99,06% e backend PASS. --no-dds revelou incompatibilidade com o stream de integração VmServiceProxyGoldenFileComparator, apesar de o caso do catálogo passar. Restaurado --dds; mantidos isolamento por processo, todas as jornadas e bloqueio em qualquer falha. Teste do executor ajustado para exigir DDS. A tentativa anterior não foi registrada como CI aprovada.

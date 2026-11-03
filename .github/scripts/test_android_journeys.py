@@ -63,13 +63,14 @@ if [[ -n "$FAIL_TARGET" && "$*" == *"$FAIL_TARGET"* ]]; then exit 7; fi
         commands = self.commands.read_text(encoding='utf-8').splitlines() if self.commands.exists() else []
         return result, commands
 
-    def test_all_ten_journeys_have_independent_direct_vm_invocations(self):
+    def test_all_ten_journeys_have_independent_dds_invocations(self):
         result, commands = self.run_runner()
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(len(commands), 10)
         for name, command in zip(EXPECTED, commands):
             self.assertIn(f'integration_test/{name}_flow_test.dart', command)
-            self.assertIn('--no-dds', command)
+            self.assertIn('--dds', command)
+            self.assertNotIn('--no-dds', command)
             self.assertIn('-d emulator-5554', command)
 
     def test_failed_journey_keeps_its_exit_code_and_stops_later_tests(self):

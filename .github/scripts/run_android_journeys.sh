@@ -24,11 +24,12 @@ for journey in "${journeys[@]}"; do
   fi
   adb -s "$device" shell am force-stop "$package"
   echo "::group::Android journey: $journey"
-  # A fresh Flutter process and direct VM connection avoid retaining a stale
-  # DDS instance between APKs. Assertions still fail the gate; no test retries.
+  # Each fresh Flutter process owns its DDS instance. Keep DDS enabled because
+  # Flutter's integration harness uses custom golden-comparator streams.
+  # Assertions still fail the gate; no test retries.
   status=0
   timeout --signal=TERM --kill-after=30s 8m flutter test \
-    "integration_test/$journey.dart" --no-pub --no-dds -d "$device" \
+    "integration_test/$journey.dart" --no-pub --dds -d "$device" \
     --dart-define=SUPABASE_URL=http://10.0.2.2:54321 \
     --dart-define="SUPABASE_PUBLISHABLE_KEY=$SUPABASE_ANON_KEY" \
     --dart-define=ALLOW_LOCAL_HTTP=true || status=$?
