@@ -295,6 +295,13 @@ abstract class PublicListViewModel extends ChangeNotifier {
     await load();
   }
 
+  @protected
+  void rejectSearch(String message) {
+    if (_disposed) return;
+    ++_generation;
+    _publish(state.copyWith(busy: false, message: message));
+  }
+
   Future<void> clearFilters() async {
     _publish(state.copyWith(query: const AnimalQuery()));
     await load();

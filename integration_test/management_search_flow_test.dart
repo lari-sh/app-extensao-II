@@ -2,6 +2,7 @@ import 'package:abrigo_dos_anjos/ui/features/animals/views/animal_editor_screen.
 import 'package:abrigo_dos_anjos/domain/models/animal.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:abrigo_dos_anjos/ui/features/animals/views/catalog_screen.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:integration_test/integration_test.dart';
@@ -230,11 +231,73 @@ void main() {
       expect(search.state.filter.query, first['animal_code']);
       search.clearAll();
       await tester.pumpAndSettle();
+      // Publish only this controller's disposable animals for the public checks.
+      for (final animal in fixture['animals'] as List) {
+        await Supabase.instance.client.rpc(
+          'set_animal_publication',
+          params: {
+            'p_animal_id': (animal as Map)['id'],
+            'p_is_published': true,
+            'p_operation_key': 'public${DateTime.now().microsecondsSinceEpoch}'
+                .padRight(32, '_'),
+          },
+        );
+      }
       await tester.tap(find.byTooltip('Administração'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Sair da conta'));
       await tester.pumpAndSettle();
       expect(find.byType(DashboardScreen), findsNothing);
+      await waitFor(find.text('Quero Adotar (Visitante)'));
+      await tester.tap(find.text('Quero Adotar (Visitante)'));
+      await waitFor(find.byType(CatalogScreen));
+      final catalog = tester
+          .widget<CatalogScreen>(find.byType(CatalogScreen))
+          .viewModel;
+      for (var i = 0; i < 100 && catalog.state.busy; i++) {
+        await Future<void>.delayed(const Duration(milliseconds: 100));
+        await tester.pumpAndSettle();
+      }
+      final publicField = find.byKey(const ValueKey('catalogSearch'));
+      for (final scenario in [
+        ('gato macho', AnimalSpecies.cat, AnimalSex.male, 1),
+        ('gata femea', AnimalSpecies.cat, AnimalSex.female, 0),
+        ('gato femea', AnimalSpecies.cat, AnimalSex.female, 0),
+        ('cachorro femea', AnimalSpecies.dog, AnimalSex.female, 1),
+      ]) {
+        final previous = catalog.state.query;
+        await tester.ensureVisible(publicField);
+        await tester.tap(publicField);
+        await tester.pumpAndSettle();
+        await tester.enterText(
+          publicField,
+          '${fixture['name']} ${scenario.$1}',
+        );
+        await Future<void>.delayed(const Duration(milliseconds: 800));
+        await tester.pumpAndSettle();
+        expect(catalog.state.query, previous);
+        expect(catalog.searchInput, '${fixture['name']} ${scenario.$1}');
+        expect(
+          tester.widget<TextField>(publicField).controller!.text,
+          catalog.searchInput,
+        );
+        await tester.testTextInput.receiveAction(TextInputAction.search);
+        for (var i = 0; i < 100; i++) {
+          await Future<void>.delayed(const Duration(milliseconds: 100));
+          await tester.pumpAndSettle();
+          if (!catalog.state.busy &&
+              catalog.state.query.species == scenario.$2 &&
+              catalog.state.query.sex == scenario.$3) {
+            break;
+          }
+        }
+        expect(catalog.state.message, isNull);
+        expect(catalog.state.query.name, fixture['name']);
+        expect(catalog.state.query.species, scenario.$2);
+        expect(catalog.state.query.sex, scenario.$3);
+        expect(catalog.state.total, scenario.$4);
+        expect(catalog.state.items.length, scenario.$4);
+      }
     },
   );
 }

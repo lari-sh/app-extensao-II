@@ -269,3 +269,22 @@ no emulador; [artefato debug](https://github.com/lari-sh/app-extensao-II/actions
 disponível durante a retenção da CI.
 [Plano/tarefas](specs/006-management-search/plan.md) e
 [evidências](specs/006-management-search/validation.md).
+
+
+### Interações de busca e administração — revisão de 2026-11-02
+
+A busca administrativa aguarda Buscar no teclado, preservando cartões e foco
+na digitação. Resultados permanecem no Kanban/Lista ou nas medicações do dia.
+Menu ⋮ aprovado no cabeçalho reúne Equipe e acessos (administradores) e Sair;
+Atualizar e Voltar permanecem no topo, sem botão Equipe dentro do calendário.
+
+No catálogo público, digite nome, espécie e/ou sexo: `gata fêmea`, `gato macho`,
+`gato fêmea` ou `Luna gata fêmea`. Confirme Buscar no teclado. Os termos reconhecidos
+viram os filtros de espécie/sexo existentes; o nome restante fica no campo.
+Critérios não mencionados continuam ativos até alteração ou Limpar filtros.
+Sem API/IA/dependência adicional, sob as mesmas políticas de dados públicos.
+
+Validação local atual: 532 testes, 95,31% de linhas. Android/CI desta revisão
+seguem registrados separadamente em specs/006-management-search/validation.md;
+os números de CI anteriores acima são históricos, não aprovação automática desta
+revisão. Tarefas acompanhadas por speckit-implement em tasks.md da mesma feature.

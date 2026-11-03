@@ -1,8 +1,67 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:abrigo_dos_anjos/domain/models/animal_query.dart';
+import 'package:abrigo_dos_anjos/domain/models/animal.dart';
+import 'package:abrigo_dos_anjos/utils/result.dart';
 import '../../../../support/public_app_harness.dart';
 
 void main() {
+  testWidgets(
+    'visitor confirms combined terms and sees corresponding filters without losing name',
+    (tester) async {
+      final h = PublicAppHarness();
+      h.animals.handler = (_, _) async =>
+          const Success(AnimalPage(items: [], total: 0));
+      await tester.pumpWidget(h.app());
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Quero Adotar (Visitante)'));
+      await tester.pumpAndSettle();
+      final count = h.animals.calls.length;
+      final field = find.byKey(const ValueKey('catalogSearch'));
+      await tester.enterText(field, 'Luna gata femea');
+      await tester.pump(const Duration(seconds: 2));
+      expect(h.animals.calls, hasLength(count));
+      expect(tester.testTextInput.isVisible, isTrue);
+      await tester.testTextInput.receiveAction(TextInputAction.search);
+      await tester.pumpAndSettle();
+      final q = h.animals.calls.last.arguments.first as AnimalQuery;
+      expect(q.name, 'Luna');
+      expect(q.species, AnimalSpecies.cat);
+      expect(q.sex, AnimalSex.female);
+      expect(tester.widget<TextField>(field).controller!.text, 'Luna');
+      expect(
+        tester
+            .widget<DropdownButton<String>>(
+              find.byKey(const ValueKey('speciesFilter')),
+            )
+            .value,
+        'cat',
+      );
+      expect(
+        tester
+            .widget<DropdownButton<String>>(
+              find.byKey(const ValueKey('sexFilter')),
+            )
+            .value,
+        'female',
+      );
+      for (final term in ['gato macho', 'gata femea', 'gato femea']) {
+        await tester.tap(field);
+        await tester.enterText(field, term);
+        await tester.pump(const Duration(seconds: 1));
+        await tester.testTextInput.receiveAction(TextInputAction.search);
+        await tester.pumpAndSettle();
+        expect(
+          (h.animals.calls.last.arguments.first as AnimalQuery).sex,
+          term.contains('macho') ? AnimalSex.male : AnimalSex.female,
+        );
+      }
+      await tester.tap(find.text('Limpar filtros'));
+      await tester.pumpAndSettle();
+      expect(tester.widget<TextField>(field).controller!.text, isEmpty);
+      expect(h.animals.calls.last.arguments.first, const AnimalQuery());
+    },
+  );
   testWidgets('catalog combines text and species filter then opens detail', (
     tester,
   ) async {

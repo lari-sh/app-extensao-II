@@ -98,3 +98,28 @@ edição é separado dos critérios aplicados; refresh/retorno não confirmam ra
 Resultados de solicitações antigas são descartados. A correção não altera layout.
 Equipe deve sair do conteúdo do calendário; proposta de menu no cabeçalho será
 revisada antes da implementação visual, mantendo restrição a administradores.
+
+
+## 006-FR-010 — busca pública combinada
+
+O campo existente aceita nome, espécie e sexo, isolados ou combinados. Gato/gata/
+gatos/gatas identificam espécie felina; cachorro/cachorra/cão/cães/cadela e plurais
+identificam canina. Sexo é indicado por macho/fêmea (com ou sem acento); gato não
+impõe sexo masculino, permitindo gato fêmea. Palavras restantes mantêm nome,
+acentos e caixa originais. Keywords reconhecidas viram os filtros visíveis já
+existentes; após confirmar, o campo mantém apenas o nome restante. Filtros não
+informados continuam ativos até serem alterados ou limpos. Escolher um filtro
+explicitamente prevalece sobre a mesma categoria digitada nessa confirmação.
+
+Consultas com espécies ou sexos contraditórios no mesmo texto são recusadas com
+mensagem portuguesa, sem consulta ao backend; limite de 80 caracteres. Sem IA,
+API adicional ou dependência externa. Comparação normalizada somente para tokens
+conhecidos; nome literal continua no filtro existente. Buscar no teclado confirma;
+digitar preserva a lista. A ação Buscar da navegação inferior também confirma.
+Espécie, sexo, porte e nome são enviados juntos a AnimalsRepository.listPublic,
+antes da paginação no servidor e sob as políticas públicas existentes.
+
+Testar gata fêmea/gato macho/gato fêmea, espécie ou sexo isolado, nome combinado,
+maiúsculas/acentos/plurais, termos desconhecidos preservados, contradições,
+limpeza, filtros existentes, erro de rede, resposta tardia e nenhum acesso privado.
+Sem mudança de composição; placeholder passa a indicar nome/espécie/sexo.

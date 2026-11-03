@@ -11,10 +11,27 @@ class CatalogScreen extends StatefulWidget {
 
 class _CatalogScreenState extends State<CatalogScreen> {
   late final _search = TextEditingController(
-    text: widget.viewModel.state.query.name,
+    text: widget.viewModel.searchInput,
   );
   @override
+  void initState() {
+    super.initState();
+    widget.viewModel.addListener(_syncSearch);
+  }
+
+  void _syncSearch() {
+    final text = widget.viewModel.searchInput;
+    if (_search.text != text) {
+      _search.value = TextEditingValue(
+        text: text,
+        selection: TextSelection.collapsed(offset: text.length),
+      );
+    }
+  }
+
+  @override
   void dispose() {
+    widget.viewModel.removeListener(_syncSearch);
     _search.dispose();
     super.dispose();
   }
@@ -83,7 +100,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
             _nav(
               'Buscar',
               Icons.search,
-              () => widget.viewModel.load(),
+              () => widget.viewModel.submitSearch(_search.text),
               selected: true,
             ),
             _nav(
@@ -137,14 +154,21 @@ class _CatalogScreenState extends State<CatalogScreen> {
               key: const ValueKey('catalogSearch'),
               controller: _search,
               decoration: const InputDecoration(
-                hintText: 'Buscar por nome…',
+                hintText: 'Nome, espécie ou sexo…',
+                counterText: '',
                 prefixIcon: Icon(Icons.search),
                 contentPadding: EdgeInsets.symmetric(
                   horizontal: 14,
                   vertical: 12,
                 ),
               ),
-              onChanged: (value) => widget.viewModel.setFilters(name: value),
+              textInputAction: TextInputAction.search,
+              maxLength: 80,
+              onChanged: widget.viewModel.setSearchInput,
+              onSubmitted: (value) {
+                FocusScope.of(context).unfocus();
+                widget.viewModel.submitSearch(value);
+              },
             ),
             const SizedBox(height: 12),
             SizedBox(
@@ -158,7 +182,10 @@ class _CatalogScreenState extends State<CatalogScreen> {
                       'Espécie',
                       widget.viewModel.speciesValue,
                       widget.viewModel.speciesOptions,
-                      (value) => widget.viewModel.setFilters(species: value),
+                      (value) => widget.viewModel.submitSearch(
+                        _search.text,
+                        species: value,
+                      ),
                     ),
                     const SizedBox(width: 8),
                     _filter(
@@ -166,7 +193,10 @@ class _CatalogScreenState extends State<CatalogScreen> {
                       'Porte',
                       widget.viewModel.sizeValue,
                       widget.viewModel.sizeOptions,
-                      (value) => widget.viewModel.setFilters(size: value),
+                      (value) => widget.viewModel.submitSearch(
+                        _search.text,
+                        size: value,
+                      ),
                     ),
                     const SizedBox(width: 8),
                     _filter(
@@ -174,7 +204,10 @@ class _CatalogScreenState extends State<CatalogScreen> {
                       'Sexo',
                       widget.viewModel.sexValue,
                       widget.viewModel.sexOptions,
-                      (value) => widget.viewModel.setFilters(sex: value),
+                      (value) => widget.viewModel.submitSearch(
+                        _search.text,
+                        sex: value,
+                      ),
                     ),
                   ],
                 ),

@@ -61,6 +61,7 @@ void main() {
         find.byKey(const ValueKey('catalogSearch')),
         'Animal de teste 01',
       );
+      await tester.testTextInput.receiveAction(TextInputAction.search);
       await tester.pumpAndSettle(const Duration(milliseconds: 200));
       FocusManager.instance.primaryFocus?.unfocus();
       await tester.pumpAndSettle();

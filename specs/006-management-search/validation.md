@@ -319,3 +319,22 @@ Validação real local PASS: criar animal/tratamento próprios, tentar limpar um
 animal alheio (rejeitado e preservado), limpar o próprio e conferir ausência de
 recibos/animal. Sem reset, sem alteração dos cadastros manuais. A correção fica
 separada da implementação pública. Não modifica as FKs protetoras do aplicativo.
+
+### Busca pública por nome, espécie e sexo — 006-FR-010
+
+CatalogViewModel interpreta tokens portugueses sem dependências novas e envia
+nome/espécie/sexo/porte juntos ao Repository existente. Gato não implica macho;
+gato fêmea funciona. Critérios reconhecidos passam aos dropdowns existentes e o
+campo conserva apenas o nome restante. Digitação não consulta; Buscar confirma.
+Contradições/limite são validados antes do Repository, inclusive invalidando
+resposta anterior pendente. Limpar filtros remove também o texto em edição.
+
+31 testes específicos/regressão PASS; caso Widget ampliado confirmou buscas
+sucessivas no mesmo campo. Suíte completa: **532 PASS**, cobertura **95,31%
+(6.686/7.015)**, sem novas exclusões. Formato e análise estática PASS.
+
+Jornada Android ampliada com nome + gato macho, gata fêmea, gato fêmea e cachorro
+fêmea usando só os dois animais próprios publicados para o teste. Primeira execução
+revelou necessidade de conferir foco/texto entre confirmações; rerun com toque
+explícito e assert do texto pendente. Uma tentativa seguinte foi bloqueada por
+INSTALL_FAILED_USER_RESTRICTED. Validação nativa final e CI ainda pendentes.
