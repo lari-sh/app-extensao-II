@@ -1,3 +1,4 @@
+import '../../../../support/presentation_fixtures.dart';
 import 'dart:async';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:abrigo_dos_anjos/ui/features/photos/view_models/photo_upload_view_model.dart';
@@ -11,6 +12,46 @@ import '../../../../support/public_fixtures.dart';
 
 const candidate = PhotoCandidate(bytes: [255, 216, 255], mime: 'image/jpeg');
 void main() {
+  test(
+    'external photo refresh on same animal preserves selected JPEG and pending recovery',
+    () async {
+      final animal = presentationAnimal('amora');
+      var failRead = false;
+      var recovery = false;
+      final selected = PhotoCandidate(
+        bytes: presentationPhoto('amora'),
+        mime: 'image/jpeg',
+      );
+      final repo = FakePhotoRepository()
+        ..handler = (m, a) async {
+          if (m == 'pickFromGallery') return Success<PhotoCandidate?>(selected);
+          return failRead
+              ? Failure<PhotoContent>(AppFailure(FailureCode.network))
+              : Success(
+                  PhotoContent(
+                    bytes: presentationPhoto('amora'),
+                    mime: 'image/jpeg',
+                  ),
+                );
+        };
+      final vm = PhotoUploadViewModel(repo, recoveryAvailable: () => recovery);
+      addTearDown(vm.dispose);
+      await vm.bindAnimal(animal.id, 'old');
+      await vm.pick();
+      recovery = true;
+      vm.refreshRecovery();
+      failRead = true;
+      await vm.bindAnimal(animal.id, 'external-new-photo');
+      expect(vm.state.candidate, selected);
+      expect(vm.state.busy, isFalse);
+      expect(vm.state.uncertain, isFalse);
+      expect(vm.state.canRetry, isFalse);
+      expect(vm.state.hasRecovery, isTrue);
+      expect(vm.canUpload, isTrue);
+      expect(vm.state.message, contains('carregar a foto'));
+    },
+  );
+
   test(
     'logout and disposal during upload cannot publish late confirmation or bytes',
     () async {

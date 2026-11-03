@@ -550,3 +550,8 @@ Quatro testes novos PASS: carregamento e retomada do aplicativo, fechar detalhes
 ### Encerramento da validação física T048 — 2026-11-03
 
 Após desbloqueio e aceite da instalação por USB, authentication_flow_test.dart PASS no celular MFZHZLA6TC49NJFI em 10 s: login inválido, conta não staff, conta autorizada, restauração, revogação e logout. O teste restabelece no início somente o vínculo da conta reservada fixture-revocable, pois uma execução interrompida pode deixá-la revogada; finally continua restaurando o vínculo. Não modifica contas/cadastros reais. As tentativas anteriores bloqueadas/falhas não foram consideradas PASS. Correção de troca de sessão permanece coberta pela regressão Widget RED/GREEN e pela suíte integral.
+
+
+## Atualização externa de foto — ampliação de cobertura (2026-11-03)
+
+11 testes de PhotoUploadViewModel PASS, incluindo novo cenário: atualização da foto já salva do mesmo animal preserva o JPEG selecionado para envio e a opção de recuperação. Falha de leitura mostra mensagem amigável e não apaga a seleção nem marca o envio como confirmado. Bytes do exemplo Amora versionados, sem rede. Análise estática PASS.
