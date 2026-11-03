@@ -482,3 +482,10 @@ Protótipo design/about-contact-pix.html conferido no navegador, incluindo confi
 Pedido expresso: excluir antigos e usar novos com fotos. Removidos 60 IDs técnicos exatos e três exemplos antigos de agenda, com notas/autoria conferidas. Backup local em .tools/demo_animals/retired-20261103T021143Z/records.json, incluindo vínculos e bytes das fotos anexadas; três objetos antigos removidos. Restaram exatamente os oito IDs e fotos do manifesto autorizado. Fotos públicas dos oito revalidadas via Function, sem autenticação. Amora em tratamento, Mel em quarentena, Bento disponível; todos com agenda simulada em 2026-11-02–04, horários fixos ou intervalo de 8h. Cadastro e agenda reaplicados sem duplicação; testes Python de seleção/proteção: 2 PASS.
 
 Uma verificação posterior à exclusão apontou diferença em recibos sem tratamento porque SQL NOT NULL omitia-os do snapshot, não por perda confirmada de recibos. Corrigido o predicado com COALESCE; os oito IDs/fotos foram conferidos novamente. Não se declara comparação byte a byte dos recibos naquela primeira execução. Nenhum ambiente remoto/reset foi utilizado. Validação visual no celular e cenários completos continuam em T044/T045.
+
+
+## Fotos e cenários realistas automatizados — 2026-11-02
+
+14 testes específicos Flutter PASS: fichas Amora/Bento/Mel com JPEGs reais ilustrativos, dados públicos completos, erro/retry de leitura, foto danificada e fechar/backdrop; upload recuperado, incerteza, reconciliação/reenvio e preservação da foto anterior; SDK de detalhe/favoritos exige publicação e exclui adotados. Fotos versionadas para testes offline; hashes/tamanhos conferidos contra manifesto autorizado. Análise estática PASS.
+
+Jornada HTTP de medicação PASS: duas sessões, replay, agenda de 101 itens, fuso civil, conflito de snapshot e bloqueio do visitante; autoria/horário de servidor, corrida e valores forjados; edição/interrupção preservando atrasadas, correção com histórico, revogação durante espera e isolamento de adoção/save genérico. Fixtures próprias removidas no finally. Esta evidência não significa cobertura exaustiva de todos os cenários possíveis. CI remota ainda em andamento.

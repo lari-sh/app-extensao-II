@@ -88,7 +88,7 @@ selecionado. No Calendário, manter a data e mostrar somente as medicações do 
 
 ## Cenários fidedignos de uso — 2026-11-02
 
-- [ ] T043 Reutilizar exemplos fictícios autorizados com fotos ilustrativas versionadas, origem/hash documentados e testes de integridade; preservar animais manuais e evitar duplicações no backend local. [DEMO-FR-001, 006-CR-001]
+- [x] T043 Reutilizar exemplos fictícios autorizados com fotos ilustrativas versionadas, origem/hash documentados e testes de integridade; preservar animais manuais e evitar duplicações no backend local. [DEMO-FR-001, 006-CR-001]
 - [ ] T044 Validar ficha/foto, favoritos, homônimos/códigos, filtros e medicações usando exemplos realistas; incluir falhas e permissões na ampliação da cobertura. [006-CR-001]
 - [ ] T045 Conferir CI atual, validar cenário no celular após aviso, atualizar documentação e publicar cada contexto validado na developer. [006-CR-001]
 

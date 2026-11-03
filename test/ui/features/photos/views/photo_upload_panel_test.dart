@@ -1,3 +1,4 @@
+import '../../../../support/presentation_fixtures.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -18,6 +19,107 @@ final bytes = base64Decode(
   'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR4nGM4Kqv1HwAEwwIMevLbSwAAAABJRU5ErkJggg==',
 );
 void main() {
+  for (final retry in [false, true]) {
+    testWidgets(
+      'recovered Amora JPEG handles uncertain upload and ${retry ? 'retry' : 'reconcile'}',
+      (tester) async {
+        final image = presentationPhoto('amora');
+        var confirmed = false;
+        var attempts = 0;
+        final repo = FakePhotoRepository()
+          ..handler = (method, args) async {
+            if (method == 'readPrimary') {
+              return Success(PhotoContent(bytes: image, mime: 'image/jpeg'));
+            }
+            if (method == 'uploadPrimary') {
+              attempts++;
+              if (attempts > 1) confirmed = true;
+              if (!confirmed) {
+                return Failure<PhotoUploadState>(
+                  AppFailure(FailureCode.timeout),
+                );
+              }
+            }
+            if (confirmed) {
+              return const Success(
+                PhotoUploadState(
+                  jobId: 'job',
+                  status: PhotoJobStatus.attached,
+                  photoId: 'new',
+                ),
+              );
+            }
+            return Failure<PhotoUploadState>(AppFailure(FailureCode.notFound));
+          };
+        var recovery = true;
+        final vm = PhotoUploadViewModel(
+          repo,
+          delay: (_) async {},
+          recoveryAvailable: () => recovery,
+          recoverCandidate: (_) async {
+            recovery = false;
+            return Success<PhotoCandidate?>(
+              PhotoCandidate(bytes: image, mime: 'image/jpeg'),
+            );
+          },
+        );
+        addTearDown(vm.dispose);
+        await vm.bindAnimal(presentationAnimal('amora').id, 'old');
+        vm.refreshRecovery();
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: SingleChildScrollView(
+                child: PhotoUploadPanel(viewModel: vm),
+              ),
+            ),
+          ),
+        );
+        await tester.ensureVisible(
+          find.text('Usar foto recuperada neste animal'),
+        );
+        await tester.tap(find.text('Usar foto recuperada neste animal'));
+        await tester.pumpAndSettle();
+        await tester.ensureVisible(find.text('Confirmar envio da foto'));
+        await tester.tap(find.text('Confirmar envio da foto'));
+        await tester.pumpAndSettle();
+        expect(vm.state.uncertain, isTrue);
+        expect(vm.state.photoId, 'old');
+        expect(vm.state.canRetry, isTrue);
+        final action = retry
+            ? 'Tentar enviar novamente'
+            : 'Verificar envio da foto';
+        if (!retry) confirmed = true;
+        await tester.ensureVisible(find.text(action));
+        await tester.pumpAndSettle();
+        await tester.tap(find.text(action));
+        await tester.pumpAndSettle();
+        expect(vm.state.photoId, 'new');
+        expect(vm.state.uncertain, isFalse);
+        expect(vm.state.candidate, isNull);
+        expect(tester.takeException(), isNull);
+      },
+    );
+  }
+  testWidgets('damaged uploaded preview falls back without breaking editor', (
+    tester,
+  ) async {
+    final repo = FakePhotoRepository()
+      ..handler = (_, _) async =>
+          Success(PhotoContent(bytes: [1, 2, 3], mime: 'image/jpeg'));
+    final vm = PhotoUploadViewModel(repo);
+    addTearDown(vm.dispose);
+    await vm.bindAnimal(presentationAnimal('mel').id, 'broken');
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(body: PhotoUploadPanel(viewModel: vm)),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('Não foi possível visualizar a imagem.'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets(
     'select and explicitly upload, preserve old photo on failure then show confirmed image',
     (tester) async {

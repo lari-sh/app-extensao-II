@@ -23,6 +23,50 @@ Map<String, dynamic> animalJson(int i) => {
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   test(
+    'public detail and favorite batches enforce visibility and deterministic order',
+    () async {
+      final requests = <http.Request>[];
+      final client = SupabaseClient(
+        'https://example.test',
+        'public',
+        httpClient: MockClient((request) async {
+          requests.add(request);
+          return http.Response(
+            jsonEncode(
+              request.url.queryParameters.containsKey('id') &&
+                      request.url.queryParameters['id']!.startsWith('eq.')
+                  ? animalJson(1)
+                  : [animalJson(1), animalJson(2)],
+            ),
+            200,
+            request: request,
+            headers: {'content-type': 'application/json'},
+          );
+        }),
+      );
+      addTearDown(client.dispose);
+      final service = SupabaseAnimalsService(client);
+      final empty = await service.getVisibleByIds({});
+      expect((empty as Success).value, isEmpty);
+      expect(requests, isEmpty);
+      expect(
+        await service.getPublic(animalJson(1)['id'] as String),
+        isA<Success>(),
+      );
+      final batch = await service.getVisibleByIds({
+        animalJson(2)['id'] as String,
+        animalJson(1)['id'] as String,
+      });
+      expect((batch as Success).value.length, 2);
+      final query = requests.last.url.queryParameters;
+      expect(query['id'], startsWith('in.'));
+      expect(query['is_published'], 'eq.true');
+      expect(query['status'], 'neq.adopted');
+      expect(query['order'], contains('name.asc'));
+    },
+  );
+
+  test(
     'SDK receives combined public filters, ordered cursor and 50 item pages',
     () async {
       final requests = <http.Request>[];
