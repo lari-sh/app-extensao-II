@@ -106,6 +106,8 @@ class CloudApkTest(unittest.TestCase):
             run.return_value.returncode = 0
             target = cloud.build_apk(CONFIG, 'flutter')
         self.assertIn('--release', run.call_args.args[0])
+        self.assertIn('--pub', run.call_args.args[0])
+        self.assertNotIn('--no-pub', run.call_args.args[0])
         self.assertIn('--target=lib/main.dart', run.call_args.args[0])
         self.assertEqual(target.read_bytes(), source.read_bytes())
         receipt = json.loads(target.with_name('validation.json').read_text())

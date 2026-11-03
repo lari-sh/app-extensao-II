@@ -658,3 +658,15 @@ conectado à nuvem. T060–T062 permanecem pendentes: precisam do acesso à cont
 projeto identificado, autorização real no backend e teste físico sem ADB reverse.
 CI anterior #187 não comprova o resultado desta nova etapa. Roteiro e estado em
 `docs/releases/android-cloud-evaluation.md`.
+
+## Build release com plugins atualizados — 2026-11-03
+
+O primeiro build com `--no-pub` falhou no registrante Android gerado, que ainda
+referenciava IntegrationTestPlugin. Recompilar pelo fluxo normal com atualização
+de dependências/plugins passou; nenhum arquivo gerado ou código do SDK foi
+editado manualmente. O helper agora exige `--pub`, com regressão no teste Python.
+11 testes Python PASS. Build release normal PASS (59.896.931 bytes), assinatura
+de teste Android verificada por apksigner. Entrada `lib/main.dart`; registrante
+gerado sem integration_test. Hash do pacote: added5799a28cede706fc1309682d9e572b6ddf725df89a0410a7838383232f8.
+Instalação no dispositivo físico via ADB PASS; validação das jornadas ainda em
+andamento. Este registro não antecipa aprovação da CI ou da validação física.

@@ -74,7 +74,8 @@ def build_apk(config, flutter):
     receipt.unlink(missing_ok=True)
     config_path = folder / 'public-config.json'
     config_path.write_text(json.dumps(config), encoding='utf-8')
-    command = [str(flutter), 'build', 'apk', '--release', '--no-pub',
+    # Refresh plugin tooling when switching from integration tests/debug to release.
+    command = [str(flutter), 'build', 'apk', '--release', '--pub',
                '--target=lib/main.dart', '--dart-define-from-file=' + str(config_path)]
     with (folder / 'build.log').open('w', encoding='utf-8') as log:
         result = subprocess.run(command, cwd=ROOT, stdout=log, stderr=subprocess.STDOUT)
