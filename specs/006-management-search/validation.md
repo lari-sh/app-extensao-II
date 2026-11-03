@@ -565,3 +565,8 @@ Após desbloqueio e aceite da instalação por USB, authentication_flow_test.dar
 ## Favorito: exceção inesperada — 2026-11-03
 
 Sete testes de AnimalDetailViewModel PASS. Novo cenário comprova que uma exceção inesperada no armazenamento preserva a seleção confirmada, encerra o estado de atualização e mostra mensagem portuguesa sem detalhes internos. Análise estática/formato PASS.
+
+
+## Navegação de recuperação de acesso — 2026-11-03
+
+Dois testes Widget PASS: envio pelo teclado trata exceção inesperada no login, comunica falha sem expor internals e permite navegar à recuperação; recuperação trata erro de rede, repete com sucesso e retorna ao login; link expirado substitui a tela pela solicitação de novo link. Análise estática/formato PASS.
