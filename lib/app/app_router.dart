@@ -314,6 +314,9 @@ class AppRouter {
                 var formVersion = -1;
                 String? boundId;
                 void synchronize() {
+                  // Bind sibling readers only after the editor has a confirmed
+                  // draft; their authorization cycles must not invalidate its read.
+                  if (editor.state.loading || editor.state.saving) return;
                   if (medication != null) {
                     unawaited(
                       medication.bindAnimal(

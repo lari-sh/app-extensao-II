@@ -232,6 +232,19 @@ void main() {
         await tester.pumpAndSettle(const Duration(milliseconds: 300));
         appNavigator.pushNamed('/animal-editor', arguments: id);
         await tester.pumpAndSettle(const Duration(milliseconds: 300));
+        // Navigation settling does not await an HTTP read or access verification.
+        for (var i = 0; i < 100; i++) {
+          final matches = find.byType(AnimalEditorScreen);
+          if (matches.evaluate().length == 1) {
+            final screen = tester.widget<AnimalEditorScreen>(matches);
+            if (screen.viewModel.canEdit &&
+                screen.viewModel.state.draft.name == '$name editado') {
+              break;
+            }
+          }
+          await tester.pump(const Duration(milliseconds: 100));
+          await Future<void>.delayed(const Duration(milliseconds: 100));
+        }
         expect(find.text('$name editado'), findsOneWidget);
       } finally {
         await second.auth.signOut(scope: SignOutScope.local);

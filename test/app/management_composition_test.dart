@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:abrigo_dos_anjos/app/app_router.dart';
@@ -71,24 +72,87 @@ void main() {
       expect(find.text('Equipe indisponível.'), findsOneWidget);
     },
   );
+  testWidgets(
+    'editor finishes its read before binding sibling clinical readers',
+    (tester) async {
+      final h = PublicAppHarness();
+      final gate = Completer<Result<ManagedAnimal>>();
+      h.animals.handler = (_, _) => gate.future;
+      const access = SessionAccess(
+        level: AccessLevel.authorized,
+        userId: 'staff',
+        role: StaffRole.employee,
+      );
+      final auth = FakeAuthRepository()
+        ..handler = (_, _) async => const Success(access);
+      addTearDown(auth.dispose);
+      final session = SessionViewModel(auth);
+      addTearDown(session.dispose);
+      await session.start();
+      final clinical = FakeMedicationCompletionScenario();
+      final router = AppRouter(
+        animals: h.animals,
+        favorites: h.favorites,
+        photos: h.photos,
+        adoption: h.adoption,
+        auth: auth,
+        session: session,
+        medications: clinical.repository,
+      );
+      await tester.pumpWidget(
+        AuthApplication(session: session, router: router),
+      );
+      await tester.pumpAndSettle();
+      Navigator.of(
+        tester.element(find.text('Quero Adotar (Visitante)')),
+      ).pushNamed('/animal-editor', arguments: fixtureId(1));
+      // Pump bounded frames while the intentionally delayed repository remains pending.
+      for (var i = 0; i < 15; i++) {
+        await tester.pump(const Duration(milliseconds: 100));
+      }
+      expect(
+        h.animals.calls.where((c) => c.method == 'getManagement'),
+        hasLength(1),
+      );
+      gate.complete(Success(ManagedAnimal(animal: fixtureAnimal(1))));
+      await tester.pumpAndSettle();
+      final screen = tester.widget<AnimalEditorScreen>(
+        find.byType(AnimalEditorScreen),
+      );
+      expect(screen.viewModel.canEdit, isTrue);
+      expect(screen.managementViewModel!.canManageFocused, isTrue);
+      expect(screen.medicationViewModel!.state.loadFailed, isFalse);
+      expect(
+        clinical.repository.calls.where((c) => c.method == 'listTreatments'),
+        hasLength(1),
+      );
+    },
+  );
   for (final existing in [false, true]) {
     testWidgets(
       'animal editor ${existing ? 'existing' : 'new'} wires clinical module and removes private content on logout',
       (tester) async {
         final h = PublicAppHarness();
-        h.animals.handler = (_, _) async =>
-            Success(ManagedAnimal(animal: fixtureAnimal(1)));
+        h.animals.handler = (_, _) async => () async {
+          await Future<void>.delayed(const Duration(milliseconds: 30));
+          return Success(ManagedAnimal(animal: fixtureAnimal(1)));
+        }();
         var access = const SessionAccess(
           level: AccessLevel.authorized,
           userId: 'staff',
           role: StaffRole.employee,
         );
         final auth = FakeAuthRepository()
-          ..handler = (_, _) async => Success(access);
+          ..handler = (_, _) async {
+            await Future<void>.delayed(const Duration(milliseconds: 40));
+            return Success(access);
+          };
         addTearDown(auth.dispose);
         final session = SessionViewModel(auth);
         addTearDown(session.dispose);
-        await session.start();
+        final started = session.start();
+        await tester.pump(const Duration(milliseconds: 40));
+        await started;
         final clinical = FakeMedicationCompletionScenario();
         final router = AppRouter(
           animals: h.animals,
@@ -112,6 +176,13 @@ void main() {
         await tester.pumpAndSettle();
         expect(find.byType(AnimalEditorScreen), findsOneWidget);
         if (existing) {
+          final screen = tester.widget<AnimalEditorScreen>(
+            find.byType(AnimalEditorScreen),
+          );
+          expect(screen.viewModel.state.loadFailed, isFalse);
+          expect(screen.viewModel.canEdit, isTrue);
+          expect(screen.medicationViewModel!.state.loadFailed, isFalse);
+          expect(screen.managementViewModel!.canManageFocused, isTrue);
           expect(
             clinical.repository.calls.any((c) => c.method == 'listTreatments'),
             isTrue,

@@ -50,6 +50,15 @@ void main() {
       expect(find.text('Equipe'), findsOneWidget);
       await tester.tap(find.text('Equipe'));
       await tester.pumpAndSettle();
+      // Wait for the actual team response, not only for the route animation.
+      for (
+        var i = 0;
+        i < 100 && find.text('Admin Android').evaluate().isEmpty;
+        i++
+      ) {
+        await tester.pump(const Duration(milliseconds: 100));
+        await Future<void>.delayed(const Duration(milliseconds: 100));
+      }
       expect(find.text('Admin Android'), findsOneWidget);
       await tester.tap(find.text('Convidar pessoa'));
       await tester.pumpAndSettle();

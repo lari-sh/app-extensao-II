@@ -236,3 +236,19 @@ Flutter e backend aprovados. Android: sete jornadas passaram e três falharam:
 animal_editor_flow (reabertura sem aguardar os dados), medication_calendar_flow
 (carregamento/permissões do editor) e team_access_flow (listagem após navegação).
 Entrega não executada. Evidência não representa aprovação da revisão v3.
+
+### Correção da CI Android — carregamento e esperas
+
+Teste de regressão reproduziu três leituras concorrentes antes da conclusão
+inicial da ficha. A composição agora espera o cadastro terminar de carregar/salvar
+para vincular os leitores de manejo e medicações. A verificação de permissão
+continua obrigatória. Teste falhou antes e passou após a correção.
+
+17 testes de composição/VM PASS; análise estática sem problemas; formato aprovado.
+Jornadas de reabertura da ficha e Equipe agora aguardam os dados do servidor em
+vez de apenas o fim da animação. Os asserts de conteúdo permanecem obrigatórios.
+
+Celular físico MFZHZLA6TC49NJFI (Android 15): jornada management_search_flow PASS,
+32 segundos de execução após instalação; busca Kanban/Lista/Calendário, dia
+preservado e mudança de status confirmada por RPC. Essa execução utilizou 33b9bd2,
+antes da correção adicional da ordem de carregamento; CI completa ainda pendente.
