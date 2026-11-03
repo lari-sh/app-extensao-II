@@ -35,3 +35,12 @@ selecionado. No Calendário, manter a data e mostrar somente as medicações do 
 - [x] T018 Inventariar dimensões das views/widgets/tema e medir Kanban/Lista/Calendário com fontes ampliadas; comparar com recomendações oficiais e documentar limitações. Ver docs/reviews/component-sizing-2026-11-02/review.md. [006-CR-001]
 - [ ] T019 Preparar revisão visual das dimensões/colunas do Kanban e áreas de toque; explicar alterações e obter aprovação antes de mudar o layout. [006-FR-007, 006-CR-001]
 - [ ] T020 Após aprovação, implementar ajustes por contexto, testar acessibilidade/responsividade por tela e validar no celular/CI. Depende de T019. [006-CR-001]
+
+
+## Busca confirmada e navegação administrativa — 2026-11-02
+
+- [x] T021 Separar texto digitado de critérios aplicados; consultar somente após confirmar Buscar ou aplicar filtros, preservar resultados/foco durante edição e rejeitar respostas antigas. Testes VM/Widget e documentação; CI acompanhada em T024. [006-FR-003, 006-FR-009, 006-CR-001]
+- [ ] T022 Pesquisar navegação secundária oficial e preparar proposta de Equipe e acessos no menu do cabeçalho administrativo, fora da agenda; obter aprovação expressa antes de implementar a mudança visual. [006-FR-007, 006-CR-001]
+- [ ] T023 Após aprovação de T022, implementar navegação administrativa preservando perfis, voltar à esquerda e os três modos; testes e documentação por contexto. [006-FR-006, 006-FR-007, 006-CR-001]
+
+- [ ] T024 Validar busca confirmada e menu aprovado no Android/CI, atualizar APK normal no celular e deixar acesso administrativo disponível; registrar evidências. [006-CR-001]

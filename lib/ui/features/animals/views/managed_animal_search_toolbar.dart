@@ -16,14 +16,12 @@ class _ManagedAnimalSearchToolbarState
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(
-      text: widget.viewModel.state.filter.query,
-    );
+    _controller = TextEditingController(text: widget.viewModel.queryInput);
     widget.viewModel.addListener(_sync);
   }
 
   void _sync() {
-    final text = widget.viewModel.state.filter.query;
+    final text = widget.viewModel.queryInput;
     if (_controller.text != text) {
       _controller.value = TextEditingValue(
         text: text,
@@ -68,7 +66,7 @@ class _ManagedAnimalSearchToolbarState
                     hintMaxLines: 1,
                     counterText: '',
                     prefixIcon: const Icon(Icons.search),
-                    suffixIcon: widget.viewModel.state.filter.query.isEmpty
+                    suffixIcon: widget.viewModel.queryInput.isEmpty
                         ? null
                         : IconButton(
                             tooltip: 'Limpar texto',

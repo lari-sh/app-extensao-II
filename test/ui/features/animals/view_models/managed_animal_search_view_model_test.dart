@@ -16,34 +16,107 @@ ManagedAnimal item(int n, {String? photo}) => ManagedAnimal(
   ).copyWith(animalCode: 'A000$n', primaryPhotoId: photo),
 );
 void main() {
+  testWidgets('typing waits for explicit submit; empty restores normal mode', (
+    tester,
+  ) async {
+    final r = FakeAnimalsRepository()
+      ..handler = (m, a) async =>
+          Success(ManagedAnimalPage(items: [item(1)], total: 1));
+    final vm = ManagedAnimalSearchViewModel(
+      r,
+      FakePhotoRepository(),
+      isAuthorized: () => true,
+    );
+    addTearDown(vm.dispose);
+    vm.setQuery('L');
+    vm.setQuery('Luna');
+    await tester.pump(const Duration(seconds: 10));
+    expect(r.calls, isEmpty);
+    expect(vm.queryInput, 'Luna');
+    expect(vm.showGlobalResults, isFalse);
+    await vm.submitQuery('Luna');
+    expect(r.calls, hasLength(1));
+    expect(vm.state.items, hasLength(1));
+    expect(vm.countLabel, '1 animal encontrado');
+    vm.setQuery('Bento');
+    await tester.pump(const Duration(seconds: 10));
+    expect(vm.state.items, hasLength(1));
+    expect(vm.state.filter.query, 'Luna');
+    await vm.refresh();
+    expect(r.calls, hasLength(1));
+    await vm.submitQuery('Bento');
+    await tester.pump(const Duration(seconds: 1));
+    expect(r.calls, hasLength(2));
+    await vm.clearText();
+    expect(vm.showGlobalResults, false);
+    expect(vm.state.items, isEmpty);
+  });
   testWidgets(
-    'typing debounces; submit cancels timer; empty restores normal mode',
+    'editing preserves confirmed data and never authorizes or applies calendar filters',
     (tester) async {
+      var checks = 0;
+      final applied = <String?>[];
       final r = FakeAnimalsRepository()
-        ..handler = (m, a) async =>
-            Success(ManagedAnimalPage(items: [item(1)], total: 1));
+        ..handler = (_, _) async => Success(
+          ManagedAnimalPage(items: [item(1)], total: 2, cursor: 'next'),
+        );
+      final vm = ManagedAnimalSearchViewModel(
+        r,
+        FakePhotoRepository(),
+        isAuthorized: () => true,
+        authorize: () async {
+          checks++;
+          return true;
+        },
+        onFilterApplied: (filter) async {
+          applied.add(filter?.query);
+        },
+      );
+      addTearDown(vm.dispose);
+      await vm.submitQuery('Luna');
+      expect(vm.canLoadMore, isTrue);
+      for (final text in ['B', 'Be', 'Ben', 'Bento']) {
+        vm.setQuery(text);
+        await tester.pump(const Duration(seconds: 1));
+        expect(vm.state.items.single.animal.id, fixtureId(1));
+        expect(vm.state.total, 2);
+        expect(vm.state.filter.query, 'Luna');
+        expect(vm.state.loading, isFalse);
+      }
+      expect(vm.queryInput, 'Bento');
+      expect(vm.canLoadMore, isFalse);
+      await vm.search(next: true);
+      await vm.refresh();
+      expect(r.calls, hasLength(1));
+      expect(checks, 1);
+      expect(applied, ['Luna']);
+      await vm.submitQuery('Bento');
+      expect(checks, 2);
+      expect(applied, ['Luna', 'Bento']);
+      vm.clearAll();
+      expect(vm.queryInput, isEmpty);
+      expect(applied.last, isNull);
+    },
+  );
+  test(
+    'editing invalidates a pending response without applying unconfirmed text',
+    () async {
+      final pending = Completer<Result<ManagedAnimalPage>>();
+      final r = FakeAnimalsRepository()..handler = (_, _) => pending.future;
       final vm = ManagedAnimalSearchViewModel(
         r,
         FakePhotoRepository(),
         isAuthorized: () => true,
       );
       addTearDown(vm.dispose);
-      vm.setQuery('L');
-      vm.setQuery('Luna');
-      await tester.pump(const Duration(milliseconds: 299));
-      expect(r.calls, isEmpty);
-      await tester.pump(const Duration(milliseconds: 1));
-      await tester.pump();
-      expect(r.calls, hasLength(1));
-      expect(vm.state.items, hasLength(1));
-      expect(vm.countLabel, '1 animal encontrado');
+      final submitted = vm.submitQuery('Luna');
       vm.setQuery('Bento');
-      await vm.search();
-      await tester.pump(const Duration(seconds: 1));
-      expect(r.calls, hasLength(2));
-      await vm.clearText();
-      expect(vm.showGlobalResults, false);
+      pending.complete(Success(ManagedAnimalPage(items: [item(1)], total: 1)));
+      await submitted;
       expect(vm.state.items, isEmpty);
+      expect(vm.state.filter.query, 'Luna');
+      expect(vm.queryInput, 'Bento');
+      expect(vm.state.loading, isFalse);
     },
   );
   test(

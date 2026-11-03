@@ -43,7 +43,7 @@ class _DashboardScreenState extends State<DashboardScreen>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      widget.searchViewModel?.search();
+      widget.searchViewModel?.refresh();
       if (viewModel.isCalendar) {
         widget.calendarViewModel?.refresh();
       } else {
@@ -113,7 +113,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                         ? null
                         : () {
                             viewModel.load();
-                            widget.searchViewModel?.search();
+                            widget.searchViewModel?.refresh();
                             if (viewModel.isCalendar) {
                               widget.calendarViewModel?.refresh();
                             }
@@ -325,7 +325,7 @@ class _DashboardScreenState extends State<DashboardScreen>
   Future<void> _edit(BuildContext context, [String? id]) async {
     await Navigator.pushNamed(context, '/animal-editor', arguments: id);
     await viewModel.load();
-    await widget.searchViewModel?.search();
+    await widget.searchViewModel?.refresh();
     if (viewModel.isCalendar) await widget.calendarViewModel?.refresh();
   }
 

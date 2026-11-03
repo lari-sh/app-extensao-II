@@ -118,3 +118,14 @@ A alteração visual foi solicitada expressamente pela responsável e a restriç
 às medicações do dia foi confirmada em resposta. Não é necessário reconfirmar
 essa mesma alteração. Protótipo management-search-proposal.html atualizado para
 v3; as evidências anteriores v2 permanecem como histórico, não como UX vigente.
+
+
+## Correção de interação — 2026-11-02
+
+Substitui o debounce automático anterior: digitar não dispara consulta, não apaga
+resultados e não revalida a sessão. A busca é confirmada pela ação Buscar do
+teclado; aplicar/remover/limpar filtros são confirmações explícitas. O texto em
+edição é separado dos critérios aplicados; refresh/retorno não confirmam rascunho.
+Resultados de solicitações antigas são descartados. A correção não altera layout.
+Equipe deve sair do conteúdo do calendário; proposta de menu no cabeçalho será
+revisada antes da implementação visual, mantendo restrição a administradores.

@@ -49,7 +49,8 @@ class ManagedAnimalSearchViewModel extends ChangeNotifier {
   final Future<void> Function(ManagedAnimalSearchFilter?)? onFilterApplied;
   ManagedAnimalSearchState _state = const ManagedAnimalSearchState();
   ManagedAnimalSearchState get state => _state;
-  Timer? _timer;
+  String _queryInput = '';
+  String get queryInput => _queryInput;
   int _request = 0;
   int? _private;
   bool _disposed = false;
@@ -59,6 +60,7 @@ class ManagedAnimalSearchViewModel extends ChangeNotifier {
       showGlobalResults &&
       !state.loading &&
       !state.loadingMore &&
+      queryInput.trim() == state.filter.query &&
       state.cursor != null;
   String get countLabel =>
       '${state.total} ${state.total == 1 ? 'animal encontrado' : 'animais encontrados'}';
@@ -104,7 +106,7 @@ class ManagedAnimalSearchViewModel extends ChangeNotifier {
     if ((privateGeneration == null && !isAuthorized()) ||
         _private != privateGeneration?.call()) {
       _private = privateGeneration?.call();
-      _timer?.cancel();
+      _queryInput = '';
       ++_request;
       _publish(const ManagedAnimalSearchState());
     } else {
@@ -115,26 +117,10 @@ class ManagedAnimalSearchViewModel extends ChangeNotifier {
   }
 
   void setQuery(String value) {
-    if (!canSearch) return;
-    _timer?.cancel();
+    if (!canSearch || value == _queryInput) return;
+    _queryInput = value;
     ++_request;
-    _publish(
-      state.copyWith(
-        filter: state.filter.copyWith(query: value),
-        items: [],
-        photos: {},
-        total: 0,
-        cursor: null,
-        loading: false,
-        loadingMore: false,
-        message: null,
-      ),
-    );
-    if (state.filter.hasCriteria) {
-      _timer = Timer(const Duration(milliseconds: 300), () {
-        unawaited(search());
-      });
-    }
+    _publish(state.copyWith(loading: false, loadingMore: false, message: null));
   }
 
   Future<void> submitQuery(String value) {
@@ -148,7 +134,7 @@ class ManagedAnimalSearchViewModel extends ChangeNotifier {
   }
 
   void clearAll() {
-    _timer?.cancel();
+    _queryInput = '';
     ++_request;
     _publish(const ManagedAnimalSearchState());
     if (onFilterApplied != null) unawaited(onFilterApplied!(null));
@@ -200,13 +186,21 @@ class ManagedAnimalSearchViewModel extends ChangeNotifier {
       request == _request &&
       epoch == accessEpoch?.call() &&
       generation == privateGeneration?.call();
+  Future<void> refresh() {
+    // Lifecycle and route return must not submit text still being edited.
+    if (queryInput.trim() != state.filter.query) return Future<void>.value();
+    return search();
+  }
+
   Future<void> search({bool next = false}) async {
-    _timer?.cancel();
     if (!canSearch) {
       refreshAccess();
       return;
     }
-    if (!state.filter.hasCriteria) {
+    final filter = state.filter
+        .copyWith(query: next ? state.filter.query : queryInput)
+        .normalized;
+    if (!filter.hasCriteria) {
       clearAll();
       return;
     }
@@ -214,7 +208,6 @@ class ManagedAnimalSearchViewModel extends ChangeNotifier {
     final request = next ? _request : ++_request;
     var epoch = accessEpoch?.call();
     final generation = privateGeneration?.call();
-    final filter = state.filter.normalized;
     final cursor = next ? state.cursor : null;
     if (filter.validate().isNotEmpty) {
       _publish(
@@ -230,6 +223,7 @@ class ManagedAnimalSearchViewModel extends ChangeNotifier {
       );
       return;
     }
+    _queryInput = filter.query;
     _publish(
       state.copyWith(
         filter: filter,
@@ -342,7 +336,7 @@ class ManagedAnimalSearchViewModel extends ChangeNotifier {
   void dispose() {
     _disposed = true;
     ++_request;
-    _timer?.cancel();
+    _queryInput = '';
     _state = const ManagedAnimalSearchState();
     onDispose?.call();
     super.dispose();

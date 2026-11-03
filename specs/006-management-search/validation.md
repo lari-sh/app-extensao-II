@@ -274,3 +274,19 @@ fixture-admin@example.test, administrador local persistente para uso manual;
 nenhuma credencial foi incluída no código ou logs. Hierarquia Android confirmou
 Kanban/Olá, equipe e ação Equipe. Automação encerrada no aparelho para não
 interferir no teste manual da responsável. Backend permanece local, via USB.
+
+### Busca confirmada, sem interrupção da digitação — 2026-11-02
+
+Cada tecla antes apagava resultados e agendava busca após 300 ms; a busca
+revalidava a sessão e podia ocultar o painel/teclado. O texto em edição agora é
+separado do filtro confirmado. Digitar não consulta, não autoriza e não aplica
+filtro na agenda; os cartões permanecem. Buscar no teclado confirma, assim como
+as ações explícitas de filtro. Refresh/retorno não submetem texto em edição.
+Paginação não mistura critérios, respostas antigas são descartadas e logout
+continua removendo o estado privado. Nenhum layout/SDK/backend foi alterado.
+
+15 testes específicos VM/Widget PASS, incluindo foco/teclado após pausas longas,
+nenhuma consulta/revalidação ao digitar, calendário sem callback prematuro e
+resposta tardia descartada. Suíte completa: **504 PASS**, **95,18% (6.622/6.957)**,
+com todas as linhas do LCOV. Formato e análise estática PASS. Android/CI dessa
+revisão ainda pendentes; não usar evidências nativas anteriores como aprovação.

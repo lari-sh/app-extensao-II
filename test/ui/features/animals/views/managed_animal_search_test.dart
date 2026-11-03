@@ -14,6 +14,63 @@ import '../../../../support/fakes/fake_medication_completion_scenario.dart';
 import '../../../../support/public_fixtures.dart';
 
 void main() {
+  testWidgets(
+    'typing keeps keyboard focus and current cards until keyboard search',
+    (tester) async {
+      var checks = 0;
+      final repo = FakeAnimalsRepository()
+        ..handler = (_, _) async => Success(
+          ManagedAnimalPage(
+            items: [
+              ManagedAnimal(
+                animal: fixtureAnimal(1).copyWith(animalCode: 'A0001'),
+              ),
+            ],
+            total: 1,
+          ),
+        );
+      final search = ManagedAnimalSearchViewModel(
+        repo,
+        FakePhotoRepository(),
+        isAuthorized: () => true,
+        authorize: () async {
+          checks++;
+          return true;
+        },
+      );
+      final dashboard = DashboardViewModel(repo, isAuthorized: () => true);
+      addTearDown(search.dispose);
+      addTearDown(dashboard.dispose);
+      await tester.pumpWidget(
+        MaterialApp(
+          home: DashboardScreen(viewModel: dashboard, searchViewModel: search),
+        ),
+      );
+      final field = find.byKey(const ValueKey('management-search'));
+      await tester.enterText(field, 'Luna');
+      await tester.pump(const Duration(seconds: 2));
+      expect(repo.calls, isEmpty);
+      expect(checks, 0);
+      expect(tester.widget<TextField>(field).enabled, isTrue);
+      expect(tester.testTextInput.isVisible, isTrue);
+      await tester.testTextInput.receiveAction(TextInputAction.search);
+      await tester.pumpAndSettle();
+      expect(find.text('#A0001'), findsOneWidget);
+      expect(repo.calls, hasLength(1));
+      await tester.enterText(field, 'Bento');
+      await tester.pump(const Duration(seconds: 2));
+      expect(find.text('#A0001'), findsOneWidget);
+      expect(search.state.filter.query, 'Luna');
+      expect(repo.calls, hasLength(1));
+      expect(checks, 1);
+      expect(tester.testTextInput.isVisible, isTrue);
+      expect(tester.widget<TextField>(field).controller!.text, 'Bento');
+      await tester.testTextInput.receiveAction(TextInputAction.search);
+      await tester.pumpAndSettle();
+      expect(repo.calls, hasLength(2));
+      expect(search.state.filter.query, 'Bento');
+    },
+  );
   for (final width in [320.0, 390.0]) {
     testWidgets(
       'search retains Kanban columns, List and daily Calendar at $width',
