@@ -560,3 +560,8 @@ Após desbloqueio e aceite da instalação por USB, authentication_flow_test.dar
 ## Agenda: abertura e transporte — 2026-11-03
 
 14 testes de MedicationCalendarViewModel PASS, incluindo abertura por Hoje/Atualizar antes da carga inicial, reinicialização explícita e exceção inesperada ao consultar outro dia. O mês carregado é preservado, loading é encerrado e a mensagem não expõe detalhes internos. Análise estática/formato PASS.
+
+
+## Favorito: exceção inesperada — 2026-11-03
+
+Sete testes de AnimalDetailViewModel PASS. Novo cenário comprova que uma exceção inesperada no armazenamento preserva a seleção confirmada, encerra o estado de atualização e mostra mensagem portuguesa sem detalhes internos. Análise estática/formato PASS.

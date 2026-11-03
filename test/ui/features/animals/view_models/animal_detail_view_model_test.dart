@@ -12,6 +12,31 @@ import '../../../../support/public_fixtures.dart';
 
 void main() {
   test(
+    'unexpected favorite storage exception preserves confirmed selection and hides internals',
+    () async {
+      final animals = FakeAnimalsRepository()
+        ..handler = (_, _) async => Success(fixtureAnimal(1));
+      final favorites = FakeFavoritesRepository()
+        ..handler = (m, a) async {
+          if (m == 'setFavorite') throw StateError('private storage details');
+          return const Success(<String>{});
+        };
+      final vm = AnimalDetailViewModel(
+        animals,
+        favorites,
+        FakePhotoRepository(),
+        FakeAdoptionMessageRepository(),
+      );
+      addTearDown(vm.dispose);
+      await vm.load(fixtureId(1));
+      await vm.toggleFavorite();
+      expect(vm.state.isFavorite, isFalse);
+      expect(vm.state.changingFavorite, isFalse);
+      expect(vm.state.message, 'Não foi possível atualizar os favoritos.');
+    },
+  );
+
+  test(
     'public profile renders confirmed fields without private reads',
     () async {
       final animals = FakeAnimalsRepository()
