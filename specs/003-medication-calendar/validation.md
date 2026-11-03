@@ -506,3 +506,8 @@ integral: 553 PASS, 6823/7075 linhas = 96,44%, sem exclusões novas; meta 99% pe
 Estado dos exemplos após aplicação: Amora/Bento/Luna em tratamento, Mel em
 quarentena, quatro disponíveis; oito IDs e fotos preservados. A medicação manual
 preexistente de Luna foi preservada; as novas agendas são explicitamente simuladas.
+
+
+### Resposta consistente e Android — 003-FR-015
+
+24/24 testes SQL direcionados PASS, incluindo resposta de set_animal_status já reconciliada; evita mostrar disponível enquanto o servidor mantém tratamento. medication_status_flow.py repetido PASS. Jornada SDK no celular MFZHZLA6TC49NJFI, presentation_local_flow_test.dart, PASS em 14 s: catálogo com oito exemplos, JPEG da Amora, ficha pública/peso/adoção bloqueada, Kanban 3 tratamentos e 1 quarentena, aplicação simulada concluída com ator/horário e corrigida com histórico. Esta jornada local exige LOCAL_PRESENTATION_TEST=true e backend loopback com manifesto de apresentação; não é executada nos dados descartáveis diferentes da CI. Instalação de retorno do APK normal PASS após nova tentativa.

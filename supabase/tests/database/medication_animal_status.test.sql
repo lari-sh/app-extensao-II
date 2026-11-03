@@ -1,10 +1,11 @@
 begin;
-select plan(23);
+select plan(24);
 insert into auth.users(id) values('8c000000-0000-4000-8000-000000000001');
 insert into public.animals(id,name,species,sex,size,approximate_age,status)
  select ('8d000000-0000-4000-8000-'||lpad(n::text,12,'0'))::uuid,'Cenário medicação '||n,'dog','female','medium','2 anos',
  case n when 4 then 'quarantine' when 5 then 'adopted' when 6 then 'treatment' else 'available' end
  from generate_series(1,9) n;
+insert into public.animal_internal_details(animal_id) select id from public.animals where id::text like '8d000000-0000-4000-8000-%';
 create function pg_temp.a(n int) returns uuid language sql as $$ select ('8d000000-0000-4000-8000-'||lpad(n::text,12,'0'))::uuid $$;
 create function pg_temp.t(n int,s timestamptz,e timestamptz,pending boolean default false) returns uuid language plpgsql as $$
 declare tid uuid:=gen_random_uuid();
@@ -70,5 +71,9 @@ select is((select status from public.animals where id=pg_temp.a(1)),'quarantine'
 update public.animals set status='available' where id=pg_temp.a(1);
 select is((select status from public.animals where id=pg_temp.a(1)),'treatment','cannot make ongoing medication available via manual status alone');
 select lives_ok('select private.refresh_animal_medication_statuses()','scheduled sweep works without a client session');
+insert into auth.sessions(id,user_id) values('8e000000-0000-4000-8000-000000000001','8c000000-0000-4000-8000-000000000001');
+insert into public.staff_members(user_id,active) values('8c000000-0000-4000-8000-000000000001',true);
+select set_config('request.jwt.claims','{"sub":"8c000000-0000-4000-8000-000000000001","session_id":"8e000000-0000-4000-8000-000000000001","role":"authenticated"}',true);
+select is(public.set_animal_status(repeat('Z',32),pg_temp.a(1),'available')->>'status','treatment','manual status response matches reconciled server state');
 select * from finish();
 rollback;
