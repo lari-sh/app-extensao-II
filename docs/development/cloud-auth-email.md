@@ -18,6 +18,17 @@ celular e definir sua senha diretamente no app. Depois, conferir vínculo de
 funcionário e testar a recuperação solicitada na mesma instalação, inclusive
 recebimento, retorno PKCE e nova autenticação. T063 continua aberta.
 
+Na conferência posterior, a responsável informou não ter recebido o convite.
+O assunto não foi localizado na busca do Proton em Todos os emails; a pasta
+Spam inspecionada estava vazia. Brevo manteve o evento Delivered e o destinatário
+foi conferido, mas não apresentou nessa tela a resposta SMTP detalhada do receptor.
+Portanto, não considerar recebimento na caixa de entrada ou abertura humana como
+comprovados pelo evento do provedor. O convite continua pending, sem accepted_at.
+Nenhum reenvio automático foi feito. Solicitado outro endereço da responsável,
+mediante autorização, para um ensaio comparativo antes de concluir o diagnóstico.
+Não modificar filtros antispam pessoais nem atribuir causa definitiva ao Proton
+ou ao domínio do remetente sem evidência adicional.
+
 ## Configuração aplicada em 03/11/2026
 
 O painel Auth apresentava Site URL `http://localhost:3000` e nenhum redirect.

@@ -803,3 +803,11 @@ Aceite não confirmado na conferência posterior: accepted_at nulo. Responsável
 orientada a abrir o link no próprio celular e definir senha diretamente no app.
 Recuperação ainda não solicitada. Nenhuma mensagem ao professor, nenhuma mudança
 nas contas de avaliação existentes e nenhuma conclusão antecipada de T063.
+
+Retorno posterior da responsável: convite não recebido. Busca pelo assunto em
+Todos os emails do Proton sem resultados; pasta Spam vazia. Detalhe Brevo relido:
+destinatário correto, evento Delivered mantido, sem confirmação de presença na
+caixa ou de ação humana. Banco continua pending/accepted_at nulo. Não reenviado
+automaticamente; destinatário alternativo solicitado para comparação autorizada.
+Entrega SMTP declarada pelo provedor e recebimento real permanecem evidências
+distintas, e T063 não foi encerrada.
