@@ -501,3 +501,8 @@ Suíte integral 554 PASS, 6823/7075 linhas = 96,44% (meta 99% pendente).
 Jornada SDK Android no celular repetida PASS em 16 s, incluindo valor exato de
 Vacinas na ficha da Amora e conclusão/correção da aplicação simulada.
 Não declarar CI remota aprovada enquanto estiver em execução.
+
+
+## Recuperação do painel — ampliação de cobertura
+
+Sete testes novos PASS: falha/revogação na revalidação, erro de primeira página e paginação preservando dados, recibo ausente/incerto/confirmado no animal focado e nos totais, modos/situação adotado, paginação Kanban/Lista, edição e retomada do app, consulta antes de repetir a mesma operação. Exemplos Bento/Amora com dados do manifesto. Análise estática PASS. Sem mudança de produção ou layout; nova medição global será feita com a suíte integral, não com LCOV parcial.
