@@ -604,3 +604,7 @@ APK normal gerado novamente a partir do código atualizado e instalado com suces
 ## Títulos das colunas — 2026-11-03
 
 T053: fonte aumentada de 10 para 11 sp por solicitação, sem alterar margens, cores ou controles. Protótipos atualizados para 11 px. MCP analyze_files: No errors; run_tests dos testes de tela/navegação: 11 PASS, incluindo 320/390 dp com texto 1,4× e três colunas. APK normal recompilado, instalado e aberto no painel administrativo do celular.
+
+## Vídeo com Kanban aprovado — 2026-11-03
+
+T055 concluída: seis cenas recapturadas no celular via MCP/ADB, com recuos reduzidos e títulos 11 sp. Duração/capítulos preservados, decodificação integral PASS; detalhes e novo SHA-256 em docs/reviews/phone-demo-2026-11-03.md. APK normal restaurado no painel administrativo; runtime sem erros na recaptura. Vídeo local atualizado na mesma pasta, sem arquivos grandes no Git.

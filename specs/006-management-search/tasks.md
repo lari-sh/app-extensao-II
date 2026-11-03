@@ -111,3 +111,6 @@ selecionado. No Calendário, manter a data e mostrar somente as medicações do 
 - [x] T052 Reduzir margens externas, recuos das colunas e padding dos cartões do Kanban por solicitação da responsável, mantendo três colunas visíveis sem rolagem lateral e os controles existentes; atualizar protótipo, testar 320/390 px com texto ampliado, validar no celular e publicar por contexto. [006-FR-013]
 
 - [x] T053 Ampliar discretamente os títulos das três colunas do Kanban de 10 para 11 sp, conforme solicitação; atualizar protótipo, validar testes existentes em 320/390 dp com texto ampliado, análise e APK no celular. [006-FR-013]
+
+- [ ] T054 Conferir a CI dos commits 06c1670/916726e, corrigir falhas reais e registrar execução, cobertura e entrega Android por contexto. [006-CR-001]
+- [x] T055 Substituir no vídeo os trechos com Kanban anterior pelo quadro aprovado (margens reduzidas e títulos 11 sp), preservar os demais fluxos, rever capítulos e decodificação, atualizar roteiro e remover apenas materiais temporários após validar o resultado. [DEMO-FR-001, 006-FR-013]

@@ -4,11 +4,11 @@ Arquivo local: `.tools/videos/2026-11-03/abrigo-dos-anjos-demonstracao-celular.m
 Roteiro: `README.txt` na mesma pasta. Vídeo não publicado no Git.
 
 - Dispositivo físico: Xiaomi 2311DRK48G, Android 15/API 35.
-- Duração: 06:55; tamanho: 14045553 bytes.
+- Duração: 06:55; tamanho: 15546780 bytes.
 - Exportação H.264, 720×1600, 30 fps, sem áudio; captura Android de frequência variável.
-- SHA-256: `a02020362bc9dc3afdca78965d7dbcb4976edc03496e5178d4da08553ad0897b`.
+- SHA-256: `4bcd08596469c73525bf2b2ae5d2902365a126f9f41908735fff647d4162a188`.
 - Decodificação integral FFmpeg PASS; quadros dos capítulos revisados.
-- A gravação antecede a solicitação posterior de reduzir margens do Kanban.
+- Kanban recapturado após a aprovação das margens reduzidas e títulos de 11 sp; seis cenas substituídas, preservando duração e capítulos.
 
 ## Fluxos demonstrados
 
@@ -67,3 +67,11 @@ os brutos, prévias e a gravação anterior desatualizada foram removidos.
 
 CI remota: conferir após os últimos contextos, conforme orientação da responsável;
 resultado registrado em `specs/006-management-search/validation.md`.
+
+## Atualização do Kanban aprovado
+
+T055: seis intervalos substituídos por capturas atuais do mesmo celular, controladas pelo MCP oficial. Sem sobreposição de um quadro artificial: cada cena mostra o aplicativo real. Intervalos (segundos): 45,50–49,00; 82,00–90,20; 144,40–153,00; 247,00–255,00; 277,00–287,50; 328,00–334,00. Revisadas entradas e saídas para eliminar aparições do quadro anterior.
+
+Cenas recapturadas com os dados atuais (Aurora já disponível após as aplicações concluídas), sem alterar tratamentos ou animais. Os demais fluxos são os registros originais; a montagem demonstra funcionalidades e não representa uma tomada contínua nem uma nova execução de todas as operações. O screenrecord omite quadros finais estáticos; o último quadro nativo foi mantido durante esse intervalo real para conservar a duração.
+
+Duração mantida em 415,33 s, capítulos preservados, nova decodificação integral FFmpeg PASS e revisão visual dos seis cortes. Temporários de vídeo removidos somente após conferir o hash do arquivo final. get_runtime_errors na recaptura: No runtime errors found. APK normal reinstalado e aberto no painel administrativo.
