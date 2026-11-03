@@ -95,6 +95,10 @@ assinada para publicação. Testes de Flutter, SQL, funções HTTP e plataforma 
 evidências separadas; a CI executa gates Flutter, Supabase local e Android antes do artifact debug.
 Confira o resultado da execução em Actions; iOS continua dependendo de Mac/Xcode.
 
+Para avaliação em outro celular sem depender do computador, seguir
+[APK com Supabase na nuvem](docs/releases/android-cloud-evaluation.md).
+O projeto remoto ainda precisa ser provisionado; o APK local não é essa entrega.
+
 ## Ambiente Android deste computador
 
 SDK em `C:\Users\Larissa\AppData\Local\Android\Sdk` e Android Studio em

@@ -125,7 +125,7 @@ Fechamento remoto de T016/T024/T028/T045/T054: CI #187 (0761f3e), quatro jobs PA
 
 ## APK de avaliação na nuvem — 2026-11-03
 
-- [ ] T059 Preparar configuração pública separada, build normal release sem Driver, verificação HTTPS/schema público, testes do empacotamento e roteiro de implantação. [006-FR-015]
+- [x] T059 Preparar configuração pública separada, build normal release sem Driver, verificação HTTPS/schema público, testes do empacotamento e roteiro de implantação. 11 testes Python e 3 Flutter via MCP PASS; análise MCP sem erros. A geração real depende de T060–T061 e será validada em T062. [006-FR-015]
 - [ ] T060 Com a conta Supabase conectada, criar/identificar projeto de avaliação e aplicar as 21 migrations e quatro Functions; conferir RLS, Storage privado, Auth e callbacks, sem reset/importação do banco local. [006-FR-015]
 - [ ] T061 Provisionar acesso dedicado de funcionário e exemplos fictícios com fotos pelos fluxos autorizados; validar catálogo anônimo, permissões, fotos, cadastro e agenda na nuvem. Depende de T060. [006-FR-015, DEMO-FR-001]
 - [ ] T062 Gerar APK normal para avaliação, conferir assinatura/hash e validar no celular sem transporte ADB reverse; documentar arquivo, acesso e resultados reais, publicando cada contexto validado na developer. Depende de T059–T061. [006-FR-015]

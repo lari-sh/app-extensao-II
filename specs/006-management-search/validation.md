@@ -642,3 +642,19 @@ LCOV integral local pelo comando oficial flutter test --no-pub --coverage, porqu
 CI #187, código 0761f3e2b54b5aa3d1f669051c9d1bc45db4aced: status completed, conclusion success. Flutter, backend, Android e deliver PASS. Logs: 599 testes Flutter; cobertura integral 7034/7101 = 99,06%; cinco testes do gate e quatro do executor; 428 SQL/19 Deno e jornadas HTTP; dez jornadas Android individuais PASS, sem retry. Artefato abrigo-dos-anjos-android-debug, ID 13219357217, enviado e não expirado na conferência.
 
 T016/T024/T028/T045/T054 concluídas e T056 do calendário também fechada. O APK normal está preparado em disco; a versão de depuração no celular foi mantida conectada para hot reload, conforme orientação posterior da responsável. Nenhum dado de demonstração foi apagado além dos próprios fixtures temporários. Relatório consolidado em docs/reviews/ci-kanban-2026-11-03.md. iOS não foi validado neste ambiente Windows.
+
+## Preparação de avaliação na nuvem — 2026-11-03
+
+006-FR-015/T059: adicionado build release pelo entry point normal, configuração
+JSON pública isolada e guardas de HTTPS, chave/project-ref, schema público e
+falhas de compilação; nenhum pacote ou layout alterado. 11 testes Python PASS;
+MCP oficial SDK `run_tests` executou os 3 testes AppConfig com sucesso e
+`analyze_files` retornou No errors. Respostas em `.tools/mcp/cloud-*.json`.
+`git diff --check` PASS. Testes Python incluídos no workflow existente.
+
+A responsável confirmou que ainda não possui projeto Supabase remoto e está
+acessando a conta. Não houve implantação, importação de dados ou emissão de APK
+conectado à nuvem. T060–T062 permanecem pendentes: precisam do acesso à conta,
+projeto identificado, autorização real no backend e teste físico sem ADB reverse.
+CI anterior #187 não comprova o resultado desta nova etapa. Roteiro e estado em
+`docs/releases/android-cloud-evaluation.md`.
