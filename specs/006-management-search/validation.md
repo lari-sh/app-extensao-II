@@ -742,3 +742,22 @@ esses destinos. Não houve alteração de código Flutter, design ou APK; esta e
 não constitui teste Android nem comprovação de entrega. Roteiro e dependências
 SMTP em docs/development/cloud-auth-email.md. T063 permanece aberta até entrega
 real e conclusão dos dois fluxos em conta autorizada.
+
+## SMTP Brevo e templates Auth — 2026-11-03
+
+Configuração parcial de T063 validada: responsável confirmou a conta Brevo,
+autorizou remetente/destinatário temporário e criação da chave exclusiva. SMTP
+personalizado salvo no painel Supabase e conferido após reload: ativo, host Brevo,
+porta 587, login SMTP próprio e senha armazenada oculta. Chave não escrita em
+arquivos, Git ou APK; cópia direta entre campos e clipboard substituído por texto
+público. Confirmada identidade no Brevo pela própria responsável.
+
+CLI 2.122.0 config push publicou os dois assuntos e os dois corpos HTML de
+convite/recuperação. Fontes e assuntos em português conferidos no painel; preview
+de recuperação revisado. Contrato dos links ConfirmationURL preservado. TOML e
+HTML conferidos localmente, sem dependências ou código Flutter novos.
+
+MCP oficial Dart/Flutter list_devices retornou Windows, Chrome e Edge, sem Android.
+Nenhum envio foi realizado nesta etapa. T063 continua aberta para entrega real,
+recebimento e conclusão dos fluxos no celular; configuração salva não constitui
+prova de entrega. As contas de avaliação e o APK permanecem preservados.

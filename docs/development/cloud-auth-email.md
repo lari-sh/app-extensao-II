@@ -32,16 +32,49 @@ declaradas: confirmações, MFA, limites, pooler e Storage não foram alterados.
 Não usar o config.toml local completo para esta implantação. Nova leitura após
 aplicar: `0 update, 8 remote-only, 0 local-only`; remote-only não será sobrescrito.
 
-## Dependência externa: serviço SMTP
+## SMTP Brevo configurado em 03/11/2026
 
-Inspeção do painel Authentication → Emails → SMTP Settings em 03/11/2026:
+Inspeção inicial do painel Authentication → Emails → SMTP Settings em 03/11/2026:
 `Enable custom SMTP` desativado. Nenhuma credencial foi consultada ou gravada.
 O serviço padrão do Supabase restringe destinatários aos membros da organização
 e não é adequado para convidar a equipe do abrigo. As contas de avaliação em
 `example.test` não possuem caixas de entrada para teste de entrega.
 
-Antes de concluir T063, definir com a responsável um provedor SMTP, remetente
-verificado e endereço real autorizado para teste. Inserir host, porta, usuário e
+Após a responsável criar/confirmar a conta gratuita Brevo e autorizar o uso
+temporário de seu email pessoal, foi criada a credencial exclusiva
+`Supabase Abrigo dos Anjos`, variante Standard, validade até 03/11/2027.
+A responsável concluiu a verificação de identidade do provedor e autorizou
+explicitamente a criação e conexão. O painel informa também inativação de chaves
+após 90 dias sem envio; verificar essa condição antes de retomar um ambiente parado.
+
+Configuração salva no Supabase e conferida após recarregar: SMTP personalizado
+ativo, host `smtp-relay.brevo.com`, porta `587`, login SMTP específico do Brevo,
+remetente temporário verificado e nome `Abrigo dos Anjos`. A credencial foi
+transferida pelo botão Copiar e colada diretamente no campo protegido do painel.
+Não foi escrita em arquivo, configuração versionada ou APK. A área de transferência
+foi substituída por texto público após salvar. Não registrar o email pessoal no
+repositório; ele poderá ser trocado pelo remetente oficial sem rebuild do app.
+
+O Brevo mostra o remetente como verificado, com aviso de domínio de email gratuito
+sem autenticação DKIM/DMARC própria. Isso ainda exige confirmar a entrega efetiva;
+não implica aprovação para produção. Não adicionar membros à organização Supabase
+para contornar restrições nem mudar as contas já entregues ao professor.
+
+Os dois templates em `supabase/environments/cloud/supabase/templates/` foram
+publicados pela CLI 2.122.0: assuntos e corpos HTML de convite/recuperação em
+português, links `{{ .ConfirmationURL }}` preservados e nenhuma imagem/script
+externo. Assuntos e fontes conferidos no painel; preview de recuperação revisado.
+O `config diff` mostra os assuntos, mas o `config push` carrega também os arquivos
+`content_path` e os publica como mudanças de conteúdo. Conferir ambos no painel
+após publicar, sem considerar apenas o diff dos assuntos como prova do corpo.
+
+Entrega real, recebimento e conclusão no Android ainda pendentes. MCP oficial
+Dart/Flutter `list_devices` não encontrou aparelho Android na conferência desta
+etapa; foram listados apenas Windows, Chrome e Edge. Nenhum email de teste foi
+disparado nesta etapa de configuração.
+
+Para repetir a implantação em outro ambiente, definir com a responsável um provedor
+SMTP, remetente verificado e endereço real autorizado para teste. Inserir host, porta, usuário e
 senha SMTP diretamente no painel Supabase; nunca no chat, APK, Git ou neste
 arquivo. Confirmar o domínio/remetente no provedor conforme suas instruções.
 Não contratar plano pago, adicionar membros à organização para contornar a

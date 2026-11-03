@@ -108,7 +108,8 @@ esta avaliação. Não declarar o envio de email remoto como validado pelos test
 locais/da CI. iOS não foi compilado nem validado neste ambiente.
 
 Andamento de T063 em 03/11/2026: Site URL e redirects exatos do app foram
-aplicados e relidos na nuvem. SMTP personalizado segue desativado; entrega e
+aplicados e relidos na nuvem. SMTP Brevo ativo e persistido com remetente temporário
+autorizado; templates de convite/recuperação publicados em português. Entrega e
 conclusão dos fluxos de email continuam pendentes. Procedimento e evidências em
 [email hospedado](../development/cloud-auth-email.md).
 
