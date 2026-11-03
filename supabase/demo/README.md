@@ -58,3 +58,28 @@ contém os cadastros manuais. Dados de produção devem ser cadastrados pelo abr
 - Android normal: catálogo com 8 animais; ficha de Amora com foto, 12,4 kg,
   pelagem, temperamento, castração, datas/tipos de vacina e vermifugação conferidos.
 - Nenhuma alteração em layout, código Flutter ou dependências do aplicativo.
+
+
+## Revisão autorizada: retirar cadastros técnicos antigos
+
+Em 2026-11-02 a responsável solicitou excluir os animais antigos de teste e usar
+os novos com fotos, em tratamento/quarentena e na agenda. Esta decisão substitui
+a preservação dos 60 animais técnicos no **banco local de apresentação**.
+A CI mantém seu próprio ambiente descartável e continua criando suas fixtures.
+Não execute setup.ts nesse banco manual, nem use reset.
+
+`python supabase/demo/retire_technical_animals.py` mostra os alvos sem alterar;
+`--apply` valida oito fotos anonimamente, exige IDs/nomes/descrições técnicos
+exatos ou autoria comprovada da agenda, salva backup local e remove seus vínculos.
+Não seleciona animais por nome genérico nem aceita hosts remotos. O backup contém
+registros internos e fica somente em `.tools/demo_animals/retired-*/`, ignorado no Git.
+Na execução validada foram removidos 63 exemplos antigos e três objetos de foto;
+restaram exatamente oito exemplos de apresentação com suas fotos preservadas.
+O teste unitário recusa um ID antigo renomeado e agenda sem autoria confirmada.
+
+`python supabase/demo/prepare_calendar.py` configura Amora em tratamento, Mel em
+quarentena e Bento disponível, com agenda simulada: horários fixos 08h/20h e
+intervalo de 8h, por três dias a partir da data do abrigo obtida no servidor.
+Os nomes/instruções deixam explícito que não se trata de prescrição veterinária.
+Operações idempotentes evitam duplicação no mesmo dia. Fotos/descrições públicas
+não são substituídas. O restante dos oito animais permanece disponível.

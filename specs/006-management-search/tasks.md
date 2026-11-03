@@ -84,3 +84,12 @@ selecionado. No Calendário, manter a data e mostrar somente as medicações do 
 - [x] T040 Planejar e atualizar a referência visual do Sobre com WhatsApp +55 34 99137-8936, Instagram abrigodosanjosoficial, Facebook abrigodosanjosura e Pix 23.785.379/0001-98, conforme pedido expresso. Preservar visual existente. [006-FR-011, 006-CR-001]
 - [x] T041 Implementar contatos e cópia da chave via ViewModel/Repository/Services, com mensagens portuguesas e testes de sucesso, indisponibilidade/erro e UI; sem SDK externo no Widget. [006-FR-011, 006-CR-001]
 - [x] T042 Validar no Android, atualizar documentação e publicar por contexto na developer; retomar a meta de cobertura global >=99% incluindo o novo código. [006-FR-011, 006-CR-001]
+
+
+## Cenários fidedignos de uso — 2026-11-02
+
+- [ ] T043 Reutilizar exemplos fictícios autorizados com fotos ilustrativas versionadas, origem/hash documentados e testes de integridade; preservar animais manuais e evitar duplicações no backend local. [DEMO-FR-001, 006-CR-001]
+- [ ] T044 Validar ficha/foto, favoritos, homônimos/códigos, filtros e medicações usando exemplos realistas; incluir falhas e permissões na ampliação da cobertura. [006-CR-001]
+- [ ] T045 Conferir CI atual, validar cenário no celular após aviso, atualizar documentação e publicar cada contexto validado na developer. [006-CR-001]
+
+- [x] T046 Excluir os 63 cadastros antigos de teste por identidade/autoria confirmadas, salvar backup local, preservar os oito exemplos com fotos e configurar tratamento/quarentena/agenda simulada, conforme nova autorização. Ver supabase/demo/README.md. [DEMO-FR-001, 006-CR-001]
