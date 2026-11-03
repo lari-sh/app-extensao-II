@@ -491,6 +491,76 @@ void main() {
       expect(checks, 1);
     },
   );
+  test(
+    'interrupted access check reloads only after access is confirmed',
+    () async {
+      var allowed = false, checks = 0;
+      final repo = FakeMedicationsRepository()
+        ..handler = (_, _) async =>
+            const Success(MedicationTreatmentPage(items: [treatment]));
+      final vm = MedicationEditorViewModel(
+        repo,
+        isAuthorized: () => allowed,
+        authorize: () async {
+          checks++;
+          return false;
+        },
+      );
+      addTearDown(vm.dispose);
+      await vm.bindAnimal(medicationAnimalId, 'Atena');
+      vm.refreshAccess();
+      await Future<void>.delayed(Duration.zero);
+      expect(repo.calls, isEmpty);
+      expect(vm.state.loadFailed, true);
+      allowed = true;
+      vm.refreshAccess();
+      await Future<void>.delayed(Duration.zero);
+      expect(vm.state.treatments, [treatment]);
+      expect(vm.state.loadFailed, false);
+      expect(repo.calls, hasLength(1));
+      expect(checks, 1);
+    },
+  );
+
+  test(
+    'explicit denial is not bypassed by an already authorized snapshot',
+    () async {
+      final repo = FakeMedicationsRepository();
+      final vm = MedicationEditorViewModel(
+        repo,
+        isAuthorized: () => true,
+        authorize: () async => false,
+      );
+      addTearDown(vm.dispose);
+      await vm.bindAnimal(medicationAnimalId, 'Atena');
+      vm.refreshAccess();
+      await Future<void>.delayed(Duration.zero);
+      expect(repo.calls, isEmpty);
+      expect(vm.state.loadFailed, true);
+    },
+  );
+
+  test('new private generation discards a deferred treatment read', () async {
+    var allowed = false;
+    var generation = 0;
+    final repo = FakeMedicationsRepository();
+    final vm = MedicationEditorViewModel(
+      repo,
+      isAuthorized: () => allowed,
+      privateGeneration: () => generation,
+      authorize: () async => false,
+    );
+    addTearDown(vm.dispose);
+    await vm.bindAnimal(medicationAnimalId, 'Atena');
+    generation++;
+    allowed = true;
+    vm.refreshAccess();
+    await Future<void>.delayed(Duration.zero);
+    expect(repo.calls, isEmpty);
+    expect(vm.state.animalId, isNull);
+    expect(vm.state.treatments, isEmpty);
+  });
+
   test('recovery is bounded when authorization epochs keep changing', () async {
     var epoch = 0;
     final repo = FakeMedicationsRepository()

@@ -612,3 +612,7 @@ T055 concluída: seis cenas recapturadas no celular via MCP/ADB, com recuos redu
 ## Diagnóstico da CI do Kanban — 2026-11-03
 
 Execução #183 (916726e): Flutter PASS, 595 testes e 99,05%; backend PASS, 428 testes SQL/19 Deno e fluxos HTTP; Android 9 PASS/1 FAIL por expectativa antiga `data • vacina` em animal_editor_flow_test.dart:203. Ajustada para `vacina • data`, conforme 006-FR-012 já implementado. MCP análise sem erros e 17 regressões PASS. Entrega foi corretamente bloqueada pelo gate Android. Conferência final em docs/reviews/ci-kanban-2026-11-03.md; T054 permanece aberta até nova CI.
+
+## Revalidação concorrente de medicações — 2026-11-03
+
+CI #184 confirmou a correção do cadastro; a falha remanescente foi no painel de medicações ao reabrir o editor. Novo teste reproduziu a leitura perdida após uma verificação concorrente. A recuperação aguarda confirmação posterior de acesso no mesmo contexto; não repete gravações, não ignora negativa explícita e descarta leituras após troca de contexto. MCP: análise sem erros e suíte integral 598 PASS. Layout inalterado. CI final e jornadas físicas adicionais em acompanhamento por T054/T056.

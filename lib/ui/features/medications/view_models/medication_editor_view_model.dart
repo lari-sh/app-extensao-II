@@ -258,6 +258,9 @@ class MedicationEditorViewModel extends ChangeNotifier {
     _publish(state.copyWith(loading: true, loadFailed: false, message: null));
     try {
       if (!(verifyAccess ? await _check() : _isAuthorized())) {
+        // Another reader may still be checking this session. Retry the read
+        // only after a later access event confirms the same private context.
+        if (!_isAuthorized()) _recoverStaleRead(request);
         _publish(
           state.copyWith(
             loadFailed: true,

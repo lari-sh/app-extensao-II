@@ -114,3 +114,5 @@ selecionado. No Calendário, manter a data e mostrar somente as medicações do 
 
 - [ ] T054 Conferir a CI dos commits 06c1670/916726e, corrigir falhas reais e registrar execução, cobertura e entrega Android por contexto. [006-CR-001]
 - [x] T055 Substituir no vídeo os trechos com Kanban anterior pelo quadro aprovado (margens reduzidas e títulos 11 sp), preservar os demais fluxos, rever capítulos e decodificação, atualizar roteiro e remover apenas materiais temporários após validar o resultado. [DEMO-FR-001, 006-FR-013]
+
+- [ ] T056 Corrigir leitura de medicações interrompida por revalidações concorrentes ao reabrir o editor; retomar somente após acesso confirmado no mesmo contexto privado, testar negativa explícita/troca de contexto e revalidar CI Android, sem mudar o layout. [003-CR-003, 006-CR-001]
