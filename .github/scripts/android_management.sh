@@ -37,7 +37,4 @@ timeout 60s adb -s emulator-5554 wait-for-device
 # emulator as an application assertion failure.
 test "$(adb -s emulator-5554 shell getprop sys.boot_completed | tr -d '\r')" = "1"
 adb -s emulator-5554 logcat -c
-flutter test integration_test/public_catalog_flow_test.dart integration_test/visitor_detail_flow_test.dart integration_test/authentication_flow_test.dart integration_test/management_dashboard_flow_test.dart integration_test/animal_editor_flow_test.dart integration_test/medication_calendar_flow_test.dart integration_test/adoption_contact_flow_test.dart integration_test/team_access_flow_test.dart integration_test/password_recovery_flow_test.dart integration_test/management_search_flow_test.dart --no-pub -d emulator-5554 \
-  --dart-define=SUPABASE_URL=http://10.0.2.2:54321 \
-  --dart-define="SUPABASE_PUBLISHABLE_KEY=$SUPABASE_ANON_KEY" \
-  --dart-define=ALLOW_LOCAL_HTTP=true
+bash .github/scripts/run_android_journeys.sh
