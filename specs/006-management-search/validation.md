@@ -761,3 +761,31 @@ MCP oficial Dart/Flutter list_devices retornou Windows, Chrome e Edge, sem Andro
 Nenhum envio foi realizado nesta etapa. T063 continua aberta para entrega real,
 recebimento e conclusão dos fluxos no celular; configuração salva não constitui
 prova de entrega. As contas de avaliação e o APK permanecem preservados.
+
+## Menu de equipe durante carregamento — 2026-11-03
+
+T066 PASS. Perfil remoto conferido via CLI oficial, sem senhas/tokens: conta de
+administração ativa como administrator; funcionário ativo como employee. O perfil
+foi definido no provisionamento técnico em public.staff_members, não pelo nome do
+email. Diagnóstico transacional de access_context com rollback confirmou
+can_manage_team=true para a sessão administrativa existente; isso não equivale a
+uma requisição autenticada enviada pelo APK.
+
+Defeito reproduzido em Widget Test antes da alteração: showTeam dependia de
+canManage, que também bloqueia operações de animais enquanto loading/busy/uncertain.
+A visibilidade agora depende de sessão autorizada, capacidade administrativa e
+ViewModel ativo. Operações e rotas preservam os guards existentes. Novo teste
+unitário cobre carregamento, retirada de permissão, perda de sessão e dispose;
+dois testes Widget cobrem administrador/funcionário durante leitura pendente.
+
+MCP oficial run_tests: 38 testes selecionados PASS, incluindo navegação nos três
+modos, ViewModel do painel, sessão e Service Auth; analyze_files sem erros e
+dart_format sem alterações. Build release normal, instalação ADB -r e restauração
+de sessão PASS no Android 15 físico. Menu Equipe e acessos apareceu e a tela Equipe
+listou as duas contas, identificando o administrador atual como Seu acesso.
+Captura local ignorada: .tools/cloud/screens/smtp-admin-team-confirmed.png.
+
+Novo APK: 59.896.931 bytes; SHA-256
+abe3a1dae090df2b20ef36ebc01a6e71fc0881f2a5e8f37b82dba97efb2f52cf.
+O hash anterior added5799... corresponde ao release antes desta correção. Nenhum
+convite foi enviado nesta etapa. T063 continua separada e aberta.

@@ -8,6 +8,35 @@ import '../../../../support/fakes/fake_animals_repository.dart';
 import '../../../../support/public_fixtures.dart';
 
 void main() {
+  test('team permission is independent of pending animal reads', () async {
+    final counts = Completer<Result<Map<AnimalStatus, int>>>();
+    final repo = FakeAnimalsRepository()
+      ..handler = (method, _) async => method == 'getStatusCounts'
+          ? counts.future
+          : const Success(ManagedAnimalPage(items: [], total: 0));
+    var authorized = true;
+    var administrator = true;
+    final vm = DashboardViewModel(
+      repo,
+      isAuthorized: () => authorized,
+      canManageTeam: () => administrator,
+    );
+    final loading = vm.load();
+    expect(vm.state.loading, isTrue);
+    expect(vm.canManage, isFalse);
+    expect(vm.showTeam, isTrue);
+    administrator = false;
+    expect(vm.showTeam, isFalse);
+    administrator = true;
+    authorized = false;
+    expect(vm.showTeam, isFalse);
+    counts.complete(const Success<Map<AnimalStatus, int>>({}));
+    await loading;
+    authorized = true;
+    expect(vm.showTeam, isTrue);
+    vm.dispose();
+    expect(vm.showTeam, isFalse);
+  });
   test(
     'clinical preview is bounded without changing the stored observation',
     () {

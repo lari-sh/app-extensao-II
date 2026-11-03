@@ -42,7 +42,8 @@ class DashboardViewModel extends ChangeNotifier {
     Future<void> Function(Duration)? delay,
   }) : delay = delay ?? Future<void>.delayed;
   final bool Function()? canManageTeam;
-  bool get showTeam => canManage && canManageTeam?.call() == true;
+  bool get showTeam =>
+      !_disposed && isAuthorized() && canManageTeam?.call() == true;
   final AnimalsRepository repository;
   final Future<void> Function()? onCalendarSelected;
   ManagedAnimalSearchViewModel? _search;

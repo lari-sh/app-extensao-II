@@ -70,7 +70,7 @@ Caminho local: entrega-professor/abrigo-dos-anjos-avaliacao.apk.
 
 - Versão 1.0.0+1; Android mínimo API 24/Android 7.
 - 59.896.931 bytes, aproximadamente 60 MB ou 57,1 MiB.
-- SHA-256: added5799a28cede706fc1309682d9e572b6ddf725df89a0410a7838383232f8.
+- SHA-256 atual: abe3a1dae090df2b20ef36ebc01a6e71fc0881f2a5e8f37b82dba97efb2f52cf.
 - Release pelo entry point lib/main.dart, sem Flutter Driver ou HTTP local.
 - Assinatura de avaliação Android Debug, verificada com apksigner.
 - Certificado SHA-256: 966af201b6ef1563a13d3d24c286c1a4a0d258598900f02ffde312b52fa275ad.
@@ -79,6 +79,13 @@ Caminho local: entrega-professor/abrigo-dos-anjos-avaliacao.apk.
 para avaliação por instalação manual; não é uma publicação na Play Store.
 APK, configurações públicas locais e pacote de entrega são ignorados pelo Git.
 O manual de instalação fica em docs/user-guide e é copiado para a pasta de entrega.
+
+Atualização em 03/11/2026: menu Equipe e acessos desvinculado do carregamento dos
+animais, preservando autorização administrativa real. Release atualizado no
+celular; menu e listagem das duas contas confirmados. 38 testes selecionados e
+análise/formato pelo MCP oficial PASS. O hash anterior added5799... identifica
+o APK antes dessa correção; a CI #194 abaixo validou a revisão anterior, não este
+novo commit. A CI da correção será conferida separadamente.
 
 ## Reproduzir o build
 

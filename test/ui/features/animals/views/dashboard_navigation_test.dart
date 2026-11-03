@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:abrigo_dos_anjos/ui/core/theme/app_theme.dart';
@@ -10,6 +11,55 @@ import '../../../../support/fakes/fake_animals_repository.dart';
 import '../../../../support/fakes/fake_medication_completion_scenario.dart';
 
 void main() {
+  for (final admin in [true, false]) {
+    testWidgets(
+      'team navigation follows permissions while animals are loading: $admin',
+      (tester) async {
+        final counts = Completer<Result<Map<AnimalStatus, int>>>();
+        final repo = FakeAnimalsRepository()
+          ..handler = (method, _) async => method == 'getStatusCounts'
+              ? counts.future
+              : const Success(ManagedAnimalPage(items: [], total: 0));
+        var authorized = true;
+        final vm = DashboardViewModel(
+          repo,
+          isAuthorized: () => authorized,
+          canManageTeam: () => admin,
+        );
+        addTearDown(vm.dispose);
+        final loading = vm.load();
+        await tester.pumpWidget(
+          MaterialApp(
+            theme: buildTheme(),
+            routes: {
+              '/team': (_) => const Scaffold(body: Text('Equipe de teste')),
+            },
+            home: DashboardScreen(viewModel: vm),
+          ),
+        );
+        expect(vm.state.loading, isTrue);
+        expect(vm.canManage, isFalse);
+        await tester.tap(find.byTooltip('Administração'));
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 350));
+        expect(
+          find.text('Equipe e acessos'),
+          admin ? findsOneWidget : findsNothing,
+        );
+        if (admin) {
+          await tester.tap(find.text('Equipe e acessos'));
+          await tester.pump();
+          await tester.pump(const Duration(milliseconds: 350));
+          expect(find.text('Equipe de teste'), findsOneWidget);
+        }
+        authorized = false;
+        expect(vm.showTeam, isFalse);
+        counts.complete(const Success<Map<AnimalStatus, int>>({}));
+        await loading;
+        expect(tester.takeException(), isNull);
+      },
+    );
+  }
   for (final admin in [true, false]) {
     for (final mode in DashboardMode.values) {
       testWidgets(
