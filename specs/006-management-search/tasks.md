@@ -93,3 +93,6 @@ selecionado. No Calendário, manter a data e mostrar somente as medicações do 
 - [ ] T045 Conferir CI atual, validar cenário no celular após aviso, atualizar documentação e publicar cada contexto validado na developer. [006-CR-001]
 
 - [x] T046 Excluir os 63 cadastros antigos de teste por identidade/autoria confirmadas, salvar backup local, preservar os oito exemplos com fotos e configurar tratamento/quarentena/agenda simulada, conforme nova autorização. Ver supabase/demo/README.md. [DEMO-FR-001, 006-CR-001]
+
+
+- [x] T047 Organizar Vacinas na ficha pública com nome antes da data, preservando todos os registros/reforços; atualizar protótipo, testar VM/Widget em tela pequena, validar Android e commit por contexto. [006-FR-012]

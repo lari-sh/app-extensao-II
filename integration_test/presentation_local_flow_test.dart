@@ -50,6 +50,10 @@ void main() {
       expect(details.viewModel.state.photo!.length, greaterThan(1000));
       expect(details.viewModel.state.canAdopt, isFalse);
       expect(
+        details.viewModel.state.publicInformation['Vacinas'],
+        'V8 • 10/09/2026\nAntirrábica • 24/09/2026',
+      );
+      expect(
         details.viewModel.state.publicInformation['Peso'],
         contains('12,4'),
       );

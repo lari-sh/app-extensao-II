@@ -111,7 +111,7 @@ class AnimalDetailViewModel extends ChangeNotifier {
                     : value.vaccinations
                           .map(
                             (item) =>
-                                '${displayDate(item.appliedOn)} • ${item.vaccineType}',
+                                '${item.vaccineType} • ${displayDate(item.appliedOn)}',
                           )
                           .join('\n'),
                 'Vermifugado': displayDate(value.lastDewormedOn),

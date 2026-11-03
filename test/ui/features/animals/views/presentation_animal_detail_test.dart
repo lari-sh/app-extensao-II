@@ -11,6 +11,54 @@ import '../../../../support/public_app_harness.dart';
 import '../../../../support/presentation_fixtures.dart';
 
 void main() {
+  testWidgets(
+    'vaccines retain name then applied date for each dose at 320 px',
+    (tester) async {
+      tester.view.physicalSize = const Size(320, 568);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      final h = PublicAppHarness();
+      final animal = presentationAnimal('mel').copyWith(
+        vaccinations: const [
+          PublicVaccination(appliedOn: '2026-09-10', vaccineType: 'V4'),
+          PublicVaccination(
+            appliedOn: '2026-09-24',
+            vaccineType: 'Antirrábica',
+          ),
+          PublicVaccination(appliedOn: '2026-10-10', vaccineType: 'V4'),
+        ],
+      );
+      h.animals.handler = (_, _) async => Success(animal);
+      h.photos.handler = (_, _) async => Success(
+        PhotoContent(bytes: presentationPhoto('mel'), mime: 'image/jpeg'),
+      );
+      final vm = AnimalDetailViewModel(
+        h.animals,
+        h.favorites,
+        h.photos,
+        h.adoption,
+      );
+      addTearDown(vm.dispose);
+      await vm.load(animal.id);
+      await tester.pumpWidget(
+        MaterialApp(
+          home: MediaQuery(
+            data: const MediaQueryData(textScaler: TextScaler.linear(1.4)),
+            child: AnimalDetailScreen(viewModel: vm),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      const expected =
+          'V4 • 10/09/2026\nAntirrábica • 24/09/2026\nV4 • 10/10/2026';
+      expect(vm.state.publicInformation['Vacinas'], expected);
+      expect(find.text(expected), findsOneWidget);
+      expect(vm.state.publicInformation['Vermifugado'], '15/10/2026');
+      expect(tester.takeException(), isNull);
+    },
+  );
+
   for (final slug in ['amora', 'bento', 'mel']) {
     testWidgets('$slug shows illustrative JPEG and complete public facts', (
       tester,
@@ -36,7 +84,14 @@ void main() {
       expect(find.bySemanticsLabel('Foto de ${animal.name}'), findsOneWidget);
       expect(find.text(animal.name), findsOneWidget);
       expect(vm.state.publicInformation['Peso'], contains('kg'));
-      expect(vm.state.publicInformation['Vacinas'], contains('Antirrábica'));
+      expect(
+        vm.state.publicInformation['Vacinas'],
+        startsWith(slug == 'mel' ? 'V4 • ' : 'V8 • '),
+      );
+      expect(
+        vm.state.publicInformation['Vacinas'],
+        contains('\nAntirrábica • 24/09/2026'),
+      );
       expect(vm.state.publicInformation['Cor'], animal.color);
       expect(vm.state.publicInformation['Temperamento'], animal.temperament);
       expect(h.animals.calls.map((c) => c.method), ['getPublic']);

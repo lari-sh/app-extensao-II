@@ -128,3 +128,8 @@ Sem mudança de composição; placeholder passa a indicar nome/espécie/sexo.
 ## 006-FR-011 — Contatos e doação no Sobre público
 
 Exibir canais oficiais WhatsApp (34) 99137-8936, Instagram abrigodosanjosoficial e Facebook abrigodosanjosura, com abertura externa explícita. Disponibilizar chave Pix 23.785.379/0001-98 selecionável e botão Copiar chave Pix, com confirmação acessível de sucesso e mensagem amigável em falha. Não requer login; não realiza pagamento nem envia mensagem automaticamente. Preservar logo, texto institucional e voltar à esquerda. Pedido visual expresso autorizado em 2026-11-02; referência design/about-contact-pix.html.
+
+
+## 006-FR-012 — Ordem das vacinas públicas
+
+Na ficha do visitante, apresentar cada registro de vacinação como Nome da vacina • DD/MM/AAAA, um registro por linha. Preservar reforços do mesmo tipo e a ordem dos registros, sem expor notas clínicas. Sem mudança da grade/paleta/tipografia; permitir quebra natural em telas pequenas. Pedido expresso em 2026-11-02.

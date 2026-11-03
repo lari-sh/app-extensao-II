@@ -37,7 +37,7 @@ void main() {
       );
       addTearDown(vm.dispose);
       await vm.load(fixtureId(1));
-      expect(vm.state.publicInformation['Vacinas'], '29/02/2024 • V4');
+      expect(vm.state.publicInformation['Vacinas'], 'V4 • 29/02/2024');
       expect(vm.state.publicInformation['Vermifugado'], '29/02/2024');
       expect(vm.state.publicInformation['Peso'], '4,25 kg');
       expect(vm.state.publicInformation['Cor'], 'Branca');

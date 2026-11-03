@@ -489,3 +489,15 @@ Uma verificação posterior à exclusão apontou diferença em recibos sem trata
 14 testes específicos Flutter PASS: fichas Amora/Bento/Mel com JPEGs reais ilustrativos, dados públicos completos, erro/retry de leitura, foto danificada e fechar/backdrop; upload recuperado, incerteza, reconciliação/reenvio e preservação da foto anterior; SDK de detalhe/favoritos exige publicação e exclui adotados. Fotos versionadas para testes offline; hashes/tamanhos conferidos contra manifesto autorizado. Análise estática PASS.
 
 Jornada HTTP de medicação PASS: duas sessões, replay, agenda de 101 itens, fuso civil, conflito de snapshot e bloqueio do visitante; autoria/horário de servidor, corrida e valores forjados; edição/interrupção preservando atrasadas, correção com histórico, revogação durante espera e isolamento de adoção/save genérico. Fixtures próprias removidas no finally. Esta evidência não significa cobertura exaustiva de todos os cenários possíveis. CI remota ainda em andamento.
+
+
+## Vacinas: nome antes da data — 006-FR-012 (2026-11-02)
+
+Formato público agora Nome • DD/MM/AAAA, uma dose por linha, mantendo reforços e
+ordem. Nenhum registro do backend foi alterado; somente apresentação no VM.
+Protótipo atualizado e conferido no navegador (design/previews/vaccines-name-date.png).
+12 testes específicos PASS, incluindo 320 px/texto 1,4 e reforços V4 separados.
+Suíte integral 554 PASS, 6823/7075 linhas = 96,44% (meta 99% pendente).
+Jornada SDK Android no celular repetida PASS em 16 s, incluindo valor exato de
+Vacinas na ficha da Amora e conclusão/correção da aplicação simulada.
+Não declarar CI remota aprovada enquanto estiver em execução.
