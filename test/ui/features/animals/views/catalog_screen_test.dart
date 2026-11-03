@@ -7,6 +7,45 @@ import '../../../../support/public_app_harness.dart';
 
 void main() {
   testWidgets(
+    'bottom search confirms terms, size and sex filters apply, home returns',
+    (tester) async {
+      final h = PublicAppHarness();
+      await tester.pumpWidget(h.app());
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Quero Adotar (Visitante)'));
+      await tester.pumpAndSettle();
+      await tester.enterText(
+        find.byKey(const ValueKey('catalogSearch')),
+        'gata femea',
+      );
+      FocusManager.instance.primaryFocus?.unfocus();
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Buscar'));
+      await tester.pumpAndSettle();
+      expect(
+        (h.animals.calls.last.arguments.first as AnimalQuery).species,
+        AnimalSpecies.cat,
+      );
+      await tester.tap(find.byKey(const ValueKey('sizeFilter')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Pequeno').last);
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey('sexFilter')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Macho').last);
+      await tester.pumpAndSettle();
+      final query = h.animals.calls.last.arguments.first as AnimalQuery;
+      expect(query.size, AnimalSize.small);
+      expect(query.sex, AnimalSex.male);
+      expect(query.species, AnimalSpecies.cat);
+      await tester.tap(find.text('Início'));
+      await tester.pumpAndSettle();
+      expect(find.text('Quero Adotar (Visitante)'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    },
+  );
+
+  testWidgets(
     'visitor confirms combined terms and sees corresponding filters without losing name',
     (tester) async {
       final h = PublicAppHarness();

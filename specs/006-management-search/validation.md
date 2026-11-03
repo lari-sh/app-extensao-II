@@ -511,3 +511,8 @@ Sete testes novos PASS: falha/revogação na revalidação, erro de primeira pá
 ## Recuperação da programação de medicamentos — ampliação de cobertura
 
 Sete testes Widget novos PASS: recarregar após falha, paginação sem duplicação, abrir/fechar tratamento existente, interromper com resposta incerta, consultar antes de repetir a mesma operação, concluir por recibo/reenvio e retornar da programação; período invertido e horários fixos duplicados exibem erros. A lista e o formulário oferecem retries distintos e testados. Análise estática PASS, sem mudanças de produção/layout ou novas dependências.
+
+
+## Catálogo, favoritos e contatos — ampliação de cobertura
+
+Seis testes específicos PASS (três novos): catálogo confirma pela navegação inferior e combina porte/sexo/espécie; lista pública com JPEGs recupera falha de favoritos, pagina sem duplicação, muda favorito e recarrega após fechar a ficha; contato recupera falha de leitura, mostra abertura em andamento, sanitiza erro da plataforma e revalida disponibilidade antes de abrir canal. Análise estática PASS. Medição integral anterior: 568 PASS, 6880/7075 = 97,24%; nova medição em execução, sem usar amostra parcial como cobertura global.
