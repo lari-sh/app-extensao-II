@@ -338,3 +338,25 @@ fêmea usando só os dois animais próprios publicados para o teste. Primeira ex
 revelou necessidade de conferir foco/texto entre confirmações; rerun com toque
 explícito e assert do texto pendente. Uma tentativa seguinte foi bloqueada por
 INSTALL_FAILED_USER_RESTRICTED. Validação nativa final e CI ainda pendentes.
+
+### Validação física concluída — fonte 2e8fdb9
+
+Celular MFZHZLA6TC49NJFI, Android 15/API 35. Jornada ampliada
+management_search_flow_test.dart **PASS**, 50 segundos após instalação: digitação
+mantém filtro/resultados, Buscar confirma, Kanban/Lista/Calendário preservados,
+medicações somente do dia, manejo alterado e confirmado no banco, logout pelo
+menu, catálogo com nome + gato macho/gata fêmea/gato fêmea/cachorro fêmea.
+O toque explícito no campo antes de cada nova entrada resolveu a repetição do
+teste; os asserts de texto pendente e filtro confirmado foram mantidos.
+
+APK normal da mesma fonte recompilado, instalado e aberto; login novamente como
+fixture-admin@example.test, no painel. Nenhuma automação permanece navegando no
+aparelho. Conexão com backend local via USB 54321 preservada para teste manual.
+Fixtures próprias atuais removidas por HTTP 204; limpeza também removeu três
+atores antigos de busca, verificando preservação da contagem dos demais animais.
+
+Código/documentação publicados por contexto na developer. CI da fonte 2e8fdb9:
+https://github.com/lari-sh/app-extensao-II/actions/runs/41556748443
+Na consulta de fechamento ainda pendente/em processamento: T024/T028 conservam
+pendência remota. Não declarar a suíte completa do GitHub aprovada com base nos
+532 testes locais ou nesta única jornada física. Nenhuma alteração na main.
