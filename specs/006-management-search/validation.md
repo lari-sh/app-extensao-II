@@ -468,3 +468,10 @@ de atualização do contador no celular passou. Escopo funcional do contador pre
 ## Cobertura — dados e armazenamento (2026-11-02)
 
 539 testes Flutter PASS. LCOV integral: 6726/7013 linhas, 95,91%, sem novas exclusões. Novos cenários: falhas e fila de persistência de sessão, leitura JPEG inconsistente/timeout, interrupção de tratamentos e mapeamento/ordenação dos animais. A meta de 99% permanece pendente.
+
+
+## Sobre: contatos e Pix — 2026-11-02
+
+544 testes Flutter PASS; análise estática e formato PASS. Repository/VM/Widget verificam chave literal, três URLs oficiais, falhas sanitizadas, repetição, descarte e navegação de retorno. No celular MFZHZLA6TC49NJFI, APK atualizado: Visitante → Sobre, chave 23.785.379/0001-98 visível, Copiar chave Pix → confirmação, contatos presentes após rolagem; PASS. Evidência local .tools/about-pix-phone.png. Não foi enviado contato nem realizado pagamento. App normal deixado autenticado no painel administrativo.
+
+Protótipo design/about-contact-pix.html conferido no navegador, incluindo confirmação de cópia; acesso Sobre do protótipo principal aponta para a nova referência. Screenshot design/previews/about-contact-pix.png. A meta global 99% continua em T037–T039 e não é declarada concluída nesta entrega. Resultado remoto da CI deve ser distinguido da validação local acima.

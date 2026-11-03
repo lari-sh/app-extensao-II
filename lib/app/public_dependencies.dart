@@ -1,3 +1,4 @@
+import '../data/repositories/shelter_contact_repository_impl.dart';
 import '../data/services/session_storage_service.dart';
 import '../data/services/supabase_auth_callback_service.dart';
 import '../ui/features/auth/view_models/auth_callback_view_model.dart';
@@ -87,6 +88,10 @@ Widget createPublicApplication(
     photos: photos,
     adoption: adoption,
     medications: medications,
+    shelterContacts: ShelterContactRepositoryImpl(
+      clipboardService,
+      UrlLauncherLinkService(),
+    ),
     contacts: AdoptionContactRepositoryImpl(UrlLauncherLinkService()),
     team: TeamRepositoryImpl(SupabaseTeamService(client)),
   );

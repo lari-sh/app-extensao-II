@@ -73,7 +73,14 @@ selecionado. No Calendário, manter a data e mostrar somente as medicações do 
 
 ## Meta de cobertura global 99% — solicitada em 2026-11-02
 
-- [ ] T036 Medir LCOV por arquivo e mapear lacunas reais, sem adicionar exclusões; registrar a linha de base e os cenários prioritários. [006-CR-001]
+- [x] T036 Medir LCOV por arquivo e mapear lacunas reais, sem adicionar exclusões; registrar a linha de base e os cenários prioritários. [006-CR-001]
 - [ ] T037 Cobrir operações/dados: validações, transporte, permissões, armazenamento, callbacks e descarte de respostas obsoletas; executar testes específicos e commit por contexto. [006-CR-001]
 - [ ] T038 Cobrir interfaces/navegação: medicamentos, fotos, ficha, catálogo, painel e rotas, incluindo erros e texto ampliado; executar testes específicos e commit por contexto. [006-CR-001]
 - [ ] T039 Medir suíte integral até >=99% global, atualizar gate/documentação com o resultado real e publicar na developer; distinguir cobertura local e aprovação remota. [006-CR-001]
+
+
+## Sobre público: contatos e doação Pix
+
+- [x] T040 Planejar e atualizar a referência visual do Sobre com WhatsApp +55 34 99137-8936, Instagram abrigodosanjosoficial, Facebook abrigodosanjosura e Pix 23.785.379/0001-98, conforme pedido expresso. Preservar visual existente. [006-FR-011, 006-CR-001]
+- [x] T041 Implementar contatos e cópia da chave via ViewModel/Repository/Services, com mensagens portuguesas e testes de sucesso, indisponibilidade/erro e UI; sem SDK externo no Widget. [006-FR-011, 006-CR-001]
+- [x] T042 Validar no Android, atualizar documentação e publicar por contexto na developer; retomar a meta de cobertura global >=99% incluindo o novo código. [006-FR-011, 006-CR-001]

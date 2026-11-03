@@ -296,3 +296,8 @@ vermelho, disponível nos três modos conforme as permissões. O cabeçalho mant
 **Total: quantidade de animais**; não há botão externo comprimindo o título.
 A reserva inferior do FAB foi retirada do Kanban/Lista, mantendo SafeArea.
 Essa decisão substitui as propostas intermediárias de botão no cabeçalho.
+
+
+### Contatos e doações no acesso público
+
+Em **Visitante → Sobre**, estão disponíveis WhatsApp, Instagram e Facebook do abrigo. A seção **Doe via Pix** permite selecionar ou copiar a chave `23.785.379/0001-98`, com confirmação de cópia. A tela não processa pagamentos. Referência visual: `design/about-contact-pix.html`.

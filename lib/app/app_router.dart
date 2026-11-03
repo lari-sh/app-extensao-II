@@ -1,3 +1,4 @@
+import '../domain/repositories/shelter_contact_repository.dart';
 import '../ui/features/animals/view_models/managed_animal_search_view_model.dart';
 import '../ui/features/auth/views/recovery_screen.dart';
 import '../ui/features/auth/views/reset_password_screen.dart';
@@ -60,7 +61,9 @@ class AppRouter {
     this.medications,
     this.contacts,
     this.team,
+    this.shelterContacts,
   });
+  final ShelterContactRepository? shelterContacts;
   final TeamRepository? team;
   final AdoptionContactRepository? contacts;
   final MedicationsRepository? medications;
@@ -455,7 +458,7 @@ class AppRouter {
           ),
         );
       case '/about':
-        final vm = AboutViewModel();
+        final vm = AboutViewModel(shelterContacts);
         return _page(settings, vm, AboutScreen(viewModel: vm));
       case '/catalog':
         final vm = CatalogViewModel(animals, favorites, photos);

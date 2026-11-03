@@ -174,3 +174,8 @@ menu ⋮, em texto vermelho e sem comprimir o título. Disponível em Kanban/Lis
 Calendário, habilitada por canManage; o backend continua validando staff. Equipe
 e acessos permanece exclusiva de administradores. Não há linha extra nem FAB.
 Total e área inferior estendida continuam. Propostas anteriores são históricas.
+
+
+## Sobre: contatos e Pix (006-FR-011)
+
+AboutViewModel injeta ShelterContactRepository; implementação usa ClipboardService e ExternalLinkService existentes. Nenhum pacote novo ou consulta ao backend. Chave literal fornecida pela responsável, sem inclusão de dados de animais. Operações retornam Result<Unit>, com bloqueio de repetição durante execução e descarte de notificações após dispose. Testes Repository/VM/Widget verificam conteúdo exato, destinos, falha, duplicidade e retorno. Validação física confirma clipboard e renderização.
