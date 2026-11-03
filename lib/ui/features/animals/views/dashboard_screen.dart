@@ -395,7 +395,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                     viewModel.columnHeading(status),
                     textAlign: TextAlign.center,
                     style: const TextStyle(
-                      fontSize: 10,
+                      fontSize: 11,
                       fontWeight: FontWeight.w600,
                     ),
                   ),

@@ -600,3 +600,7 @@ MCP oficial: dart_format, analyze_files (No errors), run_tests integral (595 PAS
 O resultado anterior de cobertura 99,05% é histórico; esta execução MCP mediu os testes sem gerar novo LCOV. O gate de 99% será conferido na execução final da CI após publicar os contextos.
 
 APK normal gerado novamente a partir do código atualizado e instalado com sucesso no celular, sem extensão Driver na entrada de produção.
+
+## Títulos das colunas — 2026-11-03
+
+T053: fonte aumentada de 10 para 11 sp por solicitação, sem alterar margens, cores ou controles. Protótipos atualizados para 11 px. MCP analyze_files: No errors; run_tests dos testes de tela/navegação: 11 PASS, incluindo 320/390 dp com texto 1,4× e três colunas. APK normal recompilado, instalado e aberto no painel administrativo do celular.
