@@ -25,7 +25,7 @@ selecionado. No Calendário, manter a data e mostrar somente as medicações do 
 - [x] T013 Corrigir carregamento/permissões do manejo clínico na ficha durante revalidação concorrente; testes VM/Widget e Android. [006-FR-006, 006-CR-001]
 - [x] T014 Atualizar design, especificação/plano/contratos para busca dentro de Kanban/Lista/Calendário e medicações somente do dia. [006-FR-009]
 - [x] T015 Implementar filtros do modo no servidor e na apresentação, sem limitar aos itens carregados; testes obrigatórios. [006-FR-009, 006-CR-001]
-- [ ] T016 Validar revisão no Android/CI, cobertura >=95%, documentação e commits por contexto na developer. [006-CR-001]
+- [x] T016 Validar revisão no Android/CI, cobertura >=99%, documentação e commits por contexto na developer. [006-CR-001]
 
 - [x] T017 Ampliar cobertura de regras/permissões/modos/fotos e medir cobertura real; não excluir código para elevar números. [006-CR-001]
 
@@ -43,7 +43,7 @@ selecionado. No Calendário, manter a data e mostrar somente as medicações do 
 - [x] T022 Pesquisar navegação secundária oficial e preparar proposta de Equipe e acessos no menu do cabeçalho administrativo, fora da agenda; obter aprovação expressa antes de implementar a mudança visual. [006-FR-007, 006-CR-001]
 - [x] T023 Após aprovação de T022, implementar navegação administrativa preservando perfis, voltar à esquerda e os três modos; testes e documentação por contexto. [006-FR-006, 006-FR-007, 006-CR-001]
 
-- [ ] T024 Validar busca confirmada e menu aprovado no Android/CI, atualizar APK normal no celular e deixar acesso administrativo disponível; registrar evidências. Android e APK PASS; CI remota pendente. [006-CR-001]
+- [x] T024 Validar busca confirmada e menu aprovado no Android/CI, atualizar APK normal no celular e deixar acesso administrativo disponível; registrar evidências. Android e APK normal PASS na etapa anterior; CI #187 PASS. A versão de depuração atual foi mantida conectada conforme decisão posterior para reduzir instalações. [006-CR-001]
 
 
 ## Busca no catálogo público por nome, espécie e sexo
@@ -51,7 +51,7 @@ selecionado. No Calendário, manter a data e mostrar somente as medicações do 
 - [x] T025 Atualizar especificação/plano/contrato da busca pública combinada: nome, espécie, sexo e combinações como gata fêmea/gato macho/gato fêmea; manter paginação/filtros existentes e dados públicos apenas. [006-FR-010, 006-CR-001]
 - [x] T026 Criar testes de interpretação/VM para acentos, maiúsculas, nome + espécie + sexo, espécies/sexos isolados, limpar/repetir pesquisa, conflitos e respostas tardias. Sem SDK na UI ou dependência nova. Depende de T025. [006-FR-010, 006-CR-001]
 - [x] T027 Implementar interpretação na camada de lógica e integrar ao campo público existente, com confirmação Buscar e filtros combinados enviados ao Repository; Widget happy path/erro e preservação do design. Depende de T026. [006-FR-010, 006-CR-001]
-- [ ] T028 Validar catálogo público no Android e CI/cobertura, atualizar documentação e publicar commits por contexto na developer; deixar APK normal disponível no celular. Depende de T027. Android e APK PASS; CI remota pendente. [006-FR-010, 006-CR-001]
+- [x] T028 Validar catálogo público no Android e CI/cobertura, atualizar documentação e publicar commits por contexto na developer; deixar APK normal disponível no celular. Depende de T027. Android e APK normal PASS na etapa anterior; CI #187 PASS. A versão de depuração atual foi mantida conectada conforme decisão posterior para reduzir instalações. [006-FR-010, 006-CR-001]
 
 - [x] T029 Corrigir e validar limpeza das fixtures de busca com tratamentos, respeitando FKs RESTRICT e rejeitando remoção de animais alheios. [006-CR-001]
 
@@ -90,7 +90,7 @@ selecionado. No Calendário, manter a data e mostrar somente as medicações do 
 
 - [x] T043 Reutilizar exemplos fictícios autorizados com fotos ilustrativas versionadas, origem/hash documentados e testes de integridade; preservar animais manuais e evitar duplicações no backend local. [DEMO-FR-001, 006-CR-001]
 - [x] T044 Validar ficha/foto, favoritos, homônimos/códigos, filtros e medicações usando exemplos realistas; incluir falhas e permissões na ampliação da cobertura. [006-CR-001]
-- [ ] T045 Conferir CI atual, validar cenário no celular após aviso, atualizar documentação e publicar cada contexto validado na developer. [006-CR-001]
+- [x] T045 Conferir CI atual, validar cenário no celular após aviso, atualizar documentação e publicar cada contexto validado na developer. [006-CR-001]
 
 - [x] T046 Excluir os 63 cadastros antigos de teste por identidade/autoria confirmadas, salvar backup local, preservar os oito exemplos com fotos e configurar tratamento/quarentena/agenda simulada, conforme nova autorização. Ver supabase/demo/README.md. [DEMO-FR-001, 006-CR-001]
 
@@ -112,7 +112,7 @@ selecionado. No Calendário, manter a data e mostrar somente as medicações do 
 
 - [x] T053 Ampliar discretamente os títulos das três colunas do Kanban de 10 para 11 sp, conforme solicitação; atualizar protótipo, validar testes existentes em 320/390 dp com texto ampliado, análise e APK no celular. [006-FR-013]
 
-- [ ] T054 Conferir a CI dos commits 06c1670/916726e, corrigir falhas reais e registrar execução, cobertura e entrega Android por contexto. [006-CR-001]
+- [x] T054 Conferir a CI dos commits 06c1670/916726e, corrigir falhas reais e registrar execução, cobertura e entrega Android por contexto. [006-CR-001]
 - [x] T055 Substituir no vídeo os trechos com Kanban anterior pelo quadro aprovado (margens reduzidas e títulos 11 sp), preservar os demais fluxos, rever capítulos e decodificação, atualizar roteiro e remover apenas materiais temporários após validar o resultado. [DEMO-FR-001, 006-FR-013]
 
 - [x] T056 Corrigir leitura de medicações interrompida por revalidações concorrentes ao reabrir o editor; retomar somente após acesso confirmado no mesmo contexto privado, testar negativa explícita/troca de contexto e revalidar CI Android, sem mudar o layout. [003-CR-003, 006-CR-001]
@@ -120,3 +120,5 @@ selecionado. No Calendário, manter a data e mostrar somente as medicações do 
 - [x] T057 Padronizar altura e alinhamento dos cartões do Kanban, limitar observação visível a até 80 caracteres/3 linhas sem alterar o texto completo na ficha, respeitar texto ampliado e nomes longos; protótipo, testes, Android, vídeo e commit próprios. [006-FR-014]
 
 - [x] T058 Isolar as dez jornadas Android em processos Flutter independentes, preservar o DDS exigido pelo framework e impor limite por jornada, preservar erros e validar o executor com testes de sucesso/falha/offline/configuração antes da execução remota final. [006-CR-001]
+
+Fechamento remoto de T016/T024/T028/T045/T054: CI #187 (0761f3e), quatro jobs PASS; 599 testes Flutter, 99,06% de cobertura, dez jornadas Android e APK entregue. Evidências em docs/reviews/ci-kanban-2026-11-03.md.

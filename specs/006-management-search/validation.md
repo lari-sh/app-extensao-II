@@ -636,3 +636,9 @@ LCOV integral local pelo comando oficial flutter test --no-pub --coverage, porqu
 ## Compatibilidade do framework Android — 2026-11-03
 
 #186 confirmou Flutter 599/99,06% e backend PASS. --no-dds revelou incompatibilidade com o stream de integração VmServiceProxyGoldenFileComparator, apesar de o caso do catálogo passar. Restaurado --dds; mantidos isolamento por processo, todas as jornadas e bloqueio em qualquer falha. Teste do executor ajustado para exigir DDS. A tentativa anterior não foi registrada como CI aprovada.
+
+## Fechamento remoto confirmado — 2026-11-03
+
+CI #187, código 0761f3e2b54b5aa3d1f669051c9d1bc45db4aced: status completed, conclusion success. Flutter, backend, Android e deliver PASS. Logs: 599 testes Flutter; cobertura integral 7034/7101 = 99,06%; cinco testes do gate e quatro do executor; 428 SQL/19 Deno e jornadas HTTP; dez jornadas Android individuais PASS, sem retry. Artefato abrigo-dos-anjos-android-debug, ID 13219357217, enviado e não expirado na conferência.
+
+T016/T024/T028/T045/T054 concluídas e T056 do calendário também fechada. O APK normal está preparado em disco; a versão de depuração no celular foi mantida conectada para hot reload, conforme orientação posterior da responsável. Nenhum dado de demonstração foi apagado além dos próprios fixtures temporários. Relatório consolidado em docs/reviews/ci-kanban-2026-11-03.md. iOS não foi validado neste ambiente Windows.

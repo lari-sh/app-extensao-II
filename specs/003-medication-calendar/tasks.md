@@ -113,4 +113,4 @@ Total: 50 tarefas. Distribuição: transversal: 16, US1: 10, US2: 8, US3: 8, US4
 - [x] T054 Implementar migration/rotina agendada e testes SQL de início, término, interrupção, pendências, correção, quarentena/adotado, manual sem medicação, múltiplos tratamentos e acesso negado. [003-FR-015, 003-CR-002]
 - [x] T055 Validar integração HTTP/concorrência e Android com os novos exemplos com fotos; preservar dados manuais, atualizar documentação e commit por contexto na developer. [003-FR-015, 003-CR-003]
 
-- [ ] T056 Acompanhar CI remota da automação e da jornada local documentada; distinguir perfil manual com oito fotos da suíte descartável da CI. [003-FR-015, 003-CR-003]
+- [x] T056 Acompanhar CI remota da automação e da jornada local documentada; distinguir os oito exemplos com fotos do manifesto e Aurora adicionada manualmente da suíte descartável da CI. CI #187 PASS; evidência em docs/reviews/ci-kanban-2026-11-03.md. [003-FR-015, 003-CR-003]

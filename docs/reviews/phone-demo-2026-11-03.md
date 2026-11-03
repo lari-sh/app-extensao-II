@@ -65,8 +65,9 @@ os brutos, prévias e a gravação anterior desatualizada foram removidos.
 05:33 — Equipe: perfis, desativação e restauração
 06:19 — Conferência pública: ficha, favorito, contato e Pix
 
-CI remota: conferir após os últimos contextos, conforme orientação da responsável;
-resultado registrado em `specs/006-management-search/validation.md`.
+CI remota confirmada: execução #187 (0761f3e), quatro jobs PASS,
+599 testes Flutter, 99,06% de cobertura, dez jornadas Android e APK entregue.
+Resultado em `docs/reviews/ci-kanban-2026-11-03.md`.
 
 ## Atualização do Kanban aprovado
 
