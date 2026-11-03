@@ -107,6 +107,11 @@ em T063. Nenhum email foi enviado ao professor. Use as contas já provisionadas 
 esta avaliação. Não declarar o envio de email remoto como validado pelos testes
 locais/da CI. iOS não foi compilado nem validado neste ambiente.
 
+Andamento de T063 em 03/11/2026: Site URL e redirects exatos do app foram
+aplicados e relidos na nuvem. SMTP personalizado segue desativado; entrega e
+conclusão dos fluxos de email continuam pendentes. Procedimento e evidências em
+[email hospedado](../development/cloud-auth-email.md).
+
 O vínculo GitHub não substitui os gates. A integração foi discutida com a
 responsável; a automação não habilitou deploy automático ou plano pago. Conferir
 as opções do painel antes de ligar produção a uma branch.

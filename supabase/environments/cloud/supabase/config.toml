@@ -1,0 +1,10 @@
+# Partial hosted Auth configuration. Apply only with explicit --workdir and ref.
+# SMTP credentials must be configured in the dashboard, never in this file.
+project_id = "abrigo-cloud-auth"
+
+[auth]
+site_url = "br.org.abrigodosanjos.app://auth/recovery"
+additional_redirect_urls = [
+  "br.org.abrigodosanjos.app://auth/invite",
+  "br.org.abrigodosanjos.app://auth/recovery",
+]

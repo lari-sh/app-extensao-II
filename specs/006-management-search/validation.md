@@ -724,3 +724,21 @@ pela API oficial com a autenticação Git existente, apenas em memória.
 
 Este registro constitui um commit documental próprio. Seu push dispara novas
 verificações, cujo resultado não é antecipado pelo PASS da execução #194.
+
+## Configuração parcial de email hospedado — 2026-11-03
+
+T063 em andamento. Inspeção do painel no Arc: Site URL localhost:3000,
+allow-list vazia e SMTP personalizado desativado. Aplicação pela CLI oficial
+Supabase 2.122.0, com project-ref explícito e configuração parcial: somente
+auth.site_url e auth.additional_redirect_urls alterados. Leitura posterior via
+config diff: 0 update, 8 remote-only, 0 local-only. Confirmações, MFA, limites,
+Storage e configurações de banco preservados. Nenhuma chave administrativa
+extraída e nenhum email enviado.
+
+Conferência de contrato: AndroidManifest declara /invite e /recovery no esquema
+br.org.abrigodosanjos.app; team_invitation.ts usa redirectTo /invite e
+SupabaseAuthService usa /recovery. Arquivo TOML parcial analisado e conferido contra
+esses destinos. Não houve alteração de código Flutter, design ou APK; esta etapa
+não constitui teste Android nem comprovação de entrega. Roteiro e dependências
+SMTP em docs/development/cloud-auth-email.md. T063 permanece aberta até entrega
+real e conclusão dos dois fluxos em conta autorizada.
