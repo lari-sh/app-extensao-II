@@ -13,9 +13,12 @@ void main() {
     (tester) async {
       expect(
         Uri.parse(const String.fromEnvironment('SUPABASE_URL')).host,
-        '10.0.2.2',
+        anyOf('10.0.2.2', '127.0.0.1'),
       );
-      final control = Uri.parse('http://10.0.2.2:58764');
+      final fixtureHost = Uri.parse(
+        const String.fromEnvironment('SUPABASE_URL'),
+      ).host;
+      final control = Uri.parse('http://$fixtureHost:58764');
       final credentials =
           jsonDecode((await http.get(control.resolve('/credentials'))).body)
               as Map;
@@ -27,11 +30,17 @@ void main() {
       await Supabase.instance.client.auth.signOut(scope: SignOutScope.local);
       await tester.pumpAndSettle();
       Future<void> visible(String text) async {
-        await tester.scrollUntilVisible(
-          find.text(text),
-          150,
-          scrollable: find.byType(Scrollable).first,
+        final target = find.text(text);
+        for (var i = 0; i < 100 && target.evaluate().isEmpty; i++) {
+          await tester.pump(const Duration(milliseconds: 100));
+          await Future<void>.delayed(const Duration(milliseconds: 100));
+        }
+        expect(
+          target,
+          findsOneWidget,
+          reason: 'Expected confirmed screen action: $text',
         );
+        await tester.ensureVisible(target);
         await tester.pumpAndSettle();
       }
 

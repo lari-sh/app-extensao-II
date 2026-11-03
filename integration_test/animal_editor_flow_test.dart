@@ -13,9 +13,10 @@ void main() {
     'Android creates a private animal and edits persisted data visible in a second session',
     (tester) async {
       const url = String.fromEnvironment('SUPABASE_URL');
-      expect(Uri.parse(url).host, '10.0.2.2');
+      expect(Uri.parse(url).host, anyOf('10.0.2.2', '127.0.0.1'));
+      final fixtureHost = Uri.parse(url).host;
       final response = await http.get(
-        Uri.parse('http://10.0.2.2:58763/fixture-password'),
+        Uri.parse('http://$fixtureHost:58763/fixture-password'),
       );
       final password = (jsonDecode(response.body) as Map)['password'] as String;
       final name = 'Validação Android ${DateTime.now().millisecondsSinceEpoch}';

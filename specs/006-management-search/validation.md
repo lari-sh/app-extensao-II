@@ -252,3 +252,25 @@ Celular físico MFZHZLA6TC49NJFI (Android 15): jornada management_search_flow PA
 32 segundos de execução após instalação; busca Kanban/Lista/Calendário, dia
 preservado e mudança de status confirmada por RPC. Essa execução utilizou 33b9bd2,
 antes da correção adicional da ordem de carregamento; CI completa ainda pendente.
+
+### Regressões no celular e APK para teste manual
+
+Suíte Flutter completa: **501 PASS**, cobertura **95,19% (6.623/6.958)**,
+sem exclusões adicionais. Execução com concorrência 2; tentativa anterior com
+concorrência padrão foi interrompida por falta de memória, não por assert.
+
+As jornadas de ficha, calendário e equipe aceitam apenas hosts locais de teste
+(10.0.2.2 ou 127.0.0.1). Controlador de convite recebe TEST_ANDROID_SERIAL,
+preservando emulator-5554 por padrão na CI. Análise estática PASS.
+
+No celular, calendário de medicamentos PASS após a correção de composição.
+Ficha bloqueada por INSTALL_FAILED_USER_RESTRICTED nessa tentativa; Equipe
+revelou uma segunda espera incorreta: scrollUntilVisible era chamado enquanto
+o conteúdo estava oculto na revalidação. Helper agora aguarda a ação confirmada
+antes de ensureVisible; rerun remoto pendente. Não registrar a suíte como aprovada.
+
+APK normal recompilado, instalado e aberto no celular. Login feito com
+fixture-admin@example.test, administrador local persistente para uso manual;
+nenhuma credencial foi incluída no código ou logs. Hierarquia Android confirmou
+Kanban/Olá, equipe e ação Equipe. Automação encerrada no aparelho para não
+interferir no teste manual da responsável. Backend permanece local, via USB.

@@ -13,11 +13,12 @@ void main() {
     tester,
   ) async {
     const url = String.fromEnvironment('SUPABASE_URL');
-    expect(Uri.parse(url).host, '10.0.2.2');
+    expect(Uri.parse(url).host, anyOf('10.0.2.2', '127.0.0.1'));
+    final fixtureHost = Uri.parse(url).host;
     final password =
         (jsonDecode(
                   (await http.get(
-                    Uri.parse('http://10.0.2.2:58763/fixture-password'),
+                    Uri.parse('http://$fixtureHost:58763/fixture-password'),
                   )).body,
                 )
                 as Map)['password']

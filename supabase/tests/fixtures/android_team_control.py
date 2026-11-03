@@ -38,7 +38,7 @@ class Handler(BaseHTTPRequestHandler):
             adb=shutil.which('adb')
             if not adb:
                 adb=str(Path(os.environ['LOCALAPPDATA'])/'Android/Sdk/platform-tools/adb.exe')
-            result=subprocess.run([adb,'-s','emulator-5554','shell','am','start','-a','android.intent.action.VIEW','-d',shlex.quote(callback),'br.org.abrigodosanjos.abrigo_dos_anjos'],capture_output=True,timeout=20)
+            result=subprocess.run([adb,'-s',os.environ.get('TEST_ANDROID_SERIAL','emulator-5554'),'shell','am','start','-a','android.intent.action.VIEW','-d',shlex.quote(callback),'br.org.abrigodosanjos.abrigo_dos_anjos'],capture_output=True,timeout=20)
             assert result.returncode==0
             self.reply({'opened':True})
         except Exception:
