@@ -159,7 +159,7 @@ class DashboardViewModel extends ChangeNotifier {
     };
   }
 
-  String get subtitle => 'Manejo · $total animais';
+  String get subtitle => 'Total: $total ${total == 1 ? 'animal' : 'animais'}';
   void _publish(DashboardState value) {
     if (!_disposed) {
       _state = value;

@@ -130,6 +130,7 @@ void main() {
         final field = find.byKey(const ValueKey('management-search'));
         final point = tester.getTopLeft(field);
         await tester.enterText(field, 'Luna');
+        expect(tester.getTopLeft(field), point);
         await tester.testTextInput.receiveAction(TextInputAction.search);
         for (var i = 0; i < 20 && search.state.loading; i++) {
           await tester.pump(const Duration(milliseconds: 20));
@@ -150,6 +151,7 @@ void main() {
         await tester.tap(find.text('Calendário'));
         await tester.pumpAndSettle();
         expect(find.byType(MedicationCalendarPanel), findsOneWidget);
+        final calendarPoint = tester.getTopLeft(field);
         expect(find.text('#A0001'), findsNothing);
         expect(find.text('Medicações do dia para a busca'), findsOneWidget);
         await calendar.selectDay('2026-11-03');
@@ -165,7 +167,7 @@ void main() {
         await tester.pumpAndSettle();
         expect(calendar.state.selectedDay, '2026-11-03');
         expect(calendar.isAnimalFiltered, false);
-        expect(tester.getTopLeft(field), point);
+        expect(tester.getTopLeft(field), calendarPoint);
         expect(tester.takeException(), isNull);
       },
     );

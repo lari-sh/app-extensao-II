@@ -58,5 +58,7 @@ selecionado. No Calendário, manter a data e mostrar somente as medicações do 
 
 ## Cadastro visível e altura do Kanban — proposta de 2026-11-02
 
-- [ ] T030 Preparar e revisar proposta de + Animal no cabeçalho, Atualizar no menu e remoção da reserva inferior de 90 dp do Kanban/Lista, mantendo SafeArea; validar 320/390 px e solicitar aprovação antes de mudar Flutter. [006-FR-007, 006-CR-001]
+- [x] T030 Preparar e revisar proposta de + Animal no cabeçalho, Atualizar no menu e remoção da reserva inferior de 90 dp do Kanban/Lista, mantendo SafeArea; validar 320/390 px e solicitar aprovação antes de mudar Flutter. [006-FR-007, 006-CR-001]
 - [ ] T031 Após aprovação de T030, reposicionar cadastro preservando regras de acesso/visibilidade, estender área útil e testar navegação, altura, toque e Android; documentar e publicar por contexto. [006-FR-006, 006-FR-007, 006-CR-001]
+
+- [ ] T032 Aplicar ajustes aprovados: botão vermelho Adicionar animal no cabeçalho, rótulo Total com contagem real, adaptação compacta, testes de navegação/altura e atualização do APK no celular. [006-FR-007, 006-CR-001]

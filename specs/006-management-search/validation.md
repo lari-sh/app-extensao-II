@@ -369,3 +369,24 @@ vertical das colunas. QA HTML em 320/390 px sem overflow do cabeçalho; alvo do
 botão 92 × 48 px. Sem alteração no Flutter, no APK ou nos dados. Aprovação visual
 pendente conforme a constituição; tarefas T030/T031 registradas para retomada por
 speckit-implement, sem duplicar tarefas na skill de constituição.
+
+### Cadastro no topo, vermelho e Total — aprovação aplicada
+
+Botão vermelho #C51D2A com texto completo Adicionar animal no cabeçalho; versão
+compacta permanece no cabeçalho abaixo do título. FAB removido. Atualizar migrou
+para o menu administrativo. Total é derivado das contagens reais do DashboardVM,
+com singular/plural. Exemplos do design também usam Total. Padding inferior do
+Kanban/Lista reduzido de 90 para 12, preservando SafeArea.
+
+27 testes específicos/regressão PASS: botão/cores/alvo mínimo de 48 dp, abrir
+cadastro e retornar sem perder modo, visibilidade nos perfis/modos, altura real
+das colunas até 12 dp da área útil, total derivado e busca preservada na digitação.
+A regressão antiga assumia cabeçalho de altura idêntica entre todos os modos;
+foi adaptada para a nova altura contextual, mantendo estabilidade durante digitação
+e ao limpar no mesmo modo. Não foi removida a verificação de posição/overflow.
+
+Suíte final **532 PASS**, cobertura **95,32% (6.697/7.026)**, sem exclusões adicionais.
+Formato e análise estática PASS. APK debug normal compilado; instalação no celular
+em andamento. Jornadas Android atualizadas para o novo botão, ainda não reexecutadas
+nesta etapa. CI remota específica também pendente. Proposta mostrada no navegador
+com cor/texto corretos, captura atualizada. Nenhuma alteração de largura do Kanban.

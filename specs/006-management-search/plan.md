@@ -154,3 +154,14 @@ Testar gata fêmea/gato macho/gato fêmea, espécie ou sexo isolado, nome combin
 maiúsculas/acentos/plurais, termos desconhecidos preservados, contradições,
 limpeza, filtros existentes, erro de rede, resposta tardia e nenhum acesso privado.
 Sem mudança de composição; placeholder passa a indicar nome/espécie/sexo.
+
+
+## Cadastro no cabeçalho — ajustes aprovados
+
+Substituir FAB por botão vermelho Adicionar animal no cabeçalho, com rótulo
+Total: quantidade de animais derivado dos totais do VM. Atualizar passa ao menu.
+Kanban/Lista reduzem padding bottom de 90 para 12, sob SafeArea. Em largura interna
+menor que 320 dp ou texto ampliado, a ação fica abaixo do título dentro do mesmo
+cabeçalho. Manter visibilidade/permissões existentes; não alterar larguras das
+colunas. A posição vertical da busca pode acompanhar a altura contextual do
+cabeçalho, mas não muda ao digitar nem ao limpar no mesmo modo.

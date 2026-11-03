@@ -92,3 +92,14 @@ já aplicada ao aplicativo. T030 aguarda aprovação; T031 depende dela.
 
 Referência sobre ações no topo, sem impor esta disposição específica:
 https://developer.android.com/develop/ui/compose/quick-guides/content/display-app-bar
+
+
+## DESIGN-ADD-TOP-001 — aprovação e ajustes explícitos
+
+Local aprovado pela responsável: cabeçalho. Ajustes exigidos em seguida:
+botão vermelho da marca (#C51D2A), texto completo Adicionar animal, e trocar
+Manejo · quantidade por Total: quantidade de animais, usando contagem real no VM.
+Atualizar no menu e retirada do FAB/reserva de 90 dp mantidos. Em 320 dp ou texto
+ampliado, o botão continua no cabeçalho abaixo do título, sem abreviar/cortar.
+Sem nova confirmação para esses ajustes expressamente solicitados. Larguras dos
+cartões permanecem fora desta mudança; T019/T020 ainda pendentes.

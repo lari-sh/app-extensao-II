@@ -73,6 +73,7 @@ void main() {
       addTearDown(vm.dispose);
       await vm.load();
       expect(vm.total, 75);
+      expect(vm.subtitle, 'Total: 75 animais');
       expect(vm.state.pages[AnimalStatus.available]!.items.length, 1);
       expect(vm.canManage, true);
       vm.setListMode(true);

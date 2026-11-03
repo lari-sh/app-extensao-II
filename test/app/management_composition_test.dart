@@ -66,7 +66,9 @@ void main() {
       tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
       await tester.pumpAndSettle();
       expect(clinical.repository.calls.length, greaterThan(reads));
-      await tester.tap(find.byTooltip('Atualizar painel'));
+      await tester.tap(find.byTooltip('Administração'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Atualizar painel'));
       await tester.pumpAndSettle();
       await tester.tap(find.byTooltip('Administração'));
       await tester.pumpAndSettle();
