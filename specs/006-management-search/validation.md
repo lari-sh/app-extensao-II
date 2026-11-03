@@ -422,3 +422,21 @@ Suíte completa **532 PASS**, cobertura **95,31% (6.684/7.013)**. Formato/análi
 Protótipo e captura add-animal-menu-v4.png atualizados, menu aberto para revisão.
 APK normal compilado; instalação/conferência física em andamento. CI remota dessa
 revisão ainda não confirmada, sem reaproveitar aprovação de commits anteriores.
+
+### Conferência no celular — fonte 693a28a
+
+APK normal instalado e aberto como administrador. Checagem real no Android PASS:
+abrir menu Administração, tocar Adicionar animal, encontrar a tela Cadastrar animal,
+voltar ao Kanban e reabrir o menu. Captura local confirmou texto vermelho, Equipe,
+Atualizar e Sair, título sem compressão e Total: 72 animais derivado dos dados.
+Nenhum cadastro foi salvo; app ficou logado no painel com o menu aberto.
+
+A pós-condição do helper anterior ainda esperava Adicionar animal fora do menu;
+foi corrigida para verificar após abrir o menu, preservando a checagem real de
+cadastro e retorno. Não houve alteração adicional de produto para passar o helper.
+T031/T032/T034 concluídas sob a decisão vigente; T033 substituída, sem implementação.
+
+CI remota da fonte 693a28a consultada em execução, ainda sem resultado final:
+https://github.com/lari-sh/app-extensao-II/actions/runs/41560376615
+As evidências 532 testes/95,31% são locais. T016/T024/T028 mantêm a pendência remota;
+este fechamento documental não declara aprovação completa da esteira.

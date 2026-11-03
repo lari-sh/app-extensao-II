@@ -275,8 +275,9 @@ disponível durante a retenção da CI.
 
 A busca administrativa aguarda Buscar no teclado, preservando cartões e foco
 na digitação. Resultados permanecem no Kanban/Lista ou nas medicações do dia.
-Menu ⋮ aprovado no cabeçalho reúne Equipe e acessos (administradores) e Sair;
-Atualizar e Voltar permanecem no topo, sem botão Equipe dentro do calendário.
+Menu ⋮ no cabeçalho reúne Adicionar animal (vermelho), Equipe e acessos
+(administradores), Atualizar painel e Sair. Voltar permanece à esquerda; não há
+botão Equipe dentro do calendário.
 
 No catálogo público, digite nome, espécie e/ou sexo: `gata fêmea`, `gato macho`,
 `gato fêmea` ou `Luna gata fêmea`. Confirme Buscar no teclado. Os termos reconhecidos
