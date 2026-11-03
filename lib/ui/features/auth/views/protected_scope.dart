@@ -59,6 +59,8 @@ class _ProtectedScopeState extends State<ProtectedScope> {
   void didUpdateWidget(covariant ProtectedScope oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.session != widget.session) {
+      _privateContent = null;
+      _generation = -1;
       oldWidget.session.removeListener(_changed);
       widget.session.addListener(_changed);
     }

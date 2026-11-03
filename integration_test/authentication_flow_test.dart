@@ -14,9 +14,10 @@ void main() {
   ) async {
     expect(
       Uri.parse(const String.fromEnvironment('SUPABASE_URL')).host,
-      '10.0.2.2',
+      anyOf('10.0.2.2', '127.0.0.1'),
     );
-    final control = Uri.parse('http://10.0.2.2:58763');
+    final host = Uri.parse(const String.fromEnvironment('SUPABASE_URL')).host;
+    final control = Uri.parse('http://$host:58763');
     final credentials = await http.get(control.resolve('/fixture-password'));
     expect(credentials.statusCode, 200);
     final password =

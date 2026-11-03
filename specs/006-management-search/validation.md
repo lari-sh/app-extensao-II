@@ -521,3 +521,17 @@ Seis testes específicos PASS (três novos): catálogo confirma pela navegação
 ## Sessão, callbacks e dados inválidos — ampliação de cobertura
 
 33 testes específicos PASS (oito novos): recuperação de senha verificada pelo SDK com refresh de token e consumidor tardio; erro real de sessão inicial sanitizado; sessão expirada preserva estado recuperável em falha de transporte; leitura de acesso tardia é cancelada após trocar senha; falha tipada no stream; DTO recusa foto/atributos inválidos, datas impossíveis, intervalo não inteiro e correção sem motivo; launcher padrão solicita aplicativo externo e Result converte timeout em falha retryable. Sem pacotes novos, sem API interna do SDK e sem exclusões de cobertura. Última medição integral antes deste lote: 571 PASS, 97,89%.
+
+
+## Troca de instância da sessão — regressão de privacidade (2026-11-03)
+
+Teste Widget reproduziu (RED) retenção do conteúdo privado da primeira sessão
+quando outra sessão autorizada com mesma privateGeneration substituía a instância.
+ProtectedScope agora descarta o conteúdo e reinicia a geração antes de conectar
+os listeners da nova sessão. GREEN: conteúdo da conta anterior desaparece e seus
+eventos posteriores não afetam a nova conta. Sem alteração de layout.
+46 testes direcionados de auth/permissões PASS; suíte integral 580 PASS,
+6958/7077 linhas = 98,32%, sem exclusões. Authentication_flow agora aceita os dois
+hosts locais para executar também no celular. APK de teste compilado/instalado;
+jornada física interrompida pelo bloqueio da tela, aguardando desbloqueio da
+responsável. T048 permanece aberta para essa validação, sem declarar Android PASS.

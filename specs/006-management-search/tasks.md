@@ -96,3 +96,6 @@ selecionado. No Calendário, manter a data e mostrar somente as medicações do 
 
 
 - [x] T047 Organizar Vacinas na ficha pública com nome antes da data, preservando todos os registros/reforços; atualizar protótipo, testar VM/Widget em tela pequena, validar Android e commit por contexto. [006-FR-012]
+
+
+- [ ] T048 Corrigir conteúdo privado retido quando a instância de sessão é substituída por outra conta com mesma geração; regressão Widget, gates e Android, sem alterar o layout. [006-FR-006, 006-CR-001]
