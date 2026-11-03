@@ -50,6 +50,58 @@ FakeMedicationsRepository repository() =>
           : Success(page(args.first as String));
 void main() {
   test(
+    'refresh and today initialize an unopened calendar and repeated initialize refreshes',
+    () async {
+      for (final action in ['refresh', 'today', 'initialize']) {
+        final repo = repository();
+        final vm = MedicationCalendarViewModel(
+          repo,
+          now: () => DateTime.utc(2026, 11, 1),
+        );
+        if (action == 'refresh') {
+          await vm.refresh();
+        } else if (action == 'today') {
+          await vm.today();
+        } else {
+          await vm.initialize();
+          await vm.initialize();
+        }
+        expect(vm.state.selectedDay, '2026-11-01');
+        expect(vm.state.loadingDay, isFalse);
+        expect(vm.state.loadingMonth, isFalse);
+        expect(
+          repo.calls.where((c) => c.method == 'loadMonth').length,
+          action == 'initialize' ? 2 : 1,
+        );
+        vm.dispose();
+      }
+    },
+  );
+  test(
+    'unexpected day transport exception is sanitized without clearing loaded month',
+    () async {
+      final repo = repository();
+      final vm = MedicationCalendarViewModel(
+        repo,
+        now: () => DateTime.utc(2026, 11, 1),
+      );
+      addTearDown(vm.dispose);
+      await vm.initialize();
+      final loaded = vm.state.monthData;
+      final base = repo.handler!;
+      repo.handler = (m, a) async {
+        if (m == 'loadDay') throw StateError('secret transport data');
+        return await base(m, a);
+      };
+      await vm.selectDay('2026-11-02');
+      expect(vm.state.monthData, loaded);
+      expect(vm.state.loadingDay, isFalse);
+      expect(vm.state.dayError, isNotNull);
+      expect(vm.state.dayError, isNot(contains('secret')));
+    },
+  );
+
+  test(
     'civil grid supports 28,29,30,31 days, Sunday offset and year rollover',
     () async {
       final vm = MedicationCalendarViewModel(

@@ -555,3 +555,8 @@ Após desbloqueio e aceite da instalação por USB, authentication_flow_test.dar
 ## Atualização externa de foto — ampliação de cobertura (2026-11-03)
 
 11 testes de PhotoUploadViewModel PASS, incluindo novo cenário: atualização da foto já salva do mesmo animal preserva o JPEG selecionado para envio e a opção de recuperação. Falha de leitura mostra mensagem amigável e não apaga a seleção nem marca o envio como confirmado. Bytes do exemplo Amora versionados, sem rede. Análise estática PASS.
+
+
+## Agenda: abertura e transporte — 2026-11-03
+
+14 testes de MedicationCalendarViewModel PASS, incluindo abertura por Hoje/Atualizar antes da carga inicial, reinicialização explícita e exceção inesperada ao consultar outro dia. O mês carregado é preservado, loading é encerrado e a mensagem não expõe detalhes internos. Análise estática/formato PASS.
