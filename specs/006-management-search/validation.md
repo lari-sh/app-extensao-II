@@ -811,3 +811,19 @@ caixa ou de ação humana. Banco continua pending/accepted_at nulo. Não reenvia
 automaticamente; destinatário alternativo solicitado para comparação autorizada.
 Entrega SMTP declarada pelo provedor e recebimento real permanecem evidências
 distintas, e T063 não foi encerrada.
+
+## Convite recebido no Gmail; callback não concluído — 2026-11-03
+
+Segundo destinatário autorizado recebeu um único convite enviado pelo APK às
+20:06:23 (São Paulo). Recebimento confirmado pela responsável; abertura relatada
+como navegador em branco. Banco: pending/accepted_at nulo, enquanto o Auth já
+apresentava confirmação e last_sign_in_at às 23:06:35 UTC. Não equivale a aceite.
+O link com wrappers Google/Brevo não foi aberto pela automação nem versionado.
+
+Inspeção do painel Brevo: Tracking oferece anonimização, mantendo cliques e
+aberturas rastreados; nada alterado. MCP list_devices encontrou celular Android
+15. Consulta ADB resolve-activity de auth/invite sem token identificou MainActivity
+corretamente, sem navegação ou mudança de sessão. Isso não comprova callback real.
+Pendente distinguir abertura no computador versus no celular, concluir diagnóstico
+e validar aceite/recuperação. Sem mudança no código/APK, novo teste de cobertura
+ou alegação de fluxo aprovado nesta etapa. T063 permanece aberta.

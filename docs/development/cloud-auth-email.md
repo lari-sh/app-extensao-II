@@ -29,6 +29,35 @@ mediante autorização, para um ensaio comparativo antes de concluir o diagnóst
 Não modificar filtros antispam pessoais nem atribuir causa definitiva ao Proton
 ou ao domínio do remetente sem evidência adicional.
 
+## Comparação com Gmail e retorno ao aplicativo — 03/11/2026
+
+Após autorização de um segundo destinatário, um único convite de funcionário foi
+enviado pelo APK às 23:06:23 UTC (20:06:23 em São Paulo). A responsável confirmou
+recebimento no Gmail, mas relatou navegador em branco ao abrir o link. O convite
+permaneceu pending, sem accepted_at; o Auth já apresentava email confirmado e
+last_sign_in_at às 23:06:35 UTC. Isso não comprova aceite, definição de senha ou
+recebimento da sessão pelo aplicativo. Não atribuir o consumo da confirmação à
+ação humana ou a um scanner sem evidência.
+
+O endereço apresentado contém um redirecionamento do Google e outro de tracking
+do Brevo. Não foi seguido pela automação nem armazenado no repositório. A
+documentação Supabase alerta para reescrita de links por provedores de email,
+mas essa evidência isolada não determina a causa da falha observada.
+
+No Brevo, Settings → Transactional email → Tracking expôs apenas Anonymous
+email tracking, cuja descrição mantém aberturas e cliques rastreados, removendo
+a associação ao contato. Nenhuma opção foi alterada; anonimização não deve ser
+registrada como desativação da reescrita. Não adicionar atributos ou cabeçalhos
+de outros provedores aos templates como suposta correção.
+
+MCP oficial Dart/Flutter list_devices confirmou o Android físico conectado.
+ADB cmd package resolve-activity, com o endereço público auth/invite sem token,
+resolveu para MainActivity do APK instalado. Essa consulta não abriu o link,
+não mudou a sessão e não valida o percurso Gmail/Brevo/Auth até o app.
+Solicitada confirmação de onde ocorreu a abertura: celular com APK instalado
+ou Arc no computador. O fluxo atual exige abertura no Android; não existe
+aplicação web de aceite no computador. Recuperação e aceite continuam pendentes.
+
 ## Configuração aplicada em 03/11/2026
 
 O painel Auth apresentava Site URL `http://localhost:3000` e nenhum redirect.
