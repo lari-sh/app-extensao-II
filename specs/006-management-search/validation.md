@@ -540,3 +540,8 @@ responsável. T048 permanece aberta para essa validação, sem declarar Android 
 ## Cadastro e lista administrativa — ampliação de cobertura (2026-11-03)
 
 Três testes Widget novos PASS: paginação/atualização e retorno de cadastro/edição na lista administrativa; falha de carga e salvamento incerto com consulta/reenvio; remoção de vacina e mudança do tipo de cuidado interno sem alterar a data pública de vermifugação. Análise estática PASS. Cenários de apresentação Amora/Mel, sem gravação no backend.
+
+
+## Aplicação de medicamentos — ampliação de cobertura (2026-11-03)
+
+Quatro testes novos PASS: carregamento e retomada do aplicativo, fechar detalhes, confirmação antes de repetir a mesma operação, histórico de cancelamento preservado após cursor repetido e revalidação explícita ao negar conclusão. UI e ViewModel reais com Repository controlado; não registra doses em animais reais nem altera o backend de apresentação. Análise estática PASS.
