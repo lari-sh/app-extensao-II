@@ -1,8 +1,35 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:abrigo_dos_anjos/data/services/url_launcher_link_service.dart';
 import 'package:abrigo_dos_anjos/utils/result.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  test(
+    'default platform launcher requests external application for official contact',
+    () async {
+      const channel = MethodChannel('plugins.flutter.io/url_launcher');
+      final calls = <MethodCall>[];
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(channel, (call) async {
+            calls.add(call);
+            return true;
+          });
+      addTearDown(
+        () => TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+            .setMockMethodCallHandler(channel, null),
+      );
+      expect(
+        await UrlLauncherLinkService().open(
+          Uri.parse('https://wa.me/5534991378936'),
+        ),
+        isA<Success<Unit>>(),
+      );
+      expect(calls.single.method, 'launch');
+      expect((calls.single.arguments as Map)['useWebView'], isFalse);
+    },
+  );
+
   test(
     'accepts HTTPS opening and translates rejection and exceptions',
     () async {

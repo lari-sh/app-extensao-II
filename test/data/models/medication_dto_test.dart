@@ -4,6 +4,52 @@ import '../../support/medication_fixtures.dart';
 
 void main() {
   test(
+    'rejects normalized invalid dates, noninteger intervals and invalid correction events',
+    () {
+      expect(
+        () => MedicationDto.parse(MedicationResponseType.command, {
+          ...medicationCommandJson(),
+          'server_now': '2026-02-30T10:00:00Z',
+        }),
+        throwsFormatException,
+      );
+      expect(
+        () => MedicationDto.parse(MedicationResponseType.treatment, {
+          ...medicationTreatmentJson(),
+          'interval_minutes': '480',
+        }),
+        throwsFormatException,
+      );
+      final event = {
+        'id': medicationApplicationId,
+        'application_id': medicationApplicationId,
+        'event_type': 'completed',
+        'actor_id': medicationAnimalId,
+        'actor_label': 'Funcionário de teste',
+        'occurred_at': '2026-11-01T12:00:00Z',
+        'occurred_local_date': '2026-11-01',
+        'occurred_local_time': '09:00',
+        'application_version': 2,
+      };
+      for (final change in [
+        {'event_type': 'unrecognized'},
+        {'event_type': 'completion_reversed', 'reason': null},
+      ]) {
+        expect(
+          () => MedicationDto.parse(MedicationResponseType.history, {
+            'application': medicationApplicationJson(),
+            'items': [
+              {...event, ...change},
+            ],
+            'next_cursor': null,
+          }),
+          throwsFormatException,
+        );
+      }
+    },
+  );
+
+  test(
     'complete application, audit and calendar pages are validated deeply',
     () {
       final application = {

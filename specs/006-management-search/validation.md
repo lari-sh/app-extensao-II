@@ -516,3 +516,8 @@ Sete testes Widget novos PASS: recarregar após falha, paginação sem duplicaç
 ## Catálogo, favoritos e contatos — ampliação de cobertura
 
 Seis testes específicos PASS (três novos): catálogo confirma pela navegação inferior e combina porte/sexo/espécie; lista pública com JPEGs recupera falha de favoritos, pagina sem duplicação, muda favorito e recarrega após fechar a ficha; contato recupera falha de leitura, mostra abertura em andamento, sanitiza erro da plataforma e revalida disponibilidade antes de abrir canal. Análise estática PASS. Medição integral anterior: 568 PASS, 6880/7075 = 97,24%; nova medição em execução, sem usar amostra parcial como cobertura global.
+
+
+## Sessão, callbacks e dados inválidos — ampliação de cobertura
+
+33 testes específicos PASS (oito novos): recuperação de senha verificada pelo SDK com refresh de token e consumidor tardio; erro real de sessão inicial sanitizado; sessão expirada preserva estado recuperável em falha de transporte; leitura de acesso tardia é cancelada após trocar senha; falha tipada no stream; DTO recusa foto/atributos inválidos, datas impossíveis, intervalo não inteiro e correção sem motivo; launcher padrão solicita aplicativo externo e Result converte timeout em falha retryable. Sem pacotes novos, sem API interna do SDK e sem exclusões de cobertura. Última medição integral antes deste lote: 571 PASS, 97,89%.

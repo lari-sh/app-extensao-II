@@ -17,6 +17,23 @@ void main() {
     'primary_photo_id': null,
   };
   test(
+    'rejects invalid photo and optional public attribute types and lengths',
+    () {
+      for (final change in <Map<String, dynamic>>[
+        {'primary_photo_id': 42},
+        {'color': false},
+        {'temperament': 12},
+        {'color': '  '},
+        {'temperament': List.filled(121, 'a').join()},
+      ]) {
+        expect(
+          () => AnimalDto.fromJson({...json, ...change}),
+          throwsFormatException,
+        );
+      }
+    },
+  );
+  test(
     'public profile validates dates and rejects private vaccination attributes',
     () {
       expect(AnimalDto.fromJson(json).values['vaccinations'], isEmpty);

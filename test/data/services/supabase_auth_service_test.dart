@@ -12,6 +12,51 @@ import '../../support/auth_fixtures.dart';
 
 void main() {
   test(
+    'expired stored session stays recoverable on transport stream error and initial event',
+    () async {
+      final client = SupabaseClient(
+        'https://example.test',
+        'public',
+        authOptions: const AuthClientOptions(autoRefreshToken: false),
+      );
+      addTearDown(client.dispose);
+      await client.auth.setInitialSession(
+        jsonEncode(
+          authSessionJson(
+            expiresAt: DateTime.now().millisecondsSinceEpoch ~/ 1000 - 60,
+          ),
+        ),
+      );
+      final events = StreamController<AuthState>();
+      addTearDown(events.close);
+      final service = SupabaseAuthService(client, events: events.stream);
+      final received = <Result<SessionDto>>[];
+      final sub = service.watchAccess().listen(received.add);
+      addTearDown(sub.cancel);
+      events.addError(StateError('private transport detail'));
+      events.add(
+        AuthState(AuthChangeEvent.initialSession, client.auth.currentSession),
+      );
+      await Future<void>.delayed(Duration.zero);
+      expect(received, hasLength(2));
+      for (final result in received) {
+        expect(
+          (result as Success<SessionDto>).value.recoverableExpiration,
+          isTrue,
+        );
+      }
+      expect(
+        await service.signIn(
+          'fixture@example.test',
+          'test-only',
+          remember: false,
+        ),
+        isA<Failure<SessionDto>>(),
+      );
+    },
+  );
+
+  test(
     'team permission is read from verified access context, never user metadata',
     () async {
       var serverRole = 'administrator';

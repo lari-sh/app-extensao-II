@@ -8,6 +8,74 @@ import 'package:abrigo_dos_anjos/domain/models/auth_callback.dart';
 import '../../support/auth_fixtures.dart';
 
 void main() {
+  test(
+    'recovery survives refresh and delivers a buffered verified intent to late subscriber',
+    () async {
+      var refreshed = false;
+      final client = SupabaseClient(
+        'https://example.test',
+        'public',
+        authOptions: const AuthClientOptions(autoRefreshToken: false),
+        httpClient: MockClient(
+          (r) async => http.Response(
+            jsonEncode(
+              authSessionJson(
+                expiresAt:
+                    DateTime.now().millisecondsSinceEpoch ~/ 1000 +
+                    (refreshed ? 7200 : 3600),
+              ),
+            ),
+            200,
+            request: r,
+            headers: {'content-type': 'application/json'},
+          ),
+        ),
+      );
+      final service = SupabaseAuthCallbackService();
+      service.start(client);
+      expect(
+        service.capture(Uri.parse('br.org.abrigodosanjos.app://auth/recovery')),
+        isTrue,
+      );
+      await client.auth.verifyOTP(
+        email: 'fixture@example.test',
+        token: '123456',
+        type: OtpType.recovery,
+      );
+      await Future<void>.delayed(Duration.zero);
+      expect(await service.watch().first, AuthCallbackKind.recovery);
+      expect(service.isVerifiedRecovery(client), isTrue);
+      refreshed = true;
+      await client.auth.refreshSession();
+      await Future<void>.delayed(Duration.zero);
+      expect(service.isVerifiedRecovery(client), isTrue);
+      await service.dispose();
+      await client.dispose();
+    },
+  );
+  test(
+    'SDK initial-session failure finishes redacted callback without granting access',
+    () async {
+      final client = SupabaseClient(
+        'https://example.test',
+        'public',
+        authOptions: const AuthClientOptions(autoRefreshToken: false),
+      );
+      final service = SupabaseAuthCallbackService();
+      service.start(client);
+      service.capture(Uri.parse('br.org.abrigodosanjos.app://auth/invite'));
+      final route = service.watch().first;
+      await expectLater(
+        client.auth.setInitialSession('{}'),
+        throwsA(isA<AuthException>()),
+      );
+      expect(await route, AuthCallbackKind.invitation);
+      expect(service.isVerifiedRecovery(client), isFalse);
+      await service.dispose();
+      await client.dispose();
+    },
+  );
+
   for (final lateSubscriber in [false, true]) {
     test(
       'verified SDK invite event is delivered once to ${lateSubscriber ? 'late' : 'current'} subscriber without URI data',

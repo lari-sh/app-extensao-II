@@ -9,6 +9,40 @@ import '../../support/fakes/fake_auth_service.dart';
 
 void main() {
   test(
+    'late access cannot restore privilege after password recovery and failures remain typed',
+    () async {
+      final gate = Completer<Result<SessionDto>>();
+      final service = FakeAuthService()
+        ..handler = (m, a) => m == 'currentAccess'
+            ? gate.future
+            : Future.value(const Success(Unit.value));
+      addTearDown(service.dispose);
+      final repo = AuthRepositoryImpl(service);
+      final read = repo.currentAccess();
+      await Future<void>.delayed(Duration.zero);
+      expect(
+        await repo.updateRecoveredPassword('new-test-password'),
+        isA<Success<Unit>>(),
+      );
+      gate.complete(
+        const Success(SessionDto(userId: 'u', isStaffActive: true)),
+      );
+      expect(
+        (await read as Failure<SessionAccess>).failure.code,
+        FailureCode.cancelled,
+      );
+      final other = AuthRepositoryImpl(service);
+      final values = <Result<SessionAccess>>[];
+      final subscription = other.watchAccess().listen(values.add);
+      final failure = AppFailure(FailureCode.network);
+      service.events.add(Failure<SessionDto>(failure));
+      await Future<void>.delayed(Duration.zero);
+      expect((values.single as Failure<SessionAccess>).failure, same(failure));
+      await subscription.cancel();
+    },
+  );
+
+  test(
     'team capability requires matching server role and explicit permission',
     () async {
       final service = FakeAuthService();
