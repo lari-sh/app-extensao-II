@@ -390,3 +390,19 @@ Formato e análise estática PASS. APK debug normal compilado; instalação no c
 em andamento. Jornadas Android atualizadas para o novo botão, ainda não reexecutadas
 nesta etapa. CI remota específica também pendente. Proposta mostrada no navegador
 com cor/texto corretos, captura atualizada. Nenhuma alteração de largura do Kanban.
+
+### Feedback do cabeçalho e revisão v3
+
+APK 9a791a6 foi instalado e aberto como administrador; captura real confirmou
+Adicionar animal vermelho, Total: 72 animais derivado dos dados e Kanban estendido.
+Uma tentativa de automação por hierarquia Android não confirmou a abertura do
+cadastro; não registrar esse clique como PASS. Widget/composição e suíte 532 PASS
+permanecem evidências locais distintas, sem afirmar nova jornada nativa completa.
+
+A responsável rejeitou o botão na mesma linha por comprimir o título. Nova prévia
+HTML coloca a ação em linha própria abaixo do cabeçalho em todas as larguras,
+alinhada à direita. QA: título em uma linha em 320/390 px, largura útil 184,4/254,4
+px, sem overflow; botão abaixo do título, mantendo texto completo e cor vermelha.
+Captura em previews/add-animal-top-row-v3.png e página atualizada no navegador.
+A revisão v3 aguarda aprovação antes de substituir a posição no aplicativo.
+T031/T032 permanecem abertas; T033 registra o refinamento solicitado.

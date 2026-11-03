@@ -103,3 +103,12 @@ Atualizar no menu e retirada do FAB/reserva de 90 dp mantidos. Em 320 dp ou text
 ampliado, o botão continua no cabeçalho abaixo do título, sem abreviar/cortar.
 Sem nova confirmação para esses ajustes expressamente solicitados. Larguras dos
 cartões permanecem fora desta mudança; T019/T020 ainda pendentes.
+
+
+## Feedback subsequente — cabeçalho comprimido
+
+A responsável rejeitou o botão com texto completo na mesma linha por comprimir
+o título. Cor vermelha, rótulo completo e Total permanecem solicitados. Revisão v3
+propõe uma linha própria abaixo do título em todas as larguras, alinhada à direita,
+sem comprimir o texto e preservando a extensão inferior do Kanban. Nova disposição
+aguarda avaliação; não está aplicada ao Flutter. T033 acompanha a revisão.

@@ -62,3 +62,5 @@ selecionado. No Calendário, manter a data e mostrar somente as medicações do 
 - [ ] T031 Após aprovação de T030, reposicionar cadastro preservando regras de acesso/visibilidade, estender área útil e testar navegação, altura, toque e Android; documentar e publicar por contexto. [006-FR-006, 006-FR-007, 006-CR-001]
 
 - [ ] T032 Aplicar ajustes aprovados: botão vermelho Adicionar animal no cabeçalho, rótulo Total com contagem real, adaptação compacta, testes de navegação/altura e atualização do APK no celular. [006-FR-007, 006-CR-001]
+
+- [ ] T033 Revisar a posição do botão em linha própria abaixo do título após rejeição da compressão lateral; mostrar proposta sem abreviar texto, obter aprovação e então ajustar Flutter/validar. [006-FR-007, 006-CR-001]
