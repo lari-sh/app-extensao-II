@@ -506,3 +506,8 @@ Não declarar CI remota aprovada enquanto estiver em execução.
 ## Recuperação do painel — ampliação de cobertura
 
 Sete testes novos PASS: falha/revogação na revalidação, erro de primeira página e paginação preservando dados, recibo ausente/incerto/confirmado no animal focado e nos totais, modos/situação adotado, paginação Kanban/Lista, edição e retomada do app, consulta antes de repetir a mesma operação. Exemplos Bento/Amora com dados do manifesto. Análise estática PASS. Sem mudança de produção ou layout; nova medição global será feita com a suíte integral, não com LCOV parcial.
+
+
+## Recuperação da programação de medicamentos — ampliação de cobertura
+
+Sete testes Widget novos PASS: recarregar após falha, paginação sem duplicação, abrir/fechar tratamento existente, interromper com resposta incerta, consultar antes de repetir a mesma operação, concluir por recibo/reenvio e retornar da programação; período invertido e horários fixos duplicados exibem erros. A lista e o formulário oferecem retries distintos e testados. Análise estática PASS, sem mudanças de produção/layout ou novas dependências.
