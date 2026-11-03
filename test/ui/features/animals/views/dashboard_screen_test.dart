@@ -12,6 +12,76 @@ import '../../../../support/fakes/fake_animals_repository.dart';
 import '../../../../support/public_fixtures.dart';
 
 void main() {
+  for (final width in [320.0, 390.0]) {
+    testWidgets('Kanban uses available width in three columns at $width px', (
+      tester,
+    ) async {
+      tester.view.physicalSize = Size(width, 844);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      final statuses = [
+        AnimalStatus.available,
+        AnimalStatus.treatment,
+        AnimalStatus.quarantine,
+      ];
+      final animals = [
+        for (var i = 0; i < statuses.length; i++)
+          fixtureAnimal(i + 1).copyWith(status: statuses[i]),
+      ];
+      final repo = FakeAnimalsRepository()
+        ..handler = (method, args) async => method == 'getStatusCounts'
+            ? Success<Map<AnimalStatus, int>>({for (final s in statuses) s: 1})
+            : Success(
+                ManagedAnimalPage(
+                  items: [
+                    for (final a in animals)
+                      if (a.status == args.first) ManagedAnimal(animal: a),
+                  ],
+                  total: 1,
+                ),
+              );
+      final vm = DashboardViewModel(repo, isAuthorized: () => true);
+      addTearDown(vm.dispose);
+      await vm.load();
+      await tester.pumpWidget(
+        MaterialApp(
+          home: MediaQuery(
+            data: MediaQueryData(
+              size: Size(width, 844),
+              textScaler: const TextScaler.linear(1.4),
+            ),
+            child: DashboardScreen(viewModel: vm),
+          ),
+        ),
+      );
+      final board = find.byKey(const ValueKey('animal-kanban'));
+      final cards = find.descendant(of: board, matching: find.byType(Card));
+      expect(cards, findsNWidgets(3));
+      double previousRight = 0;
+      for (final card in cards.evaluate()) {
+        final rect = tester.getRect(find.byWidget(card.widget));
+        // Reclaim the side gutters while preserving all three columns.
+        expect(rect.width, greaterThanOrEqualTo(width / 3 - 3));
+        expect(rect.left, greaterThanOrEqualTo(previousRight));
+        expect(rect.right, lessThanOrEqualTo(width));
+        previousRight = rect.right;
+      }
+      final scrollables = tester.widgetList<Scrollable>(
+        find.descendant(of: board, matching: find.byType(Scrollable)),
+      );
+      expect(
+        scrollables.every((s) => s.axisDirection == AxisDirection.down),
+        isTrue,
+      );
+      await tester.tap(find.byTooltip('Ações de ${animals.first.name}'));
+      await tester.pumpAndSettle();
+      expect(find.text('Editar cadastro'), findsOneWidget);
+      expect(find.text('Mover para Em tratamento'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    });
+  }
+
   testWidgets(
     'Kanban shows private clinical summary in prototype pill at 320 px',
     (tester) async {

@@ -80,7 +80,7 @@ void main() {
               ),
             );
             expect(columns, findsNWidgets(3));
-            expect(tester.getRect(columns.first).bottom, closeTo(1000 - 12, 1));
+            expect(tester.getRect(columns.first).bottom, closeTo(1000, 1));
           }
           final menu = find.byTooltip('Administração');
           final rect = tester.getRect(menu);

@@ -107,3 +107,5 @@ selecionado. No Calendário, manter a data e mostrar somente as medicações do 
 - [x] T050 Atualizar checkout/setup-java/upload-artifact para commits oficiais cujo action.yml declara Node.js 24, preservando versões de Flutter, Java e Supabase; validar YAML e publicar separadamente. Resultado remoto conferido somente após os últimos commits. [006-CR-001]
 
 - [x] T051 Pausar a gravação, registrar o MCP oficial Dart/Flutter, comprovar conexão e ferramentas reais, instalar as skills oficiais Flutter/Dart e documentar o uso obrigatório das ferramentas disponíveis antes de retomar T049. Dispositivo físico identificado e análise sem erros via MCP; detalhes em docs/development/flutter-mcp.md. [006-CR-001]
+
+- [x] T052 Reduzir margens externas, recuos das colunas e padding dos cartões do Kanban por solicitação da responsável, mantendo três colunas visíveis sem rolagem lateral e os controles existentes; atualizar protótipo, testar 320/390 px com texto ampliado, validar no celular e publicar por contexto. [006-FR-013]

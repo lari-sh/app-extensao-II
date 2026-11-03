@@ -233,8 +233,8 @@
     .view-tabs { display: flex; gap: 4px; padding: 0 20px 12px; flex-shrink: 0; }
     .view-tab { flex: 1; padding: 8px 10px; background: var(--s-surface); border: 1px solid var(--s-border); border-radius: 8px; font-size: 12px; font-weight: 500; color: var(--s-fg); text-align: center; cursor: pointer; transition: background .12s ease, color .12s ease; }
     .view-tab.active { background: var(--s-fg); color: var(--s-surface); border-color: var(--s-fg); }
-    .kanban { flex: 1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 14px 90px; min-height: 0; }
-    .kcol { background: var(--s-soft); border-radius: 12px; display: flex; flex-direction: column; min-height: 0; padding: 10px 8px 8px; transition: background .12s ease; }
+    .kanban { flex: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px; padding: 0 1px; min-height: 0; }
+    .kcol { background: var(--s-soft); border-radius: 12px; display: flex; flex-direction: column; min-height: 0; padding: 6px 0 0; transition: background .12s ease; }
     .kcol-head { display: flex; align-items: center; justify-content: space-between; padding: 0 4px 8px; border-bottom: 1px solid var(--s-border); margin-bottom: 8px; }
     .kcol-head .ttl { font-family: var(--font-mono); font-size: 10px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--s-fg); display: flex; align-items: center; gap: 6px; }
     .kcol-head .ttl .dot { width: 8px; height: 8px; border-radius: 50%; }
@@ -242,8 +242,8 @@
     .kcol-head .ttl .dot.warn { background: var(--s-warn); }
     .kcol-head .ttl .dot.risk { background: var(--s-risk); }
     .kcol-head .count { font-family: var(--font-mono); font-size: 11px; color: var(--s-muted); background: var(--s-surface); padding: 2px 7px; border-radius: 999px; border: 1px solid var(--s-border); }
-    .kcol-body { display: flex; flex-direction: column; gap: 6px; overflow-y: auto; flex: 1; min-height: 40px; padding-right: 2px; }
-    .kcard { background: var(--s-surface); border: 1px solid var(--s-border); border-radius: 10px; padding: 8px 10px; cursor: grab; user-select: none; transition: border-color .12s ease, box-shadow .12s ease, opacity .12s ease; }
+    .kcol-body { display: flex; flex-direction: column; gap: 4px; overflow-y: auto; flex: 1; min-height: 40px; padding-right: 0; }
+    .kcard { background: var(--s-surface); border: 1px solid var(--s-border); border-radius: 10px; padding: 6px 4px; cursor: grab; user-select: none; transition: border-color .12s ease, box-shadow .12s ease, opacity .12s ease; }
     .kcard:hover { border-color: var(--s-accent); }
     .kcard.dragging { opacity: .35; cursor: grabbing; }
     .kcol.dragover { background: color-mix(in oklch, var(--s-accent) 10%, var(--s-soft)); }

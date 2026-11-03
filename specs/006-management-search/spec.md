@@ -133,3 +133,7 @@ Exibir canais oficiais WhatsApp (34) 99137-8936, Instagram abrigodosanjosoficial
 ## 006-FR-012 — Ordem das vacinas públicas
 
 Na ficha do visitante, apresentar cada registro de vacinação como Nome da vacina • DD/MM/AAAA, um registro por linha. Preservar reforços do mesmo tipo e a ordem dos registros, sem expor notas clínicas. Sem mudança da grade/paleta/tipografia; permitir quebra natural em telas pequenas. Pedido expresso em 2026-11-02.
+
+## 006-FR-013 — Aproveitamento da largura do Kanban
+
+Por solicitação explícita de 2026-11-03, reduzir margens desnecessárias do quadro, das colunas e dos cartões para ampliar sua área útil. Preservar três colunas simultaneamente visíveis, sem rolagem lateral, além das ações, informações, fontes e cores existentes. Manter a área segura do sistema e os demais modos inalterados.

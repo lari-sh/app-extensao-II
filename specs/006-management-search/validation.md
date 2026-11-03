@@ -590,3 +590,13 @@ Aviso apresentado pela responsável: checkout v4 usa Node.js 20. Verificados dir
 ## Gravação física e MCP oficial — 2026-11-03
 
 Vídeo local de 6m55s, com capítulos e decodificação integral PASS; ver docs/reviews/phone-demo-2026-11-03.md. Registro de SDK real por MCP, análise No errors e 24 testes selecionados PASS. APK normal restaurado e autenticado como administrador. Dois registros de seletores da automação estão identificados no relatório, sem atribuí-los ao código funcional. A cobertura integral continua 7010/7077 = 99,05%, 593 PASS. Homônimos/códigos são exercitados pela jornada Android de busca, com duas Luna Busca do controller isolado; o vídeo usa Aurora e os oito exemplos ilustrativos. A solicitação de reduzir margens do Kanban é um contexto posterior à captura.
+
+## Redução dos recuos do Kanban — 2026-11-03
+
+006-FR-013: quadro sem margem externa, separação entre colunas de 2 dp, colunas sem recuo horizontal e cards com 4 dp internos. Cards passam de 79,33 para 104,67 dp em tela de 320 dp, e de 102,67 para 128 dp em 390 dp (+25,33 dp). Preservadas três colunas, fontes, cores, controles e modos Lista/Calendário. Não equivale à aprovação de acessibilidade global.
+
+MCP oficial: dart_format, analyze_files (No errors), run_tests integral (595 PASS), launch_app/DTD/get_widget_tree/flutter_driver/stop_app. Novos testes em 320/390 dp com texto 1,4× verificam largura útil, três cards dentro da tela, rolagem somente vertical e menu acionável. Dois testes antigos foram atualizados para a remoção autorizada dos 12 dp inferiores. Conferência física no Xiaomi: três colunas com dados reais do ambiente local, menu de Aurora e alternância Lista/Calendário/Kanban; get_runtime_errors: No runtime errors found. Captura local: .tools/mcp/kanban-spacing-phone.png. Protótipos principal e revisão v5 atualizados. Sem alterações de dados ou novos pacotes.
+
+O resultado anterior de cobertura 99,05% é histórico; esta execução MCP mediu os testes sem gerar novo LCOV. O gate de 99% será conferido na execução final da CI após publicar os contextos.
+
+APK normal gerado novamente a partir do código atualizado e instalado com sucesso no celular, sem extensão Driver na entrada de produção.

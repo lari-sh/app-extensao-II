@@ -376,15 +376,15 @@ class _DashboardScreenState extends State<DashboardScreen>
   );
   Widget _kanban(BuildContext context) => Padding(
     key: const ValueKey('animal-kanban'),
-    padding: const EdgeInsets.fromLTRB(14, 0, 14, 12),
+    padding: EdgeInsets.zero,
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         for (final status in viewModel.kanbanStatuses)
           Expanded(
             child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 3),
-              padding: const EdgeInsets.fromLTRB(6, 10, 6, 6),
+              margin: const EdgeInsets.symmetric(horizontal: 1),
+              padding: const EdgeInsets.only(top: 6),
               decoration: BoxDecoration(
                 color: _soft,
                 borderRadius: BorderRadius.circular(12),
@@ -399,7 +399,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  const Divider(color: _border),
+                  const Divider(color: _border, height: 12),
                   Expanded(
                     child: ListView(
                       children: [
@@ -439,7 +439,7 @@ class _DashboardScreenState extends State<DashboardScreen>
     final animal = item.animal;
     final clinicalSummary = viewModel.cardClinicalSummary(item);
     return Card(
-      margin: const EdgeInsets.only(bottom: 6),
+      margin: EdgeInsets.only(bottom: compact ? 4 : 6),
       elevation: 0,
       color: Colors.white,
       shape: RoundedRectangleBorder(
@@ -450,7 +450,9 @@ class _DashboardScreenState extends State<DashboardScreen>
         onTap: viewModel.canManage ? () => _edit(context, animal.id) : null,
         borderRadius: BorderRadius.circular(10),
         child: Padding(
-          padding: EdgeInsets.all(compact ? 6 : 10),
+          padding: compact
+              ? const EdgeInsets.symmetric(horizontal: 4, vertical: 6)
+              : const EdgeInsets.all(10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
