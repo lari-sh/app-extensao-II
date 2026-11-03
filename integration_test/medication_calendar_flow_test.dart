@@ -711,10 +711,25 @@ void main() {
       expect(find.text('Área do voluntário'), findsOneWidget);
       expect(tester.takeException(), isNull);
     } finally {
-      await second.auth.signOut(scope: SignOutScope.local);
-      await second.dispose();
-      await Supabase.instance.client.auth.signOut(scope: SignOutScope.local);
-      await tester.pumpAndSettle();
+      // Clean this journey's own animal even when a UI assertion fails locally.
+      // The loopback controller validates the reserved fixture prefix and UUID.
+      try {
+        final cleanup = await http.post(
+          Uri.parse('http://$fixtureHost:58763/cleanup-medication-fixture'),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode({'animal_id': animalId}),
+        );
+        expect(
+          cleanup.statusCode,
+          204,
+          reason: 'Disposable medication fixture cleanup',
+        );
+      } finally {
+        await second.auth.signOut(scope: SignOutScope.local);
+        await second.dispose();
+        await Supabase.instance.client.auth.signOut(scope: SignOutScope.local);
+        await tester.pumpAndSettle();
+      }
     }
   });
 }

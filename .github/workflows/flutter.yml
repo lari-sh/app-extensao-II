@@ -49,6 +49,7 @@ jobs:
       - run: deno task --config supabase/functions/deno.json test
       - run: python3 supabase/tests/fixtures/management_flow.py
       - run: python3 supabase/tests/fixtures/medication_flow.py
+      - run: python3 supabase/tests/fixtures/test_android_fixture_cleanup.py
       - run: python3 supabase/tests/fixtures/team_foundation_flow.py
       - run: python3 supabase/tests/fixtures/team_invitation_flow.py
       - run: python3 supabase/tests/fixtures/animal_code_flow.py

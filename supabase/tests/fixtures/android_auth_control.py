@@ -7,6 +7,8 @@ import json
 import sys
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
+import uuid
+from medication_flow import cleanup as cleanup_medication_fixture
 from urllib.parse import urlparse, urlencode
 from urllib.request import Request, urlopen
 
@@ -70,6 +72,20 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(json.dumps({'password': environment['FIXTURE_PASSWORD']}).encode())
 
     def do_POST(self):
+        if self.path == '/cleanup-medication-fixture':
+            try:
+                length = int(self.headers.get('Content-Length', '0'))
+                if not 0 < length <= 1024:
+                    raise ValueError('Invalid fixture request')
+                payload = json.loads(self.rfile.read(length))
+                animal_id = str(uuid.UUID(payload['animal_id']))
+                cleanup_medication_fixture(animal_id)
+            except (ValueError, TypeError, KeyError, RuntimeError):
+                self.send_error(400, 'Not an owned disposable medication fixture')
+                return
+            self.send_response(204)
+            self.end_headers()
+            return
         if self.path not in ('/revoke-membership', '/restore-membership'):
             self.send_error(404)
             return

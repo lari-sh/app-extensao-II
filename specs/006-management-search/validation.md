@@ -440,3 +440,26 @@ CI remota da fonte 693a28a consultada em execução, ainda sem resultado final:
 https://github.com/lari-sh/app-extensao-II/actions/runs/41560376615
 As evidências 532 testes/95,31% são locais. T016/T024/T028 mantêm a pendência remota;
 este fechamento documental não declara aprovação completa da esteira.
+
+### Divergência 71/72 — causa e correção local
+
+Banco tinha 72 registros: 69 disponíveis, 1 em tratamento, 1 em quarentena e 1
+adotado. A diferença era a fixture 8b4b2d41-61fa-493b-847d-60ab386e50cc, criada
+pela jornada Android de medicamentos com fixture-staff@example.test. Limpeza
+protegida removeu exclusivamente esse registro e seus vínculos temporários;
+hash de todos os demais animais antes/depois permaneceu idêntico.
+
+Resultado: 71 registros (68 disponíveis + 1 tratamento + 1 quarentena + 1 adotado).
+O contador estava somando corretamente o banco; não foi fixado número nem excluído
+adotado para mascarar a diferença. Painel do celular atualizado e Total: 71 animais
+confirmado. Nenhuma recompilação do app foi necessária para corrigir os dados.
+
+Prevenção: finally da jornada limpa seu próprio UUID pelo controlador loopback,
+que valida fixture reservada e não aceita cadastros comuns. Nova regressão HTTP/
+SQL cria somente animais próprios, prova recusa de um controle não descartável,
+remove tratamento/animal temporário e restaura o total. Duas regressões Python PASS,
+incluídas na CI. Teste do VM cobre 68+1+1+1=71 e independência da página carregada.
+
+Suíte Flutter: **533 PASS**, análise/formato PASS; cobertura medida pelo gate global.
+A jornada Android completa com o novo finally ainda aguarda a CI remota; a checagem
+de atualização do contador no celular passou. Escopo funcional do contador preservado.

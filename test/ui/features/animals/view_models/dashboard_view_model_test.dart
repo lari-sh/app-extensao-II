@@ -66,6 +66,27 @@ void main() {
       return Success(fixtureAnimal(1));
     };
   test(
+    'total includes adopted animals and uses server counts rather than loaded cards',
+    () async {
+      final repo = repository()
+        ..handler = (method, args) async => method == 'getStatusCounts'
+            ? const Success<Map<AnimalStatus, int>>({
+                AnimalStatus.available: 68,
+                AnimalStatus.treatment: 1,
+                AnimalStatus.quarantine: 1,
+                AnimalStatus.adopted: 1,
+              })
+            : const Success(ManagedAnimalPage(items: [], total: 0));
+      final vm = DashboardViewModel(repo, isAuthorized: () => true);
+      addTearDown(vm.dispose);
+      await vm.load();
+      expect(vm.total, 71);
+      expect(vm.subtitle, 'Total: 71 animais');
+      vm.setMode(DashboardMode.calendar);
+      expect(vm.total, 71);
+    },
+  );
+  test(
     'global totals exceed loaded page; independent columns and list mode',
     () async {
       final repo = repository();

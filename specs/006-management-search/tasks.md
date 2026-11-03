@@ -66,3 +66,14 @@ selecionado. No Calendário, manter a data e mostrar somente as medicações do 
 - T033 SUBSTITUÍDA: a proposta de linha própria foi descartada pela decisão expressa de colocar Adicionar animal no menu (T034); nenhuma implementação dessa proposta é necessária.
 
 - [x] T034 Aplicar decisão vigente: Adicionar animal vermelho no menu administrativo nos três modos, sem botão externo/linha extra; testar perfis, cadastro/retorno, Total e altura do Kanban; atualizar protótipo, APK e documentação, com commit por contexto. Substitui T031–T033 quanto à posição. [006-FR-007, 006-CR-001]
+
+
+- [x] T035 Investigar divergência 71/72, remover exclusivamente fixture de medicação comprovada, garantir limpeza no finally da jornada local, testar proteção de cadastros reais e contagem com adotados; atualizar painel/documentação e commit por contexto. [006-CR-001]
+
+
+## Meta de cobertura global 99% — solicitada em 2026-11-02
+
+- [ ] T036 Medir LCOV por arquivo e mapear lacunas reais, sem adicionar exclusões; registrar a linha de base e os cenários prioritários. [006-CR-001]
+- [ ] T037 Cobrir operações/dados: validações, transporte, permissões, armazenamento, callbacks e descarte de respostas obsoletas; executar testes específicos e commit por contexto. [006-CR-001]
+- [ ] T038 Cobrir interfaces/navegação: medicamentos, fotos, ficha, catálogo, painel e rotas, incluindo erros e texto ampliado; executar testes específicos e commit por contexto. [006-CR-001]
+- [ ] T039 Medir suíte integral até >=99% global, atualizar gate/documentação com o resultado real e publicar na developer; distinguir cobertura local e aprovação remota. [006-CR-001]
