@@ -194,99 +194,81 @@ class _DashboardScreenState extends State<DashboardScreen>
 
   Widget _header(BuildContext context) => Padding(
     padding: const EdgeInsets.fromLTRB(20, 12, 20, 14),
-    child: LayoutBuilder(
-      builder: (context, constraints) {
-        final showAdd = viewModel.showRegistrationFor(
-          widget.searchViewModel?.showGlobalResults ?? false,
-        );
-        final compact =
-            constraints.maxWidth < 320 ||
-            MediaQuery.textScalerOf(context).scale(14) > 18;
-        final add = FilledButton(
-          key: const ValueKey('addAnimal'),
-          style: FilledButton.styleFrom(
-            backgroundColor: const Color(0xFFC51D2A),
-            foregroundColor: Colors.white,
-            minimumSize: const Size(0, 48),
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-          ),
-          onPressed: viewModel.canManage ? () => _edit(context) : null,
-          child: const Text('Adicionar animal'),
-        );
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Row(
-              children: [
-                const AppBackButton(),
-                const SizedBox(width: 4),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        viewModel.subtitle,
-                        style: const TextStyle(
-                          fontSize: 10,
-                          letterSpacing: 1,
-                          color: Color(0xFFC51D2A),
-                        ),
-                      ),
-                      Text(
-                        viewModel.heading,
-                        style: const TextStyle(
-                          fontFamily: 'serif',
-                          fontSize: 22,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
+    child: Row(
+      children: [
+        const AppBackButton(),
+        const SizedBox(width: 4),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                viewModel.subtitle,
+                style: const TextStyle(
+                  fontSize: 10,
+                  letterSpacing: 1,
+                  color: Color(0xFFC51D2A),
                 ),
-                if (showAdd && !compact) ...[const SizedBox(width: 4), add],
-                SizedBox.square(
-                  dimension: 48,
-                  child: PopupMenuButton<String>(
-                    tooltip: 'Administração',
-                    icon: const Icon(Icons.more_vert),
-                    onSelected: (action) {
-                      if (action == 'team') {
-                        Navigator.pushNamed(context, '/team');
-                      } else if (action == 'refresh') {
-                        _refresh();
-                      } else if (action == 'signOut') {
-                        onSignOut?.call();
-                      }
-                    },
-                    itemBuilder: (_) => [
-                      if (viewModel.showTeam)
-                        const PopupMenuItem(
-                          value: 'team',
-                          child: Text('Equipe e acessos'),
-                        ),
-                      PopupMenuItem(
-                        value: 'refresh',
-                        enabled: !viewModel.state.busy,
-                        child: const Text('Atualizar painel'),
-                      ),
-                      if (onSignOut != null)
-                        const PopupMenuItem(
-                          value: 'signOut',
-                          child: Text('Sair da conta'),
-                        ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            if (showAdd && compact)
-              Padding(
-                padding: const EdgeInsets.only(top: 8),
-                child: Align(alignment: Alignment.centerRight, child: add),
               ),
-          ],
-        );
-      },
+              Text(
+                viewModel.heading,
+                style: const TextStyle(
+                  fontFamily: 'serif',
+                  fontSize: 22,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox.square(
+          dimension: 48,
+          child: PopupMenuButton<String>(
+            tooltip: 'Administração',
+            icon: const Icon(Icons.more_vert),
+            onSelected: (action) {
+              if (action == 'add') {
+                _edit(context);
+              } else if (action == 'team') {
+                Navigator.pushNamed(context, '/team');
+              } else if (action == 'refresh') {
+                _refresh();
+              } else if (action == 'signOut') {
+                onSignOut?.call();
+              }
+            },
+            itemBuilder: (_) => [
+              PopupMenuItem(
+                value: 'add',
+                key: const ValueKey('addAnimal'),
+                enabled: viewModel.canManage,
+                child: const Text(
+                  'Adicionar animal',
+                  style: TextStyle(
+                    color: Color(0xFFC51D2A),
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              if (viewModel.showTeam)
+                const PopupMenuItem(
+                  value: 'team',
+                  child: Text('Equipe e acessos'),
+                ),
+              PopupMenuItem(
+                value: 'refresh',
+                enabled: !viewModel.state.busy,
+                child: const Text('Atualizar painel'),
+              ),
+              if (onSignOut != null)
+                const PopupMenuItem(
+                  value: 'signOut',
+                  child: Text('Sair da conta'),
+                ),
+            ],
+          ),
+        ),
+      ],
     ),
   );
 

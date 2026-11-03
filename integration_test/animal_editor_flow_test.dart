@@ -46,6 +46,8 @@ void main() {
         await tester.pumpAndSettle(const Duration(milliseconds: 300));
         await tester.tap(find.text('Animais do abrigo'));
         await tester.pumpAndSettle(const Duration(milliseconds: 300));
+        await tester.tap(find.byTooltip('Administração'));
+        await tester.pumpAndSettle();
         await tester.tap(find.byKey(const ValueKey('addAnimal')));
         await tester.pumpAndSettle();
         Future<void> text(

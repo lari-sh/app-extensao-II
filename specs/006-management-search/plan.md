@@ -165,3 +165,12 @@ menor que 320 dp ou texto ampliado, a ação fica abaixo do título dentro do me
 cabeçalho. Manter visibilidade/permissões existentes; não alterar larguras das
 colunas. A posição vertical da busca pode acompanhar a altura contextual do
 cabeçalho, mas não muda ao digitar nem ao limpar no mesmo modo.
+
+
+## Decisão vigente de cadastro — menu administrativo
+
+Substitui as propostas de botão externo. Adicionar animal é a primeira ação do
+menu ⋮, em texto vermelho e sem comprimir o título. Disponível em Kanban/Lista/
+Calendário, habilitada por canManage; o backend continua validando staff. Equipe
+e acessos permanece exclusiva de administradores. Não há linha extra nem FAB.
+Total e área inferior estendida continuam. Propostas anteriores são históricas.

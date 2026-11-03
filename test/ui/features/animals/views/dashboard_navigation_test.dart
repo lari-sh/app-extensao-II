@@ -68,45 +68,19 @@ void main() {
           expect(find.text('Equipe e acessos'), findsNothing);
           expect(find.text('Total: 0 animais'), findsOneWidget);
           expect(find.byType(FloatingActionButton), findsNothing);
-          final add = find.byKey(const ValueKey('addAnimal'));
-          expect(
-            add,
-            mode == DashboardMode.calendar ? findsNothing : findsOneWidget,
-          );
-          if (mode != DashboardMode.calendar) {
-            expect(find.text('Adicionar animal'), findsOneWidget);
-            final button = tester.widget<FilledButton>(add);
-            expect(button.style!.backgroundColor!.resolve({}), brandRed);
-            expect(tester.getSize(add).height, greaterThanOrEqualTo(48));
-            expect(
-              tester.getRect(add).bottom,
-              lessThan(tester.getRect(find.text('Kanban')).top),
+          expect(find.text('Adicionar animal'), findsNothing);
+          if (mode == DashboardMode.kanban) {
+            final columns = find.descendant(
+              of: find.byKey(const ValueKey('animal-kanban')),
+              matching: find.byWidgetPredicate(
+                (w) =>
+                    w is Container &&
+                    w.decoration is BoxDecoration &&
+                    (w.decoration! as BoxDecoration).color == softBackground,
+              ),
             );
-            if (mode == DashboardMode.kanban) {
-              final board = find.byKey(const ValueKey('animal-kanban'));
-              final columns = find.descendant(
-                of: board,
-                matching: find.byWidgetPredicate(
-                  (w) =>
-                      w is Container &&
-                      w.decoration is BoxDecoration &&
-                      (w.decoration! as BoxDecoration).color == softBackground,
-                ),
-              );
-              expect(columns, findsNWidgets(3));
-              expect(
-                tester.getRect(columns.first).bottom,
-                closeTo(1000 - 12, 1),
-              );
-            }
-            await tester.tap(add);
-            await tester.pumpAndSettle();
-            expect(find.text('Novo cadastro de teste'), findsOneWidget);
-            Navigator.of(
-              tester.element(find.text('Novo cadastro de teste')),
-            ).pop();
-            await tester.pumpAndSettle();
-            expect(vm.state.mode, mode);
+            expect(columns, findsNWidgets(3));
+            expect(tester.getRect(columns.first).bottom, closeTo(1000 - 12, 1));
           }
           final menu = find.byTooltip('Administração');
           final rect = tester.getRect(menu);
@@ -120,6 +94,24 @@ void main() {
             admin ? findsOneWidget : findsNothing,
           );
           expect(find.text('Sair da conta'), findsOneWidget);
+          final add = find.byKey(const ValueKey('addAnimal'));
+          expect(add, findsOneWidget);
+          expect(
+            tester.widget<Text>(find.text('Adicionar animal')).style!.color,
+            brandRed,
+          );
+          expect(tester.getSize(add).height, greaterThanOrEqualTo(48));
+          await tester.tap(add);
+          await tester.pumpAndSettle();
+          expect(find.text('Novo cadastro de teste'), findsOneWidget);
+          Navigator.of(
+            tester.element(find.text('Novo cadastro de teste')),
+          ).pop();
+          await tester.pumpAndSettle();
+          expect(vm.state.mode, mode);
+          await tester.tap(menu);
+          await tester.pumpAndSettle();
+
           if (admin) {
             await tester.tap(find.text('Equipe e acessos'));
             await tester.pumpAndSettle();

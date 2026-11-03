@@ -340,7 +340,7 @@ void main() {
     },
   );
   test(
-    'calendar mode triggers loading outside build and registration returns with list',
+    'calendar mode triggers loading outside build and preserves mode across refresh',
     () async {
       var calls = 0;
       final vm = DashboardViewModel(
@@ -353,13 +353,11 @@ void main() {
       addTearDown(vm.dispose);
       vm.setMode(DashboardMode.calendar);
       expect(vm.isCalendar, true);
-      expect(vm.showRegistration, false);
       expect(calls, 1);
       await vm.load();
       expect(vm.isCalendar, true);
       vm.setListMode(true);
       expect(vm.state.listMode, true);
-      expect(vm.showRegistration, true);
       expect(calls, 1);
     },
   );

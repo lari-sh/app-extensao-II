@@ -53,6 +53,8 @@ void main() {
       await tester.tap(find.text('Animais do abrigo'));
       await waitFor(find.byType(DashboardScreen));
       await tester.pumpAndSettle();
+      await tester.tap(find.byTooltip('Administração'));
+      await tester.pumpAndSettle();
       final add = find.byKey(const ValueKey('addAnimal'));
       await waitFor(add);
       await tester.tap(add);

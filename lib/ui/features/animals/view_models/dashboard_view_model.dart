@@ -68,9 +68,6 @@ class DashboardViewModel extends ChangeNotifier {
     if (isSearching && !emptyStatus(AnimalStatus.adopted)) AnimalStatus.adopted,
   ];
   bool get isCalendar => state.mode == DashboardMode.calendar;
-  bool get showRegistration => !isCalendar;
-  bool showRegistrationFor(bool globalResults) =>
-      showRegistration && !globalResults;
   final bool Function() isAuthorized;
   final Future<bool> Function()? authorize;
   final int Function()? accessEpoch;

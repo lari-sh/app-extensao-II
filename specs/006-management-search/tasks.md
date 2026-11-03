@@ -61,6 +61,8 @@ selecionado. No Calendário, manter a data e mostrar somente as medicações do 
 - [x] T030 Preparar e revisar proposta de + Animal no cabeçalho, Atualizar no menu e remoção da reserva inferior de 90 dp do Kanban/Lista, mantendo SafeArea; validar 320/390 px e solicitar aprovação antes de mudar Flutter. [006-FR-007, 006-CR-001]
 - [ ] T031 Após aprovação de T030, reposicionar cadastro preservando regras de acesso/visibilidade, estender área útil e testar navegação, altura, toque e Android; documentar e publicar por contexto. [006-FR-006, 006-FR-007, 006-CR-001]
 
-- [ ] T032 Aplicar ajustes aprovados: botão vermelho Adicionar animal no cabeçalho, rótulo Total com contagem real, adaptação compacta, testes de navegação/altura e atualização do APK no celular. [006-FR-007, 006-CR-001]
+- [ ] T032 Aplicar ajustes aprovados: item vermelho Adicionar animal no menu do cabeçalho (decisão T034), rótulo Total com contagem real, adaptação compacta, testes de navegação/altura e atualização do APK no celular. [006-FR-007, 006-CR-001]
 
-- [ ] T033 Revisar a posição do botão em linha própria abaixo do título após rejeição da compressão lateral; mostrar proposta sem abreviar texto, obter aprovação e então ajustar Flutter/validar. [006-FR-007, 006-CR-001]
+- T033 SUBSTITUÍDA: a proposta de linha própria foi descartada pela decisão expressa de colocar Adicionar animal no menu (T034); nenhuma implementação dessa proposta é necessária.
+
+- [ ] T034 Aplicar decisão vigente: Adicionar animal vermelho no menu administrativo nos três modos, sem botão externo/linha extra; testar perfis, cadastro/retorno, Total e altura do Kanban; atualizar protótipo, APK e documentação, com commit por contexto. Substitui T031–T033 quanto à posição. [006-FR-007, 006-CR-001]

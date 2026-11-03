@@ -112,3 +112,12 @@ o título. Cor vermelha, rótulo completo e Total permanecem solicitados. Revis�
 propõe uma linha própria abaixo do título em todas as larguras, alinhada à direita,
 sem comprimir o texto e preservando a extensão inferior do Kanban. Nova disposição
 aguarda avaliação; não está aplicada ao Flutter. T033 acompanha a revisão.
+
+
+## Decisão vigente — Adicionar animal no menu
+
+A responsável determinou expressamente: Adicionar animal no mesmo menu de Equipe,
+destacado em vermelho. Essa decisão substitui os botões no cabeçalho/linha própria;
+não requer nova aprovação da posição indicada. Manter Total e Kanban estendido.
+A ação de cadastro fica disponível nos três modos; habilitada apenas com acesso
+confirmado, sem ampliar permissões do servidor. Equipe continua só para administradores.

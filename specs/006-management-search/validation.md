@@ -406,3 +406,19 @@ px, sem overflow; botão abaixo do título, mantendo texto completo e cor vermel
 Captura em previews/add-animal-top-row-v3.png e página atualizada no navegador.
 A revisão v3 aguarda aprovação antes de substituir a posição no aplicativo.
 T031/T032 permanecem abertas; T033 registra o refinamento solicitado.
+
+### Cadastro no menu — decisão vigente implementada
+
+Adicionar animal é a primeira ação do menu ⋮, com texto vermelho e peso destacado.
+Não há mais botão externo/linha extra, liberando a largura do título. Total e
+Kanban até a área segura preservados. Cadastro disponível nos três modos, sujeito
+a canManage e aos controles do servidor; Equipe permanece só para administradores.
+Getters antigos usados apenas para esconder o FAB foram removidos por obsolescência,
+sem exclusões de cobertura. Casos de modo/atualização continuam testados.
+
+14 testes específicos PASS: administrador/funcionário nos três modos, ação vermelha
+com altura >=48 dp, cadastro e retorno preservando modo, menu e extensão vertical.
+Suíte completa **532 PASS**, cobertura **95,31% (6.684/7.013)**. Formato/análise PASS.
+Protótipo e captura add-animal-menu-v4.png atualizados, menu aberto para revisão.
+APK normal compilado; instalação/conferência física em andamento. CI remota dessa
+revisão ainda não confirmada, sem reaproveitar aprovação de commits anteriores.

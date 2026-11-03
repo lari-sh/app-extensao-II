@@ -288,3 +288,10 @@ Validação local atual: 532 testes, 95,31% de linhas. Android/CI desta revisão
 seguem registrados separadamente em specs/006-management-search/validation.md;
 os números de CI anteriores acima são históricos, não aprovação automática desta
 revisão. Tarefas acompanhadas por speckit-implement em tasks.md da mesma feature.
+
+
+O cadastro de animal agora fica no menu ⋮ como **Adicionar animal**, destacado em
+vermelho, disponível nos três modos conforme as permissões. O cabeçalho mantém
+**Total: quantidade de animais**; não há botão externo comprimindo o título.
+A reserva inferior do FAB foi retirada do Kanban/Lista, mantendo SafeArea.
+Essa decisão substitui as propostas intermediárias de botão no cabeçalho.
