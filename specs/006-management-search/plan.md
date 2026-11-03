@@ -192,3 +192,29 @@ Solicitação explícita autoriza reduzir os recuos do quadro e dos cartões. Ma
 ## Cartões uniformes (006-FR-014)
 
 ViewModel fornece prévia de até 80 caracteres visuais, normalizando espaços somente na prévia. Usar a extensão StringCharacters exportada pelo SDK Flutter para preservar acentos e emojis compostos, sem pacote adicional. A View reserva linhas para nome, idade, observação e publicação, dimensionadas pelo TextScaler, e alinha os cabeçalhos das colunas. Texto completo permanece no modelo e no editor. Testes de fronteira 80/81 caracteres, emoji composto, preservação do texto e cartões alinhados em 320/390 dp com texto 1,4×.
+
+## Avaliação Android na nuvem (006-FR-015)
+
+Manter composição, arquitetura e design existentes. Projeto Supabase de avaliação
+separado do banco local, com migrations aditivas existentes, quatro Functions e
+políticas privadas de Storage. Conta da responsável precisa estar conectada antes
+de provisionar recursos. Não contratar plano pago nem enviar convites/mensagens
+ao professor. Preparar funcionário de avaliação com senha exclusiva, comunicada
+separadamente do APK; dados fictícios autorizados, sem exportar usuários/senhas do
+ambiente local. Recuperação/convites exigem callbacks e serviço de email próprios.
+
+`scripts/build_cloud_apk.py` recebe JSON público ignorado pelo Git, aceita apenas
+URL HTTPS hospedada Supabase e chave publishable/anon, recusa campos adicionais,
+chaves privilegiadas e JWT anon de outro projeto. Confere leitura pública das
+colunas atuais antes do build. Gera release pelo entry point normal `lib/main.dart`,
+sem HTTP local ou Flutter Driver; preserva logs em `.tools/`, emite APK e hash
+SHA-256. Assinatura de teste Android já configurada no projeto serve para avaliação,
+não para publicação na Play Store. Sem pacote novo. Testes Python cobrem as
+guardas, falha de rede/schema, recusa de redirecionamento e interrupção no erro
+do compilador. Testes Flutter existentes de AppConfig via MCP complementam.
+
+Aceitação final separada: RLS anônimo/funcionário/administrador, fotos pela Function,
+login, cadastro/edição e agenda em celular usando internet, com ADB reverse removido.
+Registrar implantação, revisão, assinatura/hash do APK e resultados em
+`docs/releases/android-cloud-evaluation.md`; manter T060–T062 abertas até execução
+real. Não alterar a CI para publicar um APK incompleto como se estivesse configurado.

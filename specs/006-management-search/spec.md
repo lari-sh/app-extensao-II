@@ -141,3 +141,15 @@ Por solicitação explícita de 2026-11-03, reduzir margens desnecessárias do q
 ## 006-FR-014 — Cartões uniformes e observação resumida
 
 Solicitação da responsável: todos os cartões do Kanban devem ter a mesma altura, independentemente do tamanho da observação. Reservar áreas uniformes para seus textos, mantendo o crescimento com a escala de texto do sistema. Observação visível limitada a 80 caracteres (incluindo reticências) e até três linhas conforme a largura disponível. O clique abre a ficha com o conteúdo completo, que não pode ser truncado na persistência. Não alterar os modos Lista/Calendário.
+
+## 006-FR-015 — APK de avaliação independente do computador
+
+Pedido em 2026-11-03: disponibilizar APK Android para avaliação pelo professor,
+conectado a um projeto Supabase hospedado na conta da responsável. HTTPS e somente
+chave pública no aplicativo; nunca credenciais de administração. Implantar as
+migrations, autorização e Functions existentes, sem substituir o banco local,
+abrir buckets privados ou importar fixtures técnicas. Usar dados fictícios com
+fotos ilustrativas já autorizados e acesso de funcionário específico para avaliação.
+Preservar o design. A entrega exige catálogo/fotos, login e fluxos privados
+validados no celular sem ADB reverse ou outro transporte até o computador.
+Não considerar um APK local ou um build sem backend configurado como entrega.
