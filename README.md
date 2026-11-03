@@ -4,11 +4,12 @@ Aplicativo Flutter de adoção e manejo, com prioridade Android e código compar
 com iOS. A migração segue a constituição 2.0.0 e a skill oficial Flutter instalada.
 Trabalho na branch `developer`; integração à `main` por Pull Request.
 
-Fechamento técnico da versão de testes Android concluído para um único abrigo:
-CI 41358425256 aprovada em Flutter, backend, Android e entrega, incluindo o
-ajuste de navegação e a reserva de disco do emulador. Consulte o
-[registro 1.0.0+1 Android](docs/releases/1.0.0-android.md), com escopo, evidências
-e pendências de produção/iOS. A expansão para outros abrigos fica para depois.
+Versão Android de avaliação para um único abrigo, com Supabase hospedado e APK
+release validado no celular sem depender do computador. Consulte a
+[entrega na nuvem](docs/releases/android-cloud-evaluation.md) e o
+[manual de instalação](docs/user-guide/guia_instalacao_android.docx).
+O [registro Android anterior](docs/releases/1.0.0-android.md) conserva o histórico
+das validações locais. A expansão para outros abrigos fica para depois.
 
 ## Estado implementado
 
@@ -28,8 +29,8 @@ locais, validação Android e aprovação da CI de cada etapa.
   Sem anexar ficha ou link compartilhável; hospedagem da ficha cancelada.
 - MVVM com ChangeNotifier, estados Freezed, Repositories abstratos, Services e Provider.
 - Falhas tipadas por Result e mensagens em português; logo e paleta vermelha/marrom.
-- Login de contas provisionadas, verificação remota de sessão/equipe e saída,
-  validados no Android com Supabase local.
+- Login de contas provisionadas e verificação de sessão/equipe, validados no Android
+  com Supabase local e no projeto hospedado de avaliação; saída coberta pela CI.
 - Área privada com listagem paginada, cadastro e edição de animais, notas internas,
   vacinação/castração e cuidados; persistência atômica no Supabase e reconciliação
   após falha de resposta. Novos animais ficam disponíveis e privados por padrão.
@@ -37,7 +38,7 @@ locais, validação Android e aprovação da CI de cada etapa.
 Fluxo: **Área do voluntário → Animais do abrigo → Cadastrar animal**; tocar em um
 animal abre sua edição. O painel de fotos já permite seleção, prévia e confirmação do envio; o backend
 local tem testes de upload/substituição/limpeza. A galeria, o envio, a substituição e a recuperação após recriar a Activity
-foram validados no emulador Android, com confirmação explícita antes do upload. Painel Kanban/lista, totais globais e comandos de situação/publicação já estão integrados. O editor de animais salvos também permite mudar situação e publicação, sem salvar o rascunho clínico pendente. A aba Calendário permite consultar mês/dia e aplicações, com tratamentos por horários fixos ou intervalos, conclusão com autoria/hora real, interrupção e correção auditada. O ambiente validado é local, sem deploy de produção. Evidências e gates remotos em [validação do calendário](specs/003-medication-calendar/validation.md).
+foram validados no emulador Android, com confirmação explícita antes do upload. Painel Kanban/lista, totais globais e comandos de situação/publicação já estão integrados. O editor de animais salvos também permite mudar situação e publicação, sem salvar o rascunho clínico pendente. A aba Calendário permite consultar mês/dia e aplicações, com tratamentos por horários fixos ou intervalos, conclusão com autoria/hora real, interrupção e correção auditada. As jornadas da CI usam Supabase local; o APK de avaliação também foi validado no projeto hospedado separado. Envio de convites/recuperação por email na nuvem ainda depende da configuração indicada na entrega. Evidências e gates remotos em [validação do calendário](specs/003-medication-calendar/validation.md).
 A implementação antiga de demonstração foi removida. Dados de demo_animals_v1
 não são importados; apenas IDs válidos de favoritos são aproveitados, inclusive
 quando o animal não está disponível no catálogo.
