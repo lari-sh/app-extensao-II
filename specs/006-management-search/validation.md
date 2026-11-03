@@ -535,3 +535,8 @@ eventos posteriores não afetam a nova conta. Sem alteração de layout.
 hosts locais para executar também no celular. APK de teste compilado/instalado;
 jornada física interrompida pelo bloqueio da tela, aguardando desbloqueio da
 responsável. T048 permanece aberta para essa validação, sem declarar Android PASS.
+
+
+## Cadastro e lista administrativa — ampliação de cobertura (2026-11-03)
+
+Três testes Widget novos PASS: paginação/atualização e retorno de cadastro/edição na lista administrativa; falha de carga e salvamento incerto com consulta/reenvio; remoção de vacina e mudança do tipo de cuidado interno sem alterar a data pública de vermifugação. Análise estática PASS. Cenários de apresentação Amora/Mel, sem gravação no backend.
