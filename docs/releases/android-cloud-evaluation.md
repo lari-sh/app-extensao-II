@@ -111,9 +111,17 @@ O vínculo GitHub não substitui os gates. A integração foi discutida com a
 responsável; a automação não habilitou deploy automático ou plano pago. Conferir
 as opções do painel antes de ligar produção a uma branch.
 
-CI anterior de preparação #190 aprovada. CI #191 do código a82aec7 foi conferida
-com Flutter, backend, Android e deliver aprovados. A CI do fechamento documental
-precisa ser conferida no commit correspondente antes do PR solicitado.
+CI final [#194](https://github.com/lari-sh/app-extensao-II/actions/runs/41697176200)
+aprovada no commit `404a7bfeacba51ecb7dc0e7d3bc919321aab956a`: Flutter,
+backend, Android e deliver concluídos com sucesso. Foram aprovados 599 testes
+Flutter, 11 testes de empacotamento e dez jornadas Android; cobertura global de
+99,06% (7034/7101 linhas).
+
+Após essa confirmação, foi aberto o [PR #1](https://github.com/lari-sh/app-extensao-II/pull/1)
+de `developer` para `main`, sem merge. O commit documental que registra este
+fechamento dispara novas verificações; o resultado acima corresponde ao código
+e à documentação do commit identificado, sem antecipar o resultado dessas novas
+execuções. A validação de emails remotos permanece pendente em T063.
 
 Referências: [ambientes e migrations](https://supabase.com/docs/guides/deployment/managing-environments),
 [Functions](https://supabase.com/docs/guides/functions/deploy) e

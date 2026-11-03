@@ -706,4 +706,21 @@ sobreposições ou perda de texto. Conteúdo do DOCX exportado igual ao original
 Manual versionado em docs/user-guide/guia_instalacao_android.docx e cópia local
 em entrega-professor, junto do APK. Cópia editável no Drive sem mudar permissões
 ou enviar mensagens. Fontes e instruções sem senha; credenciais locais temporárias
-já apagadas. CI do último commit documental ainda deve ser conferida antes de T065.
+já apagadas. A conferência final de T065 está registrada abaixo.
+
+## Fechamento da entrega Android e PR — 2026-11-03
+
+T065 PASS: CI #194, execução 41697176200, commit
+`404a7bfeacba51ecb7dc0e7d3bc919321aab956a`, concluída com sucesso nos quatro
+jobs (Flutter, backend, Android e deliver). Evidências: 599 testes Flutter,
+11 testes de empacotamento, cobertura global 7034/7101 linhas (99,06%) e dez
+jornadas Android aprovadas. Essas jornadas usam backend isolado; não validam
+o envio de email no projeto hospedado, que permanece pendente em T063.
+
+Após confirmar a CI, foi aberto o PR #1 de developer para main:
+https://github.com/lari-sh/app-extensao-II/pull/1. Estado conferido como aberto,
+sem merge. O conector GitHub retornou 403 na criação; a operação foi concluída
+pela API oficial com a autenticação Git existente, apenas em memória.
+
+Este registro constitui um commit documental próprio. Seu push dispara novas
+verificações, cujo resultado não é antecipado pelo PASS da execução #194.
