@@ -103,3 +103,5 @@ selecionado. No Calendário, manter a data e mostrar somente as medicações do 
 ## Demonstração gravada no celular — 2026-11-03
 
 - [ ] T049 Gravar o APK real no celular nos fluxos públicos e administrativos, usando dados fictícios e fotos ilustrativas; conferir os arquivos, organizar capítulos e documentar o que foi demonstrado e eventuais limitações. Salvar o vídeo localmente e informar a pasta, sem enviar mensagens externas. [DEMO-FR-001, 006-CR-001]
+
+- [x] T050 Atualizar checkout/setup-java/upload-artifact para commits oficiais cujo action.yml declara Node.js 24, preservando versões de Flutter, Java e Supabase; validar YAML e publicar separadamente. Resultado remoto conferido somente após os últimos commits. [006-CR-001]

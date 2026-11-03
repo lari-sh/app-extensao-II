@@ -580,3 +580,8 @@ As propostas horizontal e de três colunas revistas foram descartadas por decis�
 ## Fechamento da meta global de cobertura — 2026-11-03
 
 Suíte integral em .tools/coverage99-final.log: 593 testes Flutter PASS em 1m50s. LCOV completo: 7010/7077 linhas = 99,05%. Nenhuma nova exclusão. Commits de dados, fotos, medicamentos, navegação, tratamento de erro e permissões estão publicados por contexto. Gate mínimo passa a 99%; comparação inteira impede aprovar um resultado arredondado abaixo da meta. Testes do gate verificam 99% exatos, 98,99%, 100% e relatórios ausentes/vazios. Aprovação remota continua pendente até a conferência final da CI.
+
+
+## Actions com Node.js 24 — 2026-11-03
+
+Aviso apresentado pela responsável: checkout v4 usa Node.js 20. Verificados diretamente os manifests oficiais pelos SHAs completos: checkout v5.1.0 fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09; setup-java v5.7.0 b6effb05e454b25005698d916606bdc6ffcbf961; upload-artifact v6.0.0 b7c566a772e6b6bfb58ed0dc250532a479d7789f. Os três declaram using: node24. Upload-artifact v5 foi descartado porque o manifesto resolvido ainda declarou node20. Nenhuma supressão de avisos nem mudança das versões de Flutter/Java/Supabase. Validação YAML e diff locais; execução remota ainda não analisada, por orientação de aguardar todos os contextos.
