@@ -9,6 +9,6 @@ if not lines:
  raise SystemExit('FAIL: coverage report has no executable lines')
 hits=sum(int(value)>0 for _,value,*_ in lines)
 total=len(lines)
-print(f'Global line coverage: {hits}/{total} = {100*hits/total:.2f}% (required: 95%)')
-if hits*100<total*95:
- raise SystemExit('FAIL: global line coverage below 95%')
+print(f'Global line coverage: {hits}/{total} = {100*hits/total:.2f}% (required: 99%)')
+if hits*100<total*99:
+ raise SystemExit('FAIL: global line coverage below 99%')

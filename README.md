@@ -301,3 +301,10 @@ Essa decisão substitui as propostas intermediárias de botão no cabeçalho.
 ### Contatos e doações no acesso público
 
 Em **Visitante → Sobre**, estão disponíveis WhatsApp, Instagram e Facebook do abrigo. A seção **Doe via Pix** permite selecionar ou copiar a chave `23.785.379/0001-98`, com confirmação de cópia. A tela não processa pagamentos. Referência visual: `design/about-contact-pix.html`.
+
+
+### Cobertura local vigente — 2026-11-03
+
+Suíte Flutter integral: **593 testes PASS**, **7010/7077 linhas = 99,05%**.
+Gate global mínimo atualizado para **99%**, sem novas exclusões de arquivos.
+Essa medição local não substitui a conferência da execução remota da CI.

@@ -33,7 +33,7 @@ medição. Busca textual não remove acentos nesta versão.
 - PASS: Repository abstrato/Result não expõem SDK. Novas RPCs verificam sessão/vínculo
   atuais; códigos não são segredo nem mecanismo de autorização.
 - PASS: plano exige unitários de regras, Widget happy path/erro, SQL/HTTP e Android,
-  cobertura global >=95% sem exclusões artificiais, nove jornadas anteriores preservadas.
+  cobertura global >=99% sem exclusões artificiais, nove jornadas anteriores preservadas.
 - PASS: sem dependência nova; códigos gerados pelo servidor, não pelo celular.
 - PASS: DESIGN-SEARCH-001 v2 aprovada expressamente; migrations e integração
   autorizadas e implementadas. Resultados dos gates registrados em validation.md.
@@ -179,3 +179,8 @@ Total e área inferior estendida continuam. Propostas anteriores são histórica
 ## Sobre: contatos e Pix (006-FR-011)
 
 AboutViewModel injeta ShelterContactRepository; implementação usa ClipboardService e ExternalLinkService existentes. Nenhum pacote novo ou consulta ao backend. Chave literal fornecida pela responsável, sem inclusão de dados de animais. Operações retornam Result<Unit>, com bloqueio de repetição durante execução e descarte de notificações após dispose. Testes Repository/VM/Widget verificam conteúdo exato, destinos, falha, duplicidade e retorno. Validação física confirma clipboard e renderização.
+
+
+## Meta vigente de cobertura — 2026-11-03
+
+Por solicitação da responsável, o gate global passa a 99% de linhas no LCOV integral. Não adicionar exclusões para atingir a meta. Relatórios ausentes/vazios e resultados abaixo de 99% devem reprovar, sem arredondamento na comparação.

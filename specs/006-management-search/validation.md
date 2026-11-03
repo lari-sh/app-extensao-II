@@ -575,3 +575,8 @@ Dois testes Widget PASS: envio pelo teclado trata exceção inesperada no login,
 ## Decisão final sobre dimensões do Kanban — 2026-11-03
 
 As propostas horizontal e de três colunas revistas foram descartadas por decisão expressa: manter como estava antes. Nenhuma mudança foi aplicada no Flutter. T019/T020 canceladas, com HTML/screenshots somente no histórico de revisão. O antigo endereço da proposta redireciona ao protótipo aprovado. Não se declara acessibilidade global aprovada pela auditoria anterior.
+
+
+## Fechamento da meta global de cobertura — 2026-11-03
+
+Suíte integral em .tools/coverage99-final.log: 593 testes Flutter PASS em 1m50s. LCOV completo: 7010/7077 linhas = 99,05%. Nenhuma nova exclusão. Commits de dados, fotos, medicamentos, navegação, tratamento de erro e permissões estão publicados por contexto. Gate mínimo passa a 99%; comparação inteira impede aprovar um resultado arredondado abaixo da meta. Testes do gate verificam 99% exatos, 98,99%, 100% e relatórios ausentes/vazios. Aprovação remota continua pendente até a conferência final da CI.

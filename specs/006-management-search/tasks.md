@@ -74,9 +74,9 @@ selecionado. No Calendário, manter a data e mostrar somente as medicações do 
 ## Meta de cobertura global 99% — solicitada em 2026-11-02
 
 - [x] T036 Medir LCOV por arquivo e mapear lacunas reais, sem adicionar exclusões; registrar a linha de base e os cenários prioritários. [006-CR-001]
-- [ ] T037 Cobrir operações/dados: validações, transporte, permissões, armazenamento, callbacks e descarte de respostas obsoletas; executar testes específicos e commit por contexto. [006-CR-001]
-- [ ] T038 Cobrir interfaces/navegação: medicamentos, fotos, ficha, catálogo, painel e rotas, incluindo erros e texto ampliado; executar testes específicos e commit por contexto. [006-CR-001]
-- [ ] T039 Medir suíte integral até >=99% global, atualizar gate/documentação com o resultado real e publicar na developer; distinguir cobertura local e aprovação remota. [006-CR-001]
+- [x] T037 Cobrir operações/dados: validações, transporte, permissões, armazenamento, callbacks e descarte de respostas obsoletas; executar testes específicos e commit por contexto. [006-CR-001]
+- [x] T038 Cobrir interfaces/navegação: medicamentos, fotos, ficha, catálogo, painel e rotas, incluindo erros e texto ampliado; executar testes específicos e commit por contexto. [006-CR-001]
+- [x] T039 Medir suíte integral até >=99% global, atualizar gate/documentação com o resultado real e publicar na developer; distinguir cobertura local e aprovação remota. [006-CR-001]
 
 
 ## Sobre público: contatos e doação Pix
