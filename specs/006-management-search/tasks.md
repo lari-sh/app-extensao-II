@@ -27,7 +27,7 @@ selecionado. No Calendário, manter a data e mostrar somente as medicações do 
 - [x] T015 Implementar filtros do modo no servidor e na apresentação, sem limitar aos itens carregados; testes obrigatórios. [006-FR-009, 006-CR-001]
 - [ ] T016 Validar revisão no Android/CI, cobertura >=95%, documentação e commits por contexto na developer. [006-CR-001]
 
-- [ ] T017 Ampliar cobertura de regras/permissões/modos/fotos e medir cobertura real; não excluir código para elevar números. [006-CR-001]
+- [x] T017 Ampliar cobertura de regras/permissões/modos/fotos e medir cobertura real; não excluir código para elevar números. [006-CR-001]
 
 
 ## Auditoria de dimensões solicitada em 2026-11-02
@@ -89,7 +89,7 @@ selecionado. No Calendário, manter a data e mostrar somente as medicações do 
 ## Cenários fidedignos de uso — 2026-11-02
 
 - [x] T043 Reutilizar exemplos fictícios autorizados com fotos ilustrativas versionadas, origem/hash documentados e testes de integridade; preservar animais manuais e evitar duplicações no backend local. [DEMO-FR-001, 006-CR-001]
-- [ ] T044 Validar ficha/foto, favoritos, homônimos/códigos, filtros e medicações usando exemplos realistas; incluir falhas e permissões na ampliação da cobertura. [006-CR-001]
+- [x] T044 Validar ficha/foto, favoritos, homônimos/códigos, filtros e medicações usando exemplos realistas; incluir falhas e permissões na ampliação da cobertura. [006-CR-001]
 - [ ] T045 Conferir CI atual, validar cenário no celular após aviso, atualizar documentação e publicar cada contexto validado na developer. [006-CR-001]
 
 - [x] T046 Excluir os 63 cadastros antigos de teste por identidade/autoria confirmadas, salvar backup local, preservar os oito exemplos com fotos e configurar tratamento/quarentena/agenda simulada, conforme nova autorização. Ver supabase/demo/README.md. [DEMO-FR-001, 006-CR-001]
@@ -102,7 +102,7 @@ selecionado. No Calendário, manter a data e mostrar somente as medicações do 
 
 ## Demonstração gravada no celular — 2026-11-03
 
-- [ ] T049 Gravar o APK real no celular nos fluxos públicos e administrativos, usando dados fictícios e fotos ilustrativas; conferir os arquivos, organizar capítulos e documentar o que foi demonstrado e eventuais limitações. Salvar o vídeo localmente e informar a pasta, sem enviar mensagens externas. [DEMO-FR-001, 006-CR-001]
+- [x] T049 Gravar o APK real no celular nos fluxos públicos e administrativos, usando dados fictícios e fotos ilustrativas; conferir os arquivos, organizar capítulos e documentar o que foi demonstrado e eventuais limitações. Salvar o vídeo localmente e informar a pasta, sem enviar mensagens externas. [DEMO-FR-001, 006-CR-001]
 
 - [x] T050 Atualizar checkout/setup-java/upload-artifact para commits oficiais cujo action.yml declara Node.js 24, preservando versões de Flutter, Java e Supabase; validar YAML e publicar separadamente. Resultado remoto conferido somente após os últimos commits. [006-CR-001]
 

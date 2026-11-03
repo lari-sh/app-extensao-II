@@ -47,3 +47,13 @@ sem a justificativa exigida pelo projeto.
 
 Referências: [MCP no Codex](https://developers.openai.com/codex/mcp),
 [ferramentas oficiais Flutter](https://docs.flutter.dev/ai/get-started).
+
+
+## Exploração no celular concluída
+
+`launch_app`, conexão DTD, `get_widget_tree`, Flutter Driver, `hot_restart` e
+`stop_app` foram exercitados na gravação física. A entrada local
+`lib/main_mcp_local.dart` está ignorada pelo Git e restringe execução a depuração.
+Ela não é usada por `lib/main.dart`. O APK normal foi restaurado ao fim.
+A escolha dos controles usa a árvore inspecionada; seletores ambíguos e rótulos
+diferentes foram corrigidos no roteiro, conforme o relatório da gravação.

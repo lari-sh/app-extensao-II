@@ -60,3 +60,6 @@ __pycache__/
 
 # Kotlin compiler local sessions
 /android/.kotlin/
+
+# Local-only MCP driver entry; never ship diagnostic instrumentation
+/lib/main_mcp_local.dart

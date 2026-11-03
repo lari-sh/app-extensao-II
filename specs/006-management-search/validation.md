@@ -585,3 +585,8 @@ Suíte integral em .tools/coverage99-final.log: 593 testes Flutter PASS em 1m50s
 ## Actions com Node.js 24 — 2026-11-03
 
 Aviso apresentado pela responsável: checkout v4 usa Node.js 20. Verificados diretamente os manifests oficiais pelos SHAs completos: checkout v5.1.0 fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09; setup-java v5.7.0 b6effb05e454b25005698d916606bdc6ffcbf961; upload-artifact v6.0.0 b7c566a772e6b6bfb58ed0dc250532a479d7789f. Os três declaram using: node24. Upload-artifact v5 foi descartado porque o manifesto resolvido ainda declarou node20. Nenhuma supressão de avisos nem mudança das versões de Flutter/Java/Supabase. Validação YAML e diff locais; execução remota ainda não analisada, por orientação de aguardar todos os contextos.
+
+
+## Gravação física e MCP oficial — 2026-11-03
+
+Vídeo local de 6m55s, com capítulos e decodificação integral PASS; ver docs/reviews/phone-demo-2026-11-03.md. Registro de SDK real por MCP, análise No errors e 24 testes selecionados PASS. APK normal restaurado e autenticado como administrador. Dois registros de seletores da automação estão identificados no relatório, sem atribuí-los ao código funcional. A cobertura integral continua 7010/7077 = 99,05%, 593 PASS. Homônimos/códigos são exercitados pela jornada Android de busca, com duas Luna Busca do controller isolado; o vídeo usa Aurora e os oito exemplos ilustrativos. A solicitação de reduzir margens do Kanban é um contexto posterior à captura.

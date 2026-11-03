@@ -101,3 +101,13 @@ local fixture-admin; não serve como gate de um banco de produção ou CI genér
 Valida a imagem JPEG lida pela Function, ficha pública, situações do Kanban,
 conclusão com autor/horário e correção justificada. Conclusão/correção ficam no
 histórico de demonstração; não apaga o histórico. Executada no celular: PASS, 14 s.
+
+
+## Exemplo adicional da gravação de 03/11/2026
+
+Aurora foi cadastrada manualmente no app durante a demonstração física, com
+dados fictícios e foto ilustrativa reutilizada de Amora. Não integra o manifesto
+automático de oito animais; o perfil manual passou a nove. Suas duas aplicações
+simuladas foram concluídas pela conta fictícia Marina, preservando o histórico.
+Após atualização do painel: 5 disponíveis, 3 em tratamento e 1 em quarentena.
+As contagens são circunstanciais, nunca valores fixos no aplicativo.
