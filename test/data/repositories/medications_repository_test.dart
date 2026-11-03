@@ -11,6 +11,60 @@ import '../../support/fakes/fake_medications_service.dart';
 
 void main() {
   test(
+    'stop treatment validates identity/version and binds confirmation to requested treatment',
+    () async {
+      final service = FakeMedicationsService();
+      final repo = MedicationsRepositoryImpl(service);
+      const treatment = MedicationTreatment(
+        id: medicationTreatmentId,
+        animalId: medicationAnimalId,
+        revision: 2,
+        version: 3,
+        medicationName: 'Teste',
+        schedule: MedicationSchedule(),
+      );
+      for (final invalid in [
+        treatment.copyWith(id: 'bad'),
+        treatment.copyWith(revision: 0),
+        treatment.copyWith(version: 0),
+      ]) {
+        expect(await repo.stopTreatment(invalid, 'k' * 32), isA<Failure>());
+      }
+      expect(await repo.stopTreatment(treatment, 'bad'), isA<Failure>());
+      expect(await repo.listTreatments('bad'), isA<Failure>());
+      expect(service.calls, isEmpty);
+      service.handler = (_, _) async => Success(
+        MedicationDto.parse(
+          MedicationResponseType.command,
+          medicationCommandJson(),
+        ),
+      );
+      final result =
+          await repo.stopTreatment(treatment, 'k' * 32)
+              as Success<MedicationCommandResult>;
+      expect(result.value.treatment!.id, medicationTreatmentId);
+      expect(service.calls.single.arguments, [
+        medicationTreatmentId,
+        2,
+        3,
+        'k' * 32,
+      ]);
+      service.handler = (_, _) async => Success(
+        MedicationDto.parse(MedicationResponseType.command, {
+          ...medicationCommandJson(),
+          'result': {
+            'treatment': {
+              ...medicationTreatmentJson(),
+              'id': medicationAnimalId,
+            },
+          },
+        }),
+      );
+      expect(await repo.stopTreatment(treatment, 'k' * 32), isA<Failure>());
+    },
+  );
+
+  test(
     'month, day, application history and commands map confirmed private data',
     () async {
       final application = {

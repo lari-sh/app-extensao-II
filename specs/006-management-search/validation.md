@@ -463,3 +463,8 @@ incluídas na CI. Teste do VM cobre 68+1+1+1=71 e independência da página carr
 Suíte Flutter: **533 PASS**, análise/formato PASS; cobertura medida pelo gate global.
 A jornada Android completa com o novo finally ainda aguarda a CI remota; a checagem
 de atualização do contador no celular passou. Escopo funcional do contador preservado.
+
+
+## Cobertura — dados e armazenamento (2026-11-02)
+
+539 testes Flutter PASS. LCOV integral: 6726/7013 linhas, 95,91%, sem novas exclusões. Novos cenários: falhas e fila de persistência de sessão, leitura JPEG inconsistente/timeout, interrupção de tratamentos e mapeamento/ordenação dos animais. A meta de 99% permanece pendente.

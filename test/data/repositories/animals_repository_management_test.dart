@@ -1,4 +1,6 @@
 import 'package:abrigo_dos_anjos/data/models/animal_dto.dart';
+import 'package:abrigo_dos_anjos/domain/models/clinical_record.dart';
+import 'package:abrigo_dos_anjos/domain/models/animal_draft.dart';
 import 'package:abrigo_dos_anjos/utils/app_failure.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:abrigo_dos_anjos/data/repositories/animals_repository_impl.dart';
@@ -8,6 +10,72 @@ import '../../support/fakes/fake_animals_service.dart';
 import '../../support/public_fixtures.dart';
 
 void main() {
+  test(
+    'management maps public vaccines and private records and serializes trimmed care',
+    () async {
+      final dto = ManagedAnimalDto(
+        animal: AnimalDto.fromJson({
+          ...fixtureDto(1).values,
+          'vaccinations': [
+            {'applied_on': '2024-02-29', 'vaccine_type': 'V4'},
+          ],
+        }),
+        clinicalNotes: 'Interno',
+        careRecords: [
+          {'id': 'record', 'kind': 'medication', 'description': 'Acompanhar'},
+        ],
+      );
+      final service = FakeAnimalsService()
+        ..handler = (_, _) async => Success(dto);
+      final repo = AnimalsRepositoryImpl(service);
+      final result =
+          await repo.getManagement(fixtureId(1)) as Success<ManagedAnimal>;
+      expect(result.value.animal.vaccinations.single.vaccineType, 'V4');
+      expect(
+        result.value.careRecords.single.kind,
+        ClinicalRecordKind.medication,
+      );
+      await repo.saveAnimal(
+        const AnimalDraft(
+          name: 'Luna',
+          species: AnimalSpecies.dog,
+          sex: AnimalSex.female,
+          size: AnimalSize.small,
+          approximateAge: '2 anos',
+          careRecords: [
+            ClinicalRecord(
+              kind: ClinicalRecordKind.medication,
+              description: ' Acompanhar ',
+            ),
+          ],
+        ),
+        'k' * 32,
+      );
+      final payload = service.calls.last.arguments.first as Map;
+      expect(payload['care_records'], [
+        {'kind': 'medication', 'description': 'Acompanhar'},
+      ]);
+    },
+  );
+  test(
+    'favorite batches propagate a service failure and sort homonyms by stable id',
+    () async {
+      final service = FakeAnimalsService()
+        ..handler = (_, _) async => Success([
+          AnimalDto.fromJson({...fixtureDto(2).values, 'name': 'Luna'}),
+          AnimalDto.fromJson({...fixtureDto(1).values, 'name': 'Luna'}),
+        ]);
+      final repo = AnimalsRepositoryImpl(service);
+      final result =
+          await repo.getVisibleByIds({fixtureId(2), fixtureId(1)})
+              as Success<List<PublicAnimal>>;
+      expect(result.value.map((a) => a.id), [fixtureId(1), fixtureId(2)]);
+      service.handler = (_, _) async =>
+          Failure<List<AnimalDto>>(AppFailure(FailureCode.network));
+      expect(await repo.getVisibleByIds({fixtureId(1)}), isA<Failure>());
+    },
+  );
+
   test(
     'private pagination maps column, cursor and aggregate without using page length as total',
     () async {

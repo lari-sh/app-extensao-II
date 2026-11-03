@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image_picker/image_picker.dart';
@@ -7,7 +8,7 @@ import 'package:abrigo_dos_anjos/utils/app_failure.dart';
 
 class Picker extends ImagePicker {
   XFile? selection;
-  PlatformException? error;
+  Object? error;
   LostDataResponse lost = LostDataResponse.empty();
   bool? metadata;
   ImageSource? source;
@@ -42,7 +43,43 @@ class OversizedFile extends XFile {
   }
 }
 
+class MismatchedFile extends XFile {
+  MismatchedFile() : super('unused');
+  @override
+  Future<int> length() async => 3;
+  @override
+  Future<Uint8List> readAsBytes() async => Uint8List(2);
+}
+
 void main() {
+  test(
+    'gallery validates actual bytes, recognizes JPEG, and sanitizes timeout/unknown failures',
+    () async {
+      final picker = Picker();
+      final service = ImagePickerGalleryService(picker: picker);
+      picker.selection = MismatchedFile();
+      expect(
+        (await service.pickFromGallery() as Failure).failure.code,
+        FailureCode.validation,
+      );
+      picker.selection = XFile.fromData(Uint8List.fromList([255, 216, 255]));
+      expect(
+        (await service.pickFromGallery() as Success).value.mime,
+        'image/jpeg',
+      );
+      picker.error = TimeoutException('private');
+      expect(
+        (await service.pickFromGallery() as Failure).failure.code,
+        FailureCode.timeout,
+      );
+      picker.error = StateError('private');
+      expect(
+        (await service.pickFromGallery() as Failure).failure.code,
+        FailureCode.unknown,
+      );
+    },
+  );
+
   test(
     'gallery requests no full metadata, maps signature, cancellation and recovered selection',
     () async {

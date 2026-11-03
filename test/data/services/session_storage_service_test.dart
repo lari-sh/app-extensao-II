@@ -43,7 +43,60 @@ class DelayedSessionStorage extends MemorySessionStorage {
   }
 }
 
+class InitializationFailureStorage extends MemorySessionStorage {
+  @override
+  Future<void> initialize() async => throw StateError('private');
+}
+
 void main() {
+  test(
+    'initialization and serialized disk failures fail closed without poisoning later reads',
+    () async {
+      final broken = SessionStorageService(
+        InitializationFailureStorage(),
+        readPreference: () async => true,
+        writePreference: (_) async {},
+      );
+      await expectLater(broken.initialize(), throwsStateError);
+      expect(await broken.prepareSignIn(true), isA<Failure>());
+      for (final remove in [false, true]) {
+        final disk = MemorySessionStorage();
+        final storage = SessionStorageService(
+          disk,
+          readPreference: () async => true,
+          writePreference: (_) async {},
+        );
+        await storage.initialize();
+        disk.fail = true;
+        await expectLater(
+          remove
+              ? storage.removePersistedSession()
+              : storage.persistSession('private'),
+          throwsStateError,
+        );
+        disk.fail = false;
+        expect(await storage.accessToken(), isNull);
+        expect(await storage.hasAccessToken(), isFalse);
+      }
+    },
+  );
+  test(
+    'new sign-in invalidates a queued older ticket before persistence',
+    () async {
+      final ready = Completer<bool?>();
+      final storage = SessionStorageService(
+        MemorySessionStorage(),
+        readPreference: () => ready.future,
+        writePreference: (_) async {},
+      );
+      final first = storage.prepareSignIn(true);
+      final second = storage.prepareSignIn(false);
+      ready.complete(true);
+      expect(await first, isA<Failure>());
+      expect(await second, isA<Success>());
+    },
+  );
+
   test(
     'unchecked choice erases previous session and ignores SDK refresh writes',
     () async {
