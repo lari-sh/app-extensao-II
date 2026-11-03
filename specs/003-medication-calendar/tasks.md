@@ -105,3 +105,10 @@ Total: 50 tarefas. Distribuição: transversal: 16, US1: 10, US2: 8, US3: 8, US4
 ## Correção de interação na agenda
 
 - [x] T052 Fazer o cartão inteiro da aplicação abrir os detalhes ao tocar no nome, medicamento ou área livre, mantendo a seta, o design e a confirmação explícita de conclusão. Validar regressão Widget, analyze, suíte Flutter e abertura/conclusão no Android com animal fictício; registrar evidências e commit na developer. [003-FR-008, 003-FR-014, 003-CR-002, 003-CR-003]
+
+
+## Situação automática por medicação — decisão de 2026-11-02
+
+- [x] T053 Registrar 003-FR-015 e decisões: quarentena preservada, pendências impedem liberação, agendamentos futuros e múltiplos tratamentos; planejar execução no servidor. [003-FR-015]
+- [x] T054 Implementar migration/rotina agendada e testes SQL de início, término, interrupção, pendências, correção, quarentena/adotado, manual sem medicação, múltiplos tratamentos e acesso negado. [003-FR-015, 003-CR-002]
+- [ ] T055 Validar integração HTTP/concorrência e Android com os novos exemplos com fotos; preservar dados manuais, atualizar documentação e commit por contexto na developer. [003-FR-015, 003-CR-003]

@@ -20,11 +20,11 @@ def main():
     today = clock['shelter_today']
     end = (date.fromisoformat(today) + timedelta(days=2)).isoformat()
     result = []
-    for name, status, interval in [('Amora', 'treatment', None), ('Bento', 'available', 480), ('Mel', 'quarantine', None)]:
+    for name, status, interval in [('Amora', 'treatment', None), ('Bento', 'treatment', 480), ('Mel', 'quarantine', None)]:
         animal = next(row for row in rows if row['name'] == name)
         current = rpc('get_managed_animal', {'p_animal_id': animal['id']}, token)['animal']
         assert current['name'] == name and current['primary_photo_id'] == animal['photo_id']
-        rpc('set_animal_status', {'p_operation_key': operation('status/' + name), 'p_animal_id': animal['id'], 'p_status': status}, token)
+        rpc('set_animal_status', {'p_operation_key': operation('status-auto-rule/' + name), 'p_animal_id': animal['id'], 'p_status': status}, token)
         label = 'Cuidados simulados — ' + name
         payload = {'animal_id': animal['id'], 'medication_name': label, 'instructions': 'Somente demonstração do aplicativo. Não administrar medicamentos.', 'schedule_mode': 'interval' if interval else 'fixed_times', 'starts_on': today, 'starts_time': '08:00', 'ends_on': end, 'ends_time': '20:00', 'fixed_times': [] if interval else ['08:00', '20:00']}
         if interval: payload['interval_minutes'] = interval
@@ -35,7 +35,7 @@ def main():
     names = {item['animal_name'] for item in day['items']}
     assert {'Amora', 'Bento', 'Mel'} <= names
     (ROOT / '.tools/demo_animals/calendar-result.json').write_text(json.dumps({'day': today, 'through': end, 'animals': result}, ensure_ascii=False, indent=2), encoding='utf-8')
-    print('PASS: 8 animais com fotos; Amora em tratamento, Mel em quarentena, Bento disponível; agenda com horários fixos e intervalo de 8h. Dia:', today)
+    print('PASS: 8 animais com fotos; Amora em tratamento, Mel em quarentena, Bento em tratamento; agenda com horários fixos e intervalo de 8h. Dia:', today)
     request('/auth/v1/logout?scope=local', {}, token, expected=204)
 
 if __name__ == '__main__': main()

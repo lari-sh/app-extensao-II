@@ -83,3 +83,9 @@ intervalo de 8h, por três dias a partir da data do abrigo obtida no servidor.
 Os nomes/instruções deixam explícito que não se trata de prescrição veterinária.
 Operações idempotentes evitam duplicação no mesmo dia. Fotos/descrições públicas
 não são substituídas. O restante dos oito animais permanece disponível.
+
+
+Após 003-FR-015, Bento também fica Em tratamento automaticamente durante o uso;
+a agenda manual já existente de Luna é preservada e também determina sua situação.
+Resultado atual: 4 disponíveis, 3 em tratamento, 1 em quarentena, total 8.
+A contagem evolui conforme a agenda e as pendências, não é fixada no código.

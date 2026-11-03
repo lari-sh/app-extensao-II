@@ -485,3 +485,24 @@ recusa intervalo ocupado sem apagar registros. Mesmas 32 asserções de paginaç
 fuso, cursores, histórico e revogação preservadas. Nenhuma query do app alterada.
 Regressão local completa, incluindo a fundação nova de equipe: 13 arquivos e
 293 testes aprovados. Evidência remota deste ajuste ainda não confirmada.
+
+
+## Situação automática — 003-FR-015 (2026-11-02)
+
+Migration 202611020021 aplicada de forma aditiva, sem reset. Novos testes pgTAP:
+23/23 PASS (medication_animal_status.test.sql). Jornada autenticada
+medication_status_flow.py PASS: pendência vencida → tratamento, concluir última
+aplicação → disponível com autor/hora de servidor, correção → tratamento,
+medicação futura sem antecipação, quarentena/manual preservados e rotina privada.
+Regressão medication_flow.py PASS nos três grupos (agenda, conclusão, revisão).
+Job animal-medication-status observado com duas execuções succeeded no servidor.
+
+Suíte SQL completa: 427 testes, quatro falhas em team_access.test.sql porque o
+banco manual já possui administrador provisionado; não remover conta nem executar
+reset para satisfazer premissa de banco vazio. Demais arquivos, incluindo novo,
+PASS. Validação remota em ambiente descartável ainda pendente. Suíte Flutter
+integral: 553 PASS, 6823/7075 linhas = 96,44%, sem exclusões novas; meta 99% pendente.
+
+Estado dos exemplos após aplicação: Amora/Bento/Luna em tratamento, Mel em
+quarentena, quatro disponíveis; oito IDs e fotos preservados. A medicação manual
+preexistente de Luna foi preservada; as novas agendas são explicitamente simuladas.

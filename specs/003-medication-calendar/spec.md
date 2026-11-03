@@ -129,3 +129,18 @@ interromper e corrigir, verificando eventos e linhas numa segunda sessão.
 
 Entidades: tratamento estável, revisão imutável de programação, aplicação prevista,
 evento de auditoria e recibo de operação. Detalhes em data-model.md e contracts/.
+
+
+## 003-FR-015 — Situação automática por medicação (2026-11-02)
+
+Ao entrar no período de medicação ativa, um animal disponível passa para Em
+tratamento. Preservar Quarentena (decisão expressa) e Adotado. Tratamento futuro
+não muda a situação antes do início. Ao terminar/interromper todos os tratamentos,
+retornar para Disponíveis somente se não restarem doses pendentes ou atrasadas,
+inclusive de revisões anteriores. Doses concluídas mantêm autor, horário e histórico;
+correção que reabre pendência recoloca o animal disponível em tratamento.
+Nunca liberar por terminar apenas um de vários tratamentos simultâneos.
+Animais em tratamento manual sem medicação não são liberados pela automação.
+Executar no servidor, inclusive com app fechado; precisão de até um minuto nas
+passagens do tempo e atualização transacional nas alterações de medicação.
+O painel reflete o estado ao atualizar/reabrir, sem mudança do design aprovado.

@@ -128,3 +128,18 @@ Ajuste autorizado em 2026-11-01: ação Voltar visível, por componente comparti
 de apresentação usando maybePop (respeita guards), no login/painel/telas internas.
 Reautenticação chama o cancelamento já previsto, não contorna a sessão. T051 adicional
 ao escopo original de 50 tarefas; nenhuma regra nova na skill de constituição.
+
+
+## Automação de situação — 003-FR-015
+
+Migration aditiva com estado privado de participação e histórico de transições.
+Função privada bloqueia a linha do animal antes de avaliar revisões/aplicações;
+triggers de restrição diferidos avaliam estado final da transação de tratamento,
+revisão, aplicação ou situação. Uma rotina pg_cron a cada minuto trata início/fim
+sem depender do app. Nenhum parâmetro de horário vem de cliente. Funções/tabelas
+privadas sem execução/leitura para anon/authenticated; não expor RPC de serviço.
+Manter quarentena/adotado, múltiplos tratamentos e pendências históricas. Não
+liberar tratamento manual sem histórico de participação nessa automação.
+Fonte primária: https://supabase.com/docs/guides/cron e /cron/quickstart.
+Sem pacote Flutter novo ou alteração visual. Testes SQL de fronteiras, permissões,
+triggers e repetição; jornada HTTP e Android verificam integração e contadores.
