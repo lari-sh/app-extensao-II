@@ -383,6 +383,7 @@ class AppRouter {
                 );
               }
               if (settings.name == '/animal-management') {
+                MedicationCalendarViewModel? calendar;
                 late final ManagedAnimalSearchViewModel search;
                 search = ManagedAnimalSearchViewModel(
                   animals,
@@ -391,10 +392,12 @@ class AppRouter {
                   accessEpoch: () => access.state.accessEpoch,
                   privateGeneration: () => access.state.privateGeneration,
                   authorize: authorize,
+                  onFilterApplied: (filter) async {
+                    await calendar?.setAnimalFilter(filter);
+                  },
                   onDispose: () => access.removeListener(search.refreshAccess),
                 );
                 access.addListener(search.refreshAccess);
-                MedicationCalendarViewModel? calendar;
                 if (medications != null) {
                   late final MedicationCalendarViewModel calendarModel;
                   calendarModel = MedicationCalendarViewModel(

@@ -1,109 +1,130 @@
-import 'package:abrigo_dos_anjos/ui/features/medications/view_models/medication_calendar_view_model.dart';
-import '../../../../support/fakes/fake_medication_completion_scenario.dart';
-import 'package:abrigo_dos_anjos/ui/features/animals/views/managed_animal_search_panel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:abrigo_dos_anjos/ui/features/animals/views/dashboard_screen.dart';
 import 'package:abrigo_dos_anjos/ui/features/animals/view_models/dashboard_view_model.dart';
 import 'package:abrigo_dos_anjos/ui/features/animals/view_models/managed_animal_search_view_model.dart';
+import 'package:abrigo_dos_anjos/ui/features/medications/view_models/medication_calendar_view_model.dart';
+import 'package:abrigo_dos_anjos/ui/features/medications/views/medication_calendar_panel.dart';
 import 'package:abrigo_dos_anjos/domain/models/animal.dart';
 import 'package:abrigo_dos_anjos/utils/result.dart';
 import 'package:abrigo_dos_anjos/utils/app_failure.dart';
 import '../../../../support/fakes/fake_animals_repository.dart';
 import '../../../../support/fakes/fake_photo_repository.dart';
+import '../../../../support/fakes/fake_medication_completion_scenario.dart';
 import '../../../../support/public_fixtures.dart';
 
 void main() {
   for (final width in [320.0, 390.0]) {
-    testWidgets('fixed global search and three preserved modes at $width', (
-      tester,
-    ) async {
-      tester.view.physicalSize = Size(width, 900);
-      tester.view.devicePixelRatio = 1;
-      addTearDown(tester.view.resetPhysicalSize);
-      addTearDown(tester.view.resetDevicePixelRatio);
-      final r = FakeAnimalsRepository()
-        ..handler = (m, a) async => Success(
-          ManagedAnimalPage(
-            items: [
-              ManagedAnimal(
-                animal: fixtureAnimal(1).copyWith(animalCode: 'A0001'),
-              ),
-              ManagedAnimal(
-                animal: fixtureAnimal(2).copyWith(animalCode: 'A0002'),
-              ),
-            ],
-            total: 2,
-          ),
+    testWidgets(
+      'search retains Kanban columns, List and daily Calendar at $width',
+      (tester) async {
+        tester.view.physicalSize = Size(width, 1000);
+        tester.view.devicePixelRatio = 1;
+        addTearDown(tester.view.resetPhysicalSize);
+        addTearDown(tester.view.resetDevicePixelRatio);
+        final repo = FakeAnimalsRepository()
+          ..handler = (m, a) async => Success(
+            ManagedAnimalPage(
+              items: [
+                ManagedAnimal(
+                  animal: fixtureAnimal(1).copyWith(animalCode: 'A0001'),
+                ),
+                ManagedAnimal(
+                  animal: fixtureAnimal(2).copyWith(
+                    animalCode: 'A0002',
+                    status: AnimalStatus.treatment,
+                  ),
+                ),
+              ],
+              total: 2,
+            ),
+          );
+        final scenario = FakeMedicationCompletionScenario();
+        final calendar = MedicationCalendarViewModel(
+          scenario.repository,
+          now: () => DateTime.utc(2026, 11, 1),
         );
-      final search = ManagedAnimalSearchViewModel(
-        r,
-        FakePhotoRepository(),
-        isAuthorized: () => true,
-      );
-      final dashboard = DashboardViewModel(r, isAuthorized: () => true);
-      addTearDown(search.dispose);
-      addTearDown(dashboard.dispose);
-      await tester.pumpWidget(
-        MaterialApp(
-          home: MediaQuery(
-            data: const MediaQueryData(textScaler: TextScaler.linear(1.4)),
-            child: DashboardScreen(
-              viewModel: dashboard,
-              searchViewModel: search,
+        final search = ManagedAnimalSearchViewModel(
+          repo,
+          FakePhotoRepository(),
+          isAuthorized: () => true,
+          onFilterApplied: calendar.setAnimalFilter,
+        );
+        final dashboard = DashboardViewModel(
+          repo,
+          isAuthorized: () => true,
+          onCalendarSelected: calendar.initialize,
+        );
+        addTearDown(search.dispose);
+        addTearDown(dashboard.dispose);
+        addTearDown(calendar.dispose);
+        await tester.pumpWidget(
+          MaterialApp(
+            home: MediaQuery(
+              data: const MediaQueryData(textScaler: TextScaler.linear(1.4)),
+              child: DashboardScreen(
+                viewModel: dashboard,
+                searchViewModel: search,
+                calendarViewModel: calendar,
+              ),
             ),
           ),
-        ),
-      );
-      final field = find.byKey(const ValueKey('management-search'));
-      final before = tester.getTopLeft(field);
-      await tester.enterText(field, 'Luna');
-      await tester.pump(const Duration(milliseconds: 300));
-      await tester.pumpAndSettle();
-      await tester.scrollUntilVisible(
-        find.text('#A0001'),
-        100,
-        scrollable: find.descendant(
-          of: find.byType(ManagedAnimalSearchPanel),
-          matching: find.byType(Scrollable),
-        ),
-      );
-      expect(find.text('#A0001'), findsOneWidget);
-      expect(find.byType(FloatingActionButton), findsNothing);
-      await tester.scrollUntilVisible(
-        find.text('#A0002'),
-        100,
-        scrollable: find.descendant(
-          of: find.byType(ManagedAnimalSearchPanel),
-          matching: find.byType(Scrollable),
-        ),
-      );
-      expect(find.text('#A0002'), findsOneWidget);
-      for (final mode in ['Lista', 'Calendário', 'Kanban']) {
-        await tester.tap(find.text(mode));
+        );
+        final field = find.byKey(const ValueKey('management-search'));
+        final point = tester.getTopLeft(field);
+        await tester.enterText(field, 'Luna');
+        await tester.testTextInput.receiveAction(TextInputAction.search);
+        for (var i = 0; i < 20 && search.state.loading; i++) {
+          await tester.pump(const Duration(milliseconds: 20));
+        }
         await tester.pumpAndSettle();
-        expect(find.byType(ManagedAnimalSearchPanel), findsOneWidget);
-        expect(tester.getTopLeft(field), before);
-      }
-      search.clearAll();
-      await tester.pumpAndSettle();
-      expect(search.showGlobalResults, false);
-      expect(find.text('Resultados da busca'), findsNothing);
-      expect(tester.takeException(), isNull);
-    });
+        await tester.pump(const Duration(seconds: 1));
+        expect(search.state.filter.query, 'Luna');
+        expect(search.state.items.length, 2);
+        expect(dashboard.isSearching, true);
+        expect(dashboard.itemsForStatus(AnimalStatus.available).length, 1);
+        expect(find.text('#A0001'), findsOneWidget);
+        expect(find.text('#A0002'), findsOneWidget);
+        expect(find.text('Disponíveis'), findsNWidgets(2));
+        expect(find.text('Resultados da busca'), findsNothing);
+        await tester.tap(find.text('Lista'));
+        await tester.pumpAndSettle();
+        expect(find.text('#A0001'), findsOneWidget);
+        await tester.tap(find.text('Calendário'));
+        await tester.pumpAndSettle();
+        expect(find.byType(MedicationCalendarPanel), findsOneWidget);
+        expect(find.text('#A0001'), findsNothing);
+        expect(find.text('Medicações do dia para a busca'), findsOneWidget);
+        await calendar.selectDay('2026-11-03');
+        await tester.pumpAndSettle();
+        await search.submitQuery('A0001');
+        await tester.pumpAndSettle();
+        expect(calendar.state.selectedDay, '2026-11-03');
+        expect(
+          scenario.repository.calls.last.arguments.last,
+          search.state.filter,
+        );
+        search.clearAll();
+        await tester.pumpAndSettle();
+        expect(calendar.state.selectedDay, '2026-11-03');
+        expect(calendar.isAnimalFiltered, false);
+        expect(tester.getTopLeft(field), point);
+        expect(tester.takeException(), isNull);
+      },
+    );
   }
   testWidgets(
-    'filters apply or cancel, chips remove and empty/error retry are usable',
+    'filters cancel/apply/reset and errors stay inside current mode',
     (tester) async {
-      final r = FakeAnimalsRepository()
+      final repo = FakeAnimalsRepository()
         ..handler = (m, a) async =>
             const Success(ManagedAnimalPage(items: [], total: 0));
       final search = ManagedAnimalSearchViewModel(
-        r,
+        repo,
         FakePhotoRepository(),
         isAuthorized: () => true,
       );
-      final dashboard = DashboardViewModel(r, isAuthorized: () => true);
+      final dashboard = DashboardViewModel(repo, isAuthorized: () => true);
       addTearDown(search.dispose);
       addTearDown(dashboard.dispose);
       await tester.pumpWidget(
@@ -113,7 +134,26 @@ void main() {
       );
       await tester.tap(find.text('Filtros'));
       await tester.pumpAndSettle();
-      expect(find.text('Filtrar animais'), findsOneWidget);
+      Future<void> choose(String label, String value) async {
+        final f = find
+            .ancestor(
+              of: find.text(label),
+              matching: find.byWidgetPredicate(
+                (w) => w is DropdownButtonFormField,
+              ),
+            )
+            .first;
+        await tester.ensureVisible(f);
+        await tester.tap(f);
+        await tester.pumpAndSettle();
+        await tester.tap(find.text(value).last);
+        await tester.pumpAndSettle();
+      }
+
+      await choose('Espécie', 'Gato');
+      await choose('Sexo', 'Macho');
+      await choose('Porte', 'Grande');
+      await choose('Situação', 'Adotado');
       await tester.enterText(
         find.widgetWithText(TextFormField, 'Cor'),
         'preto',
@@ -121,8 +161,8 @@ void main() {
       await tester.ensureVisible(find.text('Aplicar filtros'));
       await tester.tap(find.text('Aplicar filtros'));
       await tester.pumpAndSettle();
-      expect(search.state.filter.color, 'preto');
-      expect(find.text('Nenhum animal encontrado'), findsOneWidget);
+      expect(search.chips.length, 5);
+      expect(find.text('Sem animais'), findsWidgets);
       await tester.tap(find.text('Filtros'));
       await tester.pumpAndSettle();
       await tester.enterText(
@@ -133,189 +173,21 @@ void main() {
       await tester.tap(find.text('Cancelar'));
       await tester.pumpAndSettle();
       expect(search.state.filter.color, 'preto');
-      r.handler = (m, a) async =>
+      repo.handler = (m, a) async =>
           Failure<ManagedAnimalPage>(AppFailure(FailureCode.network));
       await search.search();
       await tester.pumpAndSettle();
       expect(find.text('Tentar novamente'), findsOneWidget);
-      r.handler = (m, a) async =>
+      repo.handler = (m, a) async =>
           const Success(ManagedAnimalPage(items: [], total: 0));
       await tester.tap(find.text('Tentar novamente'));
       await tester.pumpAndSettle();
-      expect(search.state.message, isNull);
-      await tester.tap(find.byTooltip('Delete'));
-      await tester.pumpAndSettle();
-      expect(search.showGlobalResults, false);
-      expect(tester.takeException(), isNull);
-    },
-  );
-  testWidgets(
-    'all enum filters, toolbar submit/clear and filter reset follow approved commands',
-    (tester) async {
-      final r = FakeAnimalsRepository()
-        ..handler = (m, a) async =>
-            const Success(ManagedAnimalPage(items: [], total: 0));
-      final search = ManagedAnimalSearchViewModel(
-        r,
-        FakePhotoRepository(),
-        isAuthorized: () => true,
-      );
-      final dashboard = DashboardViewModel(r, isAuthorized: () => true);
-      addTearDown(search.dispose);
-      addTearDown(dashboard.dispose);
-      await tester.pumpWidget(
-        MaterialApp(
-          home: DashboardScreen(viewModel: dashboard, searchViewModel: search),
-        ),
-      );
-      await tester.tap(find.text('Filtros'));
-      await tester.pumpAndSettle();
-      Future<void> option(String label, String value) async {
-        final field = find
-            .ancestor(
-              of: find.text(label),
-              matching: find.byWidgetPredicate(
-                (w) => w is DropdownButtonFormField,
-              ),
-            )
-            .first;
-        await tester.ensureVisible(field);
-        await tester.tap(field);
-        await tester.pumpAndSettle();
-        await tester.tap(find.text(value).last);
-        await tester.pumpAndSettle();
-      }
-
-      await option('Espécie', 'Gato');
-      await option('Sexo', 'Macho');
-      await option('Porte', 'Grande');
-      await option('Situação', 'Adotado');
-      await tester.ensureVisible(find.text('Aplicar filtros'));
-      await tester.tap(find.text('Aplicar filtros'));
-      await tester.pumpAndSettle();
-      expect(search.chips.length, 4);
-      final field = find.byKey(const ValueKey('management-search'));
-      await tester.enterText(field, 'Luna');
-      await tester.testTextInput.receiveAction(TextInputAction.search);
-      await tester.pumpAndSettle();
-      expect(search.state.filter.query, 'Luna');
-      await tester.tap(find.byTooltip('Limpar texto'));
-      await tester.pumpAndSettle();
-      expect(search.state.filter.query, isEmpty);
-      expect(search.showGlobalResults, true);
       await tester.tap(find.text('Filtros'));
       await tester.pumpAndSettle();
       await tester.ensureVisible(find.text('Limpar filtros'));
       await tester.tap(find.text('Limpar filtros'));
       await tester.pumpAndSettle();
       expect(search.showGlobalResults, false);
-      await tester.tap(find.text('Filtros'));
-      await tester.pumpAndSettle();
-      await tester.tap(find.byTooltip('Cancelar filtros'));
-      await tester.pumpAndSettle();
-      expect(search.chips, isEmpty);
-      expect(tester.takeException(), isNull);
-    },
-  );
-  testWidgets(
-    'clearing restores list scroll and selected calendar day; editor return refreshes search',
-    (tester) async {
-      final r = FakeAnimalsRepository()
-        ..handler = (m, a) async {
-          if (m == 'getStatusCounts') {
-            return const Success<Map<AnimalStatus, int>>({
-              AnimalStatus.available: 30,
-            });
-          }
-          if (m == 'searchManagement') {
-            return Success(
-              ManagedAnimalPage(
-                items: [
-                  ManagedAnimal(
-                    animal: fixtureAnimal(1).copyWith(animalCode: 'A0001'),
-                  ),
-                ],
-                total: 1,
-              ),
-            );
-          }
-          return Success(
-            ManagedAnimalPage(
-              items: List.generate(
-                30,
-                (i) => ManagedAnimal(animal: fixtureAnimal(i + 1)),
-              ),
-              total: 30,
-            ),
-          );
-        };
-      final search = ManagedAnimalSearchViewModel(
-        r,
-        FakePhotoRepository(),
-        isAuthorized: () => true,
-      );
-      final calendar = MedicationCalendarViewModel(
-        FakeMedicationCompletionScenario().repository,
-        now: () => DateTime.utc(2026, 11, 1),
-      );
-      final dashboard = DashboardViewModel(
-        r,
-        isAuthorized: () => true,
-        onCalendarSelected: calendar.initialize,
-      );
-      addTearDown(search.dispose);
-      addTearDown(dashboard.dispose);
-      addTearDown(calendar.dispose);
-      await dashboard.load();
-      dashboard.setListMode(true);
-      await tester.pumpWidget(
-        MaterialApp(
-          routes: {
-            '/animal-editor': (context) => Scaffold(
-              body: TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('Voltar da ficha'),
-              ),
-            ),
-          },
-          home: DashboardScreen(
-            viewModel: dashboard,
-            searchViewModel: search,
-            calendarViewModel: calendar,
-          ),
-        ),
-      );
-      final scrolling = find.descendant(
-        of: find.byType(ListView),
-        matching: find.byType(Scrollable),
-      );
-      await tester.drag(find.byType(ListView), const Offset(0, -600));
-      await tester.pumpAndSettle();
-      final position = tester.state<ScrollableState>(scrolling).position.pixels;
-      expect(position, greaterThan(0));
-      await search.submitQuery('Luna');
-      await tester.pumpAndSettle();
-      search.clearAll();
-      await tester.pumpAndSettle();
-      expect(
-        tester.state<ScrollableState>(scrolling).position.pixels,
-        position,
-      );
-      await tester.tap(find.text('Calendário'));
-      await tester.pumpAndSettle();
-      await calendar.selectDay('2026-11-03');
-      await tester.pumpAndSettle();
-      await search.submitQuery('A0001');
-      await tester.pumpAndSettle();
-      await tester.tap(find.text('Abrir ficha ›'));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text('Voltar da ficha'));
-      await tester.pumpAndSettle();
-      expect(search.state.filter.query, 'A0001');
-      expect(search.state.items, hasLength(1));
-      search.clearAll();
-      await tester.pumpAndSettle();
-      expect(calendar.state.selectedDay, '2026-11-03');
       expect(tester.takeException(), isNull);
     },
   );

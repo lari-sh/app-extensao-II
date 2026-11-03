@@ -1,3 +1,5 @@
+import 'package:abrigo_dos_anjos/ui/features/animals/views/animal_editor_screen.dart';
+import 'package:abrigo_dos_anjos/domain/models/animal.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -16,7 +18,9 @@ void main() {
       final fixture =
           jsonDecode(
                 (await http.get(
-                  Uri.parse('http://10.0.2.2:58766/fixtures'),
+                  Uri.parse(
+                    '${const String.fromEnvironment('SEARCH_CONTROL_URL', defaultValue: 'http://10.0.2.2:58766')}/fixtures',
+                  ),
                 )).body,
               )
               as Map;
@@ -154,18 +158,74 @@ void main() {
           .calendarViewModel!;
       final day = calendar.state.selectedDay;
       await query(first['animal_code'] as String);
-      await waitFor(find.text('#${first['animal_code']}'));
-      expect(search.state.total, 1);
-      await tester.ensureVisible(find.text('Abrir ficha ›'));
-      await tester.tap(find.text('Abrir ficha ›'));
       await tester.pumpAndSettle();
+      expect(find.byType(MedicationCalendarPanel), findsOneWidget);
+      expect(find.text('#${first['animal_code']}'), findsNothing);
+      expect(calendar.state.selectedDay, day);
+      for (var i = 0; i < 80 && calendar.state.loadingDay; i++) {
+        await Future<void>.delayed(const Duration(milliseconds: 100));
+        await tester.pumpAndSettle();
+      }
+      expect(calendar.state.items, isNotEmpty);
+      expect(
+        calendar.state.items.every((a) => a.animalId == first['id']),
+        true,
+      );
+      expect(find.text('Ilustrativa A'), findsWidgets);
+      expect(find.text('Ilustrativa B'), findsNothing);
+      search.clearAll();
+      await tester.pumpAndSettle();
+      expect(calendar.state.selectedDay, day);
+      await tester.tap(find.text('Kanban'));
+      await tester.pumpAndSettle();
+      await query(first['animal_code'] as String);
+      await waitFor(find.byKey(ValueKey('clinicalSummary-${first['id']}')));
+      await tester.tap(find.byKey(ValueKey('clinicalSummary-${first['id']}')));
+      await tester.pumpAndSettle();
+      await waitFor(find.byType(AnimalEditorScreen));
+      final editor = tester.widget<AnimalEditorScreen>(
+        find.byType(AnimalEditorScreen),
+      );
+      for (
+        var i = 0;
+        i < 100 && !editor.managementViewModel!.canManageFocused;
+        i++
+      ) {
+        await Future<void>.delayed(const Duration(milliseconds: 100));
+        await tester.pumpAndSettle();
+      }
+      expect(editor.managementViewModel!.canManageFocused, true);
+      final status = find.byWidgetPredicate(
+        (w) => w is DropdownButtonFormField<AnimalStatus>,
+      );
+      await tester.ensureVisible(status);
+      await tester.tap(status);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Em tratamento').last);
+      await tester.pumpAndSettle();
+      for (
+        var i = 0;
+        i < 100 &&
+            editor.managementViewModel!.focusedStatus != AnimalStatus.treatment;
+        i++
+      ) {
+        await Future<void>.delayed(const Duration(milliseconds: 100));
+        await tester.pumpAndSettle();
+      }
+      expect(editor.managementViewModel!.focusedStatus, AnimalStatus.treatment);
+      final verification =
+          await Supabase.instance.client.rpc(
+                'get_managed_animal',
+                params: {'p_animal_id': first['id']},
+              )
+              as Map;
+      expect((verification['animal'] as Map)['status'], 'treatment');
       await tester.tap(find.byTooltip('Voltar').first);
       await tester.pumpAndSettle();
       await waitFor(find.byType(DashboardScreen));
       expect(search.state.filter.query, first['animal_code']);
       search.clearAll();
       await tester.pumpAndSettle();
-      expect(calendar.state.selectedDay, day);
       await tester.tap(find.byTooltip('Sair da conta'));
       await tester.pumpAndSettle();
       expect(find.byType(DashboardScreen), findsNothing);

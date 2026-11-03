@@ -36,6 +36,7 @@ class ManagedAnimalSearchViewModel extends ChangeNotifier {
     this.accessEpoch,
     this.privateGeneration,
     this.onDispose,
+    this.onFilterApplied,
   }) {
     _private = privateGeneration?.call();
   }
@@ -45,6 +46,7 @@ class ManagedAnimalSearchViewModel extends ChangeNotifier {
   final Future<bool> Function()? authorize;
   final int Function()? accessEpoch, privateGeneration;
   final VoidCallback? onDispose;
+  final Future<void> Function(ManagedAnimalSearchFilter?)? onFilterApplied;
   ManagedAnimalSearchState _state = const ManagedAnimalSearchState();
   ManagedAnimalSearchState get state => _state;
   Timer? _timer;
@@ -149,6 +151,7 @@ class ManagedAnimalSearchViewModel extends ChangeNotifier {
     _timer?.cancel();
     ++_request;
     _publish(const ManagedAnimalSearchState());
+    if (onFilterApplied != null) unawaited(onFilterApplied!(null));
   }
 
   void beginFilters() => _publish(state.copyWith(draft: state.filter));
@@ -247,6 +250,7 @@ class ManagedAnimalSearchViewModel extends ChangeNotifier {
         }
         return;
       }
+      if (!next && onFilterApplied != null) await onFilterApplied!(filter);
       // Revalidation intentionally advances accessEpoch while retaining this owner.
       // Capture the confirmed epoch only after that check; generation/request still
       // reject a changed account or a newer query.

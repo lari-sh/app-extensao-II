@@ -59,9 +59,13 @@ class _ManagedAnimalSearchToolbarState
                   textInputAction: TextInputAction.search,
                   maxLength: 80,
                   onChanged: widget.viewModel.setQuery,
-                  onSubmitted: widget.viewModel.submitQuery,
+                  onSubmitted: (value) {
+                    FocusScope.of(context).unfocus();
+                    widget.viewModel.submitQuery(value);
+                  },
                   decoration: InputDecoration(
                     hintText: 'Nome ou código do animal',
+                    hintMaxLines: 1,
                     counterText: '',
                     prefixIcon: const Icon(Icons.search),
                     suffixIcon: widget.viewModel.state.filter.query.isEmpty

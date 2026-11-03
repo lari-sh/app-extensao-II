@@ -222,3 +222,17 @@ O commit 847c70e falhou no gate dart format: três arquivos de Service/fakes
 haviam sido alterados por dart fix após a formatação. Backend/Android não
 executaram. Arquivos formatados novamente, com verificação sem alterações;
 correção de estilo separada da integração visual em andamento.
+
+### Integração visual v3
+
+Busca mantém os cartões nas colunas do Kanban, os itens na Lista e somente as
+aplicações do dia no Calendário. Integração de filtros com a RPC contextual.
+Três testes Widget passaram, incluindo 320/390 px e texto ampliado; análise
+estática sem problemas. Jornada nativa atualizada, ainda pendente de execução.
+
+### CI 41547227518 — regressões Android em investigação
+
+Flutter e backend aprovados. Android: sete jornadas passaram e três falharam:
+animal_editor_flow (reabertura sem aguardar os dados), medication_calendar_flow
+(carregamento/permissões do editor) e team_access_flow (listagem após navegação).
+Entrega não executada. Evidência não representa aprovação da revisão v3.

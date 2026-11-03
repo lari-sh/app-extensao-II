@@ -1,3 +1,4 @@
+import 'managed_animal_search_view_model.dart';
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -43,6 +44,29 @@ class DashboardViewModel extends ChangeNotifier {
   bool get showTeam => canManage && canManageTeam?.call() == true;
   final AnimalsRepository repository;
   final Future<void> Function()? onCalendarSelected;
+  ManagedAnimalSearchViewModel? _search;
+  void bindSearch(ManagedAnimalSearchViewModel? search) {
+    _search = search;
+  }
+
+  bool get isSearching => _search?.showGlobalResults ?? false;
+  List<ManagedAnimal> itemsForStatus(AnimalStatus status) => isSearching
+      ? _search!.state.items
+            .where((a) => a.animal.status == status)
+            .toList(growable: false)
+      : state.pages[status]?.items ?? const [];
+  bool emptyStatus(AnimalStatus status) => itemsForStatus(status).isEmpty;
+  bool hasMoreForStatus(AnimalStatus status) =>
+      isSearching ? false : state.pages[status]?.cursor != null;
+  String columnHeading(AnimalStatus status) => isSearching
+      ? labels[status]!
+      : '${labels[status]} · ${state.counts[status] ?? 0}';
+  List<AnimalStatus> get kanbanStatuses => [
+    AnimalStatus.available,
+    AnimalStatus.treatment,
+    AnimalStatus.quarantine,
+    if (isSearching && !emptyStatus(AnimalStatus.adopted)) AnimalStatus.adopted,
+  ];
   bool get isCalendar => state.mode == DashboardMode.calendar;
   bool get showRegistration => !isCalendar;
   bool showRegistrationFor(bool globalResults) =>

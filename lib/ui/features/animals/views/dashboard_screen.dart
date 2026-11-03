@@ -1,6 +1,5 @@
 import '../view_models/managed_animal_search_view_model.dart';
 import 'managed_animal_search_toolbar.dart';
-import 'managed_animal_search_panel.dart';
 import '../../../core/widgets/app_back_button.dart';
 import '../../medications/views/medication_calendar_panel.dart';
 import '../../medications/view_models/medication_calendar_view_model.dart';
@@ -31,6 +30,7 @@ class _DashboardScreenState extends State<DashboardScreen>
   @override
   void initState() {
     super.initState();
+    viewModel.bindSearch(widget.searchViewModel);
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -237,37 +237,75 @@ class _DashboardScreenState extends State<DashboardScreen>
                     ),
                 ],
               ),
+            if (widget.searchViewModel?.showGlobalResults ?? false)
+              _searchFeedback(widget.searchViewModel!),
             Expanded(
-              child: Stack(
+              child: IndexedStack(
+                index: viewModel.state.mode.index,
                 children: [
-                  Offstage(
-                    offstage:
-                        widget.searchViewModel?.showGlobalResults ?? false,
-                    child: IndexedStack(
-                      index: viewModel.state.mode.index,
-                      children: [
-                        _kanban(context),
-                        _list(context),
-                        widget.calendarViewModel == null
-                            ? const Center(child: Text('Agenda indisponível.'))
-                            : MedicationCalendarPanel(
-                                viewModel: widget.calendarViewModel!,
-                              ),
-                      ],
-                    ),
-                  ),
-                  if (widget.searchViewModel?.showGlobalResults ?? false)
-                    ManagedAnimalSearchPanel(
-                      viewModel: widget.searchViewModel!,
-                      onOpen: (id) => _edit(context, id),
-                      modeLabel: viewModel.modeLabel,
-                    ),
+                  _kanban(context),
+                  _list(context),
+                  widget.calendarViewModel == null
+                      ? const Center(child: Text('Agenda indisponível.'))
+                      : MedicationCalendarPanel(
+                          viewModel: widget.calendarViewModel!,
+                        ),
                 ],
               ),
             ),
           ],
         ),
       ),
+    ),
+  );
+  Widget _searchFeedback(ManagedAnimalSearchViewModel search) => Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 20),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                viewModel.isCalendar
+                    ? 'Medicações do dia para a busca'
+                    : search.countLabel,
+                style: const TextStyle(fontSize: 11),
+              ),
+            ),
+            Flexible(
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: search.clearAll,
+                  child: const Text('Limpar busca'),
+                ),
+              ),
+            ),
+          ],
+        ),
+        if (search.state.loading) const LinearProgressIndicator(),
+        if (search.state.message != null)
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  search.state.message!,
+                  style: const TextStyle(fontSize: 11),
+                ),
+              ),
+              TextButton(
+                onPressed: () => search.search(),
+                child: const Text('Tentar novamente'),
+              ),
+            ],
+          ),
+        if (search.canLoadMore && !viewModel.isCalendar)
+          TextButton(
+            onPressed: () => search.search(next: true),
+            child: const Text('Carregar mais animais'),
+          ),
+      ],
     ),
   );
   Widget _tab(String label, bool selected, VoidCallback action) => Expanded(
@@ -298,14 +336,13 @@ class _DashboardScreenState extends State<DashboardScreen>
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: Text(
-            '${DashboardViewModel.labels[status]} · ${viewModel.state.counts[status] ?? 0}',
+            viewModel.columnHeading(status),
             style: const TextStyle(fontWeight: FontWeight.w600),
           ),
         ),
-        for (final item
-            in viewModel.state.pages[status]?.items ?? <ManagedAnimal>[])
+        for (final item in viewModel.itemsForStatus(status))
           _card(context, item),
-        if (viewModel.state.pages[status]?.items.isEmpty ?? true)
+        if (viewModel.emptyStatus(status))
           const Padding(
             padding: EdgeInsets.all(8),
             child: Text(
@@ -313,7 +350,7 @@ class _DashboardScreenState extends State<DashboardScreen>
               style: TextStyle(fontSize: 11),
             ),
           ),
-        if (viewModel.state.pages[status]?.cursor != null)
+        if (viewModel.hasMoreForStatus(status))
           TextButton(
             onPressed: viewModel.canManage
                 ? () => viewModel.loadMore(status)
@@ -328,11 +365,7 @@ class _DashboardScreenState extends State<DashboardScreen>
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        for (final status in const [
-          AnimalStatus.available,
-          AnimalStatus.treatment,
-          AnimalStatus.quarantine,
-        ])
+        for (final status in viewModel.kanbanStatuses)
           Expanded(
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 3),
@@ -344,7 +377,7 @@ class _DashboardScreenState extends State<DashboardScreen>
               child: Column(
                 children: [
                   Text(
-                    '${DashboardViewModel.labels[status]} · ${viewModel.state.counts[status] ?? 0}',
+                    viewModel.columnHeading(status),
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       fontSize: 10,
@@ -355,18 +388,15 @@ class _DashboardScreenState extends State<DashboardScreen>
                   Expanded(
                     child: ListView(
                       children: [
-                        for (final item
-                            in viewModel.state.pages[status]?.items ??
-                                <ManagedAnimal>[])
+                        for (final item in viewModel.itemsForStatus(status))
                           _card(context, item, compact: true),
-                        if (viewModel.state.pages[status]?.items.isEmpty ??
-                            true)
+                        if (viewModel.emptyStatus(status))
                           const Text(
                             'Sem animais',
                             textAlign: TextAlign.center,
                             style: TextStyle(fontSize: 10),
                           ),
-                        if (viewModel.state.pages[status]?.cursor != null)
+                        if (viewModel.hasMoreForStatus(status))
                           TextButton(
                             onPressed: viewModel.canManage
                                 ? () => viewModel.loadMore(status)
@@ -477,6 +507,11 @@ class _DashboardScreenState extends State<DashboardScreen>
                   ),
                 ],
               ),
+              if (viewModel.isSearching)
+                Text(
+                  '#${animal.animalCode}',
+                  style: const TextStyle(fontSize: 10),
+                ),
               Text(
                 viewModel.cardSubtitle(animal),
                 style: const TextStyle(fontSize: 10, color: Color(0xFF795C52)),
