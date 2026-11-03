@@ -99,3 +99,7 @@ selecionado. No Calendário, manter a data e mostrar somente as medicações do 
 
 
 - [x] T048 Corrigir conteúdo privado retido quando a instância de sessão é substituída por outra conta com mesma geração; regressão Widget, gates e Android, sem alterar o layout. [006-FR-006, 006-CR-001]
+
+## Demonstração gravada no celular — 2026-11-03
+
+- [ ] T049 Gravar o APK real no celular nos fluxos públicos e administrativos, usando dados fictícios e fotos ilustrativas; conferir os arquivos, organizar capítulos e documentar o que foi demonstrado e eventuais limitações. Salvar o vídeo localmente e informar a pasta, sem enviar mensagens externas. [DEMO-FR-001, 006-CR-001]
