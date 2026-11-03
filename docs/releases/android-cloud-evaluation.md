@@ -116,8 +116,9 @@ locais/da CI. iOS não foi compilado nem validado neste ambiente.
 
 Andamento de T063 em 03/11/2026: Site URL e redirects exatos do app foram
 aplicados e relidos na nuvem. SMTP Brevo ativo e persistido com remetente temporário
-autorizado; templates de convite/recuperação publicados em português. Entrega e
-conclusão dos fluxos de email continuam pendentes. Procedimento e evidências em
+autorizado; templates de convite/recuperação publicados em português. Convite de
+funcionário enviado pelo app e entregue pelo Brevo às 19h23. Aceite e validação
+completa da recuperação ainda pendentes. Procedimento e evidências em
 [email hospedado](../development/cloud-auth-email.md).
 
 O vínculo GitHub não substitui os gates. A integração foi discutida com a

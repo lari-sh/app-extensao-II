@@ -789,3 +789,17 @@ Novo APK: 59.896.931 bytes; SHA-256
 abe3a1dae090df2b20ef36ebc01a6e71fc0881f2a5e8f37b82dba97efb2f52cf.
 O hash anterior added5799... corresponde ao release antes desta correção. Nenhum
 convite foi enviado nesta etapa. T063 continua separada e aberta.
+
+## Primeiro convite entregue na nuvem — 2026-11-03
+
+T063 parcial: no release corrigido, administrador abriu a equipe e enviou um único
+convite de perfil funcionário ao destinatário real autorizado. Nome/destinatário
+conferidos no formulário antes do toque, sem automatizar senha ou ler tokens.
+App confirmou envio; CLI leu status pending, geração 1 e versão 2. Registro criado
+às 2026-11-03T22:23:13.522518Z, expiração uma hora depois. Brevo Logs confirmou
+Sent/Delivered em 03/11/2026 19h23 (São Paulo), com assunto em português.
+
+Aceite não confirmado na conferência posterior: accepted_at nulo. Responsável
+orientada a abrir o link no próprio celular e definir senha diretamente no app.
+Recuperação ainda não solicitada. Nenhuma mensagem ao professor, nenhuma mudança
+nas contas de avaliação existentes e nenhuma conclusão antecipada de T063.

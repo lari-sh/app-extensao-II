@@ -3,6 +3,21 @@
 Projeto de avaliação: `tcdmiudchyptbgjzrotj`. Acompanhamento: T063 em
 `specs/006-management-search/tasks.md`. Não contém credenciais SMTP ou tokens.
 
+## Entrega real do convite — 03/11/2026
+
+Com o APK release corrigido em T066, administrador autenticado abriu Equipe →
+Convidar pessoa e enviou um único convite de funcionário ao destinatário real
+autorizado. O app confirmou o envio; banco registrou status pending, geração 1,
+versão 2, criação às 22:23:13 UTC (19:23:13 em São Paulo) e validade de uma hora.
+Brevo Transactional → Logs confirmou Sent e Delivered às 19h23, com o assunto
+em português. Nenhum email foi enviado ao professor.
+
+Isso comprova a integração Auth/Function/SMTP e a entrega ao servidor destinatário.
+O aceite ainda não foi confirmado: a responsável deve abrir o link no próprio
+celular e definir sua senha diretamente no app. Depois, conferir vínculo de
+funcionário e testar a recuperação solicitada na mesma instalação, inclusive
+recebimento, retorno PKCE e nova autenticação. T063 continua aberta.
+
 ## Configuração aplicada em 03/11/2026
 
 O painel Auth apresentava Site URL `http://localhost:3000` e nenhum redirect.
@@ -68,10 +83,12 @@ O `config diff` mostra os assuntos, mas o `config push` carrega também os arqui
 `content_path` e os publica como mudanças de conteúdo. Conferir ambos no painel
 após publicar, sem considerar apenas o diff dos assuntos como prova do corpo.
 
-Entrega real, recebimento e conclusão no Android ainda pendentes. MCP oficial
+Na etapa inicial de configuração, entrega e conclusão ainda não haviam sido
+testadas. MCP oficial
 Dart/Flutter `list_devices` não encontrou aparelho Android na conferência desta
 etapa; foram listados apenas Windows, Chrome e Edge. Nenhum email de teste foi
-disparado nesta etapa de configuração.
+disparado naquela etapa de configuração. A entrega posterior está registrada
+no início deste documento.
 
 Para repetir a implantação em outro ambiente, definir com a responsável um provedor
 SMTP, remetente verificado e endereço real autorizado para teste. Inserir host, porta, usuário e
