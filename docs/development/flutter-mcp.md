@@ -57,3 +57,9 @@ Referências: [MCP no Codex](https://developers.openai.com/codex/mcp),
 Ela não é usada por `lib/main.dart`. O APK normal foi restaurado ao fim.
 A escolha dos controles usa a árvore inspecionada; seletores ambíguos e rótulos
 diferentes foram corrigidos no roteiro, conforme o relatório da gravação.
+
+## Atualização sem nova instalação
+
+Após instalar a entrada de depuração autorizada no Xiaomi, `flutter attach --machine --print-dtd --target lib/main_mcp_local.dart` conectou-se ao APK existente. Essa versão do MCP não oferece attach: a CLI forneceu a URI DTD e o MCP oficial assumiu a inspeção/Flutter Driver pela conexão. A sessão pode usar hot reload/hot restart para alterações Dart; mudanças nativas podem exigir nova instalação. O APK de depuração permanece separado da entrada de produção.
+
+O helper local de fila também passou a substituir seu marcador temporário ao repetir um identificador concluído, corrigindo uma falha da automação que não pertence ao aplicativo. Dados de entrada com credenciais fictícias são removidos ou redigidos depois da execução.
