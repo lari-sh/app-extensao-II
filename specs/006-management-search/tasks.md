@@ -28,3 +28,10 @@ selecionado. No Calendário, manter a data e mostrar somente as medicações do 
 - [ ] T016 Validar revisão no Android/CI, cobertura >=95%, documentação e commits por contexto na developer. [006-CR-001]
 
 - [ ] T017 Ampliar cobertura de regras/permissões/modos/fotos e medir cobertura real; não excluir código para elevar números. [006-CR-001]
+
+
+## Auditoria de dimensões solicitada em 2026-11-02
+
+- [x] T018 Inventariar dimensões das views/widgets/tema e medir Kanban/Lista/Calendário com fontes ampliadas; comparar com recomendações oficiais e documentar limitações. Ver docs/reviews/component-sizing-2026-11-02/review.md. [006-CR-001]
+- [ ] T019 Preparar revisão visual das dimensões/colunas do Kanban e áreas de toque; explicar alterações e obter aprovação antes de mudar o layout. [006-FR-007, 006-CR-001]
+- [ ] T020 Após aprovação, implementar ajustes por contexto, testar acessibilidade/responsividade por tela e validar no celular/CI. Depende de T019. [006-CR-001]
