@@ -89,3 +89,15 @@ Após 003-FR-015, Bento também fica Em tratamento automaticamente durante o uso
 a agenda manual já existente de Luna é preservada e também determina sua situação.
 Resultado atual: 4 disponíveis, 3 em tratamento, 1 em quarentena, total 8.
 A contagem evolui conforme a agenda e as pendências, não é fixada no código.
+
+
+## Jornada no celular com o perfil de apresentação
+
+`integration_test/presentation_local_flow_test.dart` é uma jornada local opcional,
+habilitada com `--dart-define=LOCAL_PRESENTATION_TEST=true`, backend loopback
+127.0.0.1:54321 e controller de credenciais local na porta 58763. Exige os oito
+exemplos, pelo menos uma aplicação simulada da Amora vencida e pendente e a conta
+local fixture-admin; não serve como gate de um banco de produção ou CI genérica.
+Valida a imagem JPEG lida pela Function, ficha pública, situações do Kanban,
+conclusão com autor/horário e correção justificada. Conclusão/correção ficam no
+histórico de demonstração; não apaga o histórico. Executada no celular: PASS, 14 s.
