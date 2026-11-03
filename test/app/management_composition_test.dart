@@ -52,7 +52,8 @@ void main() {
         tester.element(find.text('Quero Adotar (Visitante)')),
       ).pushNamed('/animal-management');
       await tester.pumpAndSettle();
-      expect(find.text('Equipe'), findsOneWidget);
+      expect(find.byTooltip('Administração'), findsOneWidget);
+      expect(find.text('Equipe e acessos'), findsNothing);
       await tester.tap(find.text('Calendário'));
       await tester.pumpAndSettle();
       expect(find.byType(MedicationCalendarPanel), findsOneWidget);
@@ -67,7 +68,9 @@ void main() {
       expect(clinical.repository.calls.length, greaterThan(reads));
       await tester.tap(find.byTooltip('Atualizar painel'));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Equipe'));
+      await tester.tap(find.byTooltip('Administração'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Equipe e acessos'));
       await tester.pumpAndSettle();
       expect(find.text('Equipe indisponível.'), findsOneWidget);
     },

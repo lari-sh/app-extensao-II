@@ -64,7 +64,11 @@ void main() {
         expect(vm.canSearch, true);
         await tester.tap(field);
         await tester.pumpAndSettle();
+        final previousQuery = vm.state.filter.query;
         await tester.enterText(field, text);
+        await tester.pump(const Duration(milliseconds: 800));
+        expect(vm.state.filter.query, previousQuery);
+        expect(tester.widget<TextField>(field).enabled, isTrue);
         await tester.testTextInput.receiveAction(TextInputAction.search);
         for (var i = 0; i < 100; i++) {
           await Future<void>.delayed(const Duration(milliseconds: 100));
@@ -226,7 +230,9 @@ void main() {
       expect(search.state.filter.query, first['animal_code']);
       search.clearAll();
       await tester.pumpAndSettle();
-      await tester.tap(find.byTooltip('Sair da conta'));
+      await tester.tap(find.byTooltip('Administração'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Sair da conta'));
       await tester.pumpAndSettle();
       expect(find.byType(DashboardScreen), findsNothing);
     },

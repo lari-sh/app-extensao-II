@@ -56,8 +56,10 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.text('Animais do abrigo'));
       await tester.pumpAndSettle();
-      expect(find.text('Equipe'), findsOneWidget);
-      await tester.tap(find.text('Equipe'));
+      expect(find.byTooltip('Administração'), findsOneWidget);
+      await tester.tap(find.byTooltip('Administração'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Equipe e acessos'));
       await tester.pumpAndSettle();
       // Wait for the actual team response, not only for the route animation.
       for (
@@ -129,7 +131,11 @@ void main() {
       await tester.tap(find.text('Animais do abrigo'));
       await tester.pumpAndSettle();
       expect(find.text('Kanban'), findsOneWidget);
-      expect(find.text('Equipe'), findsNothing);
+      await tester.tap(find.byTooltip('Administração'));
+      await tester.pumpAndSettle();
+      expect(find.text('Equipe e acessos'), findsNothing);
+      Navigator.of(tester.element(find.text('Sair da conta'))).pop();
+      await tester.pumpAndSettle();
       Navigator.of(
         tester.element(find.byType(Scaffold).last),
       ).pushNamed('/team');

@@ -52,3 +52,18 @@ Estados na lateral; capturas em previews/search/, QA v2 320/390/1440 px PASS.
 A v1 teve aprovação visual com pedido de ajustes; **esta revisão ainda aguarda
 aprovação**. Spec/plano/modelo/contratos/guia/tarefas revisados em
 ../specs/006-management-search/. Não implementar Flutter/SQL antes do novo aceite.
+
+
+## Revisões vigentes em 2026-11-02
+
+O histórico v2 acima não é o comportamento vigente: a revisão v3 mantém resultados
+no Kanban/Lista e medicações somente do dia no Calendário, conforme aprovação
+registrada em specs/006-management-search/design-approval.md.
+
+[management-navigation-proposal.html](management-navigation-proposal.html) é a
+proposta DESIGN-ADMIN-NAV-001 aprovada: menu ⋮ no topo, Equipe e acessos somente
+para administradores e Sair da conta; Atualizar ao lado e Voltar à esquerda.
+Não há botão Equipe dentro do calendário. A pesquisa preserva o texto/resultados
+até Enter/Buscar. Use ?mode=calendar para conferir, ou ?role=employee&mode=calendar
+para verificar ausência de acesso à equipe. Snapshot em previews/admin-navigation-v1.png.
+A aprovação desta navegação não aprova ainda a revisão de tamanhos do Kanban.

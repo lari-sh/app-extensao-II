@@ -57,3 +57,19 @@ A alteração visual foi solicitada expressamente pela responsável e a restriç
 às medicações do dia foi confirmada em resposta. Não é necessário reconfirmar
 essa mesma alteração. Protótipo management-search-proposal.html atualizado para
 v3; as evidências anteriores v2 permanecem como histórico, não como UX vigente.
+
+
+## DESIGN-ADMIN-NAV-001 — menu administrativo
+
+Em 2026-11-02 a responsável aprovou expressamente **Aprovar menu ⋮**, após ver
+management-navigation-proposal.html?revision=admin-menu-v1&mode=calendar e captura.
+O menu substitui o ícone isolado de saída no cabeçalho; contém Equipe e acessos
+(somente administradores) e Sair da conta. Atualizar permanece no topo e Voltar
+à esquerda. Retirar o botão Equipe do corpo da agenda, mantendo acesso nos três
+modos. Não alterar a entrada pública nem criar uma tela vazia de configurações.
+A aprovação não inclui as alterações de dimensões pendentes T019/T020.
+
+Fundamento: Android recomenda configurações em navegação secundária, como topo
+ou menus: https://developer.android.com/design/ui/mobile/guides/patterns/settings
+https://developer.android.com/develop/ui/views/components/appbar/actions
+A escolha de menu neste painel é uma decisão de projeto, não uma imposição da API.

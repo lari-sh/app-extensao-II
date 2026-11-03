@@ -40,7 +40,15 @@ selecionado. No Calendário, manter a data e mostrar somente as medicações do 
 ## Busca confirmada e navegação administrativa — 2026-11-02
 
 - [x] T021 Separar texto digitado de critérios aplicados; consultar somente após confirmar Buscar ou aplicar filtros, preservar resultados/foco durante edição e rejeitar respostas antigas. Testes VM/Widget e documentação; CI acompanhada em T024. [006-FR-003, 006-FR-009, 006-CR-001]
-- [ ] T022 Pesquisar navegação secundária oficial e preparar proposta de Equipe e acessos no menu do cabeçalho administrativo, fora da agenda; obter aprovação expressa antes de implementar a mudança visual. [006-FR-007, 006-CR-001]
-- [ ] T023 Após aprovação de T022, implementar navegação administrativa preservando perfis, voltar à esquerda e os três modos; testes e documentação por contexto. [006-FR-006, 006-FR-007, 006-CR-001]
+- [x] T022 Pesquisar navegação secundária oficial e preparar proposta de Equipe e acessos no menu do cabeçalho administrativo, fora da agenda; obter aprovação expressa antes de implementar a mudança visual. [006-FR-007, 006-CR-001]
+- [x] T023 Após aprovação de T022, implementar navegação administrativa preservando perfis, voltar à esquerda e os três modos; testes e documentação por contexto. [006-FR-006, 006-FR-007, 006-CR-001]
 
 - [ ] T024 Validar busca confirmada e menu aprovado no Android/CI, atualizar APK normal no celular e deixar acesso administrativo disponível; registrar evidências. [006-CR-001]
+
+
+## Busca no catálogo público por nome, espécie e sexo
+
+- [ ] T025 Atualizar especificação/plano/contrato da busca pública combinada: nome, espécie, sexo e combinações como gata fêmea/gato macho/gato fêmea; manter paginação/filtros existentes e dados públicos apenas. [006-FR-010, 006-CR-001]
+- [ ] T026 Criar testes de interpretação/VM para acentos, maiúsculas, nome + espécie + sexo, espécies/sexos isolados, limpar/repetir pesquisa, conflitos e respostas tardias. Sem SDK na UI ou dependência nova. Depende de T025. [006-FR-010, 006-CR-001]
+- [ ] T027 Implementar interpretação na camada de lógica e integrar ao campo público existente, com confirmação Buscar e filtros combinados enviados ao Repository; Widget happy path/erro e preservação do design. Depende de T026. [006-FR-010, 006-CR-001]
+- [ ] T028 Validar catálogo público no Android e CI/cobertura, atualizar documentação e publicar commits por contexto na developer; deixar APK normal disponível no celular. Depende de T027. [006-FR-010, 006-CR-001]

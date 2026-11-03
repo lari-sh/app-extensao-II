@@ -290,3 +290,20 @@ nenhuma consulta/revalidação ao digitar, calendário sem callback prematuro e
 resposta tardia descartada. Suíte completa: **504 PASS**, **95,18% (6.622/6.957)**,
 com todas as linhas do LCOV. Formato e análise estática PASS. Android/CI dessa
 revisão ainda pendentes; não usar evidências nativas anteriores como aprovação.
+
+### Menu administrativo aprovado — DESIGN-ADMIN-NAV-001
+
+Equipe saiu do corpo do painel. Menu ⋮ de 48 × 48 dp no cabeçalho contém Equipe e
+acessos somente para administradores e Sair da conta; Atualizar continua ao lado,
+Voltar à esquerda. Entrada pública preservada. Backend/permissões não relaxados.
+Protótipo separado e captura aprovados expressamente antes da implementação.
+
+14 testes Widget/composição/regressão PASS, incluindo os seis pares perfil/modo,
+alvo mínimo, callback de saída e preservação do modo ao voltar da equipe.
+Suíte completa: **510 PASS**; análise e formato PASS. Jornadas Android atualizadas
+para o menu, espera de digitação e verificação de funcionário sem item Equipe.
+Validação nativa/CI específica ainda pendente em T024.
+
+T025–T028 registram o novo pedido de busca pública por nome/espécie/sexo; ainda
+não são implementação concluída. A execução segue speckit-implement, com tasks.md
+como fonte única. Nenhuma tarefa foi copiada para a constituição.

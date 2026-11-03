@@ -120,11 +120,32 @@ class _DashboardScreenState extends State<DashboardScreen>
                           },
                     icon: const Icon(Icons.refresh),
                   ),
-                  if (onSignOut != null)
-                    IconButton.filledTonal(
-                      tooltip: 'Sair da conta',
-                      onPressed: onSignOut,
-                      icon: const Icon(Icons.logout),
+                  if (viewModel.showTeam || onSignOut != null)
+                    SizedBox.square(
+                      dimension: 48,
+                      child: PopupMenuButton<String>(
+                        tooltip: 'Administração',
+                        icon: const Icon(Icons.more_vert),
+                        onSelected: (action) {
+                          if (action == 'team') {
+                            Navigator.pushNamed(context, '/team');
+                          } else if (action == 'signOut') {
+                            onSignOut?.call();
+                          }
+                        },
+                        itemBuilder: (_) => [
+                          if (viewModel.showTeam)
+                            const PopupMenuItem(
+                              value: 'team',
+                              child: Text('Equipe e acessos'),
+                            ),
+                          if (onSignOut != null)
+                            const PopupMenuItem(
+                              value: 'signOut',
+                              child: Text('Sair da conta'),
+                            ),
+                        ],
+                      ),
                     ),
                 ],
               ),
@@ -175,18 +196,6 @@ class _DashboardScreenState extends State<DashboardScreen>
             ),
             if (widget.searchViewModel != null)
               ManagedAnimalSearchToolbar(viewModel: widget.searchViewModel!),
-            if (viewModel.showTeam)
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: OutlinedButton.icon(
-                    onPressed: () => Navigator.pushNamed(context, '/team'),
-                    icon: const Icon(Icons.group_outlined),
-                    label: const Text('Equipe'),
-                  ),
-                ),
-              ),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
               child: Row(
