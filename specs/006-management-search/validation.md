@@ -608,3 +608,7 @@ T053: fonte aumentada de 10 para 11 sp por solicitação, sem alterar margens, c
 ## Vídeo com Kanban aprovado — 2026-11-03
 
 T055 concluída: seis cenas recapturadas no celular via MCP/ADB, com recuos reduzidos e títulos 11 sp. Duração/capítulos preservados, decodificação integral PASS; detalhes e novo SHA-256 em docs/reviews/phone-demo-2026-11-03.md. APK normal restaurado no painel administrativo; runtime sem erros na recaptura. Vídeo local atualizado na mesma pasta, sem arquivos grandes no Git.
+
+## Diagnóstico da CI do Kanban — 2026-11-03
+
+Execução #183 (916726e): Flutter PASS, 595 testes e 99,05%; backend PASS, 428 testes SQL/19 Deno e fluxos HTTP; Android 9 PASS/1 FAIL por expectativa antiga `data • vacina` em animal_editor_flow_test.dart:203. Ajustada para `vacina • data`, conforme 006-FR-012 já implementado. MCP análise sem erros e 17 regressões PASS. Entrega foi corretamente bloqueada pelo gate Android. Conferência final em docs/reviews/ci-kanban-2026-11-03.md; T054 permanece aberta até nova CI.

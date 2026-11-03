@@ -200,7 +200,7 @@ void main() {
         final sheet = find.byKey(const ValueKey('publicAnimalSheet'));
         expect(sheet, findsOneWidget);
         expect(
-          find.descendant(of: sheet, matching: find.text('29/02/2024 • V4')),
+          find.descendant(of: sheet, matching: find.text('V4 • 29/02/2024')),
           findsOneWidget,
         );
         expect(
