@@ -895,3 +895,17 @@ MCP oficial run_tests: regressão inicialmente FAIL, depois 8 testes de ações 
 e 48 testes de equipe PASS. analyze_files No errors; dart_format 3 arquivos sem
 alterações. Sem mudança de produção, layout, permissão, conta ou APK. Aguardar a
 nova CI Android antes de encerrar T067; não há retry de teste ou assert removido.
+
+## T067 validada no Android da CI — 2026-11-04
+
+[CI do PR #219](https://github.com/lari-sh/app-extensao-II/actions/runs/41923716563),
+commit 82da7c8: Flutter, backend e Android PASS. Logs Android conferidos: dez
+jornadas concluídas, incluindo team_access_flow_test e password_recovery_flow_test.
+O caso de equipe que falhava por nome fora da área inicial passou com o helper de
+rolagem. T067 concluída; nenhuma tarefa Android aberta na lista 006.
+
+A etapa deliver dessa execução ainda estava em andamento nesta conferência;
+não declarar a execução completa aprovada antes de concluir essa etapa. O commit
+que registra o resultado também recebe sua própria CI. Resultado definitivo será
+registrado na descrição do PR para evitar uma nova alteração documental recursiva.
+Sem merge, APK release do professor e hash preservados.

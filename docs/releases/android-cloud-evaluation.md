@@ -146,3 +146,14 @@ e na pasta local entrega-professor. Ela esclarece que a conta fictícia não rec
 emails e que convite/recuperação foram validados em conta real. Após a responsável
 fechar o Word, as cópias originais foram atualizadas; não é necessário enviar uma
 segunda versão do manual ao professor.
+
+## Verificação após concluir os emails e revisar o manual
+
+A CI do PR [#219](https://github.com/lari-sh/app-extensao-II/actions/runs/41923716563),
+commit 82da7c8, aprovou Flutter, backend e as dez jornadas Android. A espera de um
+membro da equipe fora da área inicial foi corrigida somente no teste, com
+regressão Widget e 48 testes da equipe PASS via MCP oficial. T063 e T067 concluídas;
+sem pendências Android na lista 006. O resultado completo da CI do último commit
+documental é registrado no [PR #1](https://github.com/lari-sh/app-extensao-II/pull/1),
+que permanece sem merge. Não confundir o artefato debug da CI com o APK release
+conectado à nuvem na pasta entrega-professor.
