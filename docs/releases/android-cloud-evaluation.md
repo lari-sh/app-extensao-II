@@ -108,17 +108,13 @@ Não editar registrantes gerados ou fontes do SDK manualmente.
 
 ## Limites conhecidos
 
-Convites e recuperação por email exigem configuração e validação própria do
-provedor de email e dos callbacks invite/recovery no projeto hospedado, pendentes
-em T063. Nenhum email foi enviado ao professor. Use as contas já provisionadas para
-esta avaliação. Não declarar o envio de email remoto como validado pelos testes
-locais/da CI. iOS não foi compilado nem validado neste ambiente.
-
-Andamento de T063 em 03/11/2026: Site URL e redirects exatos do app foram
-aplicados e relidos na nuvem. SMTP Brevo ativo e persistido com remetente temporário
-autorizado; templates de convite/recuperação publicados em português. Convite de
-funcionário enviado pelo app e entregue pelo Brevo às 19h23. Aceite e validação
-completa da recuperação ainda pendentes. Procedimento e evidências em
+Convite e recuperação na nuvem validados em 04/11/2026 (T063): convite
+recebido/aceito no Android, vínculo de funcionário confirmado no banco, recuperação
+recebida, senha redefinida e novo login confirmados pela responsável. Evidência
+manual distinta da CI. SMTP Brevo com remetente pessoal temporário autorizado e
+templates em português; trocar pelo remetente oficial antes de operação do abrigo.
+Nenhum email foi enviado ao professor. iOS não foi compilado nem validado neste
+ambiente. Procedimento, histórico e cenários não repetidos nesta etapa em
 [email hospedado](../development/cloud-auth-email.md).
 
 O vínculo GitHub não substitui os gates. A integração foi discutida com a
@@ -135,7 +131,8 @@ Após essa confirmação, foi aberto o [PR #1](https://github.com/lari-sh/app-ex
 de `developer` para `main`, sem merge. O commit documental que registra este
 fechamento dispara novas verificações; o resultado acima corresponde ao código
 e à documentação do commit identificado, sem antecipar o resultado dessas novas
-execuções. A validação de emails remotos permanece pendente em T063.
+execuções. A validação manual de emails remotos foi concluída em T063 em
+04/11/2026, conforme os limites descritos acima.
 
 Referências: [ambientes e migrations](https://supabase.com/docs/guides/deployment/managing-environments),
 [Functions](https://supabase.com/docs/guides/functions/deploy) e

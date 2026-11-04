@@ -3,6 +3,29 @@
 Projeto de avaliação: `tcdmiudchyptbgjzrotj`. Acompanhamento: T063 em
 `specs/006-management-search/tasks.md`. Não contém credenciais SMTP ou tokens.
 
+## Resultado final da avaliação Android — 04/11/2026
+
+T063 concluída para o ambiente de avaliação. Após o convite aceito no celular,
+a responsável confirmou recebimento da recuperação, redefinição da senha no
+aplicativo e novo login funcionando. A solicitação única feita pelo APK foi
+registrada em auth.users.recovery_sent_at às 21:26:24 UTC (18:26:24 em São Paulo).
+O aceite foi confirmado também por leitura do banco: accepted, vínculo ativo e
+perfil employee. O menu observado não expunha gestão de equipe ao funcionário.
+
+Recebimento, redefinição e novo login são evidências de validação manual informadas
+pela responsável; a automação não digitou ou consultou a senha, nem abriu links
+com tokens. Não foram repetidas nesta etapa as combinações app encerrado/aberto,
+reutilização de link e expiração real; os testes automatizados existentes continuam
+sendo evidência separada. Nenhuma nova execução de testes ou medição de cobertura
+é atribuída a esta alteração documental.
+
+O remetente pessoal permanece temporário e autorizado para avaliação; antes do
+uso oficial, substituí-lo pelo remetente do abrigo e repetir a entrega. A entrega
+no Proton não foi comprovada na caixa; o ensaio concluído usou Gmail autorizado.
+Tracking não foi desabilitado nem demonstrado como causa da abertura anterior,
+que ocorreu no computador. As seções seguintes preservam o histórico das etapas.
+Nenhuma conta do professor foi alterada e nenhuma mensagem foi enviada a ele.
+
 ## Entrega real do convite — 03/11/2026
 
 Com o APK release corrigido em T066, administrador autenticado abriu Equipe →
@@ -192,8 +215,9 @@ de envio existentes durante a primeira validação.
    evidência de recebimento sanitizada. Resposta HTTP de envio aceita, isoladamente,
    não comprova entrega nem conclusão do fluxo no Android.
 
-Até concluir esses passos, T063 permanece aberta. Testes locais/CI com SMTP
-isolado não substituem esta validação. A configuração dos redirects não exige
+Este roteiro orienta novas implantações e regressões. O resultado da avaliação
+concluída está no início deste documento, com os cenários não repetidos explicitados.
+Testes locais/CI com SMTP isolado não substituem a validação de entrega real. A configuração dos redirects não exige
 rebuild do APK; o código já contém os dois caminhos.
 
 Fontes oficiais: [SMTP](https://supabase.com/docs/guides/auth/auth-smtp),

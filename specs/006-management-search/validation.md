@@ -842,3 +842,18 @@ do destinatário autorizado e um único toque em Enviar orientações. Resultado
 Confira seu e-mail / Voltar ao login. Nenhuma alteração nas contas do professor.
 Recebimento, callback de recuperação, nova senha e novo login aguardam a responsável.
 Sem mudanças no código, novas medições de cobertura ou conclusão antecipada de T063.
+
+## Fechamento de T063 — 2026-11-04
+
+Responsável confirmou recebimento do email de recuperação, redefinição da senha
+no app e novo login funcionando no mesmo celular. CLI somente leitura confirmou
+recovery_sent_at 2026-11-04T21:26:24.736256Z; aceite anterior accepted/active/employee
+comprovado no banco. T063 concluída para a avaliação Android com evidência manual;
+nenhuma senha/token consultado, nenhuma mensagem ao professor ou alteração em suas
+contas. Remetente pessoal temporário deve ser substituído antes de uso oficial.
+
+Sem alteração do APK, código ou dependências. Verificação documental git diff
+--check sem erros. Testes automatizados/cobertura não foram executados novamente
+por esta mudança documental. Não repetidos agora: link reutilizado/expirado real e
+matriz app aberto/encerrado. CI remota é acompanhada separadamente pelo commit.
+PR developer → main permanece sem merge por instrução expressa da responsável.
