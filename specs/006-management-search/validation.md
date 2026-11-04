@@ -876,3 +876,22 @@ Após a responsável fechar os documentos no Word, conferidos novamente os texto
 originais: somente os dois parágrafos planejados diferiam da revisão. Cópias
 originais substituídas com sucesso nas duas pastas e duplicatas temporárias
 removidas. O manual final mantém o nome guia_instalacao_android.docx.
+
+## Correção da jornada de equipe após falha da CI — 2026-11-04
+
+CI do PR #217, commit a694501: Flutter e backend PASS; Android falhou na jornada
+team_access_flow_test, linha 73, com zero Text Admin Android. Sete jornadas
+anteriores concluídas; entrega não executada. A falha é um assert real, não deve
+ser reclassificada como simples oscilação de infraestrutura.
+
+Listagem de equipe ordenada por UUID; o teste esperava o cartão sem rolar ListView.
+Regressão Widget em 320×640 com 13 membros reproduziu exatamente zero Admin Android
+antes da correção. Helper de teste passou a rolar o Scrollable específico de
+TeamScreen até o nome, manter o assert e retornar ao botão Convidar pessoa. A
+integração espera o indicador de carregamento antes da busca, sem exigir que o
+nome de uma linha ainda fora da área construída apareça espontaneamente.
+
+MCP oficial run_tests: regressão inicialmente FAIL, depois 8 testes de ações PASS
+e 48 testes de equipe PASS. analyze_files No errors; dart_format 3 arquivos sem
+alterações. Sem mudança de produção, layout, permissão, conta ou APK. Aguardar a
+nova CI Android antes de encerrar T067; não há retry de teste ou assert removido.

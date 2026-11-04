@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:integration_test/integration_test.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:abrigo_dos_anjos/app/bootstrap.dart';
+import '../test/support/team_navigation.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -61,16 +62,18 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.text('Equipe e acessos'));
       await tester.pumpAndSettle();
-      // Wait for the actual team response, not only for the route animation.
+      await visible('Ativos');
+      // Wait for the response; member UUID order does not imply screen position.
       for (
         var i = 0;
-        i < 100 && find.text('Admin Android').evaluate().isEmpty;
+        i < 100 && find.byType(LinearProgressIndicator).evaluate().isNotEmpty;
         i++
       ) {
         await tester.pump(const Duration(milliseconds: 100));
         await Future<void>.delayed(const Duration(milliseconds: 100));
       }
-      expect(find.text('Admin Android'), findsOneWidget);
+      expect(find.byType(LinearProgressIndicator), findsNothing);
+      await revealTeamMember(tester, 'Admin Android');
       await tester.tap(find.text('Convidar pessoa'));
       await tester.pumpAndSettle();
       await tester.enterText(

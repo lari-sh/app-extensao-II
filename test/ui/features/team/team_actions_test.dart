@@ -7,6 +7,7 @@ import 'package:abrigo_dos_anjos/ui/features/team/views/team_screen.dart';
 import 'package:abrigo_dos_anjos/utils/result.dart';
 import '../../../support/fakes/fake_team_repository.dart';
 import '../../../support/team_fixtures.dart' show invitation, member;
+import '../../../support/team_navigation.dart';
 
 void main() {
   late FakeTeamRepository repo;
@@ -32,6 +33,29 @@ void main() {
     await tester.pumpWidget(MaterialApp(home: TeamScreen(viewModel: vm)));
     await tester.pumpAndSettle();
   }
+
+  testWidgets('team journey finds a member below the initial viewport', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(320, 640);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    repo.handler = (_, _) async => Success(
+      TeamPage(
+        members: [
+          for (var i = 0; i < 12; i++)
+            member.copyWith(id: 'person-$i', name: 'Pessoa $i'),
+          member.copyWith(id: 'admin', name: 'Admin Android'),
+        ],
+      ),
+    );
+    await open(tester);
+    expect(find.text('Admin Android'), findsNothing);
+    await revealTeamMember(tester, 'Admin Android');
+    expect(find.text('Convidar pessoa').hitTestable(), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
 
   for (final action in ['Alterar perfil', 'Desativar acesso']) {
     testWidgets(
