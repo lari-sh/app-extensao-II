@@ -871,3 +871,8 @@ Cópias anteriores bloqueadas pelo Word foram preservadas. Revisão entregue com
 guia_instalacao_android_atualizado.docx, tanto na documentação quanto em
 entrega-professor, com LEIA-ME apontando o manual atual. Nenhuma senha ou dado
 pessoal do destinatário incluído. APK e hash permanecem inalterados.
+
+Após a responsável fechar os documentos no Word, conferidos novamente os textos
+originais: somente os dois parágrafos planejados diferiam da revisão. Cópias
+originais substituídas com sucesso nas duas pastas e duplicatas temporárias
+removidas. O manual final mantém o nome guia_instalacao_android.docx.

@@ -141,8 +141,8 @@ Referências: [ambientes e migrations](https://supabase.com/docs/guides/deployme
 ## Manual atualizado após validar email
 
 A revisão de 04/11/2026 está em
-[guia_instalacao_android_atualizado.docx](../user-guide/guia_instalacao_android_atualizado.docx)
-e na pasta local entrega-professor. As cópias anteriores estavam abertas no Word
-e foram preservadas para não descartar edições da responsável. Usar a revisão com
-sufixo atualizado ao enviar o material ao professor. Ela esclarece que a conta
-fictícia não recebe emails e que convite/recuperação foram validados em conta real.
+[guia_instalacao_android.docx](../user-guide/guia_instalacao_android.docx)
+e na pasta local entrega-professor. Ela esclarece que a conta fictícia não recebe
+emails e que convite/recuperação foram validados em conta real. Após a responsável
+fechar o Word, as cópias originais foram atualizadas; não é necessário enviar uma
+segunda versão do manual ao professor.
