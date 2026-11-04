@@ -58,6 +58,32 @@ Solicitada confirmação de onde ocorreu a abertura: celular com APK instalado
 ou Arc no computador. O fluxo atual exige abertura no Android; não existe
 aplicação web de aceite no computador. Recuperação e aceite continuam pendentes.
 
+## Aceite confirmado e recuperação solicitada — 04/11/2026
+
+A responsável esclareceu que a abertura anterior havia ocorrido no Arc do
+computador. Portanto, a tela em branco anterior não comprova falha do callback
+no Android nem permite atribuir a causa ao tracking do Brevo.
+
+Com novo destinatário expressamente autorizado, o convite foi aberto no celular
+e a responsável informou conclusão do aceite. Leitura posterior pela CLI
+Supabase confirmou status accepted, accepted_at em 04/11/2026 às 21:21:43 UTC
+(18:21:43 em São Paulo), vínculo ativo e role employee. No APK, o menu da conta
+apresentou Adicionar animal, Atualizar painel e Sair da conta, sem gestão de equipe.
+Isso complementa a confirmação manual com evidência do banco e da interface;
+não substitui os testes automatizados de autorização.
+
+MCP oficial Dart/Flutter list_devices confirmou o Android 15 físico. Como o APK
+release não expõe DTD/Flutter Driver, o fluxo real foi operado por ADB: sair da
+conta de teste, abrir Acesso Voluntário / Funcionário → Esqueci a senha, preencher
+o mesmo destinatário e tocar uma única vez em Enviar orientações. O app exibiu
+Confira seu e-mail e Voltar ao login. Nenhuma senha ou token foi consultado;
+as contas de avaliação do professor não foram alteradas.
+
+Solicitado à responsável conferir recebimento e abrir o email no mesmo aparelho
+e instalação para definir a senha. A mensagem neutra do app comprova apenas a
+conclusão da solicitação; não comprova entrega, callback, redefinição ou novo login.
+Essas etapas permanecem pendentes em T063. Sem mudança no código, template ou APK.
+
 ## Configuração aplicada em 03/11/2026
 
 O painel Auth apresentava Site URL `http://localhost:3000` e nenhum redirect.

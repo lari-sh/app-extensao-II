@@ -827,3 +827,18 @@ corretamente, sem navegação ou mudança de sessão. Isso não comprova callbac
 Pendente distinguir abertura no computador versus no celular, concluir diagnóstico
 e validar aceite/recuperação. Sem mudança no código/APK, novo teste de cobertura
 ou alegação de fluxo aprovado nesta etapa. T063 permanece aberta.
+
+## Aceite na nuvem confirmado e recuperação solicitada — 2026-11-04
+
+Responsável esclareceu abertura anterior no Arc do computador; não foi uma
+comprovação de falha do callback Android. Novo convite aberto no celular, com
+aceite confirmado pela responsável. CLI Supabase db query somente leitura:
+status accepted, accepted_at 2026-11-04T21:21:43.404598Z, active true, role employee.
+APK apresentou menu sem Equipe e acessos, conforme capacidade de funcionário.
+
+MCP oficial list_devices identificou o Android 15 físico. Fallback ADB para o APK
+release sem DTD: logout da conta de teste, login → Esqueci a senha, preenchimento
+do destinatário autorizado e um único toque em Enviar orientações. Resultado:
+Confira seu e-mail / Voltar ao login. Nenhuma alteração nas contas do professor.
+Recebimento, callback de recuperação, nova senha e novo login aguardam a responsável.
+Sem mudanças no código, novas medições de cobertura ou conclusão antecipada de T063.
