@@ -857,3 +857,17 @@ Sem alteração do APK, código ou dependências. Verificação documental git d
 por esta mudança documental. Não repetidos agora: link reutilizado/expirado real e
 matriz app aberto/encerrado. CI remota é acompanhada separadamente pelo commit.
 PR developer → main permanece sem merge por instrução expressa da responsável.
+
+## Revisão do manual após T063 — 2026-11-04
+
+Manual Google Docs existente atualizado em dois parágrafos: resultado de email e
+data de revisão. Exportações DOCX/PDF conferidas; duas páginas PDF inspecionadas
+por PNG, sem cortes ou sobreposições. Conteúdo do DOCX comparado ao anterior:
+somente os dois parágrafos previstos diferem. Renderizador padrão não disponível
+por falta de LibreOffice; utilizada exportação do Google Docs, alternativa já
+autorizada pela responsável, e pypdfium2 do runtime fornecido pelo Codex.
+
+Cópias anteriores bloqueadas pelo Word foram preservadas. Revisão entregue como
+guia_instalacao_android_atualizado.docx, tanto na documentação quanto em
+entrega-professor, com LEIA-ME apontando o manual atual. Nenhuma senha ou dado
+pessoal do destinatário incluído. APK e hash permanecem inalterados.

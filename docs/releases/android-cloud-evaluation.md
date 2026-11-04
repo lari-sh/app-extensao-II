@@ -137,3 +137,12 @@ execuções. A validação manual de emails remotos foi concluída em T063 em
 Referências: [ambientes e migrations](https://supabase.com/docs/guides/deployment/managing-environments),
 [Functions](https://supabase.com/docs/guides/functions/deploy) e
 [chaves públicas e de servidor](https://supabase.com/docs/guides/getting-started/api-keys).
+
+## Manual atualizado após validar email
+
+A revisão de 04/11/2026 está em
+[guia_instalacao_android_atualizado.docx](../user-guide/guia_instalacao_android_atualizado.docx)
+e na pasta local entrega-professor. As cópias anteriores estavam abertas no Word
+e foram preservadas para não descartar edições da responsável. Usar a revisão com
+sufixo atualizado ao enviar o material ao professor. Ela esclarece que a conta
+fictícia não recebe emails e que convite/recuperação foram validados em conta real.
