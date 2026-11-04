@@ -8,6 +8,12 @@ void main() {
   testWidgets(
     'visitor opens prototype sheet with real public photo, opens contact and closes',
     (tester) async {
+      final previousHitTestPolicy =
+          WidgetController.hitTestWarningShouldBeFatal;
+      WidgetController.hitTestWarningShouldBeFatal = true;
+      addTearDown(() {
+        WidgetController.hitTestWarningShouldBeFatal = previousHitTestPolicy;
+      });
       expect(
         Uri.parse(const String.fromEnvironment('SUPABASE_URL')).host,
         '10.0.2.2',
@@ -20,6 +26,7 @@ void main() {
         find.byKey(const ValueKey('catalogSearch')),
         'Animal de teste 01',
       );
+      await tester.testTextInput.receiveAction(TextInputAction.search);
       await tester.pumpAndSettle();
       FocusManager.instance.primaryFocus?.unfocus();
       await tester.pumpAndSettle();
@@ -57,12 +64,17 @@ void main() {
       await tester.tap(find.text('Entrar em contato para adoção'));
       await tester.pumpAndSettle();
       expect(find.text('Fale com o abrigo'), findsOneWidget);
-      await tester.scrollUntilVisible(
-        find.text('Voltar à ficha do animal'),
-        160,
+      final returnButton = find.widgetWithText(
+        OutlinedButton,
+        'Voltar à ficha do animal',
       );
-      await tester.tap(find.text('Voltar à ficha do animal'));
+      await tester.scrollUntilVisible(returnButton, 160);
       await tester.pumpAndSettle();
+      expect(returnButton.hitTestable(), findsOneWidget);
+      await tester.tap(returnButton.hitTestable());
+      await tester.pumpAndSettle();
+      expect(sheet, findsOneWidget);
+      expect(find.text('Fale com o abrigo'), findsNothing);
       await tester.tap(find.byTooltip('Fechar detalhes'));
       await tester.pumpAndSettle();
       expect(sheet, findsNothing);

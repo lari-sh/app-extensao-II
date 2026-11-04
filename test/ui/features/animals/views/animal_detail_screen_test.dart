@@ -8,6 +8,42 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../../../support/public_app_harness.dart';
 
 void main() {
+  testWidgets('compact contact footer returns to the animal before closing', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(320, 568);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    final harness = PublicAppHarness();
+    await tester.pumpWidget(harness.app());
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Quero Adotar (Visitante)'));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('Luna 1'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Luna 1').hitTestable());
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Entrar em contato para adoção'));
+    await tester.pumpAndSettle();
+    final returnButton = find.widgetWithText(
+      OutlinedButton,
+      'Voltar à ficha do animal',
+    );
+    expect(returnButton.hitTestable(), findsNothing);
+    await tester.scrollUntilVisible(returnButton, 160);
+    await tester.pumpAndSettle();
+    expect(returnButton.hitTestable(), findsOneWidget);
+    await tester.tap(returnButton.hitTestable());
+    await tester.pumpAndSettle();
+    expect(find.byKey(const ValueKey('publicAnimalSheet')), findsOneWidget);
+    expect(find.text('Fale com o abrigo'), findsNothing);
+    await tester.tap(find.byTooltip('Fechar detalhes'));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const ValueKey('publicAnimalSheet')), findsNothing);
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('detail opens contact and returns to the same animal', (
     tester,
   ) async {

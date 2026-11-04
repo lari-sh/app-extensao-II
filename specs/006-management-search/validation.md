@@ -909,3 +909,26 @@ não declarar a execução completa aprovada antes de concluir essa etapa. O com
 que registra o resultado também recebe sua própria CI. Resultado definitivo será
 registrado na descrição do PR para evitar uma nova alteração documental recursiva.
 Sem merge, APK release do professor e hash preservados.
+
+## Sincronização do retorno da tela de contato no teste — 2026-11-04
+
+Commit ebf5968: [push #220](https://github.com/lari-sh/app-extensao-II/actions/runs/41927635569)
+com Flutter/backend/Android/deliver PASS. PR #221, tentativa 1: visitor_detail
+encerrado pelo limite de 8 min (exit 124), após instalar APK e sem assert publicado.
+Uma repetição manual apenas dos jobs com falha foi autorizada pelo escopo de
+correção da CI, preservando limites e testes. Na tentativa 2, a jornada revelou
+assert real: retorno à ficha não ocorreu e Fechar detalhes estava ausente.
+
+Log anterior ao assert mostra toque perdido em Voltar à ficha do animal. O teste
+rolava até o Text e tocava sem aguardar estabilização ou exigir hitTestable.
+Correção restrita a teste: localizar OutlinedButton inteiro, aguardar
+pumpAndSettle após rolagem, exigir hitTestable, tocar e confirmar a ficha antes
+de fechar. Pesquisa explicitamente submetida; avisos de toque perdido tornam-se
+fatais na jornada. Não adicionar retry de teste nem suprimir warnings.
+
+Widget Test de percurso completo em 320×568 confirma que o botão começa fora da
+área de toque, fica atingível após rolagem, retorna à ficha e permite fechá-la.
+MCP run_tests: 15 testes de catálogo/ficha/contato PASS; analyze_files No errors;
+dart_format aplicado. Nenhuma mudança no código do app, layout, permissões ou
+APK. CI remota do novo commit e resultado definitivo são registrados no PR #1;
+T068 registra implementação e testes locais concluídos, sem antecipar Android.
