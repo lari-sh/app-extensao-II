@@ -1,10 +1,10 @@
 # Implementation Plan: Adequação do Abrigo dos Anjos
 
-**Branch**: `main` (branch Git real) | **Date**: 2026-10-31 | **Spec**: [spec.md](spec.md)
+**Branch**: `developer` (implementação; integração à main por PR) | **Date**: 2026-10-31 | **Spec**: [spec.md](spec.md)
 **Feature ID**: `001-align-app-constitution`
 **Input**: `specs/001-align-app-constitution/spec.md`
 **Constitution**: versão 2.0.0, ratificada em 2026-10-31.
-**Status**: desenho técnico concluído; implementação e validação ainda não executadas.
+**Status**: fundação e histórias US1–US6 implementadas e validadas localmente; CI e artifact Android aprovados na execução 41259640949; validação iOS depende de Mac/Xcode.
 
 ## Summary
 
@@ -134,6 +134,7 @@ lib/
   app/
     bootstrap.dart
     app_dependencies.dart
+    public_dependencies.dart
     abrigo_app.dart
     app_router.dart
   config/app_config.dart
@@ -186,6 +187,8 @@ lib/
     # use_cases/ somente se complexidade/reuso justificar; sem use case vazio.
   ui/
     core/
+      view_models/public_list_view_model.dart
+      widgets/public_animal_list.dart
       theme/app_theme.dart
       widgets/animal_portrait.dart
       widgets/status_badge.dart
@@ -226,6 +229,7 @@ test/
   ui/features/<feature>/view_models/
   ui/features/<feature>/views/
   support/fakes/
+integration_test/public_catalog_flow_test.dart
 integration_test/authorized_animal_flow_test.dart
 supabase/
   config.toml
@@ -429,3 +433,110 @@ Pendências operacionais: disponibilizar projeto Supabase de desenvolvimento,
 provisionar contas de teste fora do app e configurar SDK Android/dispositivo.
 Windows não valida build iOS. Essas dependências não mudam decisões arquiteturais
 e não impedem gerar tasks; impedem declarar integração real ou build aprovados.
+
+## Ajuste de implementação US1 — transporte HTTP controlado
+
+`http` 1.6.0 passa a ser dependência direta justificada: já transitiva de
+supabase_flutter, permite reconhecer ClientException como falha de rede nos
+Services e injetar MockClient do próprio pacote para testar o SDK real sem rede.
+A alternativa SDK puro com HttpServer exige sockets e não fornece um Client
+compatível com o construtor SupabaseClient; fakes de Repository não testariam as
+queries reais do Service. Não usar http em Views, VMs ou Repositories.
+As operações Supabase continuam encapsuladas nos Services e usam o SDK.
+
+A leitura de fotos usa resolve_photo_read service-only para checar atomicamente
+visibilidade/vínculo ou staff/sessão antes de consultar Storage, pois auth.sessions
+não é exposta no PostgREST. O ator e a sessão são verificados pelo handler, nunca
+aceitos da query do cliente. Migration 004; futuras migrations de escrita,
+finalização e manejo passam a 005/006/007 para preservar ordenação única.
+O SDK functions_client recebe octet-stream por negociação Accept para preservar
+bytes; requisições HTTP comuns recebem image/png ou image/jpeg. Nenhuma URL assinada.
+
+### Storage: garantia por RLS restritiva
+
+A inspeção local mostrou grants SELECT padrão no Storage mesmo após o REVOKE
+inicial. A garantia de privacidade não depende de ausência de grants de tabela:
+policies restritivas por bucket negam todas as operações anon/authenticated em
+animal-photos, inclusive se surgir uma policy permissiva adicional. O servidor
+usa service_role para entregar o proxy autorizado. Testes SQL simulam allow amplo,
+e HTTP comprova negação de download/createSignedUrl; listagem expõe zero objetos.
+
+## Ajuste US2 — validação de sessão e saída
+
+access_context passa a retornar is_session_current, além de user_id/is_staff_active,
+para distinguir conta sem staff de JWT cuja sessão foi revogada. Helper privado
+verifica auth.sessions, usuário, prazo da sessão e expiração da claim; metadata
+editável não concede staff. Migration 005_auth_session_context; as futuras escritas,
+finalização e manejo passam a 006/007/008.
+
+O SDK instalado apaga a sessão local antes de tentar revogação remota no logout.
+Em falha remota, a UI continua pública e informa que só a saída local foi confirmada.
+Não guardar tokens de retry fora do SDK nem apresentar retry vazio como sucesso:
+o responsável pode entrar novamente e executar logout global para repetir a
+revogação. Services permanecem sem cache de negócio; Repository serializa mutações
+e impede conclusões antigas após logout. Não há nova dependência.
+
+A rota protegida inicial apresenta apenas a confirmação de acesso autorizado.
+O painel de manejo efetivo pertence à US5. A guarda aceita um conteúdo protegido
+criado pela composição, testado com editor em memória, preservando montagem com
+Offstage/ExcludeSemantics/IgnorePointer na expiração recuperável; logout/revogação/
+outro usuário/cancelamento recriam ou removem o escopo. A integração do editor real
+é verificada novamente na US3/US6, sem inventar funcionalidade de cadastro na US2.
+
+
+## US3 — detalhe de implementação das RPCs
+
+Consulta privada usa get_managed_animal/list_managed_animals para ler o agregado
+completo em uma chamada e validar staff no servidor. A lista usa cursor name,id,
+página 50 e total global; não é o painel por situação da US5. Salvamento usa lock
+por ator/chave e digest SHA-256 do payload normalizado, com resultado privado em
+write_operations. O SDK permanece somente no Service. Nenhuma nova dependência.
+Funções SECURITY DEFINER têm search_path vazio e EXECUTE explícito, conforme
+https://supabase.com/docs/guides/database/functions .
+
+
+## US3 — integração de apresentação
+
+A composição fornece callbacks de autorização e época de acesso aos VMs de editor
+/listagem privada. Cargas iniciais agendadas após a montagem evitam notificar o
+Provider raiz durante build. Widgets não consultam Services/Repositories.
+FormVersion no snapshot imutável renova o estado interno dos campos ao receber um
+agregado carregado/salvo, inclusive quando a resposta termina antes do próximo frame;
+edições locais não renovam a versão nem perdem foco/texto. Cuidados novos têm identidade
+local transitória para manter os controladores corretos ao remover um item; esses
+identificadores não são enviados como IDs/autoria de banco.
+
+Após timeout, o VM mantém rascunho e chave, bloqueia edição e permite consultar o
+resultado. Ausência confirmada habilita reenvio do mesmo payload/chave. Um erro de
+reconsulta não prova ausência nem libera nova submissão. Na expiração recuperável,
+o mesmo escopo fica montado, oculto e bloqueado; resultados de épocas antigas são
+ignorados. Logout/revogação/troca de usuário descartam VMs e pilha privada.
+
+
+## US4 — empacotamento e fila
+
+O WASM fixado de @imagemagick/magick-wasm 0.0.45 será incluído como static_file
+versionado com checksum e licenças originais, sem fetch remoto durante uma requisição.
+A configuração segue https://supabase.com/docs/guides/functions/wasm . Inicialização
+compartilhada por isolate; processamento serial evita chamadas concorrentes ao heap.
+Normalização mantém formato JPEG/PNG, remove metadados e ajusta tamanho de saída.
+Jobs têm token de processamento privado e prazo de 15 minutos; limpeza marca o
+estado terminal antes da remoção e usa leases de 5 minutos com retry persistente.
+Cron chama função interna a cada 15 minutos via pg_net; URL/segredo ficam no Vault,
+fora de migrations e builds. Sem Vault configurado, o agendamento não faz requisição;
+provisionamento e prova local devem constar nas evidências antes de marcar concluído.
+
+
+## Calendário — planejamento solicitado em 2026-10-31
+
+Preservar a aba Calendário do protótipo. Sua implementação fica em etapa posterior
+à US5: definir primeiro eventos reais, datas, fuso, permissões e relação com os
+cuidados clínicos; especificar ações e estados, testes unitários/Widget e migrations
+antes de implementar. Não gerar eventos ou datas a partir de textos livres de cuidados.
+A responsável definiu uma agenda de medicamentos: calendário com compromissos por
+animal, datas/horários e conclusão como lista de tarefas, alimentada automaticamente
+por tratamentos estruturados da ficha. Escopo e decisões em
+[calendário de medicações](../003-medication-calendar/plan.md), com especificação,
+contratos e 50 tarefas em ../003-medication-calendar/tasks.md.
+Até essa etapa, a aba informa que está em planejamento, sem exibir calendário fictício.
+Não confundir esta inclusão no plano com funcionalidade entregue.

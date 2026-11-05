@@ -1,6 +1,6 @@
 # Data Model: Abrigo dos Anjos
 
-**Date**: 2026-10-31 | **Status**: desenho, sem migrations executadas.
+**Date**: 2026-10-31 | **Status**: migrations 001–007 validadas localmente; cadastro/edição e fotos implementados; manejo pendente.
 Nomes persistidos em inglês; rótulos visíveis traduzidos pelo ViewModel.
 
 ## Entidades e tabelas
@@ -58,7 +58,8 @@ Auditoria mínima de atualização fica na tabela interna abaixo.
   base64url, gerada com Random.secure no cliente e estável em uma submissão.
 - operation_kind: save_animal, set_status ou set_publication.
 - payload_digest: hash do payload normalizado calculado no servidor.
-- animal_id, result_payload, completed_at: resultado confirmado da transação.
+- result: JSONB privado com animal (incluindo seu id), clinical_notes e care_records;
+  completed_at do servidor. Não duplicar animal_id em outra coluna nem expor o resultado por SELECT ao cliente.
 - A criação de operação, as mudanças e o resultado são confirmados na mesma
   transação. Sem sucesso parcial; rollback não deixa operação marcada concluída.
 - Mesma chave e mesmo payload retornam resultado anterior; chave com payload
@@ -73,9 +74,11 @@ Auditoria mínima de atualização fica na tabela interna abaixo.
 | animal_id, actor_id, actor_session_id | Animal alvo e autor/sessão verificados |
 | operation_key, payload_digest | Unicidade por ator; hash para reconciliar retry |
 | object_path | Caminho único imutável, gerado pelo servidor; sem nome fornecido pelo cliente |
-| detected_mime, byte_size | JPEG/PNG e 1–5.242.880 bytes efetivamente recebidos |
+| detected_mime, byte_size | JPEG/PNG e 1–5.242.880 bytes normalizados armazenados; entrada validada separadamente |
 | state | pending, validated, attached, cleanup_needed, cleaned ou failed |
 | previous_photo_id | Referência substituída, definida ao finalizar com lock no animal |
+| upload_token, upload_expires_at | Token privado do worker e prazo de 15 minutos |
+| attached_at | Confirmação original preservada mesmo após substituição/limpeza; replay não reassocia |
 | created_at, updated_at, error_code | Metadados privados, sem stack trace para o app |
 
 animal.primary_photo_id aponta para um job attached; nenhum job pending/failed
@@ -86,7 +89,8 @@ objeto arbitrário, alterar state nem escrever no bucket.
 ### photo_cleanup_queue
 
 - job_id/object_path únicos; motivo failed_candidate ou superseded;
-  attempts, next_attempt_at, last_error_code e completed_at.
+  attempts, next_attempt_at, last_error_code e completed_at; lease_token e
+  leased_until impedem que workers ativos processem o mesmo item por cinco minutos.
 - Enfileirada na transação que troca a foto ou marca falha. Se o processo cair
   antes, job pending antigo ainda identifica o objeto determinístico a inspecionar.
 - Worker busca pending há mais de 15 minutos e itens de cleanup, usa Storage API
@@ -175,3 +179,13 @@ independente de SDK. DTOs JSON manuais em lib/data/models representam os dados d
 API. Services produzem DTOs/Result; Repositories convertem DTOs em domínio e
 mantêm a fonte de verdade. Nenhuma tabela, política ou limite funcional muda por
 essa reorganização. Geração .freezed.dart deve ser determinística e validada no CI.
+
+
+### Recuperação de seleção
+
+PhotoRecoveryState mantém bytes apenas em memória, após sessão verificada, e só
+transfere o candidato ao editor após confirmar um animal autorizado. Não existe
+upload automático nem persistência clínica para restaurar formulário após morte
+da Activity. Se a identidade não puder ser verificada, selecionar a foto novamente.
+O SDK gerencia seu armazenamento de sessão e a recuperação do resultado nativo;
+nenhum token ou caminho de Storage atravessa as interfaces de domínio.

@@ -1,8 +1,8 @@
 ---
 name: "speckit-implement"
 description: "Execute the implementation plan by processing and executing all tasks defined in tasks.md"
-compatibility: "Requires spec-kit project structure with .specify/ directory"
 metadata:
+  compatibility: "Requires spec-kit project structure with .specify/ directory"
   author: "github-spec-kit"
   source: "templates/commands/implement.md"
 ---
@@ -224,3 +224,48 @@ Report final status with summary of completed work.
 - [ ] Implementation validated against specification, plan, and test coverage
 - [ ] Extension hooks dispatched or skipped according to the rules in Mandatory Post-Execution Hooks above
 - [ ] Completion reported to user with summary of completed work
+
+
+## Abrigo dos Anjos: calendar task tracking
+
+User-requested project rule, confirmed on 2026-10-31:
+
+- For the medication calendar, read `specs/003-medication-calendar/tasks.md` before
+  implementation and resume from its actual checked/unchecked state. That file is
+  the authoritative task list; do not duplicate the task list inside this skill.
+- Keep `spec.md`, `plan.md`, `data-model.md`, `contracts/`, and the approved design
+  as implementation references. Work on `developer`, never commit directly to `main`.
+- After each validated stage, update the corresponding tasks in `tasks.md` and
+  record the checks and their results in
+  `specs/003-medication-calendar/validation.md` before committing that context.
+- Mark a task complete only when its required implementation and checks are
+  actually finished. Writing a test, generating code, or creating a YAML file does
+  not establish that the test, platform validation, or CI run passed.
+- Keep required Flutter unit/Widget tests, backend tests, Android validation and
+  remote CI evidence distinct. Report checks not run as pending, not successful.
+- Commit and push each validated context to `developer` using the constitution's
+  Conventional Commit format and real requirement IDs; do not accumulate unrelated
+  changes while progressing into another implementation context.
+- Preserve the approved design. Any further layout deviation still requires the
+  prior explanation and explicit authorization specified by the constitution skill.
+
+
+## Abrigo dos Anjos: global management search tracking
+
+For the approved DESIGN-SEARCH-001 v2 implementation, use
+[specs/006-management-search/tasks.md](../../../specs/006-management-search/tasks.md)
+as the authoritative task list. Read its actual checked/unchecked state before
+resuming; do not duplicate the task list inside this skill or the constitution skill.
+
+- Follow the specification, plan, contracts and recorded v2 approval in that feature
+  directory; the search field is global and fixed, not a fourth dashboard mode.
+- After each validated context, update tasks.md and record the actual checks/results
+  in specs/006-management-search/validation.md before committing/pushing to developer.
+- Distinguish unit/Widget, SQL/HTTP, Android and remote CI evidence; leave work unchecked
+  until the implementation and its required validations have actually passed.
+- Resume at the first unfinished dependency and commit validated work by context;
+  preserve manual/demo data while applying additive migrations and test fixtures.
+
+This section tracks execution only. The constitution skill contains project rules,
+not a copy of implementation tasks. Authorization for v2 is recorded in the feature;
+new layout deviations still require the responsible user's prior approval.

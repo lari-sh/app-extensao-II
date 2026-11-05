@@ -1,0 +1,65 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:abrigo_dos_anjos/ui/core/theme/app_theme.dart';
+import 'package:abrigo_dos_anjos/ui/features/animals/views/dashboard_screen.dart';
+import 'package:abrigo_dos_anjos/ui/features/animals/view_models/dashboard_view_model.dart';
+import 'package:abrigo_dos_anjos/ui/features/animals/view_models/managed_animal_search_view_model.dart';
+import 'package:abrigo_dos_anjos/ui/features/medications/view_models/medication_calendar_view_model.dart';
+import 'package:abrigo_dos_anjos/domain/models/animal.dart';
+import 'package:abrigo_dos_anjos/utils/result.dart';
+import '../../../test/support/fakes/fake_animals_repository.dart';
+import '../../../test/support/fakes/fake_photo_repository.dart';
+import '../../../test/support/fakes/fake_medication_completion_scenario.dart';
+import '../../../test/support/public_fixtures.dart';
+void main() {
+  final results = <Map<String,dynamic>>[];
+  tearDownAll(() { File('docs/reviews/component-sizing-2026-11-02/dashboard-runtime.json').writeAsStringSync(const JsonEncoder.withIndent('  ').convert(results)); });
+  for(final width in [320.0,390.0,600.0,1440.0]) {
+    for(final scale in [1.0,2.0]) {
+      testWidgets('measure dashboard $width scale $scale', (tester) async {
+        tester.view.physicalSize=Size(width,1000); tester.view.devicePixelRatio=1;
+        addTearDown(tester.view.resetPhysicalSize);addTearDown(tester.view.resetDevicePixelRatio);
+        final repo=FakeAnimalsRepository()..handler=(m,a) async {
+          if(m=='getStatusCounts') return const Success<Map<AnimalStatus,int>>({AnimalStatus.treatment:1});
+          return Success(ManagedAnimalPage(items:a.first==AnimalStatus.treatment?[ManagedAnimal(animal:fixtureAnimal(1).copyWith(status:AnimalStatus.treatment),clinicalNotes:'Dermatite com acompanhamento diário e medicação oral')]:[],total:1));
+        };
+        final clinical=FakeMedicationCompletionScenario();
+        final calendar=MedicationCalendarViewModel(clinical.repository,now:()=>DateTime.utc(2026,11,1));
+        final search=ManagedAnimalSearchViewModel(repo,FakePhotoRepository(),isAuthorized:()=>true);
+        final vm=DashboardViewModel(repo,isAuthorized:()=>true,onCalendarSelected:calendar.initialize);
+        addTearDown(vm.dispose);addTearDown(calendar.dispose);addTearDown(search.dispose);
+        final errors = <String>[];
+        final priorError = FlutterError.onError;
+        FlutterError.onError = (details) { errors.add(details.exceptionAsString()); };
+        await vm.load();
+        await tester.pumpWidget(MaterialApp(theme:buildTheme(),home:MediaQuery(data:MediaQueryData(size:Size(width,1000),textScaler:TextScaler.linear(scale)),child:DashboardScreen(viewModel:vm,searchViewModel:search,calendarViewModel:calendar))));
+        await tester.pumpAndSettle();
+        final semantics=tester.ensureSemantics();
+        for(final mode in ['Kanban','Lista','Calendário']) {
+          if(mode!='Kanban') { vm.setMode(mode=='Lista'?DashboardMode.list:DashboardMode.calendar);await tester.pumpAndSettle(); }
+          final problems=<String>[];
+          Object? e;while((e=tester.takeException())!=null){problems.add(e.toString().split('\n').first);}
+          final targets=await androidTapTargetGuideline.evaluate(tester);
+          final contrast=await textContrastGuideline.evaluate(tester);
+          final cards=<Map<String,dynamic>>[];
+          for(final element in find.byType(Card).evaluate()) {
+            final box=element.renderObject;
+            if(box is RenderBox && box.hasSize) cards.add({'width':box.size.width,'height':box.size.height});
+          }
+          final paragraphs=<Map<String,dynamic>>[];
+          for(final element in find.byType(RichText).evaluate()) {
+            final r=element.renderObject;
+            if(r is RenderParagraph && r.didExceedMaxLines) paragraphs.add({'text':r.text.toPlainText(),'width':r.size.width,'height':r.size.height});
+          }
+          results.add({'viewport':width,'scale':scale,'mode':mode,'cards':cards,'clipped':paragraphs,'layoutErrors':[...errors,...problems],'tapTargets':{'passed':targets.passed,'reason':targets.reason},'contrast':{'passed':contrast.passed,'reason':contrast.reason}});
+          errors.clear();
+        }
+        semantics.dispose();
+        FlutterError.onError = priorError;
+      });
+    }
+  }
+}

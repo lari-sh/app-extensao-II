@@ -1,7 +1,7 @@
 # Backend contracts: Supabase
 
-**Date**: 2026-10-31. Contratos a implementar e validar; nenhum endpoint foi
-implantado por este plano. Modelo e permissões: [data-model.md](../data-model.md).
+**Date**: 2026-10-31. Leitura pública/fotos implementadas e validadas localmente;
+escrita/upload/manejo pendentes. Nenhum backend de produção implantado. Modelo e permissões: [data-model.md](../data-model.md).
 
 ## Contexto de identidade
 
@@ -168,3 +168,55 @@ correlation_id e códigos, não corpo de formulário, fotos, senha ou prontuári
 7. Mesma chave após resposta perdida: um animal/associação; payload diferente conflita.
 8. Dois uploads concorrentes, perda de resposta e limpeza falha: foto atual sempre
    referenciada e nenhuma exclusão prematura; órfão permanece rastreado até limpeza.
+
+## Evidência de implementação da leitura
+
+Migration 004 adiciona resolve_photo_read service-only e policies restritivas de
+bucket para animal-photos. GRANTs de tabela padrão não concedem acesso ao bucket:
+RLS nega clientes mesmo com uma policy permissiva adicional. O handler verifica
+JWT de usuário quando aplicável e passa ator/sessão verificados ao resolver.
+Revalida o recurso após baixar bytes. Negociação Accept permite octet-stream ao
+SDK functions_client e image/png ou image/jpeg ao consumidor HTTP comum, sempre
+com no-store/private, sem redirect nem 304. Testes em validation.md.
+
+
+## Implementação do contexto de sessão (migration 005)
+
+access_context retorna user_id, is_session_current e is_staff_active para o próprio
+ator autenticado. EXECUTE é negado a anon; o helper privado não é executável por
+clientes. A verificação consulta auth.sessions e membership atual, sem confiar
+em metadados editáveis ou somente no JWT em cache. Sessão revogada retorna acesso
+inválido mesmo quando o token ainda não expirou. Consultar validation.md para
+as evidências de SQL/HTTP; as RPCs de escrita das etapas seguintes permanecem
+pendentes e não são disponibilizadas por esta migration.
+
+
+## Implementação da escrita (migration 006)
+
+save_animal(p_operation_key text, p_payload jsonb) recebe somente campos editáveis,
+normaliza nome/idade/cuidados e grava o agregado numa transação. O resultado contém
+animal público, clinical_notes e care_records, somente para staff revalidado.
+get_managed_animal(p_animal_id uuid), list_managed_animals(p_status text,
+p_cursor jsonb) e get_write_operation(p_operation_key text) também exigem staff
+atual. Cursor privado é [name,id], página de 50, total calculado no servidor.
+
+write_operations não é legível por clientes. Chave de 32 caracteres base64url é
+única por ator; digest SHA-256 do payload normalizado detecta conflito. Advisory
+lock serializa submissões concorrentes da mesma chave; o mesmo resultado é repetido
+sem reaplicar uma alteração já concluída. Reconsulta antes de gerar nova operação.
+Erros SQL PT409/22023/PT404/42501 são convertidos em falhas de domínio, nunca em
+texto bruto na interface. Novo animal nasce privado e available; formulário não
+altera status/publicação/foto/autoria. Cuidados são substituídos atomicamente por
+registros com UUID/autoria gerados pelo servidor; não há histórico de prescrições.
+
+
+## US4 — protocolo implementado
+
+Upload autentica antes de ler o corpo e usa reserva service-only com caminho/token
+privados. O cliente recebe apenas job_id, state, photo_id original confirmado,
+current_photo_id, is_current e correlation_id. Replay nunca reativa objeto antigo.
+GET de reconciliação exige ator atual e staff ativo. O job precede o Storage;
+nenhuma falha do cliente provoca remoção síncrona de uma foto possivelmente anexada.
+Limpeza adquire lease e estado terminal, remove pelo Storage API e registra resultado.
+URL/segredo do endpoint interno ficam no Vault (photo_cleanup_url/photo_cleanup_secret).
+A verificação de gateway é mantida para upload; cleanup usa credencial interna própria.

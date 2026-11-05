@@ -1,0 +1,38 @@
+begin;
+select no_plan();
+select has_column('public','animals','animal_code','legado recebe código');
+select ok(not exists(select 1 from public.animals where animal_code is null),'todos os legados preenchidos');
+select is((select count(distinct animal_code) from public.animals),(select count(*) from public.animals),'códigos de legado únicos');
+select is(private.format_animal_code(1),'A0001','prefixo e quatro posições');
+select is(private.format_animal_code(9999),'A9999','limite quatro posições');
+select is(private.format_animal_code(10000),'A10000','cresce sem truncar');
+select is(private.format_animal_code(9223372036854775807),'A9223372036854775807','bigint sem truncamento');
+select throws_ok($$select private.format_animal_code(0)$$,'22023','invalid_animal_code_number','zero rejeitado');
+insert into public.animals(id,name,species,sex,size,approximate_age) values
+ ('76000000-0000-4000-8000-000000000001','Código teste','dog','female','small','2 anos'),
+ ('76000000-0000-4000-8000-000000000002','Código teste','dog','female','small','2 anos');
+select isnt((select animal_code from public.animals where id='76000000-0000-4000-8000-000000000001'),(select animal_code from public.animals where id='76000000-0000-4000-8000-000000000002'),'homônimos têm códigos distintos');
+create temporary table code_saved as select id,animal_code from public.animals where id='76000000-0000-4000-8000-000000000001';
+update public.animals set name='Novo nome',status='treatment',is_published=true where id='76000000-0000-4000-8000-000000000001';
+select is((select animal_code from public.animals where id='76000000-0000-4000-8000-000000000001'),(select animal_code from code_saved),'renomear e manejo preservam código');
+select throws_ok($$update public.animals set animal_code='A9999' where id='76000000-0000-4000-8000-000000000001'$$,'22023','animal_code_immutable','código não editável');
+select lives_ok($$update public.animals set animal_code=animal_code where id='76000000-0000-4000-8000-000000000001'$$,'atribuir valor atual é inofensivo');
+select throws_ok($$insert into public.animals(name,species,sex,size,approximate_age,animal_code) values('Forjado','cat','male','small','1','A5555')$$,'22023','animal_code_server_generated','insert não escolhe código');
+savepoint code_gap;
+insert into public.animals(id,name,species,sex,size,approximate_age) values('76000000-0000-4000-8000-000000000003','Rollback código','cat','male','small','1');
+rollback to savepoint code_gap;
+create temporary table consumed_code as select currval('private.animal_code_sequence') as value;
+insert into public.animals(id,name,species,sex,size,approximate_age) values('76000000-0000-4000-8000-000000000004','Depois rollback','cat','male','small','1');
+select ok((select substring(animal_code from 2)::bigint from public.animals where id='76000000-0000-4000-8000-000000000004')>(select value from consumed_code),'rollback deixa lacuna, código não reciclado');
+select is((select count(*) from public.animals where id='76000000-0000-4000-8000-000000000003'),0::bigint,'cadastro abortado não persiste');
+select ok(not has_sequence_privilege('authenticated','private.animal_code_sequence','USAGE'),'sequência não exposta ao app');
+select ok(not has_function_privilege('authenticated','private.assign_animal_code()','EXECUTE'),'trigger não exposto como RPC');
+insert into auth.users(id) values ('56000000-0000-4000-8000-000000000001');
+insert into auth.sessions(id,user_id) values('66000000-0000-4000-8000-000000000001','56000000-0000-4000-8000-000000000001');
+insert into public.staff_members(user_id,active) values('56000000-0000-4000-8000-000000000001',true);
+select set_config('request.jwt.claims','{"sub":"56000000-0000-4000-8000-000000000001","session_id":"66000000-0000-4000-8000-000000000001","role":"authenticated"}',true);
+set local role authenticated;
+select matches(public.save_animal(repeat('z',32),'{"name":"Via app","species":"cat","sex":"male","size":"small","approximate_age":"1"}')->'animal'->>'animal_code','^A[0-9]{4,}$','RPC retorna código gerado');
+select throws_ok($$select public.save_animal(repeat('y',32),'{"name":"Via app","species":"cat","sex":"male","size":"small","approximate_age":"1","animal_code":"A5555"}')$$,'22023','invalid_payload','payload não aceita código');
+reset role;
+select * from finish();rollback;

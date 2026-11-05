@@ -1,0 +1,598 @@
+[
+  {
+    "viewport": 320.0,
+    "scale": 1.0,
+    "mode": "Kanban",
+    "cards": [
+      {
+        "width": 79.33333333333333,
+        "height": 184.0
+      }
+    ],
+    "clipped": [
+      {
+        "text": "Nome ou código do animal",
+        "width": 109.30000305175781,
+        "height": 24.0
+      },
+      {
+        "text": "Dermatite com acompanhamento diário e medicação oral",
+        "width": 55.33333333333333,
+        "height": 42.0
+      }
+    ],
+    "layoutErrors": [],
+    "tapTargets": {
+      "passed": false,
+      "reason": "SemanticsNode#28(Rect.fromLTRB(49.3, 6.0, 73.3, 54.0), actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable, hasExpandedState], traversalParentIdentifier: _OverlayPortalState#b8afe, tooltip: \"Ações de Luna 1\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(24.0, 48.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\n\n\n"
+    },
+    "contrast": {
+      "passed": true,
+      "reason": null
+    }
+  },
+  {
+    "viewport": 320.0,
+    "scale": 1.0,
+    "mode": "Lista",
+    "cards": [
+      {
+        "width": 280.0,
+        "height": 150.0
+      }
+    ],
+    "clipped": [
+      {
+        "text": "Nome ou código do animal",
+        "width": 109.30000305175781,
+        "height": 24.0
+      },
+      {
+        "text": "Dermatite com acompanhamento diário e medicação oral",
+        "width": 248.0,
+        "height": 28.0
+      }
+    ],
+    "layoutErrors": [],
+    "tapTargets": {
+      "passed": false,
+      "reason": "SemanticsNode#42(Rect.fromLTRB(230.0, 10.0, 270.0, 58.0), actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable, hasExpandedState], traversalParentIdentifier: _OverlayPortalState#3dd16, tooltip: \"Ações de Luna 1\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(40.0, 48.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\n\n\n\n\n"
+    },
+    "contrast": {
+      "passed": true,
+      "reason": null
+    }
+  },
+  {
+    "viewport": 320.0,
+    "scale": 1.0,
+    "mode": "Calendário",
+    "cards": [],
+    "clipped": [
+      {
+        "text": "Nome ou código do animal",
+        "width": 109.30000305175781,
+        "height": 24.0
+      }
+    ],
+    "layoutErrors": [],
+    "tapTargets": {
+      "passed": false,
+      "reason": "SemanticsNode#50(Rect.fromLTRB(124.6, 37.5, 156.6, 69.5), actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], traversalParentIdentifier: _OverlayPortalState#1e327, tooltip: \"Mês anterior\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#51(Rect.fromLTRB(163.6, 37.5, 195.6, 69.5), actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], traversalParentIdentifier: _OverlayPortalState#b2f5a, tooltip: \"Próximo mês\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#52(Rect.fromLTRB(202.6, 38.5, 267.0, 68.5), actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], label: \"Hoje\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(64.4, 30.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#54(Rect.fromLTRB(1.5, 1.5, 34.8, 33.5), actions: [focus, tap], flags: [isSelected, isFocusable, hasSelectedState], label: \"Dia 1, com aplicações\\n1\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(33.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#55(Rect.fromLTRB(1.5, 1.5, 34.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 2\\n2\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(33.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#56(Rect.fromLTRB(1.5, 1.5, 34.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 3\\n3\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(33.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#57(Rect.fromLTRB(1.5, 1.5, 34.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 4\\n4\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(33.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#58(Rect.fromLTRB(1.5, 1.5, 34.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 5\\n5\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(33.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#59(Rect.fromLTRB(1.5, 1.5, 34.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 6\\n6\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(33.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#60(Rect.fromLTRB(1.5, 1.5, 34.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 7\\n7\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(33.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#61(Rect.fromLTRB(1.5, 1.5, 34.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 8\\n8\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(33.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#62(Rect.fromLTRB(1.5, 1.5, 34.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 9\\n9\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(33.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#63(Rect.fromLTRB(1.5, 1.5, 34.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 10\\n10\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(33.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#64(Rect.fromLTRB(1.5, 1.5, 34.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 11\\n11\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(33.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#65(Rect.fromLTRB(1.5, 1.5, 34.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 12\\n12\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(33.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#66(Rect.fromLTRB(1.5, 1.5, 34.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 13\\n13\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(33.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#67(Rect.fromLTRB(1.5, 1.5, 34.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 14\\n14\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(33.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#68(Rect.fromLTRB(1.5, 1.5, 34.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 15\\n15\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(33.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#69(Rect.fromLTRB(1.5, 1.5, 34.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 16\\n16\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(33.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#70(Rect.fromLTRB(1.5, 1.5, 34.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 17\\n17\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(33.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#71(Rect.fromLTRB(1.5, 1.5, 34.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 18\\n18\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(33.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#72(Rect.fromLTRB(1.5, 1.5, 34.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 19\\n19\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(33.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#73(Rect.fromLTRB(1.5, 1.5, 34.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 20\\n20\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(33.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#74(Rect.fromLTRB(1.5, 1.5, 34.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 21\\n21\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(33.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#75(Rect.fromLTRB(1.5, 1.5, 34.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 22\\n22\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(33.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#76(Rect.fromLTRB(1.5, 1.5, 34.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 23\\n23\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(33.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#77(Rect.fromLTRB(1.5, 1.5, 34.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 24\\n24\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(33.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#78(Rect.fromLTRB(1.5, 1.5, 34.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 25\\n25\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(33.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#79(Rect.fromLTRB(1.5, 1.5, 34.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 26\\n26\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(33.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#80(Rect.fromLTRB(1.5, 1.5, 34.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 27\\n27\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(33.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#81(Rect.fromLTRB(1.5, 1.5, 34.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 28\\n28\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(33.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#82(Rect.fromLTRB(1.5, 1.5, 34.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 29\\n29\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(33.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#83(Rect.fromLTRB(1.5, 1.5, 34.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 30\\n30\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(33.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\n\n\n\n\n\nSemanticsNode#125(Rect.fromLTRB(238.0, 12.0, 268.0, 42.0), actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], traversalParentIdentifier: _OverlayPortalState#75488, tooltip: \"Ver aplicação de Atena às 08:00\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(30.0, 30.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\n\n"
+    },
+    "contrast": {
+      "passed": true,
+      "reason": null
+    }
+  },
+  {
+    "viewport": 320.0,
+    "scale": 2.0,
+    "mode": "Kanban",
+    "cards": [],
+    "clipped": [
+      {
+        "text": "Nome ou código do animal",
+        "width": 39.30000305175781,
+        "height": 48.0
+      }
+    ],
+    "layoutErrors": [
+      "A RenderFlex overflowed by 144 pixels on the bottom.",
+      "A RenderFlex overflowed by 173 pixels on the bottom.",
+      "A RenderFlex overflowed by 144 pixels on the bottom."
+    ],
+    "tapTargets": {
+      "passed": true,
+      "reason": null
+    },
+    "contrast": {
+      "passed": true,
+      "reason": null
+    }
+  },
+  {
+    "viewport": 320.0,
+    "scale": 2.0,
+    "mode": "Lista",
+    "cards": [],
+    "clipped": [
+      {
+        "text": "Nome ou código do animal",
+        "width": 39.30000305175781,
+        "height": 48.0
+      }
+    ],
+    "layoutErrors": [],
+    "tapTargets": {
+      "passed": true,
+      "reason": null
+    },
+    "contrast": {
+      "passed": true,
+      "reason": null
+    }
+  },
+  {
+    "viewport": 320.0,
+    "scale": 2.0,
+    "mode": "Calendário",
+    "cards": [],
+    "clipped": [
+      {
+        "text": "Nome ou código do animal",
+        "width": 39.30000305175781,
+        "height": 48.0
+      }
+    ],
+    "layoutErrors": [],
+    "tapTargets": {
+      "passed": true,
+      "reason": null
+    },
+    "contrast": {
+      "passed": true,
+      "reason": null
+    }
+  },
+  {
+    "viewport": 390.0,
+    "scale": 1.0,
+    "mode": "Kanban",
+    "cards": [
+      {
+        "width": 102.66666666666667,
+        "height": 184.0
+      }
+    ],
+    "clipped": [
+      {
+        "text": "Nome ou código do animal",
+        "width": 179.3000030517578,
+        "height": 24.0
+      },
+      {
+        "text": "Dermatite com acompanhamento diário e medicação oral",
+        "width": 78.66666666666667,
+        "height": 42.0
+      }
+    ],
+    "layoutErrors": [],
+    "tapTargets": {
+      "passed": false,
+      "reason": "SemanticsNode#28(Rect.fromLTRB(72.7, 6.0, 96.7, 54.0), actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable, hasExpandedState], traversalParentIdentifier: _OverlayPortalState#ca625, tooltip: \"Ações de Luna 1\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(24.0, 48.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\n\n\n"
+    },
+    "contrast": {
+      "passed": true,
+      "reason": null
+    }
+  },
+  {
+    "viewport": 390.0,
+    "scale": 1.0,
+    "mode": "Lista",
+    "cards": [
+      {
+        "width": 350.0,
+        "height": 150.0
+      }
+    ],
+    "clipped": [
+      {
+        "text": "Nome ou código do animal",
+        "width": 179.3000030517578,
+        "height": 24.0
+      }
+    ],
+    "layoutErrors": [],
+    "tapTargets": {
+      "passed": false,
+      "reason": "SemanticsNode#42(Rect.fromLTRB(300.0, 10.0, 340.0, 58.0), actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable, hasExpandedState], traversalParentIdentifier: _OverlayPortalState#6adce, tooltip: \"Ações de Luna 1\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(40.0, 48.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\n\n\n\n\n"
+    },
+    "contrast": {
+      "passed": true,
+      "reason": null
+    }
+  },
+  {
+    "viewport": 390.0,
+    "scale": 1.0,
+    "mode": "Calendário",
+    "cards": [],
+    "clipped": [
+      {
+        "text": "Nome ou código do animal",
+        "width": 179.3000030517578,
+        "height": 24.0
+      }
+    ],
+    "layoutErrors": [],
+    "tapTargets": {
+      "passed": false,
+      "reason": "SemanticsNode#50(Rect.fromLTRB(194.6, 24.0, 226.6, 56.0), actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], traversalParentIdentifier: _OverlayPortalState#b1125, tooltip: \"Mês anterior\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#51(Rect.fromLTRB(233.6, 24.0, 265.6, 56.0), actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], traversalParentIdentifier: _OverlayPortalState#f3bc1, tooltip: \"Próximo mês\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#52(Rect.fromLTRB(272.6, 25.0, 337.0, 55.0), actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], label: \"Hoje\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(64.4, 30.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#54(Rect.fromLTRB(1.5, 1.5, 44.8, 33.5), actions: [focus, tap], flags: [isSelected, isFocusable, hasSelectedState], label: \"Dia 1, com aplicações\\n1\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(43.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#55(Rect.fromLTRB(1.5, 1.5, 44.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 2\\n2\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(43.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#56(Rect.fromLTRB(1.5, 1.5, 44.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 3\\n3\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(43.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#57(Rect.fromLTRB(1.5, 1.5, 44.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 4\\n4\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(43.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#58(Rect.fromLTRB(1.5, 1.5, 44.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 5\\n5\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(43.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#59(Rect.fromLTRB(1.5, 1.5, 44.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 6\\n6\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(43.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#60(Rect.fromLTRB(1.5, 1.5, 44.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 7\\n7\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(43.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#61(Rect.fromLTRB(1.5, 1.5, 44.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 8\\n8\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(43.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#62(Rect.fromLTRB(1.5, 1.5, 44.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 9\\n9\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(43.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#63(Rect.fromLTRB(1.5, 1.5, 44.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 10\\n10\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(43.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#64(Rect.fromLTRB(1.5, 1.5, 44.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 11\\n11\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(43.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#65(Rect.fromLTRB(1.5, 1.5, 44.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 12\\n12\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(43.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#66(Rect.fromLTRB(1.5, 1.5, 44.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 13\\n13\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(43.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#67(Rect.fromLTRB(1.5, 1.5, 44.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 14\\n14\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(43.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#68(Rect.fromLTRB(1.5, 1.5, 44.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 15\\n15\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(43.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#69(Rect.fromLTRB(1.5, 1.5, 44.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 16\\n16\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(43.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#70(Rect.fromLTRB(1.5, 1.5, 44.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 17\\n17\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(43.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#71(Rect.fromLTRB(1.5, 1.5, 44.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 18\\n18\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(43.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#72(Rect.fromLTRB(1.5, 1.5, 44.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 19\\n19\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(43.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#73(Rect.fromLTRB(1.5, 1.5, 44.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 20\\n20\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(43.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#74(Rect.fromLTRB(1.5, 1.5, 44.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 21\\n21\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(43.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#75(Rect.fromLTRB(1.5, 1.5, 44.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 22\\n22\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(43.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#76(Rect.fromLTRB(1.5, 1.5, 44.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 23\\n23\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(43.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#77(Rect.fromLTRB(1.5, 1.5, 44.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 24\\n24\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(43.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#78(Rect.fromLTRB(1.5, 1.5, 44.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 25\\n25\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(43.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#79(Rect.fromLTRB(1.5, 1.5, 44.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 26\\n26\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(43.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#80(Rect.fromLTRB(1.5, 1.5, 44.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 27\\n27\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(43.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#81(Rect.fromLTRB(1.5, 1.5, 44.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 28\\n28\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(43.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#82(Rect.fromLTRB(1.5, 1.5, 44.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 29\\n29\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(43.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#83(Rect.fromLTRB(1.5, 1.5, 44.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 30\\n30\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(43.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\n\n\n\n\n\nSemanticsNode#125(Rect.fromLTRB(308.0, 12.0, 338.0, 42.0), actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], traversalParentIdentifier: _OverlayPortalState#1fbd9, tooltip: \"Ver aplicação de Atena às 08:00\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(30.0, 30.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\n\n"
+    },
+    "contrast": {
+      "passed": true,
+      "reason": null
+    }
+  },
+  {
+    "viewport": 390.0,
+    "scale": 2.0,
+    "mode": "Kanban",
+    "cards": [
+      {
+        "width": 102.66666666666667,
+        "height": 398.0
+      }
+    ],
+    "clipped": [
+      {
+        "text": "Nome ou código do animal",
+        "width": 109.30000305175781,
+        "height": 48.0
+      },
+      {
+        "text": "Dermatite com acompanhamento diário e medicação oral",
+        "width": 78.66666666666667,
+        "height": 84.0
+      }
+    ],
+    "layoutErrors": [],
+    "tapTargets": {
+      "passed": true,
+      "reason": null
+    },
+    "contrast": {
+      "passed": true,
+      "reason": null
+    }
+  },
+  {
+    "viewport": 390.0,
+    "scale": 2.0,
+    "mode": "Lista",
+    "cards": [],
+    "clipped": [
+      {
+        "text": "Nome ou código do animal",
+        "width": 109.30000305175781,
+        "height": 48.0
+      }
+    ],
+    "layoutErrors": [],
+    "tapTargets": {
+      "passed": true,
+      "reason": null
+    },
+    "contrast": {
+      "passed": true,
+      "reason": null
+    }
+  },
+  {
+    "viewport": 390.0,
+    "scale": 2.0,
+    "mode": "Calendário",
+    "cards": [],
+    "clipped": [
+      {
+        "text": "Nome ou código do animal",
+        "width": 109.30000305175781,
+        "height": 48.0
+      }
+    ],
+    "layoutErrors": [],
+    "tapTargets": {
+      "passed": false,
+      "reason": "SemanticsNode#46(Rect.fromLTRB(150.6, 132.0, 182.6, 164.0), actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], traversalParentIdentifier: _OverlayPortalState#e5e06, tooltip: \"Mês anterior\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#47(Rect.fromLTRB(189.6, 132.0, 221.6, 164.0), actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], traversalParentIdentifier: _OverlayPortalState#633cf, tooltip: \"Próximo mês\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#48(Rect.fromLTRB(228.6, 132.5, 337.0, 163.5), actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], label: \"Hoje\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(108.4, 31.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\n"
+    },
+    "contrast": {
+      "passed": true,
+      "reason": null
+    }
+  },
+  {
+    "viewport": 600.0,
+    "scale": 1.0,
+    "mode": "Kanban",
+    "cards": [
+      {
+        "width": 172.66666666666666,
+        "height": 156.0
+      }
+    ],
+    "clipped": [
+      {
+        "text": "Nome ou código do animal",
+        "width": 389.3000030517578,
+        "height": 24.0
+      },
+      {
+        "text": "Dermatite com acompanhamento diário e medicação oral",
+        "width": 148.66666666666666,
+        "height": 42.0
+      }
+    ],
+    "layoutErrors": [],
+    "tapTargets": {
+      "passed": false,
+      "reason": "SemanticsNode#28(Rect.fromLTRB(142.7, 6.0, 166.7, 54.0), actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable, hasExpandedState], traversalParentIdentifier: _OverlayPortalState#00121, tooltip: \"Ações de Luna 1\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(24.0, 48.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\n\n\n"
+    },
+    "contrast": {
+      "passed": true,
+      "reason": null
+    }
+  },
+  {
+    "viewport": 600.0,
+    "scale": 1.0,
+    "mode": "Lista",
+    "cards": [
+      {
+        "width": 560.0,
+        "height": 150.0
+      }
+    ],
+    "clipped": [
+      {
+        "text": "Nome ou código do animal",
+        "width": 389.3000030517578,
+        "height": 24.0
+      }
+    ],
+    "layoutErrors": [],
+    "tapTargets": {
+      "passed": false,
+      "reason": "SemanticsNode#42(Rect.fromLTRB(510.0, 10.0, 550.0, 58.0), actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable, hasExpandedState], traversalParentIdentifier: _OverlayPortalState#31e3c, tooltip: \"Ações de Luna 1\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(40.0, 48.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\n\n\n\n\n"
+    },
+    "contrast": {
+      "passed": true,
+      "reason": null
+    }
+  },
+  {
+    "viewport": 600.0,
+    "scale": 1.0,
+    "mode": "Calendário",
+    "cards": [],
+    "clipped": [
+      {
+        "text": "Nome ou código do animal",
+        "width": 389.3000030517578,
+        "height": 24.0
+      }
+    ],
+    "layoutErrors": [],
+    "tapTargets": {
+      "passed": false,
+      "reason": "SemanticsNode#50(Rect.fromLTRB(404.6, 13.0, 436.6, 45.0), actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], traversalParentIdentifier: _OverlayPortalState#89216, tooltip: \"Mês anterior\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#51(Rect.fromLTRB(443.6, 13.0, 475.6, 45.0), actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], traversalParentIdentifier: _OverlayPortalState#b5c23, tooltip: \"Próximo mês\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#52(Rect.fromLTRB(482.6, 14.0, 547.0, 44.0), actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], label: \"Hoje\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(64.4, 30.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#54(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isSelected, isFocusable, hasSelectedState], label: \"Dia 1, com aplicações\\n1\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#55(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 2\\n2\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#56(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 3\\n3\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#57(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 4\\n4\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#58(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 5\\n5\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#59(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 6\\n6\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#60(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 7\\n7\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#61(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 8\\n8\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#62(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 9\\n9\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#63(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 10\\n10\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#64(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 11\\n11\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#65(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 12\\n12\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#66(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 13\\n13\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#67(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 14\\n14\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#68(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 15\\n15\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#69(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 16\\n16\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#70(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 17\\n17\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#71(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 18\\n18\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#72(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 19\\n19\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#73(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 20\\n20\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#74(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 21\\n21\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#75(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 22\\n22\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#76(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 23\\n23\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#77(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 24\\n24\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#78(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 25\\n25\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#79(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 26\\n26\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#80(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 27\\n27\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#81(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 28\\n28\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#82(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 29\\n29\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#83(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 30\\n30\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\n\n\n\n\n\nSemanticsNode#125(Rect.fromLTRB(518.0, 12.0, 548.0, 42.0), actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], traversalParentIdentifier: _OverlayPortalState#925e2, tooltip: \"Ver aplicação de Atena às 08:00\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(30.0, 30.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\n\n"
+    },
+    "contrast": {
+      "passed": true,
+      "reason": null
+    }
+  },
+  {
+    "viewport": 600.0,
+    "scale": 2.0,
+    "mode": "Kanban",
+    "cards": [
+      {
+        "width": 172.66666666666666,
+        "height": 306.0
+      }
+    ],
+    "clipped": [
+      {
+        "text": "Nome ou código do animal",
+        "width": 319.3000030517578,
+        "height": 48.0
+      },
+      {
+        "text": "Dermatite com acompanhamento diário e medicação oral",
+        "width": 148.66666666666666,
+        "height": 84.0
+      }
+    ],
+    "layoutErrors": [],
+    "tapTargets": {
+      "passed": false,
+      "reason": "SemanticsNode#28(Rect.fromLTRB(142.7, 16.0, 166.7, 64.0), actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable, hasExpandedState], traversalParentIdentifier: _OverlayPortalState#e351f, tooltip: \"Ações de Luna 1\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(24.0, 48.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\n\n\n"
+    },
+    "contrast": {
+      "passed": true,
+      "reason": null
+    }
+  },
+  {
+    "viewport": 600.0,
+    "scale": 2.0,
+    "mode": "Lista",
+    "cards": [
+      {
+        "width": 560.0,
+        "height": 208.0
+      }
+    ],
+    "clipped": [
+      {
+        "text": "Nome ou código do animal",
+        "width": 319.3000030517578,
+        "height": 48.0
+      },
+      {
+        "text": "Dermatite com acompanhamento diário e medicação oral",
+        "width": 528.0,
+        "height": 56.0
+      }
+    ],
+    "layoutErrors": [],
+    "tapTargets": {
+      "passed": false,
+      "reason": "SemanticsNode#42(Rect.fromLTRB(510.0, 10.0, 550.0, 58.0), actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable, hasExpandedState], traversalParentIdentifier: _OverlayPortalState#06cb5, tooltip: \"Ações de Luna 1\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(40.0, 48.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\n\n\n\n\n"
+    },
+    "contrast": {
+      "passed": true,
+      "reason": null
+    }
+  },
+  {
+    "viewport": 600.0,
+    "scale": 2.0,
+    "mode": "Calendário",
+    "cards": [],
+    "clipped": [
+      {
+        "text": "Nome ou código do animal",
+        "width": 319.3000030517578,
+        "height": 48.0
+      }
+    ],
+    "layoutErrors": [],
+    "tapTargets": {
+      "passed": false,
+      "reason": "SemanticsNode#50(Rect.fromLTRB(360.6, 51.0, 392.6, 83.0), actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], traversalParentIdentifier: _OverlayPortalState#f379a, tooltip: \"Mês anterior\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#51(Rect.fromLTRB(399.6, 51.0, 431.6, 83.0), actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], traversalParentIdentifier: _OverlayPortalState#3140a, tooltip: \"Próximo mês\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#52(Rect.fromLTRB(438.6, 51.5, 547.0, 82.5), actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], label: \"Hoje\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(108.4, 31.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#54(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isSelected, isFocusable, hasSelectedState], label: \"Dia 1, com aplicações\\n1\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#55(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 2\\n2\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#56(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 3\\n3\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#57(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 4\\n4\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#58(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 5\\n5\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#59(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 6\\n6\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#60(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 7\\n7\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#61(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 8\\n8\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#62(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 9\\n9\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#63(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 10\\n10\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#64(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 11\\n11\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#65(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 12\\n12\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#66(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 13\\n13\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#67(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 14\\n14\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#68(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 15\\n15\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#69(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 16\\n16\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#70(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 17\\n17\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#71(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 18\\n18\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#72(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 19\\n19\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#73(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 20\\n20\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#74(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 21\\n21\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#75(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 22\\n22\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#76(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 23\\n23\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#77(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 24\\n24\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#78(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 25\\n25\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#79(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 26\\n26\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#80(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 27\\n27\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#81(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 28\\n28\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#82(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 29\\n29\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#83(Rect.fromLTRB(1.5, 1.5, 74.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 30\\n30\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(73.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\n\n\n\n\n\n"
+    },
+    "contrast": {
+      "passed": true,
+      "reason": null
+    }
+  },
+  {
+    "viewport": 1440.0,
+    "scale": 1.0,
+    "mode": "Kanban",
+    "cards": [
+      {
+        "width": 452.6666666666667,
+        "height": 142.0
+      }
+    ],
+    "clipped": [],
+    "layoutErrors": [],
+    "tapTargets": {
+      "passed": false,
+      "reason": "SemanticsNode#28(Rect.fromLTRB(422.7, 6.0, 446.7, 54.0), actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable, hasExpandedState], traversalParentIdentifier: _OverlayPortalState#cc7e0, tooltip: \"Ações de Luna 1\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(24.0, 48.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\n\n\n"
+    },
+    "contrast": {
+      "passed": true,
+      "reason": null
+    }
+  },
+  {
+    "viewport": 1440.0,
+    "scale": 1.0,
+    "mode": "Lista",
+    "cards": [
+      {
+        "width": 1400.0,
+        "height": 136.0
+      }
+    ],
+    "clipped": [],
+    "layoutErrors": [],
+    "tapTargets": {
+      "passed": false,
+      "reason": "SemanticsNode#42(Rect.fromLTRB(1350.0, 10.0, 1390.0, 58.0), actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable, hasExpandedState], traversalParentIdentifier: _OverlayPortalState#c09df, tooltip: \"Ações de Luna 1\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(40.0, 48.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\n\n\n\n\n"
+    },
+    "contrast": {
+      "passed": true,
+      "reason": null
+    }
+  },
+  {
+    "viewport": 1440.0,
+    "scale": 1.0,
+    "mode": "Calendário",
+    "cards": [],
+    "clipped": [],
+    "layoutErrors": [],
+    "tapTargets": {
+      "passed": false,
+      "reason": "SemanticsNode#50(Rect.fromLTRB(1244.6, 13.0, 1276.6, 45.0), actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], traversalParentIdentifier: _OverlayPortalState#955dc, tooltip: \"Mês anterior\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#51(Rect.fromLTRB(1283.6, 13.0, 1315.6, 45.0), actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], traversalParentIdentifier: _OverlayPortalState#533da, tooltip: \"Próximo mês\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#52(Rect.fromLTRB(1322.6, 14.0, 1387.0, 44.0), actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], label: \"Hoje\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(64.4, 30.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#54(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isSelected, isFocusable, hasSelectedState], label: \"Dia 1, com aplicações\\n1\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#55(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 2\\n2\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#56(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 3\\n3\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#57(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 4\\n4\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#58(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 5\\n5\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#59(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 6\\n6\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#60(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 7\\n7\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#61(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 8\\n8\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#62(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 9\\n9\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#63(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 10\\n10\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#64(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 11\\n11\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#65(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 12\\n12\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#66(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 13\\n13\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#67(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 14\\n14\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#68(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 15\\n15\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#69(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 16\\n16\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#70(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 17\\n17\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#71(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 18\\n18\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#72(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 19\\n19\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#73(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 20\\n20\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#74(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 21\\n21\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#75(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 22\\n22\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#76(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 23\\n23\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#77(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 24\\n24\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#78(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 25\\n25\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#79(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 26\\n26\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#80(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 27\\n27\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#81(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 28\\n28\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#82(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 29\\n29\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#83(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 30\\n30\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\n\n\n\n\n\nSemanticsNode#125(Rect.fromLTRB(1358.0, 12.0, 1388.0, 42.0), actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], traversalParentIdentifier: _OverlayPortalState#f996f, tooltip: \"Ver aplicação de Atena às 08:00\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(30.0, 30.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\n\n"
+    },
+    "contrast": {
+      "passed": true,
+      "reason": null
+    }
+  },
+  {
+    "viewport": 1440.0,
+    "scale": 2.0,
+    "mode": "Kanban",
+    "cards": [
+      {
+        "width": 452.6666666666667,
+        "height": 228.0
+      }
+    ],
+    "clipped": [],
+    "layoutErrors": [],
+    "tapTargets": {
+      "passed": false,
+      "reason": "SemanticsNode#28(Rect.fromLTRB(422.7, 6.0, 446.7, 54.0), actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable, hasExpandedState], traversalParentIdentifier: _OverlayPortalState#69a1c, tooltip: \"Ações de Luna 1\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(24.0, 48.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\n\n\n"
+    },
+    "contrast": {
+      "passed": true,
+      "reason": null
+    }
+  },
+  {
+    "viewport": 1440.0,
+    "scale": 2.0,
+    "mode": "Lista",
+    "cards": [
+      {
+        "width": 1400.0,
+        "height": 180.0
+      }
+    ],
+    "clipped": [],
+    "layoutErrors": [],
+    "tapTargets": {
+      "passed": false,
+      "reason": "SemanticsNode#42(Rect.fromLTRB(1350.0, 10.0, 1390.0, 58.0), actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable, hasExpandedState], traversalParentIdentifier: _OverlayPortalState#de7f5, tooltip: \"Ações de Luna 1\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(40.0, 48.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\n\n\n\n\n"
+    },
+    "contrast": {
+      "passed": true,
+      "reason": null
+    }
+  },
+  {
+    "viewport": 1440.0,
+    "scale": 2.0,
+    "mode": "Calendário",
+    "cards": [],
+    "clipped": [],
+    "layoutErrors": [],
+    "tapTargets": {
+      "passed": false,
+      "reason": "SemanticsNode#50(Rect.fromLTRB(1200.6, 24.0, 1232.6, 56.0), actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], traversalParentIdentifier: _OverlayPortalState#4e448, tooltip: \"Mês anterior\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#51(Rect.fromLTRB(1239.6, 24.0, 1271.6, 56.0), actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], traversalParentIdentifier: _OverlayPortalState#04711, tooltip: \"Próximo mês\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(32.0, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#52(Rect.fromLTRB(1278.6, 24.5, 1387.0, 55.5), actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], label: \"Hoje\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(108.4, 31.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#54(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isSelected, isFocusable, hasSelectedState], label: \"Dia 1, com aplicações\\n1\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#55(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 2\\n2\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#56(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 3\\n3\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#57(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 4\\n4\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#58(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 5\\n5\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#59(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 6\\n6\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#60(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 7\\n7\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#61(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 8\\n8\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#62(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 9\\n9\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#63(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 10\\n10\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#64(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 11\\n11\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#65(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 12\\n12\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#66(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 13\\n13\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#67(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 14\\n14\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#68(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 15\\n15\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#69(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 16\\n16\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#70(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 17\\n17\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#71(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 18\\n18\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#72(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 19\\n19\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#73(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 20\\n20\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#74(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 21\\n21\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#75(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 22\\n22\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#76(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 23\\n23\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#77(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 24\\n24\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#78(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 25\\n25\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#79(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 26\\n26\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#80(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 27\\n27\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#81(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 28\\n28\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#82(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 29\\n29\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\nSemanticsNode#83(Rect.fromLTRB(1.5, 1.5, 194.8, 33.5), actions: [focus, tap], flags: [isFocusable, hasSelectedState], label: \"Dia 30\\n30\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(193.3, 32.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\n\n\n\n\n\nSemanticsNode#125(Rect.fromLTRB(1358.0, 12.0, 1388.0, 42.0), actions: [focus, tap], flags: [isButton, hasEnabledState, isEnabled, isFocusable], traversalParentIdentifier: _OverlayPortalState#33871, tooltip: \"Ver aplicação de Atena às 08:00\", textDirection: ltr): expected tap target size of at least Size(48.0, 48.0), but found Size(30.0, 30.0)\nSee also: https://support.google.com/accessibility/android/answer/7101858?hl=en\n\n"
+    },
+    "contrast": {
+      "passed": true,
+      "reason": null
+    }
+  }
+]

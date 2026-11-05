@@ -43,3 +43,26 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Local secrets and tool caches
+.env
+.env.*
+!.env.example
+!**/.env.example
+node_modules/
+.tools/
+Thumbs.db
+*.tmp
+
+# Native Android fixture drivers
+__pycache__/
+*.py[cod]
+
+# Kotlin compiler local sessions
+/android/.kotlin/
+
+# Local-only MCP driver entry; never ship diagnostic instrumentation
+/lib/main_mcp_local.dart
+
+# Local package shared manually for academic evaluation
+/entrega-professor/

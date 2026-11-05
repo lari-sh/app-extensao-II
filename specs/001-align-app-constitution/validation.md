@@ -1,0 +1,1111 @@
+# Evidências de implementação
+
+Estado vigente em 2026-11-01: T109 (cartão clínico) e T110 (ponta a ponta)
+concluídas, CI e APK confirmados na execução 41293728173. Resta T106, validação
+iOS em Mac/Xcode/dispositivo. Seções anteriores preservam o histórico; o
+fechamento abaixo registra o resultado atual.
+
+Data: 2026-10-31. Branch: `developer`.
+Baseline: `52c03e2abe04a447af3617c23013da5927427616`.
+
+## T001 — Baseline [CR-006, CR-007]
+
+- Comando: `flutter test --reporter expanded`, Flutter 3.41.1/Dart 3.11 no Windows.
+- Resultado: PASS, 3 testes existentes (persistência local, catálogo/favoritos e formulário demo).
+- O primeiro acesso restrito ao SDK retornou acesso negado; execução com acesso ao cache autorizada passou.
+- Estes testes caracterizam a demonstração; não comprovam Supabase, autenticação, upload, MVVM ou RLS.
+- Gaps: AnimalStore global, SDK/plugin nas telas, regras em Widgets, acesso administrativo demo; ainda sem Services/Repositories/VMs e oito testes de telas adequadas.
+- Commits novos: `tipo(escopo): descrição no imperativo [001-FR-NNN]` ou `[001-CR-NNN]`, usando IDs reais. Nenhum histórico reescrito.
+- Tipos permitidos: feat, fix, docs, style, refactor, test, chore. Integração à main somente por PR.
+
+## Ambiente
+
+- Docker CLI 29.2.0 instalado; engine desktop-linux indisponível na inspeção inicial.
+- Supabase CLI e Deno não encontrados no PATH inicial.
+- Testes backend, Android e iOS ainda não executados.
+
+## Setup T002–T006
+
+- T002: flutter pub get passou e pubspec.lock fixa as versões justificadas;
+  Flutter test após resolução: PASS, mesmos 3 testes. Pacotes transitivos do
+  gerador (built_value/json_annotation) não são escolhas diretas adicionais.
+- T003: CLI 2.122.0 inicializou config.toml; Auth/email sem signup, sem seed demo,
+  autoexposição desativada; segredos ignorados; Docker Engine 29.2.0 iniciado.
+- T004: fronteira AppDependencies e árvore híbrida criadas; nenhum I/O ou nova regra.
+- T005: Deno 2.8.3, supabase-js 2.118.0 e magick-wasm 0.0.45 fixados com deno.lock.
+- T006: fixtures locais preparadas e verificadas por deno check (PASS).
+  Primeira checagem detectou quatro erros de inferência das uniões Auth; corrigidos.
+  Não executadas: dependem de T018/T019/T021; nenhuma conta ou registro criado.
+- A inicialização completa da instância Supabase está baixando imagens e ainda
+  não comprova execução de políticas/testes backend.
+
+## Fundação T007–T023
+
+- T007–T011: fase vermelha com seis falhas de comportamento em contratos compiláveis;
+  implementação de Result/streams, configuração fail-closed e operation_key de 24
+  bytes seguros. Nove testes de utilitários/arquitetura passaram após implementação.
+- T012–T015: nove modelos Freezed e contratos independentes do SDK, DTOs manuais;
+  duas falhas de limites de formulário comprovadas antes da implementação.
+  Cinco testes de modelos/DTOs passaram depois, incluindo separação público/privado.
+- T016: fakes manuais com handlers assíncronos, chamadas registradas e streams,
+  permitindo Completers/falhas sem substituir a classe real sob teste.
+- T017–T019/T021: três migrations aplicadas exclusivamente com `migration up --local`.
+  pgTAP: PASS, 23 testes de tabelas, grants/RLS, anon/não staff/staff,
+  autoaprovação, membership e sessão revogadas e session_id malformado.
+  Execução antes das migrations demonstrou ausência de tabelas (fase vermelha).
+- T020: entrada main passa por bootstrap seguro e Provider; sem configuração,
+  não inicia SDK nem apresenta demo. Dois testes de inicialização passaram.
+  Services/Repositories das jornadas serão registrados conforme suas implementações
+  em T036/T049 e seguintes; não há fallback produtivo para AnimalStore.
+  O código antigo foi isolado em legacy_demo.dart para manter os três testes de
+  caracterização até sua retirada em T100. A entrada configurada ainda mostra
+  indisponibilidade até a integração das jornadas; não constitui app concluído.
+- T022: tema vermelho/marrom extraído; componentes recebem bytes/rótulos prontos.
+- T023: fixtures executadas após as três migrations: 60 animais, três contas e duas
+  fotos locais. Nenhuma RPC futura utilizada; nenhuma credencial versionada.
+- Testes HTTP reais Deno: PASS, 3 testes; signup bloqueado, login provisionado,
+  notas e escritas protegidas, download/assinatura negados e revogação de JWT.
+  Storage list devolve lista vazia sob RLS; isso não expõe objetos. O teste exige
+  zero objetos e negação explícita de download/createSignedUrl, sem supor HTTP 403
+  para toda listagem.
+- Correção de configuração comprovada: na CLI 2.122.0 o flag email.enable_signup
+  habilita o provider. Manter true para login e auth.enable_signup=false para negar
+  novas contas. HTTP verificou ambas as propriedades após reinício com backup local.
+- Geração neste Puro: `flutter pub run build_runner build --delete-conflicting-outputs`
+  (PASS). `dart run` direto não reconheceu flutter_test SDK; não é falha de modelos.
+- Gate Flutter: `flutter test --reporter expanded`: PASS, 19 testes, incluindo três
+  legados. Não equivale aos oito caminhos felizes finais, ainda pendentes.
+- Android/dispositivo/iOS e jornadas completas Supabase ainda pendentes.
+
+## Gate do primeiro incremento
+
+- `dart format --output=none --set-exit-if-changed lib test`: PASS, 78 arquivos,
+  nenhuma mudança após formatação. Um desvio de formato do DTO foi corrigido.
+- `flutter analyze`: PASS, sem problemas. Lints de chaves e uso de anonKey
+  obsoleto corrigidos; bootstrap usa publishableKey conforme SDK resolvido.
+- `flutter test --coverage --reporter expanded`: PASS, 19 testes; lcov local ignorado.
+- Regeneração: PASS, hashes dos dez .freezed.dart idênticos antes/depois.
+- `supabase test db` após fixtures: PASS, 23 testes. A primeira repetição revelou
+  contagens dependentes de banco vazio; testes agora filtram seus próprios UUIDs
+  e alteram somente o ator do cenário, sem apagar nem depender de fixtures externas.
+- Deno check: PASS; Deno HTTP: PASS, 3 testes. Fixtures repetidas com sucesso;
+  PNG de teste possui chunks/CRC gerados segundo o formato PNG.
+- `flutter doctor -v`: Flutter 3.41.1/Dart 3.11; SDK Android não encontrado.
+  Build/APK e dispositivo Android não executados. iOS depende de Mac/Xcode.
+- Hooks: .specify/extensions.yml ausente; nenhum hook before/after_implement.
+- Este é o primeiro incremento. T024–T108 continuam pendentes; catálogo real,
+  login nas telas, cadastro, upload, manejo e oito Widgets principais não foram
+  declarados concluídos. A inicialização configurada ainda não conecta jornadas.
+
+- Revisão Git: o gerador Freezed 3.2.5 emite espaços em linhas vazias nos arquivos
+  .freezed.dart. Mantidas as saídas originais para preservar a regeneração exata;
+  `git diff --cached --check -- . ':(exclude)*.freezed.dart'` verifica os arquivos
+  mantidos manualmente. Isso não é falha de análise ou teste Dart.
+
+## US1 — Catálogo público T024–T043 [FR-001, FR-002, FR-003, FR-015, FR-018]
+
+Base do incremento: 31326e20a453bc55f69476ec9dfdb189ec2fd13d. Código e evidências
+validados antes da entrega. Commit de código: 5497313713a951772dbe30a345c53b3010b7cacc;
+a presente atualização documental vincula os resultados a esse código.
+
+- Services reais com SDK e MockClient: filtros combinados antes de paginar,
+  busca literal, ordem ascendente name/id, páginas de 50 e total global, cursor,
+  notFound, rede/HTTP e respostas binárias. Compartilhamento de http 1.6.0
+  justificado previamente no plano; não é usado em VMs/Views/Repositories.
+- Repositories reais com Services falsos: mapeamento DTO/domínio/Result, captura
+  inesperada, favoritos inválidos e batches 50/50/21, persistência confirmada,
+  falha local sem sucesso falso, duas mudanças concorrentes, cópia sem envio e
+  quatro pedidos de fotos simultâneos, sem cache entre novas consultas.
+- VMs: filtros invalidam cursor, resposta antiga/dispose não sobrescrevem estado,
+  loading encerra em falha, seleção/favoritos/adoção calculados fora do Widget.
+- Cinco Widgets felizes: início, catálogo, favoritos, detalhes e sobre. Rotas
+  criam VMs e iniciam operações antes de montar; Provider gerencia dispose.
+- Primeiras execuções comprovaram falhas dos stubs de Services/Repositories,
+  carregamento do VM e cinco telas vazias antes de completar as implementações.
+- Erros do SDK encontrados nos testes: MockClient deve preencher response.request;
+  ordenação precisa ascending:true explícito; maybeSingle pode preservar HTTP 403
+  em vez de 42501. Corrigidos sem expor mensagens brutas à interface.
+- Função animal-photo-read e resolver service-only: bytes apenas do job atual
+  attached, vínculo ao animal e autorização atual, sem redirect/URL assinada/cache.
+- Inspeção SQL encontrou SELECT padrão em storage.objects; a garantia foi tornada
+  explícita com RLS RESTRICTIVE por bucket, inclusive contra policy permissiva
+  adicional. A migration 004 ainda não publicada foi reaplicada por db reset
+  **somente local**, com fixtures reconstruídas. Nenhum banco remoto foi vinculado.
+
+### Gates executados
+
+- `flutter analyze`: PASS, nenhum problema.
+- `flutter test --no-pub --coverage --reporter expanded`: PASS, **59 testes**,
+  incluindo cinco Widgets principais e três testes legados de caracterização.
+- `dart format --output=none --set-exit-if-changed lib test integration_test`:
+  PASS, 126 arquivos sem alteração.
+- `supabase test db`: PASS, **29 testes** em dois arquivos; grants do resolver,
+  RLS de notas/sessões e negação de leitura/insert mesmo sob allow amplo.
+- `deno check` do handler/testes: PASS. Testes HTTP: PASS, **5 testes**; público,
+  privado, membership/sessão revogadas, animal/foto incompatíveis, caminho
+  arbitrário, download/listagem/assinatura diretos e cache/304/redirect.
+- Android: `flutter test integration_test/public_catalog_flow_test.dart -d
+  emulator-5554` com URL 10.0.2.2 e chave pública local: PASS, **1 jornada real**.
+  Conectou a 60 fixtures, exibiu 58 públicas em duas páginas, filtrou um nome,
+  exibiu PNG real, copiou interesse, negou detalhe privado e recuperou favorito
+  após destruir/recriar a árvore do app com novos Repositories e armazenamento
+  nativo. Isso comprova recriação do app; não equivale a reboot físico do aparelho.
+- As duas primeiras tentativas Android encontraram problemas do teste: alvo fora
+  da viewport e busca por texto ambígua entre campo e cartão. Corrigidos com
+  rolagem até hitTestable e seleção do texto dentro do Card; execução final PASS.
+- APK normal debug também compilado; APK de integration_test é temporário e não
+  deve ser confundido com artefato normal. Configuração de backend só por defines
+  públicos; não há service_role ou senha de fixture na build.
+- iOS e dispositivo físico continuam não validados. Autenticação nas telas,
+  escrita, upload e manejo correspondem às histórias seguintes, ainda pendentes.
+- Sem hooks: .specify/extensions.yml ausente. Checklist de requisitos 19/19
+  revisado, sem alterar marcações durante implementação.
+
+## Instalação Android solicitada [FR-019]
+
+- Android Studio Rabbit 2 / 2026.2.2 instalado no perfil da usuária e aberto.
+  A janela foi conferida por computer-use; posteriormente o projeto estava aberto
+  no Studio, sem alteração da sessão de trabalho pela automação.
+- CLI Android 22, API 36, Build Tools 35/36, NDK 28.2.13676358, CMake 3.22.1,
+  Java Microsoft 21.0.13.0.2 e licenças aprovadas; flutter doctor aprovou toolchain.
+- Downloads Google/Microsoft conferidos por SHA-256 oficial antes de extrair;
+  JDK 21 usado pelo Gradle 8.14, JBR do Studio mantido para a própria IDE.
+- SDK/JDK/Flutter configurados no perfil; novos terminais carregam o PATH atualizado.
+- Emulador Medium_Phone_API_37.0, WHPX, usado em modo de teste sem janela e
+  read-only. Testes não alteram a imagem persistente do dispositivo virtual.
+- Fonte: https://developer.android.com/studio e
+  https://learn.microsoft.com/en-us/java/openjdk/download ; compatibilidade:
+  https://docs.gradle.org/current/userguide/compatibility.html .
+
+### Persistência após encerramento real do processo
+
+PASS adicional no APK normal configurado para o Supabase local do emulador.
+Salvo o favorito pela interface, confirmado o estado “Remover ... dos favoritos”,
+executado `adb shell am force-stop` e reaberta MainActivity com `am start -W`.
+O Android confirmou **LaunchState: COLD**. Ao abrir Favoritos novamente, a interface
+mostrou Animal de teste 01, comprovado pela árvore de acessibilidade do Android.
+
+A primeira tentativa de comparar com a instalação do APK de integration_test
+retornou lista vazia: inspeção de flutter_tools/src/test/integration_test_device.dart
+confirmou que kill() desinstala o aplicativo de testes e remove seus dados. A prova
+válida foi refeita salvando no APK normal e reiniciando sem desinstalar. Não foi
+necessária mudança no armazenamento do aplicativo.
+
+Último APK em build/app/outputs/flutter-apk/app-debug.apk é o **APK normal de debug**
+com configuração pública para http://10.0.2.2:54321, exclusivo deste ambiente local
+no emulador. Não contém senha ou service_role; requer Supabase local em execução.
+Geração Freezed refeita: PASS, hashes de todos os arquivos gerados preservados.
+43/108 tarefas concluídas; US2 e seguintes continuam pendentes.
+
+
+## Autenticação — validação parcial em 2026-10-31 [FR-005, FR-006]
+
+Estado: incremento de autenticação preparado para commit na branch developer;
+a validação nativa desta etapa permanece pendente. O marco anterior de 43/108 tarefas permanece histórico; US2 não está
+concluída enquanto T054 e a revisão dos critérios não forem encerradas.
+
+- Nova execução de flutter analyze: PASS, nenhum problema encontrado.
+- Nova execução de flutter test --no-pub --reporter compact: PASS, **81 testes**.
+  Inclui testes dos Services/Repositories de autenticação, ViewModels de login e
+  sessão, login/guard como Widgets, composição Provider e remoção de rotas privadas
+  após saída, além da regressão da jornada pública e caracterização legada.
+- SQL executado nesta etapa: PASS, **36 testes**, incluindo sete novos casos de
+  contexto de sessão. HTTP executado nesta etapa: PASS, **6 testes**, incluindo
+  metadados sem concessão de staff e sessão revogada. Estes resultados são de
+  backend local; não substituem a jornada de autenticação em dispositivo.
+- Migration 005_auth_session_context implementada/aplicada localmente. Escrita,
+  finalização de fotos e manejo serão migrations 006/007/008, ainda pendentes.
+- O conteúdo da área autorizada é uma confirmação de acesso. Não comprova cadastro,
+  edição, upload ou dashboard de manejo, que pertencem às histórias seguintes.
+- T054: login/saída reais no Android e restauração após reinício ainda pendentes.
+  Nenhum resultado nativo novo de autenticação é declarado neste registro.
+- iOS continua pendente de Mac/Xcode e testes próprios de plataforma.
+
+README, quickstart e contrato backend atualizados para separar recursos existentes,
+cenários futuros e resultados executados. Nenhuma credencial incluída nos documentos.
+
+
+## US2 — jornada Android aprovada [SC-002]
+
+Em 2026-10-31, branch developer, incremento após 3483890:
+`flutter test integration_test/authentication_flow_test.dart -d emulator-5554`
+com URL local 10.0.2.2, chave pública e ALLOW_LOCAL_HTTP=true: **PASS, 1 jornada**.
+Contas fictícias: senha inválida negada, não staff negado, staff autorizado,
+restauração após recriar árvore/composição usando a sessão persistida pelo SDK,
+logout com pilha privada removida e membership revogada negada em resume.
+A restauração deste teste não equivale a reboot físico ou reinício do processo.
+A revogação de sessão, separadamente, possui prova HTTP/SQL da etapa anterior.
+
+O controlador `supabase/tests/fixtures/android_auth_control.py` fornece senha de
+fixture somente em execução via loopback, restrito ao Supabase local descartável;
+chaves administrativas ficam no host. Não há senha nem service_role no APK.
+Restaura a membership no finally do teste e ao encerrar normalmente o controlador.
+Não executar em homologação/produção nem deixá-lo ativo após os testes.
+
+A primeira tentativa perdeu conexão com o emulador e não concluiu. Após reiniciar
+o emulador, a execução completa passou em 22 s (mais build/instalação). A asserção
+de Voltar verifica canPop=false na raiz após logout, sem fechar a Activity.
+T044–T054 encerradas: **54/108 tarefas concluídas**. CI/CD detalhada na T103,
+conforme solicitação; execução mantida para a fase de entrega após as histórias.
+
+
+## US3 — backend de cadastro/edição [FR-007, FR-008, FR-009, SC-003]
+
+Incremento após e0ec083, Supabase local descartável, 2026-10-31:
+- Testes escritos antes: SQL falhou pela ausência de save_animal; nove testes de
+  Service/Repository falharam com configuration nos métodos ainda não implementados.
+- Migration 006_animal_writes aplicada localmente. `supabase test db`: **58 PASS**,
+  sendo 22 casos de escrita. Inclui limites exatos de caracteres Unicode, rejeição
+  de campos privilegiados, autoria servidor, chave repetida/conflitante e negação
+  após revogação. Trigger de teste provoca falha depois da atualização do animal;
+  animal, notas e cuidados anteriores são preservados pelo rollback da transação.
+- `deno task --env-file=supabase/.env.local --config supabase/functions/deno.json test`:
+  **7 PASS**. Nova prova HTTP usa duas sessões reais; cria privado, edita em outra
+  sessão, relê atualização, reconcilia resposta perdida e dispara dois saves
+  concorrentes com a mesma chave: ambos retornam o mesmo UUID. Replay após edição
+  devolve o resultado original sem reverter os dados atuais. Visitante não lê notas
+  nem o novo animal; escrita direta do cliente é negada. Fixtures criadas são limpas.
+- Service/Repository: **9 novos testes PASS**; transporte real do SDK controlado,
+  Result sanitizado, campos editáveis, autorização e chave preservada no timeout.
+- Gate de desenvolvimento do conjunto: `flutter analyze` sem problemas e
+  `flutter test --no-pub --coverage --reporter expanded`: **97 PASS**. Inclui editor
+  em desenvolvimento; sua entrega nativa será registrada separadamente.
+
+T055/T056/T057/T060–T063/T066 encerradas: **62/108 tarefas**. T058/T059/T064/T065
+aguardam fechamento da integração da tela. Upload/publicação/manejo continuam nas
+histórias seguintes. Banco remoto de produção não foi vinculado ou alterado.
+
+
+## US3 — formulário e integração Android concluídos [SC-003, FR-006–FR-009]
+
+Incremento após ba81951 em 2026-10-31, somente developer e backend local:
+- **105 testes Flutter PASS** com cobertura; análise estática sem problemas.
+  Editor: validação nos limites, enum obrigatório, duplo clique, timeout/reconsulta/
+  reenvio com a mesma chave, autorização e descarte de respostas antigas, falha de
+  carga sem cadastro acidental e retry. Lista: paginação, falhas e época de acesso.
+- Widgets: cadastro/edição, adicionar/remover cuidado, confirmação remota,
+  lista→edição e editor real preservado mas invisível/bloqueado na expiração;
+  mesmo usuário retoma e logout descarta VM/rascunho. Raiz Provider cobre a montagem
+  e a remoção de todas as rotas privadas, não apenas da confirmação de acesso.
+- Geração Freezed repetida com hashes preservados: **PASS**.
+- `flutter test integration_test/animal_editor_flow_test.dart -d emulator-5554`:
+  **PASS, 1 jornada (22 s + build/instalação)**. Cria privado, registra cuidado e
+  nota, outra sessão verifica, edita sem trocar UUID e fecha/reabre a rota lendo
+  os valores persistidos. Fixture removida pelo controlador --cleanup-editor.
+- Jornada de autenticação repetida, agora com dispose/reinitialize do SDK:
+  **PASS, 1 jornada (13 s + build/instalação)**. Recupera a sessão do armazenamento
+  nativo e revalida remotamente antes de exibir privado. Não é reboot físico.
+- Backend segue **58 SQL PASS / 7 HTTP PASS**. HTTP ampliado: o transporte consome
+  uma resposta bem-sucedida de save e devolve falha ao cliente; outra sessão
+  confirma o commit por get_write_operation e reenvio com a mesma chave é seguro.
+
+As execuções Android anteriores encontraram interações de teste com teclado,
+rolagem de campos fora da árvore e helper Back em inglês. Corrigidas. Também
+revelaram dois defeitos de integração: notificação de sessão durante montagem e
+campos mantendo initialValue antigo após carga rápida. Ambos receberam teste de
+regressão que falhou antes da correção e passou depois. Carga inicial agora ocorre
+após montagem, e formVersion atualiza os campos ao carregar/salvar o agregado.
+Não tratar as tentativas anteriores como evidência aprovada.
+
+T058/T059/T064/T065 encerradas: **66/108 tarefas concluídas (US1–US3)**.
+Upload, publicação/painel por situação, remoção do legado e gates finais permanecem
+pendentes nas histórias seguintes. CI/CD registrada na **T103**; nenhuma execução
+de GitHub Actions nova foi declarada aprovada. iOS segue dependente de Mac/Xcode.
+Sem hooks after_implement: .specify/extensions.yml ausente.
+
+
+### Encerramento da etapa
+
+Revisão final de Widgets/rotas/arquitetura: **7 PASS**, incluindo remoção de cuidado
+após aguardar a atualização do layout. Nenhuma alteração de dependências.
+Fixtures temporárias do editor removidas, membership de teste restaurada e
+controlador de loopback encerrado ao terminar as jornadas. Credenciais de servidor
+permanecem apenas no ambiente ignorado pelo Git.
+
+
+APK normal de debug recompilado com sucesso após as jornadas, em
+build/app/outputs/flutter-apk/app-debug.apk, com URL 10.0.2.2 e chave pública local.
+Substitui o APK temporário de integration_test nesse caminho. Não contém senha,
+service_role ou assinatura de publicação; requer Supabase local em execução.
+
+
+## US4 — incremento de galeria (parcial)
+
+Seleção e recuperação isoladas em ImagePickerGalleryService, mediadas pelo
+PhotoRepositoryImpl. Sem nova dependência. Testes antes da implementação falharam
+por ausência do Service/argumento gallery; gate final: **8 testes PASS** (quatro
+novos + leitura/arquitetura), análise sem problemas. Cancelamento retorna null,
+permissão negada retorna failure, tamanho é consultado antes de ler arquivo e MIME
+preliminar vem da assinatura. A recuperação apenas devolve um candidato; não envia
+fotos automaticamente. A integração da tela e o endpoint ainda estão em andamento.
+T067/T068/T078/T079 serão encerradas somente com o conjunto de seus critérios.
+
+
+## US4 — backend e transporte validados (incremento)
+
+2026-10-31, developer, somente Supabase local:
+- Migration 007: finalização transacional, replay sem reassociar foto antiga,
+  conflito por digest, FK animal/foto, fila/lease/backoff e cron de 15 minutos.
+  Testes antes da implementação falharam por RPC ausente; versão final **78 SQL PASS**
+  (20 novos casos), incluindo retry e proteção contra dois workers.
+- **12 testes Deno/HTTP PASS**: arquivo válido de exatamente 5.242.880 bytes com
+  overhead multipart aceito, arquivo/corpo acima do limite e campos duplicados
+  negados, conteúdo corrompido negado, normalização JPEG/PNG e remoção de metadados.
+  O teste de ajuste de saída usa orçamento menor com imagem real para exercitar
+  a redução; não é um benchmark de todos os tamanhos/dimensões possíveis.
+- HTTP no Edge Runtime local: upload concorrente, foto antiga preservada em falha,
+  replay com resultado original/current_photo_id separados, resposta descartada e
+  reconciliação, público/privado sem cache, URL assinada negada e dois workers de
+  limpeza sem apagar a foto atual. Fixtures temporárias removidas ao terminar.
+- Transporte Dart e Repository: **9 testes PASS**, incluindo multipart, erros
+  403/409/413/415/422/503, GET e chave preservada. Upload tem timeout de 60 s;
+  demais operações mantêm 20 s. Nenhuma dependência nova.
+- Vault local provisionado com URL interna e segredo de limpeza; invocação por
+  pg_net retornou **HTTP 200**. Segredo somente no ambiente/Vault, nunca migration,
+  APK ou documentação. Cron usa o segredo atual do Vault; provisionar separadamente
+  em qualquer ambiente remoto, que não foi vinculado ou alterado.
+- WASM 0.0.45 incluído como static_file com licenças: SHA256
+  54629cbcf06dd10db38b4d87fa6ab241b248c09c94f2d9689506e5f994ac5f0c.
+  Inicialização compartilhada e acesso serial ao heap. Prova funcional no runtime
+  local não equivale a teste de carga/exaustão de memória de produção.
+
+Integração do painel, testes de Widgets e jornada Android ainda em andamento.
+Não declarar US4 concluída antes desse gate. Nenhum segredo foi versionado.
+
+As licenças/NOTICE de terceiros são preservadas como distribuídas; o gate de whitespace exclui MAGICK_NOTICE, que contém espaços finais originais, além dos arquivos gerados Freezed. Não há exclusão dos fontes de implementação.
+
+
+## US4 — painel integrado e emulador disponibilizado (parcial)
+
+Painel conectado ao editor por VMs/Provider, sem Services ou Repositories na View.
+Galeria em Service; candidato recuperado exige conta revalidada e confirmação do
+animal, nunca dispara upload automático. Formulário novo precisa ser salvo antes
+ de enviar foto. A foto atual só é trocada depois da confirmação; candidato tem
+prévia e botão de envio separado. Saída/revogação descartam escopos privados.
+
+Gate direcionado: nove testes de painel/VM/rotas PASS. Widget de permissão negada
+comprova loading encerrado, foto e rascunho preservados e zero upload. iOS 13 já
+configurado; adicionada descrição de fotos em português. Android mínimo 24 explícito,
+sem permissões de câmera/microfone. iOS não foi executado neste Windows.
+
+APK normal com configuração pública local compilado e instalado; MainActivity
+aberta com LaunchState COLD no emulador visível Medium_Phone_API_37.0, conforme
+pedido da usuária para testar. Docker/Supabase e funções locais retomados sem reset.
+Abertura do app não equivale à validação completa do seletor/upload no Android;
+essa jornada e a recuperação após destruição de Activity continuam pendentes.
+O aparelho ficou disponível para os testes manuais da usuária, sem automação nativa
+concorrente. Os testes Flutter desta etapa rodam fora do emulador.
+
+Gate da integração: 125 testes Flutter PASS; análise estática sem problemas. Dois testes adicionais reproduziram e protegeram a troca de animal durante seleção e uma consulta pendente após ausência inicial, evitando loading preso e reenvio prematuro.
+
+
+## US4 — jornada de galeria nativa Android aprovada
+
+Após 3e17055: `flutter test integration_test/photo_gallery_flow_test.dart -d
+emulator-5554` com o controlador local e native_picker_driver.py: **PASS, 1 jornada**.
+Photo Picker real do Android 37: cancelar preserva rascunho; duas imagens sintéticas
+selecionadas, prévia sem upload automático, confirmação, download da foto atual,
+substituição com novo UUID e verificação no Supabase. Notas não salvas continuam em
+memória do formulário, sem alteração remota; logout remove painel privado.
+
+O driver foi adaptado aos controles Compose/Done e pacote com.google.android.photopicker.
+A primeira execução completou em 3m55s, incluindo a adaptação do driver em execução;
+isto não é benchmark do tempo de upload. Testes Flutter seguem 125 PASS, análise
+sem problemas. As fixtures criadas e seus objetos foram removidos pelo helper local.
+Recuperação após destruição de Activity/processo será validada em prova separada.
+
+
+## US4 — recuperação nativa e fechamento [SC-004, FR-013–FR-016]
+
+2026-10-31, developer, APK normal e Supabase local:
+- `native_photo_recovery_test.py`: **PASS**. Opção nativa Don't keep activities
+  acionada pela interface de desenvolvedor; Browse abre DocumentsUI e permite a
+  destruição da Activity. Nova inicialização de Flutter/Supabase comprovada pelo
+  log; sessão restaurada, foto recuperada oferecida somente no editor autorizado.
+  Antes da confirmação explícita do animal/envio, primary_photo_id permaneceu null
+  e não havia job de upload. Após confirmar, foto persistiu e UI mostrou sucesso.
+- As tentativas com SIGKILL e alteração somente do valor via settings não
+  demonstraram o ciclo suportado de destruição/recuperação e NÃO foram contadas
+  como sucesso. Na prova aprovada, opções são restauradas após confirmar o envio;
+  sair novamente para Settings antes disso destruiria também o candidato em memória.
+- Fixture exclusiva e objetos removidos ao final. Configuração temporária de
+  destruição de Activities restaurada. O driver usa senha apenas em execução,
+  não imprime credenciais e não modifica código de produção para simular recuperação.
+- Gate final: **128 testes Flutter PASS**, com cobertura; análise sem problemas;
+  Freezed regenerado com hashes preservados. **78 SQL PASS / 12 Deno/HTTP PASS**.
+  Novos unitários comprovam descarte de bytes/resultado tardio em logout,
+  identidade desconhecida e revogação durante confirmação de recuperação.
+- Cron local observado com execução succeeded e invocação interna HTTP 200.
+  URL/segredo no Vault local. Sem deploy remoto, assinatura release ou validação iOS.
+
+T067–T083 encerradas: **83/108 tarefas concluídas (US1–US4)**. Próximas: manejo e
+publicação (US5), regressão/remoção do legado (US6), CI/CD T103 e entrega/plataformas.
+O checklist de requisitos permanece 19/19 e não foi alterado. Sem hooks pós-execução:
+.specify/extensions.yml ausente. CI/CD continua planejada, não declarada executada.
+
+
+Na restauração das opções do sistema, o ADB ficou indisponível. A conexão ADB do emulador está em restauração para uso manual; o APK normal
+permanece gerado, com as provas acima concluídas. Isso ocorreu após as provas aprovadas e não substitui
+as evidências de Activity recriada. Imagens sintéticas podem ser preparadas novamente
+com --prepare-media; dados de servidor/fixtures não foram resetados.
+
+### Recuperação do emulador para teste manual — 2026-10-31
+
+- Servidor ADB reiniciado; `adb devices -l` confirmou `emulator-5554 device`.
+- AVD isolado `Abrigo_Anjos_Test_API37`, preservando o AVD anterior.
+- APK debug normal instalado com sucesso; `am start -W` retornou `Status: ok`,
+  `LaunchState: COLD`. `dumpsys activity activities` confirmou MainActivity como
+  `topResumedActivity`. App aberto para teste manual, sem credenciais na build.
+- As evidências anteriores de 128 testes Flutter, 78 SQL e 12 Deno/HTTP permanecem
+  referentes à etapa de fotos. Esta recuperação não representa validação de US5.
+
+### Correção visual das telas públicas 01 e 02 — 2026-10-31
+
+Referência lida diretamente do arquivo local do Open Design
+`abrigo-dos-anjos-figma.html`, artboards screen-1 e screen-2. A URL local estava
+indisponível; o arquivo original foi preservado.
+
+- Entrada: composição central, logo 220 px, textos institucionais do protótipo,
+  escolha de acesso e dois botões com rótulos originais. Removidos o cabeçalho,
+  chamada editorial e atalhos adicionais que divergiam da referência.
+- Catálogo: título Vitrine / Conheça nossos anjos, filtros compactos em linha,
+  cartões em duas colunas e navegação Buscar/Favoritos/Início/Sobre.
+- Navegação e filtros seguem os ViewModels e dados reais. Nenhum animal fictício
+  foi inserido para reproduzir os cartões do protótipo. As imagens de teste já
+  existentes no backend local continuam sendo exibidas como dados desse ambiente.
+- Diferença ainda aberta: filtro Idade não implementado no contrato de consulta;
+  busca permanece por nome e filtros de espécie/porte/sexo. Tipografia usa serif
+  do sistema, sem incorporar uma fonte externa. Não declarar equivalência pixel a pixel.
+- Widget Tests verificam composição da entrada, grade, títulos, navegação e busca
+  combinada. Rótulos dos drivers de integração atualizados; jornadas nativas completas
+  não reexecutadas nesta correção. Suíte no workspace: 134 PASS (inclui seis novos
+  testes de Service/Repository de manejo, publicados em incremento separado).
+- flutter analyze: sem problemas. APK debug gerado e instalado; entrada e vitrine
+  inspecionadas visualmente no emulador. SQL novo de manejo ainda não aplicado.
+
+### Primeiro incremento de manejo — 2026-10-31
+
+Migração 008 aplicada exclusivamente no Supabase local. RPCs estreitas para situação,
+publicação e totais globais; reautorização, lock do animal, serialização por ator/chave,
+resultado idempotente e envelope compatível com get_write_operation. Nenhuma alteração
+em fotos ou notas por esses comandos. Publicação é independente da situação; publicação
+nova de adotado é negada. SDK segue somente no Service, mapeado pelo Repository.
+
+- 6 novos testes Flutter de Service/Repository aprovados, incluídos no total 134 PASS.
+- pgTAP: 93 PASS em seis arquivos (15 novos). Casos de conflito/replay, enum inválido,
+  notas preservadas, contadores, adopted e revogação. Não representam ainda toda a
+  matriz T084–T088/T094: concorrência entre sessões, paginação e UI seguem pendentes.
+- T089 concluída: 84/108. T090/T091 com implementação inicial, permanecem abertas
+  até completar sua matriz de testes. DashboardViewModel/tela ainda não implementados.
+- Sem hooks registrados (.specify/extensions.yml ausente); checklist 19/19 preservado.
+
+### Login administrativo conforme protótipo — 2026-10-31
+
+- Referência: artboard screen-4 (Login Voluntário) do HTML original do Open Design.
+  Restaurados título Acesso restrito, ícone vetorial, descrição, rótulos externos,
+  campos com ícones, botão Entrar no painel, aviso de acesso e entrada de visitante.
+- Conforme autorização explícita, Permanecer logado e Esqueci a senha permanecem
+  visíveis e desabilitados, com aviso e tooltips de indisponibilidade. Não alteram
+  a persistência de sessão existente nem disparam e-mails. Implementação funcional
+  desses dois fluxos permanece pendente e não está declarada concluída.
+- LoginViewModel, validação e autorização preservados; nenhuma consulta SDK em View.
+  Cancelamento de reautenticação continua disponível por rolagem.
+- flutter test: 135 PASS; flutter analyze: sem problemas. Widget Test adicional
+  cobre largura 320, rolagem, controles inativos sem chamadas ao Repository e
+  navegação visitante. Regressões de reautenticação e login autorizado passaram.
+- Seletores dos drivers Android atualizados para o novo rótulo. As jornadas nativas
+  completas de upload/login não foram reexecutadas nesta alteração visual.
+- APK debug recompilado com configuração pública local e instalado com sucesso.
+  Android iniciou a MainActivity com Status ok / COLD. Entrada de voluntário
+  acionada e login inspecionado visualmente; deixado aberto para teste manual.
+
+### Logo no topo do login — 2026-10-31
+
+Mudança visual explicitamente solicitada pela responsável: substituir o ícone do
+login pelo logo do Abrigo dos Anjos, centralizado no topo. App usa o asset existente
+logo.png em 140 × 140, sem distorção. Removido o desenho anterior.
+
+O HTML original do Open Design foi atualizado no artboard screen-4: auth-logo
+centralizado por margin auto e imagem image.png de 140 × 140 com object-fit contain.
+Arquivo externo ao Git: AppData/Roaming/Open Design/namespaces/release-stable-win/
+data/projects/2576323d-2abf-4705-8dbd-891741e82042/abrigo-dos-anjos-figma.html.
+Os controles Permanecer logado e Esqueci a senha continuam desabilitados.
+- Validação: 135 testes Flutter PASS; analyze sem problemas. Teste verifica o
+  asset do logo e o alinhamento horizontal central; rolagem/reautenticação aprovadas.
+  APK debug gerado e instalado; logo centralizado confirmado visualmente no login
+  do emulador. HTML conferido com img image.png e CSS centralizado.
+
+### US5 — paginação e contratos de dados
+
+10 testes direcionados de Service/Repository PASS: paginação por situação e cursor,
+total global 75 com página de um registro, chave de operação preservada, respostas
+confirmadas, invalidação de IDs, erros 401/403/conflito/timeout e erros inesperados.
+T084/T086/T090/T091 concluídas. SQL e painel têm validações próprias ainda pendentes.
+Calendário adicionado ao planejamento por solicitação explícita, sem declarar entrega.
+
+### US5 — contexto inicial de DashboardViewModel
+
+Estado imutável Freezed, totais globais, páginas independentes por situação,
+alternância Kanban/lista, comandos confirmados e reconciliação de resultado incerto
+com a mesma chave. Quatro testes iniciais cobrem totais acima de 50, paginação,
+falha sem confirmação fictícia, descarte em 403/época antiga e retry somente após
+consulta limitada. A interface e a matriz ampliada T087/T092 permanecem pendentes.
+Gate deste incremento: 14 testes direcionados PASS; análise sem problemas.
+
+### US5 — capacidades e regressões do ViewModel
+
+7 testes direcionados PASS. Incluídos confirmação de publicação com recarga de totais,
+capacidade de publicação negada para adotado, estado vazio, falta de autorização,
+401 com descarte/revalidação e resposta tardia após dispose. Rótulos/capacidades dos
+cartões fornecidos pelo VM. Teste de interface escrito antes da tela (RED esperado).
+
+### US5 — tela de painel integrada
+
+Tela DashboardScreen conectada à rota privada animal-management. Mantidos cabeçalho,
+três contadores clínicos, abas e três colunas compactas do artboard screen-5; lista
+inclui adotados. Saudação genérica evita inventar nome de perfil. Totais reais do
+servidor; não usar 42/28/11/03 fictícios do protótipo. Calendário abre informação de
+planejamento, sem produzir eventos fictícios. Menu acessível permite editar, mudar
+situação e publicar/ocultar; capacidade de publicar adotado vem do VM. FAB abre editor.
+
+Widget Test confirma Kanban→lista, situação por menu, contadores após confirmação
+e publicação. Teste de composição comprova abertura de editor e descarte no logout.
+147 testes Flutter PASS; último ajuste revalidado em 8 testes de painel PASS; análise
+sem problemas. T087/T088/T092 concluídas. T093/T094 aguardam acabamento de integração
+e provas do backend/Android; nenhuma validação iOS ou deploy de produção implícitos.
+
+### US5 — provas reais de manejo/publicação
+
+- `python supabase/tests/fixtures/management_flow.py`: PASS no backend local,
+  duas sessões Auth distintas, criação privada, leitura entre sessões, chamadas
+  concorrentes com a mesma chave/resultados iguais, conflito 409 para outro payload.
+- Publicação, ocultação, republicação e adoção verificadas por pedidos novos ao
+  catálogo e à função real de leitura de fotos. Upload real de PNG válido; leitura
+  pública 200 antes e 404 após ocultação/adoção. Nova publicação de adotado rejeitada.
+  Notas e vínculo da foto preservados. Somente a fixture criada pela jornada removida.
+- pgTAP: 99 PASS em seis arquivos; 21 no contrato de manejo. Acrescentados 55 animais
+  em transação com rollback, primeira página de 50, cursor, segunda página sem
+  duplicação e totais globais independentes da página. T085/T094 concluídas.
+- Não equivale a teste de lojas/produção/iOS ou jornada Android completa.
+
+### US5 — sessão alterada durante escrita
+
+Regressão adicional: mudança de época de acesso enquanto uma escrita está em voo
+não libera uma nova chave/operação. O comando permanece incerto até consulta explícita,
+sem confirmar resposta tardia. 8 testes de DashboardViewModel PASS.
+
+### US5 — jornada Android do painel
+
+`flutter test integration_test/management_dashboard_flow_test.dart -d emulator-5554`
+com configuração pública local: PASS (27 s de jornada, além do build). Login real,
+Kanban→lista, mudança de situação por menu, publicação, confirmação em outra sessão
+e leitura pública do animal. Nota interna preservada. Senha obtida somente em runtime
+do controlador loopback; não compilada na build. Fixture exclusiva removida e
+controlador parado. Limpador ampliado somente para o prefixo desta nova jornada.
+
+Gate final: 148 testes Flutter PASS; analyze sem problemas; APK normal recompilado
+após o APK de integração. T093 continua aberta até decisão sobre controles no editor:
+restaurar status do protótipo e eventual controle de publicação exige autorização
+visual para esse controle adicional. As ações já estão funcionais no painel.
+
+### US5 — integração autorizada no editor
+
+Após autorização explícita, restaurado Status de manejo clínico e acrescentado
+Publicado no catálogo ao editor e ao HTML original do Open Design (artboard screen-6).
+VM separado por rota gerencia o animal salvo e confirma as ações por RPC; o rascunho
+clínico do EditorVM não é submetido por essas ações. Controles bloqueados antes do
+primeiro salvamento; negação de nova publicação de adotado; consulta/reenvio seguro
+para resultado incerto. O cadastro continua privado por padrão.
+
+Dois Widget Tests cobrem comandos confirmados, notas locais preservadas sem saveAnimal
+e bloqueio do animal não salvo. Dois novos unitários cobrem foco, autorização, alvo
+substituído e adotado. T093 concluída; US5 implementada. Prova Android dos novos
+controles do editor será executada separadamente, sem confundir com a prova anterior.
+Gate do incremento: 152 testes Flutter PASS, análise sem problemas; Freezed regenerado.
+
+### US5 — encerramento com editor no Android
+
+Jornada Android ampliada PASS (18 s além do build): painel→menu Editar cadastro,
+situação Quarentena pelo campo do editor, ocultação pelo controle Publicado no
+catálogo e confirmação em outra sessão, preservando a nota. Fixture removida e
+controlador loopback encerrado. Gate: 152 Flutter PASS, 99 pgTAP PASS, análise sem
+problemas, jornada HTTP com duas sessões e duas execuções Android aprovadas.
+
+94/108 tarefas concluídas, US1–US5 implementadas. Restam US6 (regressões e legado)
+e entrega/CI/CD/plataformas. Calendário tem planejamento pendente de detalhamento;
+não integra as 108 tarefas originais nem está implementado. Sem produção/iOS validados.
+
+### US6 — proteção da atualização do legado
+
+4 testes direcionados PASS: somente favorites_v1 lido/escrito; demo_animals_v1 ignorado,
+IDs inválidos removidos do conjunto consumido, IDs válidos indisponíveis preservados,
+rota /demo inexistente e nenhuma gravação remota ao abrir o app. Operações do plugin
+injetáveis no Service mantêm API externa na camada de dados; erros de leitura/escrita
+continuam sanitizados. T097 concluída antes da remoção dos arquivos antigos.
+
+### US6 — remoção da demonstração e dependência de teste
+
+T100/T101: removidos os dez arquivos legados explicitamente previstos, após busca
+por imports. Smoke test usa o app atual e catálogo real por contratos controlados.
+Scanner de arquitetura agora verifica todo lib, sem exclusão de diretórios antigos.
+shared_preferences_platform_interface saiu das dependências diretas e permanece
+somente transitivo do plugin, sem imports em testes. pub get atualizado.
+
+Composição permanece explícita em bootstrap→createPublicApplication; Services e
+Repositories registrados por Provider. Apenas FavoritesStorageService persiste IDs
+locais; falta de configuração não abre demo. 153 testes Flutter PASS com cobertura.
+Nenhuma mudança visual nesta remoção; evidências de atualização já aprovadas em T097.
+Análise completa após remoção: sem problemas (33 s). Sem alterações de esquema/backend.
+
+### US6 — negação do upload e resposta tardia de login
+
+T096: novos testes RED mostraram candidato retido após 401/403 de upload. Corrigido
+para descartar bytes, foto, alvo e chave antes de revalidar, sem depender da View
+ser desmontada. 9 testes de upload PASS; conjunto com SessionVM/ProtectedScope:
+16 PASS. Login cancelado não aceita ticket tardio; regressões existentes distinguem
+expiração recuperável/montagem oculta, mesmo usuário, outro usuário, logout,
+revogação e cancelamento com descarte. Nenhuma alteração de layout.
+
+### US6 — matriz de falhas de catálogo/editor
+
+T095: 18 testes direcionados PASS. Casos parametrizados network/timeout/configuration/
+notFound terminam busy/saving e preservam rascunho com mensagem portuguesa. Reconsulta
+manual faz somente um pedido por ação e não libera retry após falha; testes existentes
+cobrem chave original, alvo trocado, dispose e respostas tardias. Análise sem problemas.
+
+### US6 — gates e matriz de cobertura
+
+T099/T102: 164 Flutter PASS com cobertura, 99 pgTAP PASS e 12 Deno/HTTP PASS.
+Timeout de dados/Auth em ServiceResult (20 s); upload 60 s e consulta do job 20 s;
+reconciliação de fotos 1/2/4 s limitada. Editor consulta uma vez por ação explícita,
+sem loops de reenvio ou promessa de rollback por timeout. Falhas terminam indicadores,
+mensagens são portuguesas, configuração ausente falha fechada. Revogação descarta bytes.
+
+| Tela principal | Widget Test (test/ui/features) |
+|---|---|
+| Entrada | home/views/home_screen_test.dart |
+| Catálogo | animals/views/catalog_screen_test.dart |
+| Detalhes | animals/views/animal_detail_screen_test.dart |
+| Favoritos | favorites/views/favorites_screen_test.dart |
+| Sobre | home/views/about_screen_test.dart |
+| Login | auth/views/login_screen_test.dart |
+| Painel | animals/views/dashboard_screen_test.dart |
+| Formulário | animals/views/animal_editor_screen_test.dart e animal_management_controls_test.dart |
+
+| Regra | Evidência independente |
+|---|---|
+| Camadas/SDK somente Services e composição | test/architecture/layer_boundaries_test.dart (todo lib) |
+| Validação/rascunho/resultado tardio/reconciliação | animal_editor_view_model_test.dart e animals_repository_write_test.dart |
+| Filtros/paginação/totais globais | catalog_view_model_test.dart e animals_repository_management_test.dart; pgTAP animal_management |
+| Identidade/revogação/expiração | session_view_model_test.dart, app_router_test.dart; pgTAP session_access/authorization |
+| Bytes/foto/upload/recuperação | photo_upload_view_model_test.dart e photo_repository_upload_test.dart; Deno HTTP/WASM |
+| Favoritos/atualização sem demo | legacy_upgrade_test.dart e favorites_repository_impl_test.dart |
+| Políticas/isolamento/fotos ocultas | pgTAP e Deno/HTTP reais; não substituídos por mocks Flutter |
+
+Comando Deno validado inclui --allow-read=supabase/functions para permitir o WASM
+vendorizado; a task antiga com leitura restrita a tests precisa ser corrigida na
+esteira antes de usá-la como gate automatizado. iOS/produção continuam não validados.
+
+### US6 — jornada autorizada integrada no Android
+
+T098: authorized_animal_flow_test.dart PASS no emulador (34 s de jornada): visitante
+abre catálogo, login real, cadastro privado via RPC, edição pelo formulário, seleção
+nativa cancelada, duas seleções/uploads e substituição com bytes reais, salvamento
+do rascunho, publicação pelo editor, segunda sessão confirma foto/notas/publicação,
+cliente sem sessão enxerga o animal e logout remove o escopo privado. Senha apenas
+runtime via controlador loopback, sem segredo na build. Fixture removida ao terminar.
+
+Duas tentativas anteriores falharam no harness por rolagem/teclado e não contam como
+aprovação; ajustado o teste para localizar controles fora da área carregada e fechar
+teclado. Driver concluiu cancelamento e as duas seleções. Não houve mudança de layout.
+US6 concluída: 102/108 tarefas. Restam gates de entrega, CI/CD e dependências de iOS.
+
+### CI/CD — implementação aguardando execução remota
+
+Workflow push developer, PR main/developer e acionamento manual; concorrência por
+branch e permissões somente leitura. Actions fixadas por SHA obtido das referências
+oficiais; Flutter 3.41.1, Java 21, Supabase CLI 2.122.0, Deno 2.8.3 e API Android 35.
+Jobs sequenciais: geração/format/analyze/unitários; Supabase/pgTAP/Deno/HTTP;
+emulador com jornada de manejo; artifact debug/validation.txt somente após todos.
+
+Backend é descartável, com chaves/senhas geradas no runner e mascaradas, sem Secrets
+de produção. Helpers recusam gerar .env.local fora de GitHub Actions; guard testado
+sem alterar o ambiente local. APK usa somente variáveis públicas DEV_SUPABASE_URL e
+DEV_SUPABASE_PUBLISHABLE_KEY; ausentes, abre configuração indisponível. Sem lojas,
+assinatura release, migração remota ou deploy implícitos. Artifact retido por sete dias.
+
+YAML verificado; Deno task exata da CI: 12 PASS após corrigir --allow-read para o WASM.
+T103 permanece aberta até observar o resultado do workflow no GitHub.
+
+### Gates finais, revisão e limites de plataforma
+
+T104: Freezed regenerado no Flutter 3.41.1/Dart 3.11/Puro com hashes preservados;
+format --output=none --set-exit-if-changed lib test integration_test: 173 arquivos,
+zero alterações. 164 Flutter PASS com cobertura, analyze sem problemas, 99 SQL e
+12 Deno/HTTP PASS. Comandos e escopo detalhados nas seções US6 acima. Código base
+acb7cd3, workflow a57c4c8; helpers CI não modificam o app. APK normal recompilado,
+instalado e aberto (Status ok, COLD). T105 aguarda também artifact remoto aprovado.
+
+T106 permanece pendente: host Windows, sem Mac/Xcode/dispositivo iOS disponível.
+Info.plist parseado, permissão de galeria portuguesa presente e sem câmera/microfone;
+iOS mínimo 13.0 no projeto. Isso NÃO valida build, assinatura ou seletor iOS. Executar
+build e jornada de galeria em Mac/dispositivo antes de encerrar T106.
+
+T107 — revisão dos dez princípios:
+
+| Princípio | Evidência da revisão |
+|---|---|
+| I Arquitetura Flutter | UI por feature, Data por tipo; VM/Repository/Service separados; estados Freezed |
+| II Views | Scanner em todo lib; SDK somente Services e composição; ações de tela encaminhadas ao VM |
+| III Regras/permissões | VMs testados com contratos falsos; capacidades renderizadas, servidor reautoriza |
+| IV Supabase | Imports somente Services/bootstrap/public_dependencies; nenhum SDK nos contratos de domínio |
+| V Unitários | Services/Repositories/VMs/modelos incluídos no gate Flutter com cobertura |
+| VI Widgets | Oito telas mapeadas e aprovadas; startup e controles adicionais também cobertos |
+| VII Result | Falhas externas sanitizadas; testes network/timeout/401/403 e descarte tardio |
+| VIII Dependências | Sem pacote novo; removida dependência direta de interface de preferências; lock atualizado |
+| IX Idioma | Código em inglês, textos e erros portugueses; ícones/labels e logo alinhados ao design aprovado |
+| X Commits | Incrementos por contexto em developer, tipos permitidos e IDs reais; main preservada |
+
+Varredura dos arquivos rastreados não encontrou valores locais de service_role,
+senha de fixture ou segredo de cleanup. Builds recebem somente configuração pública;
+credenciais locais de teste ficam em runtime. Sem alterações de layout nesta fase.
+
+T108 — rastreabilidade de resultados:
+
+| Critério | Evidência |
+|---|---|
+| SC-001 | Testes de catálogo/detalhe/favoritos e jornada pública; fluxo visitante inicial da jornada integrada |
+| SC-002 | pgTAP authorization/session_access e Deno auth/read/upload negativos |
+| SC-003 | Escrita transacional, jornada de editor e segunda sessão no Android |
+| SC-004 | Jornada integrada nativa: cancelamento, upload, substituição, leitura e reconciliação |
+| SC-005 | Matrizes US6 de falhas e proteção de rascunho/bytes, 164 Flutter PASS |
+| SC-006 | management_flow.py entre sessões, 99 SQL e função de foto negada após ocultação/adoção |
+| SC-007 | Oito Widget Tests principais + jornadas Android; sem comprovar iOS por Windows |
+| SC-008 | Revisão acima, checklist 19/19 preservado e pendências CI/iOS explicitamente identificadas |
+
+Sem hooks finais registrados: .specify/extensions.yml ausente. CI só será marcada
+aprovada após resultado remoto; criar YAML ou iniciar execução não satisfaz T103.
+
+### Regressão final — formulário retomado após 401
+
+Um novo teste RED confirmou que apagar também o vínculo de animal bloqueava seleção
+quando o mesmo usuário verificado retomava o editor montado. Corrigido para manter
+somente esse vínculo, sem candidato, imagem, photoId ou chave. Logout/revogação/troca
+de usuário continuam descartando todo o VM pelo escopo protegido. A nota anterior
+que dizia apagar também o alvo é substituída por esta decisão: o alvo não contém
+bytes/ficha e permite retomada autorizada; cada seleção ainda revalida acesso remoto.
+165 Flutter PASS com cobertura e análise sem problemas. Alteração funcional exige
+novo run da CI; o run a57c4c8 não comprova esta versão posterior.
+
+### Ficha pública — adequação ao artboard screen-3
+
+Planejamento de vermifugação/temperamento publicado separadamente em
+specs/002-public-animal-profile/plan.md; campos ainda não cadastrados no backend.
+Ficha sobreposta ao catálogo com fundo desfocado, bordas 22, foto ampla, fechar,
+etiquetas espécie/porte/idade/sexo, história pública, situação e quadro 2×2.
+Vacinação/castração usam somente flags públicas; os dois campos futuros aparecem
+como Cadastro em planejamento. Uma foto principal, sem inventar carrossel.
+
+Botão mantém rótulo do protótipo e informa que copia mensagem, sem envio externo;
+animal em tratamento mantém área de contato desabilitada. Dados indisponíveis
+limpam ficha e oferecem tentativa novamente. Testes de VM verificam projeção
+pública, reload e ausência de getManagement; Widgets cobrem modal, retorno,
+contato, estado em tratamento e ficha compacta isolada.
+
+O teste compacto também revelou overflow preexistente na contagem do catálogo.
+Ajuste responsivo e coração de favoritos autorizados pela responsável serão
+publicados em contextos separados. Jornada Android da ficha ainda em validação;
+primeira tentativa falhou no seletor do teste (texto de busca igual ao nome do cartão).
+
+### Ajuste responsivo autorizado — catálogo
+
+Somente a contagem de animais ganhou largura flexível para quebra de linha; botão,
+cores e posições mantidos. 2 Widget Tests PASS, incluindo 320 px sem overflow.
+Ficha anterior: 168 Flutter PASS e análise sem problemas antes deste incremento.
+
+### Coração na ficha — alteração visual autorizada
+
+Adicionado coração no canto superior esquerdo da foto, mantendo Fechar à direita,
+no app e no HTML original screen-3. FavoritesRepository continua persistindo apenas
+IDs locais; VM espera confirmação, bloqueia duplo toque, preserva estado anterior
+em falha e ignora resposta após fechar. Sem SDK ou persistência dentro da View.
+8 testes direcionados PASS, incluindo favorito confirmado aparecendo na lista e
+remoção segura. O controle compensa a ausência de ação de adicionar favoritos no
+protótipo original, com autorização explícita da responsável.
+
+### Ficha pública — confirmação no Android
+
+172 Flutter PASS com cobertura; análise sem problemas. visitor_detail_flow_test.dart
+PASS no Android (10 s além do build): visitante sem login busca animal real, abre
+ficha com foto autorizada, favorita, copia mensagem sem envio, fecha e confirma o
+animal em Favoritos. Dados internos não são exibidos. Feedback da cópia fica no
+rodapé visível, no lugar da indicação inicial; falha de favoritos é sanitizada.
+
+Primeira tentativa nativa falhou apenas no harness (texto da busca igual ao nome do
+cartão); seletor passou a identificar o cartão. Ajuste responsivo já autorizado e
+publicado separadamente. HTML servido em 127.0.0.1:53764 confirmado HTTP 200 com o
+coração da ficha. Jornada ampla de paginação/favoritos atualizada e será reexecutada.
+
+### Encerramento da adequação da ficha pública
+
+173 Flutter PASS com cobertura; analyze sem problemas. Jornada pública ampla
+public_catalog_flow_test.dart PASS no Android (15 s além do build): 58 resultados,
+paginação, busca combinada, foto atual, coração, clipboard sem envio e favoritos
+persistidos após recriar o app. Jornada específica da ficha também aprovada.
+
+Conferência visual do APK normal: ficha sobreposta, coração/fechar na foto, etiquetas,
+quadro público 2×2 e contato. Cartões de uma linha agora mantêm alturas iguais entre
+as duas colunas, como no CSS grid do protótipo; teste verifica alinhamento e 320 px.
+Imagem vermelha e texto Fixture isolada pertencem ao ambiente local descartável,
+não a dados reais do abrigo. Nenhum dado de teste foi publicado em produção.
+
+Planejamento dos campos novos é separado das 108 tarefas originais, com oito tarefas
+futuras em specs/002-public-animal-profile/plan.md. Sem implementação de migração ou
+importação de histórico clínico para o visitante nesta etapa.
+
+
+### Aprovação remota da CI e entrega Android
+
+[Execução 41259640949](https://github.com/lari-sh/app-extensao-II/actions/runs/41259640949) concluída com success para o commit
+2a036c85126a3a5213195cb34135c00e89fefbe6. Jobs flutter, backend, android e deliver
+aprovados. Inclui geração determinística, formatação, análise, 181 testes Flutter,
+127 testes pgTAP, funções/fluxo HTTP e as jornadas Android do painel e editor.
+
+Artifact abrigo-dos-anjos-android-debug confirmado pela API do GitHub: id
+13065725073, 76.483.274 bytes, não expirado na conferência, retenção de sete dias.
+Contém o APK debug e validation.txt. T103 e T105 concluídas com esta evidência e
+as validações locais anteriores. O artifact usa apenas as variáveis públicas de
+desenvolvimento configuradas no repositório; na ausência delas, o app informa
+serviço não configurado. Não contém as credenciais descartáveis do teste.
+
+T106 permanece pendente: iOS requer Mac/Xcode e dispositivo. Não houve deploy de
+produção nem publicação em lojas. Os commits posteriores desta etapa alteram
+somente documentação/planejamento; o código funcional é o validado no run acima.
+
+O incremento público já está implementado, com 12 tarefas em
+specs/002-public-animal-profile/plan.md, substituindo o estado histórico de oito
+tarefas futuras mencionado na seção anterior. O escopo do calendário está em
+specs/003-medication-calendar/scope.md, com sete tarefas ainda pendentes.
+
+
+## Correção do cartão clínico no Kanban — T109
+
+Solicitação do usuário em 2026-11-01: cartão não informava a condição como no
+protótipo screen-5. A View recebia somente PublicAnimal e descartava os campos
+administrativos já carregados em ManagedAnimal. Corrigido o binding para manter
+ManagedAnimal e exibir clinicalNotes em etiqueta com a cor da situação, limite de
+linhas e tooltip. Regra de texto no DashboardViewModel: nota não vazia é exibida;
+na ausência, situação confirmada ou “Sem observações clínicas”, sem diagnosticar
+saúde por ausência de dados. Campos de publicação e ações permanecem funcionais.
+Somente área administrativa; nenhum endpoint/campo público ou pacote foi alterado.
+
+Testes escritos antes da correção reproduziram ausência da regra/etiqueta.
+15 testes de Dashboard VM/View PASS, incluindo 320 px com texto 1,4×. Jornada
+Android real com fixture exclusiva PASS em 19 s: nota protegida no cartão alvo,
+situação e publicação confirmadas por segunda sessão, notas preservadas.
+O roteiro foi isolado da sessão anteriormente aberta; asserção clínica limitada
+à fixture correta para não depender de animais de execuções anteriores.
+Fixtures de tentativas anteriores foram limpas pelo controlador local.
+Análise Flutter sem problemas. CI remota da correção será conferida separadamente.
+
+Regressão completa após a correção: 272 testes Flutter PASS; git diff --check limpo.
+
+
+## Ponta a ponta — T110, primeira bateria
+
+Em 2026-11-01, sete jornadas Android locais PASS em 5 min 11 s:
+public_catalog_flow (filtros/paginação/foto/favoritos persistidos), visitor_detail_flow
+(ficha, contato e retorno), authentication_flow (senha inválida, não equipe,
+restauração, revogação e saída), management_dashboard_flow (Kanban com nota clínica,
+situação/publicação e segunda sessão), animal_editor_flow (cadastro/edição),
+medication_calendar_flow (programação, agenda, conclusão/correção/interrupção) e
+adoption_contact_flow (canais e retorno sem envio automático).
+
+Roteiro public_catalog_flow atualizado do antigo “mensagem copiada” para a tela
+aprovada e retorno à ficha. Script Android da CI ampliado das quatro jornadas
+administrativas/contato para as sete executadas localmente; bash -n PASS.
+Somente testes/script/documentação neste contexto. Galeria nativa/upload e nova
+CI/artifact ainda precisam de confirmação para T110, que permanece aberta.
+Não confundir teste com fixture de funcionário com validação iOS/produção.
+
+
+## Ponta a ponta — fotos e APK normal
+
+Jornada authorized_animal_flow_test.dart PASS em 40 s no Android local:
+visitante → acesso autorizado → animal privado → edição com rascunho → galeria
+nativa cancelada → duas seleções de PNGs sintéticos → upload confirmado → foto
+substituída → gravação → publicação → segunda sessão → logout com remoção da UI
+privada. O driver do seletor concluiu as três ações sem erros. Nenhuma foto
+pessoal ou mensagem externa foi enviada; somente backend local e fixtures.
+
+Somadas às sete jornadas anteriores, oito jornadas locais passaram. A captura
+[android-kanban-clinical.png](evidence/android-kanban-clinical.png) foi obtida do
+APK normal reinstalado, inspecionada visualmente e mostra a etiqueta clínica.
+Fixture do calendário e três fixtures de cadastro/foto removidas pelo cleanup
+restrito. App normal recompilado/instalado, aberto e autenticado no painel para
+teste manual; isso é distinto da execução automatizada. Formato: 229 arquivos,
+zero mudanças. Git diff --check sem problemas. Código de produção do Kanban já
+publicado em 2da089b; ampliação de testes/CI em a4fa1a3.
+
+A primeira CI ampliada
+[41289495230](https://github.com/lari-sh/app-extensao-II/actions/runs/41289495230)
+falhou: 4 jornadas Android passaram, duas tiveram falhas de carga/depuração e uma
+falhou na rolagem do login. Evidências e recuperação em [ci-recovery.md](ci-recovery.md).
+Roteiro de login corrigido e repetido no Android: PASS em 16 s; análise sem problemas.
+Infraestrutura ajustada em 6979346, mantendo as sete jornadas. Confirmação remota
+pendente na nova execução [41291605301](https://github.com/lari-sh/app-extensao-II/actions/runs/41291605301).
+T110 continua aberta até gates/artifact aprovados. Nenhuma validação iOS foi
+realizada no Windows.
+
+
+A execução de recuperação 41291605301 aprovou cinco jornadas, incluindo ambas as
+públicas; restaram dois roteiros com toque de login instável durante transição.
+Detalhes preservados em ci-recovery.md. Envio único explícito pelo teclado e espera
+por resultado confirmados em 3e4547a: autenticação e calendário repetidos no Android
+PASS em 1 min 23 s; três Widget Tests do login (incluindo botão) PASS; análise sem
+problemas e formato global de 229 arquivos sem alteração. Nova confirmação remota
+em andamento na [execução 41293728173](https://github.com/lari-sh/app-extensao-II/actions/runs/41293728173).
+APK normal restaurado novamente e painel autenticado após a repetição dos testes.
+
+
+## Fechamento de ponta a ponta — T110
+
+Conferência final em 2026-11-01: [execução 41293728173](https://github.com/lari-sh/app-extensao-II/actions/runs/41293728173)
+concluída com success nos quatro jobs flutter, backend, android e deliver, para
+`3e4547a752faacefb36c15b82c45725ed3246dfd`, branch developer.
+Logs conferidos: 272 testes Flutter; 256 testes SQL em 12 arquivos; 12 testes de
+funções HTTP; jornadas HTTP de manejo e medicações com concorrência/isolamento;
+7/7 jornadas Android. As falhas anteriores e suas correções continuam registradas
+em [ci-recovery.md](ci-recovery.md), sem retirar testes ou omitir resultados.
+
+Artifact [abrigo-dos-anjos-android-debug](https://github.com/lari-sh/app-extensao-II/actions/runs/41293728173/artifacts/13078203574)
+confirmado: ID 13078203574, 76.794.226 bytes, não expirado na conferência;
+expiração em 2026-11-08 às 06:57:50 (America/Sao_Paulo). Digest:
+`sha256:6c7d8c0d4768bac4e18bf3fd9779c69d4bf01d84987095f4c78647ec98b434d5`.
+Contém APK debug e validation.txt conforme workflow. Sua configuração de serviço
+usa somente as variáveis públicas DEV do repositório; não é uma publicação de loja
+ou implantação de produção. APK normal local usa configuração explícita do
+Supabase local e foi reinstalado/aberto no painel administrativo após os testes.
+A validação de fotos com seletor nativo foi local e independente, conforme seção
+anterior: oito jornadas locais no total, sete no gate Android remoto.
+
+T110 concluída. T109 já tinha unidade/Widget/Android aprovados e também foi
+confirmada nesta CI. Captura do Kanban atualizada e inspecionada, sem mudança do
+protótipo aprovado. Notas clínicas continuam administrativas; dado público não
+recebe esse campo. Hospedagem e compartilhamento da ficha permanecem cancelados.
+Revisão de tarefas: somente T106 está aberta, por depender de Mac/Xcode e
+validação iOS real. Não declarada como concluída por testes Windows/Android.
+
+Commits por contexto publicados na developer: 2da089b (cartão clínico), a4fa1a3
+(bateria ampliada), 6979346 (preparo e roteiro), 3e4547a (envio único/espera).
+Este fechamento é somente documental e conserva o código validado acima; não
+requer repetir os testes de código. Main preservada. Sem hooks de pós-execução,
+pois .specify/extensions.yml está ausente. Verificados formato e git diff --check.
+
+
+## Janela preta/fora do monitor — T111
+
+Usuário confirmou que a janela subia ao topo e ficava preta. Android respondia por
+ADB, mas a janela do emulador registrava falha de OpenGL software e coordenadas
+fora da área capturável. Reiniciar somente o Android e ajustar escala salva do AVD
+não foram suficientes. Backup da configuração visual ficou em .tools, ignorado.
+
+Abertura com QT_ENABLE_HIGHDPI_SCALING=0, QT_AUTO_SCREEN_SCALE_FACTOR=0,
+QT_SCALE_FACTOR=1 e QT_OPENGL=desktop, além de SwiftShader e Vulkan desativado,
+produziu janela em posição correta e imagens do app visíveis. Observadas pela
+captura da janela Windows as telas de início, edição e painel com calendário.
+Dados e sessão preservados; os comandos de recuperação não gravaram cadastros.
+Referência de escala: [Qt High DPI](https://doc.qt.io/qt-6.8/highdpi.html).
+
+As opções validadas estão no iniciador scripts/open_android_emulator.ps1. Ele usa
+ambiente de processo, restaura as variáveis do terminal e preserva um AVD já
+aberto; não altera drivers/configurações globais nem apaga dados. Não automatiza
+login. Parser PowerShell e -WhatIf conferidos; proteção de AVD já aberto conferida
+sem fechar a janela em uso. A composição Flutter não foi alterada; testes do app
+não foram repetidos por essa mudança de iniciador/documentação.
+
+## Fechamento Android 1.0.0+1 — T113 concluída
+
+Em 01/11/2026, conferida a execução 41352219289 no SHA
+1eeb97e0ffdacdf94912fb09c3669524171d972f, branch developer: Flutter, backend,
+Android e deliver concluídos com success. Logs confirmam 273 testes Flutter,
+256 testes pgTAP/12 arquivos, 12 testes de funções HTTP, cenários HTTP de manejo,
+medicações/concorrência e 7/7 jornadas Android. A jornada do calendário passou
+após os ajustes de rolagem e escopo da asserção, sem remover verificações.
+
+Artifact 13101944660, abrigo-dos-anjos-android-debug, 76.793.038 bytes, não expirado;
+expiração 08/11/2026 18:54:23 America/Sao_Paulo. Digest do arquivo compactado:
+sha256:76febbf0b3679f8871d87ac23c21a6302179784f067aaf632c73d200fb2da7f6.
+Links, escopo, limitações e configuração do pacote em
+[registro da versão](../../docs/releases/1.0.0-android.md).
+Fechamento técnico da versão de testes Android concluído. T106/iOS continua
+aberta. Sem implantação em produção, assinatura de release, publicação em loja,
+merge na main ou início da expansão para outros abrigos. Este contexto altera
+somente documentação/tarefas; não repete testes locais de código inalterado.
+
+## T115 — retorno à esquerda e cabeçalho público
+
+Alteração expressamente solicitada pelo usuário em 01/11/2026: removido Vitrine
+no catálogo e colocado o botão Voltar antes do título, à esquerda. Revisadas
+as outras ações Voltar: AppBar.leading/primeiro item do cabeçalho ou ação inferior
+à esquerda já atendem. Fechar e navegação de mês não foram tratados como Voltar.
+Protótipo versionado em design/abrigo-dos-anjos-figma.html atualizado; a cópia
+local exibida no navegador recebeu a mesma edição pontual. MCP indisponível
+(Transport closed); usado arquivo local do projeto, sem sobrescrever seu restante.
+
+flutter analyze sem problemas; suíte completa 273/273 aprovada. Testes do
+catálogo verificam ausência do rótulo e posição relativa do retorno; os dois
+Widgets foram repetidos após acrescentar retorno funcional ao início em 320 px.
+Formato e git diff --check conferidos. APK normal compilado e reinstalado via
+adb install -r, preservando dados, com abertura da Activity confirmada. Não houve
+nova jornada integration_test neste contexto de cabeçalho. CI deste novo commit
+não confirmada; o fechamento anterior continua referenciado ao SHA 1eeb97e.
+
+## Verificação remota do ajuste de navegação — T115
+
+Código verificado: `0054c2607e7ca819a6025cbe1a356b7dcd434cf3`, developer.
+Execução [41355629425](https://github.com/lari-sh/app-extensao-II/actions/runs/41355629425).
+Logs Flutter: analyze sem problemas, 273 testes aprovados. Backend: 256 testes
+pgTAP em 12 arquivos e 12 testes de funções HTTP aprovados, além dos cenários
+HTTP de manejo e medicações.
+
+Resultado final: Flutter e backend success; Android failure; deliver skipped.
+O runner compilou o APK preparatório e iniciou o backend, mas o emulador não
+concluiu o boot dentro do limite configurado de 600 s. Logs registram
+`Timeout waiting for emulator to boot` e conexão recusada na porta TCP 5554.
+O script das sete jornadas não chegou a executar: não são sete testes reprovados
+nem há aprovação Android desse SHA. A causa específica da falha de inicialização
+não foi determinada por esta verificação; não atribuir o problema ao cabeçalho.
+Nenhum artifact foi publicado (lista de artifacts vazia conferida na API).
+
+A evidência local de T115 permanece válida e a aprovação remota anterior do SHA
+1eeb97e permanece histórica, sem cobrir automaticamente este ajuste. T116 registra
+a necessidade de nova execução Android/entrega. Este contexto atualiza somente
+documentação e tarefas; não altera workflow, aplicativo ou dados, nem repete
+testes locais de código inalterado. O push documental iniciará outra CI pelo
+gatilho existente; seu resultado não é antecipado neste registro.
+
+## T116 — validação Android e entrega concluídas
+
+Execução [41358425256](https://github.com/lari-sh/app-extensao-II/actions/runs/41358425256)
+concluída com success no SHA a9ea9f2766de2b29c720fc5cdd80232246675ae9, developer.
+Flutter, backend, Android e deliver aprovados. Logs: 273 testes Flutter, 256 testes
+pgTAP/12 arquivos, 12 testes de funções HTTP, jornadas HTTP de manejo/medicações e
+7/7 jornadas Android (catálogo, ficha pública, autenticação, painel, cadastro,
+calendário, contato). Nenhuma jornada removida ou erro transformado em aprovação.
+
+Causa da execução 41355629425 identificada: erro fatal por 6362.09 MB disponíveis
+contra 7372.80 MB necessários para userdata, anterior às recusas ADB e ao timeout.
+A correção em a9ea9f2 amplia a limpeza de ferramentas não usadas no runner e
+confere 12 GiB livres antes da imagem/AVD. YAML, Bash e limiar do guard conferidos.
+Na execução aprovada, df registrou 87 GiB livres antes da imagem; boot em 32552 ms.
+O espaço do runner varia: este resultado não prova margem igual em toda máquina.
+
+Artifact [13104752554](https://github.com/lari-sh/app-extensao-II/actions/runs/41358425256/artifacts/13104752554),
+abrigo-dos-anjos-android-debug, 76.794.188 bytes, não expirado na conferência;
+expira 08/11/2026 20:06:20 America/Sao_Paulo. Digest SHA-256 do pacote:
+3b62c331fcb59dfa917bf9890a7063af131eeb7b4510b7ed0d2f74c80fc01059.
+T116 concluída e T115 validada remotamente; registro da versão atualizado.
+T106/iOS permanece aberta. Sem implantação/assinatura de produção, merge na main
+ou expansão para outros abrigos. Este fechamento altera somente documentação;
+não repete testes locais do código já aprovado remotamente.

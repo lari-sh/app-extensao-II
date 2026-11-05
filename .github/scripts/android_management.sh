@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+set -euo pipefail
+python3 supabase/tests/fixtures/android_auth_control.py > .tools/controller.log 2>&1 &
+controller_pid=$!
+python3 supabase/tests/fixtures/android_team_control.py > .tools/team-controller.log 2>&1 &
+team_controller_pid=$!
+python3 supabase/tests/fixtures/android_recovery_control.py > .tools/recovery-controller.log 2>&1 &
+recovery_controller_pid=$!
+python3 supabase/tests/fixtures/android_search_control.py > .tools/search-controller.log 2>&1 &
+search_controller_pid=$!
+cleanup() {
+  local status=$?
+  trap - EXIT
+  python3 supabase/tests/fixtures/medication_flow.py --cleanup || status=$?
+  python3 supabase/tests/fixtures/android_auth_control.py --cleanup-editor || status=$?
+  curl -s --fail -X POST http://127.0.0.1:58764/cleanup > /dev/null || status=$?
+  curl -s --fail -X POST http://127.0.0.1:58765/cleanup > /dev/null || status=$?
+  curl -s --fail -X POST http://127.0.0.1:58766/cleanup > /dev/null || status=$?
+  kill "$search_controller_pid" 2>/dev/null || true
+  kill "$recovery_controller_pid" 2>/dev/null || true
+  kill "$team_controller_pid" 2>/dev/null || true
+  kill "$controller_pid" 2>/dev/null || true
+  exit "$status"
+}
+trap cleanup EXIT
+ready=0
+for attempt in $(seq 1 30); do
+  if curl -s -o /dev/null --fail http://127.0.0.1:58763/fixture-password && curl -s -o /dev/null --fail http://127.0.0.1:58764/credentials && curl -s -o /dev/null --fail http://127.0.0.1:58765/credentials && curl -s -o /dev/null --fail http://127.0.0.1:58766/fixtures; then ready=1; break; fi
+  sleep 1
+done
+if [ "$ready" -ne 1 ]; then
+  echo "Local Android fixture controller did not start." >&2
+  exit 1
+fi
+timeout 60s adb -s emulator-5554 wait-for-device
+# Reject an unhealthy transport before starting the suite; never treat an offline
+# emulator as an application assertion failure.
+test "$(adb -s emulator-5554 shell getprop sys.boot_completed | tr -d '\r')" = "1"
+adb -s emulator-5554 logcat -c
+bash .github/scripts/run_android_journeys.sh

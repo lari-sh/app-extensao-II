@@ -1,30 +1,164 @@
-name: Flutter checks and Android APK
+name: Flutter, Supabase and Android delivery
 on:
   push:
-    branches: [main, 'feat/**']
+    branches: [developer]
   pull_request:
+    branches: [main, developer]
+  workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: flutter-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
-  validate:
-    runs-on: ubuntu-latest
+  flutter:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '17'
-      - uses: subosito/flutter-action@v2
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
         with:
           flutter-version: '3.41.1'
           channel: stable
           cache: true
-      - run: flutter pub get
-      - run: dart format --output=none --set-exit-if-changed lib test
-      - run: flutter analyze
-      - run: flutter test
-      - run: flutter build apk --debug
-      - uses: actions/upload-artifact@v4
+      - run: flutter pub get --enforce-lockfile
+      - run: flutter pub run build_runner build --delete-conflicting-outputs
+      - name: Generated files are deterministic
+        run: git diff --exit-code -- '*.freezed.dart' pubspec.lock
+      - run: dart format --output=none --set-exit-if-changed lib test integration_test
+      - run: flutter analyze --no-pub
+      - run: flutter test --no-pub --coverage
+      - run: python3 -m unittest discover -s .github/scripts -p "test_check_coverage.py"
+      - run: python3 -m unittest discover -s .github/scripts -p "test_android_journeys.py"
+      - run: python3 -m unittest discover -s scripts -p "test_build_cloud_apk.py"
+      - run: python3 .github/scripts/check_coverage.py
+      - run: python3 -m unittest discover -s supabase/demo -p "test_*.py"
+  backend:
+    needs: flutter
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+      - uses: supabase/setup-cli@45a513f8c64c0bc8e0e3dfe572b5c95be85f6359 # v3.0.1
+        with:
+          version: '2.122.0'
+      - uses: denoland/setup-deno@22d081ff2d3a40755e97629de92e3bcbfa7cf2ed # v2.0.5
+        with:
+          deno-version: '2.8.3'
+      - run: supabase start > /tmp/supabase-start.log 2>&1
+      - run: python3 .github/scripts/prepare_local_backend.py
+      - run: supabase test db
+      - run: deno task --config supabase/functions/deno.json fixtures
+      - run: bash .github/scripts/start_functions.sh
+      - run: deno task --config supabase/functions/deno.json test
+      - run: python3 supabase/tests/fixtures/management_flow.py
+      - run: python3 supabase/tests/fixtures/medication_flow.py
+      - run: python3 supabase/tests/fixtures/medication_status_flow.py
+      - run: python3 supabase/tests/fixtures/test_android_fixture_cleanup.py
+      - run: python3 supabase/tests/fixtures/team_foundation_flow.py
+      - run: python3 supabase/tests/fixtures/team_invitation_flow.py
+      - run: python3 supabase/tests/fixtures/animal_code_flow.py
+      - run: python3 supabase/tests/fixtures/management_search_flow.py
+      - if: always()
+        run: supabase stop --no-backup
+  android:
+    needs: backend
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+      - name: Reserve disk for Supabase and Android
+        shell: bash
+        run: |
+          test "$RUNNER_ENVIRONMENT" = "github-hosted"
+          test "$RUNNER_OS" = "Linux"
+          df -h /
+          # Only unused preinstalled SDKs on this disposable Ubuntu runner.
+          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/.ghcup /usr/local/share/boost /usr/share/swift \
+            /opt/hostedtoolcache/CodeQL /opt/az /usr/lib/google-cloud-sdk /usr/share/miniconda
+          sudo apt-get clean
+          df -h /
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.7.0
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
+        with:
+          flutter-version: '3.41.1'
+          channel: stable
+          cache: true
+      - uses: supabase/setup-cli@45a513f8c64c0bc8e0e3dfe572b5c95be85f6359 # v3.0.1
+        with:
+          version: '2.122.0'
+      - uses: denoland/setup-deno@22d081ff2d3a40755e97629de92e3bcbfa7cf2ed # v2.0.5
+        with:
+          deno-version: '2.8.3'
+      - run: flutter pub get --enforce-lockfile
+      - name: Prepare Android build before starting emulator and backend
+        run: flutter build apk --debug --no-pub --target-platform android-x64
+      - run: supabase start > /tmp/supabase-start.log 2>&1
+      - run: python3 .github/scripts/prepare_local_backend.py
+      - run: deno task --config supabase/functions/deno.json fixtures
+      - run: bash .github/scripts/start_functions.sh
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Check disk headroom before downloading and booting AVD
+        shell: bash
+        run: |
+          # Leave room for the downloaded image, userdata and integration builds.
+          # The failed emulator required 7372.80 MB with only 6362.09 MB free.
+          df -h "$HOME"
+          available_kib=$(df -Pk "$HOME" | awk 'NR==2 {print $4}')
+          required_kib=$((12 * 1024 * 1024))
+          if [ "$available_kib" -lt "$required_kib" ]; then
+            echo "::error::Android needs 12 GiB free before system-image installation; found ${available_kib} KiB."
+            exit 1
+          fi
+      - uses: reactivecircus/android-emulator-runner@4c44018e59b437e86cdfc41da381398f93ed8808 # v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_6
+          disk-size: 2048M
+          emulator-options: -no-window -gpu swiftshader -feature -Vulkan -no-snapshot-load -no-snapshot-save -no-metrics -noaudio -no-boot-anim -camera-back none -memory 2048
+          disable-animations: true
+          script: bash .github/scripts/android_management.sh
+      - if: always()
+        run: supabase stop --no-backup
+  deliver:
+    needs: [flutter, backend, android]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.7.0
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
+        with:
+          flutter-version: '3.41.1'
+          channel: stable
+          cache: true
+      - run: flutter pub get --enforce-lockfile
+      - name: Build debug APK with public development configuration only
+        env:
+          APP_SUPABASE_URL: ${{ vars.DEV_SUPABASE_URL }}
+          APP_SUPABASE_PUBLIC_KEY: ${{ vars.DEV_SUPABASE_PUBLISHABLE_KEY }}
+        run: |
+          flutter build apk --debug --no-pub \
+            --dart-define="SUPABASE_URL=$APP_SUPABASE_URL" \
+            --dart-define="SUPABASE_PUBLISHABLE_KEY=$APP_SUPABASE_PUBLIC_KEY"
+          printf 'Flutter, backend and Android gates passed for %s\nRun: %s/%s/actions/runs/%s\n' "$GITHUB_SHA" "$GITHUB_SERVER_URL" "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID" > validation.txt
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: abrigo-dos-anjos-android-debug
-          path: build/app/outputs/flutter-apk/app-debug.apk
+          retention-days: 7
+          if-no-files-found: error
+          path: |
+            build/app/outputs/flutter-apk/app-debug.apk
+            validation.txt
